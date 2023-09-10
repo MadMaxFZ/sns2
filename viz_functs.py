@@ -245,6 +245,7 @@ def get_viz_data(
             for k in viz_param.keys():
                 VIZ_PARAMS.update({v_name: viz_param})
 
+        print(VIZ_PARAMS.keys())
     # Only Saturn (or maybe Uranus) will get this last visual
     # _make_rings = dict( sectors  = 36,
     #                    r_in  = 1.5,

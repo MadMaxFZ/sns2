@@ -250,9 +250,9 @@ class Planet(visuals.Compound):
                     self._edges.append(np.array([k1, k2]))
                     self._edges.append(np.array([k2, k1 + 1]))
                     self._edges.append(np.array([k1 + 1, k1]))
-                    self._edge_colors.append((0, 0, 0, 1))
+                    self._edge_colors.append((0, 0, 0, 0.1))
                     self._edge_colors.append((0, 0, 0, 0))
-                    self._edge_colors.append((0, 0, 0, 1))
+                    self._edge_colors.append((0, 0, 0, 0.1))
                     num_f += 1
                     num_e += 3
                 if i != (rows - 1):
@@ -444,7 +444,9 @@ class SkyMap(visuals.Compound):
         num_e = -1
         num_eh = -1
         num_ev = -1
-        c = 0.0
+        cr = 1.0
+        cg = 0.0
+        cb = 0.0
 
         for row in range(0, rows + 1):
 
@@ -476,9 +478,9 @@ class SkyMap(visuals.Compound):
                     self._edges.append(np.array([k1, k2]))
                     self._edges.append(np.array([k2, k1 + 1]))
                     self._edges.append(np.array([k1 + 1, k1]))
-                    self._edge_colors.append((c, c, c, 1))
-                    self._edge_colors.append((c, c, c, 0))
-                    self._edge_colors.append((c, c, c, 1))
+                    self._edge_colors.append((cr, cg, cb, 1))
+                    self._edge_colors.append((cr, cg, cb, 0))
+                    self._edge_colors.append((cr, cg, cb, 1))
                     num_f += 1
                     num_e += 3
                 if i != (rows - 1):
@@ -486,9 +488,9 @@ class SkyMap(visuals.Compound):
                     self._edges.append(np.array([k1 + 1, k2]))
                     self._edges.append(np.array([k2, k2 + 1]))
                     self._edges.append(np.array([k2 + 1, k1 + 1]))
-                    self._edge_colors.append((c, c, c, 0))
-                    self._edge_colors.append((c, c, c, 0))
-                    self._edge_colors.append((c, c, c, 0))
+                    self._edge_colors.append((cr, cg, cb, 0))
+                    self._edge_colors.append((cr, cg, cb, 0))
+                    self._edge_colors.append((cr, cg, cb, 0))
                     num_f += 1
                     num_e += 3
 

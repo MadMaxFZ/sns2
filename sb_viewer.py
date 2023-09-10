@@ -14,8 +14,10 @@ from viz_functs import get_tex_data, get_viz_data
 from multiprocessing import Process
 from poliastro.util import time_range
 from astropy.coordinates import solar_system_ephemeris
+from vispy.color import Color
 from data_functs import *
 from simbody import SimBody
+import functiontrace
 
 print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
 print(subprocess.run(["rm", "logs/sb_viewer.log"]))
@@ -46,24 +48,21 @@ class SBViewer(scene.SceneCanvas):
         self.end_epoch = None
         self.d_epoch = None
         self.avg_d_epoch = None
-        self.wclock = Timer(  # interval=1 / self.sim_params['fps'],
-            interval=1 / 30,
-            connect=self.run_cycle,
-            iterations=-1,
-        )
+        self.wclock = Timer(interval='auto',
+                            connect=self.run_cycle,
+                            iterations=-1,
+                            )
         print("Target FPS:", 1 / self.wclock.interval)
-        super(SBViewer, self).__init__(
-            keys="interactive",
-            size=(1024, 768),
-            show=False,
-            bgcolor="white",
-        )
+        super(SBViewer, self).__init__(keys="interactive",
+                                       size=(1024, 768),
+                                       show=False,
+                                       bgcolor=Color('black'),
+                                       )
         self.unfreeze()
         self.view = self.central_widget.add_view()
-        self.view.camera = scene.cameras.FlyCamera(
-            fov=30,
-        )
-        self.view.camera.scale_factor = 0.1
+        self.view.camera = scene.cameras.FlyCamera(fov=30)
+        self.view.camera.scale_factor = 0.01
+        self.view.camera.zoom_factor = 0.01
         self.freeze()
         self.init_simbodies(body_names=self.dat_store["BODY_NAMES"])
         self.init_vizuals()
@@ -71,7 +70,7 @@ class SBViewer(scene.SceneCanvas):
         self.run_cycle()
         self.wclock.start()
         self.skymap.visible = False
-        # self.INIT = True
+        # functiontrace.trace()
 
     def run_cycle(self, event=None):
         self.update_bodies(event=None)
@@ -134,28 +133,21 @@ class SBViewer(scene.SceneCanvas):
 
         self._sys_epoch = new_epoch
 
-        logging.info(
-            "AVG_dt: %s\n\t>>> NEW EPOCH: %s\n", self.avg_d_epoch, new_epoch.jd
-        )
+        logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n", self.avg_d_epoch, new_epoch.jd)
         # print("\n\t>>> NEW EPOCH:", new_epoch.jd)
 
     def init_simbodies(self, body_names=None):
         solar_system_ephemeris.set("jpl")
         sb_dict = {}
         for name in self.body_names:
-            sb_dict.update(
-                {
-                    name: SimBody(
-                        body_name=name,
-                        epoch=self._sys_epoch,
-                        sim_param=self.sim_params,
-                        body_data=self.body_data[name],
-                    )
-                }
-            )
+            sb_dict.update({name: SimBody(body_name=name,
+                                          epoch=self._sys_epoch,
+                                          sim_param=self.sim_params,
+                                          body_data=self.body_data[name],
+                                          )})
         logging.info("\t>>> SimBody objects created....\n")
         self.simbods = sb_dict
-        self.sb_list = sb_dict.values()
+        self.sb_list = list(sb_dict.values())
 
     def init_vizuals(self):
         MT = tr.MatrixTransform
@@ -166,22 +158,17 @@ class SBViewer(scene.SceneCanvas):
         for sb_name in self.body_names:
             logging.info("\tCollecting vizuals for %s", sb_name)
             self.batches.update({sb_name: Compound([])})
-            self.viz_dicts.update(
-                {
-                    sb_name: get_viz_data(
-                        body_name=sb_name,
-                        body_type=self.body_data[sb_name]["body_type"],
-                        viz_names=self.body_data[sb_name]["viz_names"],
-                        trk_color=self.body_data[sb_name]["body_color"],
-                        texture=self.body_data[sb_name]["tex_data"],
-                    )
-                }
-            )
+            self.viz_dicts.update({sb_name: get_viz_data(body_name=sb_name,
+                                                         body_type=self.body_data[sb_name]["body_type"],
+                                                         viz_names=self.body_data[sb_name]["viz_names"],
+                                                         trk_color=self.body_data[sb_name]["body_color"],
+                                                         texture=self.body_data[sb_name]["tex_data"],
+                                                         )})
+
         for sb_name in self.body_names:
-            [
-                self.batches[sb_name].add_subvisual(self.viz_dicts[sb_name][viz_name])
-                for viz_name in self.simbods[sb_name].viz_names
-            ]
+            [self.batches[sb_name].add_subvisual(self.viz_dicts[sb_name][viz_name])
+                for viz_name in self.simbods[sb_name].viz_names]
+
             for viz_name in self.simbods[sb_name].viz_names:
                 self.viz_dicts[sb_name][viz_name].parent = self.batches[sb_name]
                 if sb_name == "Sun":
@@ -192,8 +179,11 @@ class SBViewer(scene.SceneCanvas):
                     self.batches[sb_name].parent = self.batches["Sun"]
 
         for sb_name in self.body_names:
-            self.simbods[sb_name].viz_dict = self.viz_dicts[sb_name]
+            self.simbods[sb_name].vizuals = self.viz_dicts[sb_name]
             self.view.add(self.batches[sb_name])
+
+        if self.simbods[sb_name].type != "star":
+            self.simbods[sb_name].vizuals["oscorbit"].pos = np.array(self.simbods[sb_name].track.xyz.transpose().value)
 
     def xform_vizuals(self, sb_name=None):
         logging.debug("%s vizuals used: %s", sb_name, self.simbods[sb_name].viz_names)
@@ -256,7 +246,7 @@ class SBViewer(scene.SceneCanvas):
 
         viz_tr = {}
         if sb.type != "star":
-            r_1 = sb._parent.R_mean.value
+            r_1 = sb._sb_parent.R_mean.value
             r_2 = Rm
             fact = 1 - (r_1 + r_2) / mag_r
             tr_r_vec = MT()
@@ -294,7 +284,10 @@ class SBViewer(scene.SceneCanvas):
 
     def stop(self):
         app.quit()
-
+    import cProfile
+    import pstats
+    import re
+    from pstats import SortKey
 
 def main():
     my_can = SBViewer()
@@ -302,9 +295,5 @@ def main():
 
 
 if __name__ == "__main__":
-    import cProfile
-    import pstats
-    import re
-    from pstats import SortKey
 
     main()

@@ -253,7 +253,7 @@ def setup_datastore():
         _static_dat.update({_body.name: R_set})
         logging.debug("STATIC DATA has been loaded and verified...")
         BODY_DATA.update({_bod_name: _static_dat})
-        if ( _static_dat["body_type"] not in TYPE_COUNT.keys()):  # identify types of bodies
+        if _static_dat["body_type"] not in TYPE_COUNT.keys():  # identify types of bodies
             TYPE_COUNT[_static_dat["body_type"]] = 0
 
         TYPE_COUNT[body_types[type_set[idx]]] += 1  # count members of each type
@@ -294,9 +294,9 @@ def setup_datastore():
 
 
 def get_skymap():
-    SkyMap = setup_datastore()["SKYMAP"]
-    logging.info("SkyMap available for import: " + str(SkyMap))
-    return SkyMap
+    _SkyMap = setup_datastore()["SKYMAP"]
+    logging.info("SkyMap available for import: " + str(_SkyMap))
+    return _SkyMap
 
 
 if __name__ == "__main__":

@@ -40,7 +40,7 @@ class SimBody:
 
         if epoch is None:
             epoch = J2000_TDB
-        self._parent        = None
+        self._sb_parent        = None
         self._name          = body_name
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
@@ -59,7 +59,7 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        self._viz_dict      = {}
+        self._vizuals      = {}
         self._v_mult        = 1
         self._xyz_mult      = 1
         self.x_ax           = np.array([1, 0, 0])
@@ -70,10 +70,10 @@ class SimBody:
 
         if self._body.parent is None:
             self._type = "star"
-            self._parent = None
+            self._sb_parent = None
         else:
             self._type = "planet"
-            self._parent = self._body.parent
+            self._sb_parent = self._body.parent
 
         if self._name == "Moon":
             self._plane = Planes.EARTH_EQUATOR
@@ -114,6 +114,7 @@ class SimBody:
                                 self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
                                 self._rot_func(**toTD(self._epoch)),
                                 ])
+        # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\nVEL:%s\nROT:%s\n",
                      self._name,
                      self._epoch,
@@ -128,6 +129,9 @@ class SimBody:
         self._epoch = Time(epoch,
                            format='jd',
                            scale='tdb')
+
+    def update_pos(self, pos=None):
+        pass
 
     def set_time_range(self,
                        epoch=None,
@@ -158,7 +162,7 @@ class SimBody:
         if self._orbit is None:
             self._ephem = Ephem.from_body(self._body,
                                           epochs=t_range,
-                                          attractor=self._parent,
+                                          attractor=self._sb_parent,
                                           plane=self._plane,
                                           )
         elif self._orbit != 0:
@@ -175,8 +179,8 @@ class SimBody:
         if ephem is None:
             ephem = self._ephem
 
-        if self._parent is not None:
-            self._orbit = Orbit.from_ephem(self._parent,
+        if self._sb_parent is not None:
+            self._orbit = Orbit.from_ephem(self._sb_parent,
                                            ephem,
                                            self._epoch,
                                            )
@@ -251,12 +255,16 @@ class SimBody:
         return self._periods
 
     @property
+    def track(self):
+        return self._track
+
+    @property
     def spacing(self):
         return self._spacing
 
     @property
-    def viz_dict(self):
-        return self._viz_dict
+    def vizuals(self):
+        return self._vizuals
 
     @state.setter
     def state(self, new_state=None):
@@ -281,10 +289,10 @@ class SimBody:
     def viz_names(self, vn=None):
         self._viz_names = vn
 
-    @viz_dict.setter
-    def viz_dict(self, new_vd=None):
+    @vizuals.setter
+    def vizuals(self, new_vd=None):
         if type(new_vd) == dict and len(new_vd) == len(self.viz_names):
-            self._viz_dict = new_vd
+            self._vizuals = new_vd
 
     @epoch.setter
     def epoch(self, e=None):
@@ -292,4 +300,5 @@ class SimBody:
 
 
 if __name__ == "__main__":
-    print("simbody.py")
+
+    print("SimBody doesn't really do much...")
