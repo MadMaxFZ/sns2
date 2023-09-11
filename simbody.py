@@ -60,8 +60,8 @@ class SimBody:
         self._type          = None
         self._state         = None
         self._vizuals      = {}
-        self._v_mult        = 1
-        self._xyz_mult      = 1
+        self._v_mult        = 2
+        self._xyz_mult      = 2
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
