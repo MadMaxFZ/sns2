@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import functiontrace
 import numpy as np
 import math
 import subprocess
-
-from astropy.time import TimeDelta
+# import vispy.visuals.transforms as tr
+# from vispy.util.transforms import *
+# from vispy.scene.visuals import Compound
+# from vispy.color import Color
+# from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
 from vispy.app.timer import *
-from vispy.util.transforms import *
-from vispy.scene.visuals import Compound
-import vispy.visuals.transforms as tr
-from viz_functs import get_tex_data, get_viz_data
-from multiprocessing import Process
-from poliastro.util import time_range
+from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
-from vispy.color import Color
+from poliastro.util import time_range
 from data_functs import *
 from simbody import SimBody
-import functiontrace
+from multiprocessing import Process
 
 print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
 print(subprocess.run(["rm", "logs/sb_viewer.log"]))
@@ -28,7 +27,6 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     )
 
 
-# Create canvas and view
 class SBViewer(scene.SceneCanvas):
     def __init__(self):
         self.INIT = False
@@ -36,43 +34,47 @@ class SBViewer(scene.SceneCanvas):
         self.body_names = self.dat_store["BODY_NAMES"]
         self.body_data = self.dat_store["BODY_DATA"]
         self.skymap = self.dat_store["SKYMAP"]
-        self.simbods = None
-        self.sb_list = None
-        self._sys_epoch = self.dat_store["DEF_EPOCH"]
         self.sim_params = self.dat_store["SYS_PARAMS"]
         self.w_last = 0
+        self.simbods = None
+        self.sb_list = None
         self.t_warp = 20000
-        self.viz_dicts = {}
-        self.batches = {}
-        self.viz_tr = {}
+        # self.viz_dicts = {}
+        # self.batches = {}
+        # self.viz_tr = {}
         self.end_epoch = None
         self.d_epoch = None
         self.avg_d_epoch = None
+        self._sys_epoch = Time(self.dat_store["DEF_EPOCH"],
+                               format='jd',
+                               scale='tdb',
+                               )
         self.wclock = Timer(interval='auto',
-                            connect=self.run_cycle,
+                            connect=self.update_bodies,     # change this
                             iterations=-1,
                             )
         print("Target FPS:", 1 / self.wclock.interval)
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
                                        show=False,
-                                       bgcolor=Color('black'),
+                                       bgcolor='black',
                                        )
         self.unfreeze()
-        self.view = self.central_widget.add_view()
-        self.view.camera = scene.cameras.FlyCamera(fov=30)
-        self.view.camera.scale_factor = 0.01
-        self.view.camera.zoom_factor = 0.01
+        # self.view = self.central_widget.add_view()
+        # self.view.camera = scene.cameras.FlyCamera(fov=30)
+        # self.view.camera.scale_factor = 0.01
+        # self.view.camera.zoom_factor = 0.01
         self.freeze()
-        self.init_simbodies(body_names=self.dat_store["BODY_NAMES"])
-        self.init_vizuals()
+        self.simbods = self.init_simbodies(body_names=self.dat_store["BODY_NAMES"])
+        self.sb_list = list(self.simbods.values())
         self.set_wide_ephems()
-        self.run_cycle()
-        self.wclock.start()
-        self.skymap.visible = False
+        # self.init_vizuals()
+        # self.run_cycle()
+        # self.skymap.visible = False
         # functiontrace.trace()
+        self.wclock.start()
 
-    def run_cycle(self, event=None):
+    def run_cycle(self, event):        # this never gets called,,,
         self.update_bodies(event=None)
         for name in self.body_names:
             self.xform_vizuals(sb_name=name)
@@ -93,13 +95,12 @@ class SBViewer(scene.SceneCanvas):
         if span is None:
             span = year_span
 
-        full_t_range = time_range(
-            epoch,
-            periods=365,
-            spacing=span,
-            format="jd",
-            scale="tdb",
-        )
+        full_t_range = time_range(epoch,
+                                  periods=365,
+                                  spacing=span,
+                                  format="jd",
+                                  scale="tdb",
+                                  )
         for sb_name in self.body_names:
             sb = self.simbods[sb_name]
             sb.set_ephem(t_range=full_t_range)
@@ -107,7 +108,7 @@ class SBViewer(scene.SceneCanvas):
         self.end_epoch = full_t_range[-1]
         print("END_EPOCH:", self.end_epoch)
 
-    def update_bodies(self, event):
+    def update_bodies(self, event=None):
         if self.INIT:
             w_now = self.wclock.elapsed
             dt = w_now - self.w_last
@@ -116,6 +117,7 @@ class SBViewer(scene.SceneCanvas):
             w_now = 0
             dt = 0
             self.w_last = w_now - dt
+            self.INIT = True
 
         d_epoch = TimeDelta(dt * u.s * self.t_warp)
         if self.avg_d_epoch is None:
@@ -123,9 +125,8 @@ class SBViewer(scene.SceneCanvas):
 
         new_epoch = self._sys_epoch + d_epoch
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
-        sb_list = list(self.sb_list)
-        for i in range(len(sb_list)):
-            sb_list[i].update_state(new_epoch)
+        for sb in self.simbods.values():
+            sb.update_state(new_epoch)
 
         if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
@@ -146,10 +147,11 @@ class SBViewer(scene.SceneCanvas):
                                           body_data=self.body_data[name],
                                           )})
         logging.info("\t>>> SimBody objects created....\n")
-        self.simbods = sb_dict
-        self.sb_list = list(sb_dict.values())
+        return sb_dict
+        # self.simbods = sb_dict
+        # self.sb_list = list(sb_dict.values())
 
-    def init_vizuals(self):
+    def init_vizuals(self):             # this never gets called,,,
         MT = tr.MatrixTransform
         skymap_tr = MT()
         skymap_tr.scale([8e+09, 8e+09, 8e+09])
@@ -185,7 +187,7 @@ class SBViewer(scene.SceneCanvas):
         if self.simbods[sb_name].type != "star":
             self.simbods[sb_name].vizuals["oscorbit"].pos = np.array(self.simbods[sb_name].track.xyz.transpose().value)
 
-    def xform_vizuals(self, sb_name=None):
+    def xform_vizuals(self, sb_name=None):          # this never gets called,,,
         logging.debug("%s vizuals used: %s", sb_name, self.simbods[sb_name].viz_names)
         self.set_viz_xform(sb_name=sb_name)
         for viz_name in self.simbods[sb_name].viz_names:
@@ -202,11 +204,11 @@ class SBViewer(scene.SceneCanvas):
                       self.viz_tr[sb_name].keys(),
                       )
 
-    def apply_xforms2viz(self, sb_name=None, viz_name=None, viz_tr=None):
+    def apply_xforms2viz(self, sb_name=None, viz_name=None, viz_tr=None):       # this never gets called,,,
         self.viz_dicts[sb_name][viz_name].transform = self.viz_tr[sb_name][viz_name]
         # self.view.camera.set_range()
 
-    def set_viz_xform(self, sb_name=None):
+    def set_viz_xform(self, sb_name=None):              # this never gets called,,,
         body_data = self.body_data[sb_name]
         sb = self.simbods[sb_name]
         R = body_data["r_set"][0]
@@ -284,10 +286,7 @@ class SBViewer(scene.SceneCanvas):
 
     def stop(self):
         app.quit()
-    import cProfile
-    import pstats
-    import re
-    from pstats import SortKey
+
 
 def main():
     my_can = SBViewer()

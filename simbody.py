@@ -1,20 +1,22 @@
 import logging
 import unittest.mock
 import numpy as np
+
+# from astropy.time import Time
+# from poliastro.util import time_range
+# from poliastro.constants import J2000_TDB
+# from poliastro.constants import J2000_TDB
+# from vispy.app.timer import *
+# from data_functs import setup_datastore
+# from multiprocessing import get_logger
+# from astropy.coordinates import solar_system_ephemeris
+# from astropy.coordinates.solar_system import get_body_barycentric_posvel
 import subprocess
-from astropy.time import Time
-from poliastro.util import time_range
-from poliastro.constants import J2000_TDB
-from poliastro.constants import J2000_TDB
-from vispy.app.timer import *
 from data_functs import *
 from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
 from poliastro.twobody.orbit.scalar import Orbit
-from data_functs import setup_datastore
-from multiprocessing import get_logger
-from astropy.coordinates import solar_system_ephemeris
-from astropy.coordinates.solar_system import get_body_barycentric_posvel
+
 
 print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
 print(subprocess.run(["rm", "logs/sim_body.log"]))
@@ -45,9 +47,9 @@ class SimBody:
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
-        self._base_color    = self._body_data['body_color']
-        self._tex_data      = self._body_data['tex_data']
-        self._viz_names     = self._body_data['viz_names']
+
+        # self._tex_data      = self._body_data['tex_data']
+        # self._viz_names     = self._body_data['viz_names']
         self._dist_unit     = sim_param["dist_unit"]
         self._periods       = sim_param["periods"]
         self._spacing       = sim_param["spacing"]
@@ -59,9 +61,10 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        self._vizuals      = {}
-        self._v_mult        = 2
-        self._xyz_mult      = 2
+        # self._base_color = self._body_data['body_color']
+        # self._vizuals      = {}
+        # self._v_mult        = 2
+        # self._xyz_mult      = 2
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -128,10 +131,11 @@ class SimBody:
             epoch = self._epoch
         self._epoch = Time(epoch,
                            format='jd',
-                           scale='tdb')
+                           scale='tdb',
+                           )
 
-    def update_pos(self, pos=None):
-        pass
+    # def update_pos(self, pos=None):     # this doesn't get called
+    #     pass
 
     def set_time_range(self,
                        epoch=None,
@@ -188,7 +192,7 @@ class SimBody:
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._track is None) or (self.RESAMPLE is True):
-                self._track = self._orbit.sample(360)
+                self._track = self._orbit.sample(360).xyz.transpose().value         # FIX THIS !!!
                 self.RESAMPLE = False
 
         else:
@@ -205,14 +209,6 @@ class SimBody:
     @property
     def type(self):
         return self._type
-
-    @property
-    def base_color(self):
-        return self._base_color
-
-    @property
-    def tex_data(self):
-        return self._tex_data
 
     @property
     def epoch(self):
@@ -235,14 +231,6 @@ class SimBody:
         return self._state
 
     @property
-    def xyz_mult(self):
-        return self._xyz_mult
-
-    @property
-    def v_mult(self):
-        return self._v_mult
-
-    @property
     def viz_names(self):
         return self._viz_names
 
@@ -261,10 +249,6 @@ class SimBody:
     @property
     def spacing(self):
         return self._spacing
-
-    @property
-    def vizuals(self):
-        return self._vizuals
 
     @state.setter
     def state(self, new_state=None):
@@ -285,18 +269,38 @@ class SimBody:
         if s is not None:
             self._spacing = s
 
-    @viz_names.setter
-    def viz_names(self, vn=None):
-        self._viz_names = vn
-
-    @vizuals.setter
-    def vizuals(self, new_vd=None):
-        if type(new_vd) == dict and len(new_vd) == len(self.viz_names):
-            self._vizuals = new_vd
-
     @epoch.setter
     def epoch(self, e=None):
         self._epoch = e
+
+    # @property
+    # def base_color(self):
+    #     return self._base_color
+
+    # @property
+    # def xyz_mult(self):
+    #     return self._xyz_mult
+
+    # @property
+    # def v_mult(self):
+    #     return self._v_mult
+
+    # @property
+    # def tex_data(self):
+    #     return self._tex_data
+
+    # @property
+    # def vizuals(self):
+    #     return self._vizuals
+
+    # @viz_names.setter
+    # def viz_names(self, vn=None):
+    #     self._viz_names = vn
+
+    # @vizuals.setter
+    # def vizuals(self, new_vd=None):
+    #     if type(new_vd) == dict and len(new_vd) == len(self.viz_names):
+    #         self._vizuals = new_vd
 
 
 if __name__ == "__main__":
