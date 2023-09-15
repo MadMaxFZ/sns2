@@ -61,7 +61,7 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        # self._base_color = self._body_data['body_color']
+        self._base_color = self._body_data['body_color']
         # self._vizuals      = {}
         # self._v_mult        = 2
         # self._xyz_mult      = 2
@@ -118,7 +118,7 @@ class SimBody:
                                 self._rot_func(**toTD(self._epoch)),
                                 ])
         # self.update_pos(self._state.[0])
-        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\nVEL:%s\nROT:%s\n",
+        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\nVEL:%s\nROT:%s\n",
                      self._name,
                      self._epoch,
                      self._state[0],
@@ -231,6 +231,10 @@ class SimBody:
         return self._state
 
     @property
+    def track(self):
+        return self._track
+
+    @property
     def viz_names(self):
         return self._viz_names
 
@@ -243,7 +247,7 @@ class SimBody:
         return self._periods
 
     @property
-    def track(self):
+    def o_track(self):
         return self._track
 
     @property
@@ -273,9 +277,9 @@ class SimBody:
     def epoch(self, e=None):
         self._epoch = e
 
-    # @property
-    # def base_color(self):
-    #     return self._base_color
+    @property
+    def base_color(self):
+        return self._base_color
 
     # @property
     # def xyz_mult(self):

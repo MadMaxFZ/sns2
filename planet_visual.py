@@ -298,12 +298,13 @@ class SkyMap(visuals.Compound):
 
     """
 
-    DEF_TEX_FNAME = "resources/textures/8k_zstars.png"
+    DEF_TEX_FNAME = "resources/textures/8k_zzESO_Milky_Way.png"
     with Image.open(DEF_TEX_FNAME) as im:
         print(DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
         DEF_TEX = im.copy()
 
-    def __init__(self, rows=18, cols=36,
+    def __init__(self,
+                 rows=18, cols=36,
                  radius=8e+09,
                  edge_color=(1, 1, 1, 1),
                  color=(1, 1, 1, 1),
@@ -332,12 +333,6 @@ class SkyMap(visuals.Compound):
         self._h_edges = []
         self._v_edges = []
         self._edge_colors = []  # EIGHT friggin' lists !!!
-
-        #   TODO:   The texture filename should be looked up via the mapping constructed on StarSystem
-        # if _texture is an integer, use it as an index in the texture filenames list,
-        # if _texture is a string, use it as a filename. Otherwise use it as a texture.
-        # These quantities are dependent upon the Body associated with this visual
-        # print(radius)
         self._radius = radius
         if texture is None:
             self._texture = SkyMap.DEF_TEX
@@ -363,7 +358,7 @@ class SkyMap(visuals.Compound):
                         )
         mesh._edge_colors = np.array(self._edge_colors)
         mesh._edges = np.array(self._edges)
-        mesh._vertex_normals = np.array(self._norms)
+        mesh._vertex_normals = np.array(-1 * self._norms)
         # mesh._vertex_values = np.array(self._verts)
 
         self._mesh = visuals.Mesh(vertices=mesh.get_vertices(),

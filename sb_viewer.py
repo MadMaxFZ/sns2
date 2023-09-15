@@ -4,9 +4,9 @@ import functiontrace
 import numpy as np
 import math
 import subprocess
-# import vispy.visuals.transforms as tr
+import vispy.visuals.transforms as tr
 # from vispy.util.transforms import *
-# from vispy.scene.visuals import Compound
+from vispy.scene.visuals import Markers, Compound, Polygon
 # from vispy.color import Color
 # from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
@@ -17,6 +17,7 @@ from poliastro.util import time_range
 from data_functs import *
 from simbody import SimBody
 from multiprocessing import Process
+import threading
 
 print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
 print(subprocess.run(["rm", "logs/sb_viewer.log"]))
@@ -38,7 +39,7 @@ class SBViewer(scene.SceneCanvas):
         self.w_last = 0
         self.simbods = None
         self.sb_list = None
-        self.t_warp = 20000
+        self.t_warp = 300000
         # self.viz_dicts = {}
         # self.batches = {}
         # self.viz_tr = {}
@@ -60,14 +61,23 @@ class SBViewer(scene.SceneCanvas):
                                        bgcolor='black',
                                        )
         self.unfreeze()
-        # self.view = self.central_widget.add_view()
-        # self.view.camera = scene.cameras.FlyCamera(fov=30)
-        # self.view.camera.scale_factor = 0.01
-        # self.view.camera.zoom_factor = 0.01
+        self.view = self.central_widget.add_view()
+        self.view.camera = scene.cameras.FlyCamera(fov=30)
+        self.view.camera.scale_factor = 0.01
+        self.view.camera.zoom_factor = 0.01
+        self.b_states = None
+        self.b_symbs = ['star', 'o', 'o', 'o', '+', 'o', 'o', 'o', 'o', 'o', 'o', ]
+        self.bods_viz = None
+        self.sys_viz = None
         self.freeze()
         self.simbods = self.init_simbodies(body_names=self.dat_store["BODY_NAMES"])
+        self.sys_viz = self.init_sysviz()
         self.sb_list = list(self.simbods.values())
         self.set_wide_ephems()
+        self.skymap.parent = self.view
+        self.view.add(self.sys_viz)
+        self.view.add(self.skymap)
+        self.view.camera.set_range((-1e+09, 1e+09),(-1e+09, 1e+09),(-1e+09, 1e+09),)
         # self.init_vizuals()
         # self.run_cycle()
         # self.skymap.visible = False
@@ -108,6 +118,16 @@ class SBViewer(scene.SceneCanvas):
         self.end_epoch = full_t_range[-1]
         print("END_EPOCH:", self.end_epoch)
 
+    def init_sysviz(self):
+        frame = scene.visuals.XYZAxis(parent=self.view.scene)
+        frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
+        self.bods_viz = Markers(edge_color=(0, 0, 1, 1))
+        orb_vizz = Compound([Polygon(pos=sb.o_track, border_color=sb.base_color, triangulate=False) for sb in self.simbods.values()])
+        viz = Compound([frame, self.bods_viz, orb_vizz])
+        viz.parent = self.view.scene
+
+        return viz
+
     def update_bodies(self, event=None):
         if self.INIT:
             w_now = self.wclock.elapsed
@@ -125,9 +145,19 @@ class SBViewer(scene.SceneCanvas):
 
         new_epoch = self._sys_epoch + d_epoch
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
-        for sb in self.simbods.values():
-            sb.update_state(new_epoch)
+        update_t = threading.Thread(target=self.do_updates,
+                                    kwargs=dict(new_epoch=new_epoch)
+                                    )
+        update_t.start()
+        update_t.join()
 
+        self.b_states = np.array([sb.state[0, :] for sb in self.simbods.values()])
+        self.b_states[4] += self.simbods['Earth'].state[0]
+        self.bods_viz.set_data(pos=self.b_states,
+                               face_color=self.dat_store["COLOR_SET"],
+                               edge_color=(1, 0, 0, .2),
+                               symbol=self.b_symbs,
+                               )
         if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
             self.set_wide_ephems(epoch=new_epoch)
@@ -150,6 +180,10 @@ class SBViewer(scene.SceneCanvas):
         return sb_dict
         # self.simbods = sb_dict
         # self.sb_list = list(sb_dict.values())
+
+    def do_updates(self, new_epoch=None):
+        for sb in self.simbods.values():
+            sb.update_state(new_epoch)
 
     def init_vizuals(self):             # this never gets called,,,
         MT = tr.MatrixTransform

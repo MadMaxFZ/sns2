@@ -209,12 +209,12 @@ def setup_datastore():
         Neptune=xtr_viz,
         Pluto=xtr_viz,
     )
-    sky_fname = TEX_PATH + TEX_FNAMES[22]
-    skymap = SkyMap(
-        edge_color=colorset_rgba[-1],
-        color=(0, 0, 0, 1),
-        texture=get_tex_data(fname=sky_fname),
-    )
+    sky_fname = TEX_PATH + TEX_FNAMES[24]
+    print(sky_fname)
+    skymap = SkyMap(edge_color=(0, 0, 1, .3),
+                    color=(0, 0, 0, .4),
+                    texture=get_tex_data(fname=sky_fname),
+                    )
     for idx in range(len(BODY_NAMES)):  # idx = [0..,len(BODY_NAMES)-1]
         _bod_name = BODY_NAMES[idx]
         _body = body_set[idx]
@@ -286,6 +286,7 @@ def setup_datastore():
         BODY_DATA=BODY_DATA,
         TEX_DAT_SET=tex_data_set,
         SKYMAP=skymap,
+        COLOR_SET=colorset_rgba,
     )
 
     logging.debug("ALL visuals for the system have been created...!")
