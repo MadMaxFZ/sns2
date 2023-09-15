@@ -32,7 +32,7 @@ class SBViewer(scene.SceneCanvas):
     def __init__(self):
         self.INIT = False
         self.dat_store = setup_datastore()
-        self.body_names = self.dat_store["BODY_NAMES"]
+        self.b_names = self.dat_store["BODY_NAMES"]
         self.body_data = self.dat_store["BODY_DATA"]
         self.skymap = self.dat_store["SKYMAP"]
         self.sim_params = self.dat_store["SYS_PARAMS"]
@@ -70,14 +70,17 @@ class SBViewer(scene.SceneCanvas):
         self.bods_viz = None
         self.sys_viz = None
         self.freeze()
-        self.simbods = self.init_simbodies(body_names=self.dat_store["BODY_NAMES"])
+        self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sys_viz = self.init_sysviz()
         self.sb_list = list(self.simbods.values())
         self.set_wide_ephems()
         self.skymap.parent = self.view
         self.view.add(self.sys_viz)
         self.view.add(self.skymap)
-        self.view.camera.set_range((-1e+09, 1e+09),(-1e+09, 1e+09),(-1e+09, 1e+09),)
+        self.view.camera.set_range((-1e+09, 1e+09),
+                                   (-1e+09, 1e+09),
+                                   (-1e+09, 1e+09),
+                                   )
         # self.init_vizuals()
         # self.run_cycle()
         # self.skymap.visible = False
@@ -86,7 +89,7 @@ class SBViewer(scene.SceneCanvas):
 
     def run_cycle(self, event):        # this never gets called,,,
         self.update_bodies(event=None)
-        for name in self.body_names:
+        for name in self.b_names:
             self.xform_vizuals(sb_name=name)
 
         if not self.INIT:
@@ -111,7 +114,7 @@ class SBViewer(scene.SceneCanvas):
                                   format="jd",
                                   scale="tdb",
                                   )
-        for sb_name in self.body_names:
+        for sb_name in self.b_names:
             sb = self.simbods[sb_name]
             sb.set_ephem(t_range=full_t_range)
 
@@ -120,9 +123,12 @@ class SBViewer(scene.SceneCanvas):
 
     def init_sysviz(self):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
-        frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
-        self.bods_viz = Markers(edge_color=(0, 0, 1, 1))
-        orb_vizz = Compound([Polygon(pos=sb.o_track, border_color=sb.base_color, triangulate=False) for sb in self.simbods.values()])
+        # frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
+        self.bods_viz = Markers(edge_color=(0, 1, 0, 1))
+        orb_vizz = Compound([Polygon(pos=self.simbods[name].o_track,
+                                     border_color=self.simbods[name].base_color,
+                                     triangulate=False)
+                             for name in self.b_names])
         viz = Compound([frame, self.bods_viz, orb_vizz])
         viz.parent = self.view.scene
 
@@ -151,11 +157,11 @@ class SBViewer(scene.SceneCanvas):
         update_t.start()
         update_t.join()
 
-        self.b_states = np.array([sb.state[0, :] for sb in self.simbods.values()])
-        self.b_states[4] += self.simbods['Earth'].state[0]
+        self.b_states = np.array([self.simbods[name].state[0, :] for name in self.b_names])
+        self.b_states[4] += self.simbods['Earth'].state[0, :]
         self.bods_viz.set_data(pos=self.b_states,
                                face_color=self.dat_store["COLOR_SET"],
-                               edge_color=(1, 0, 0, .2),
+                               edge_color=(0, 1, 0, .2),
                                symbol=self.b_symbs,
                                )
         if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
@@ -164,13 +170,15 @@ class SBViewer(scene.SceneCanvas):
 
         self._sys_epoch = new_epoch
 
-        logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n", self.avg_d_epoch, new_epoch.jd)
+        logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
+                     self.avg_d_epoch,
+                     new_epoch.jd)
         # print("\n\t>>> NEW EPOCH:", new_epoch.jd)
 
     def init_simbodies(self, body_names=None):
         solar_system_ephemeris.set("jpl")
         sb_dict = {}
-        for name in self.body_names:
+        for name in self.b_names:
             sb_dict.update({name: SimBody(body_name=name,
                                           epoch=self._sys_epoch,
                                           sim_param=self.sim_params,
@@ -191,7 +199,7 @@ class SBViewer(scene.SceneCanvas):
         skymap_tr.scale([8e+09, 8e+09, 8e+09])
         self.skymap.parent = self.view.scene
         self.view.add(self.skymap)
-        for sb_name in self.body_names:
+        for sb_name in self.b_names:
             logging.info("\tCollecting vizuals for %s", sb_name)
             self.batches.update({sb_name: Compound([])})
             self.viz_dicts.update({sb_name: get_viz_data(body_name=sb_name,
@@ -201,7 +209,7 @@ class SBViewer(scene.SceneCanvas):
                                                          texture=self.body_data[sb_name]["tex_data"],
                                                          )})
 
-        for sb_name in self.body_names:
+        for sb_name in self.b_names:
             [self.batches[sb_name].add_subvisual(self.viz_dicts[sb_name][viz_name])
                 for viz_name in self.simbods[sb_name].viz_names]
 
@@ -214,7 +222,7 @@ class SBViewer(scene.SceneCanvas):
                 else:
                     self.batches[sb_name].parent = self.batches["Sun"]
 
-        for sb_name in self.body_names:
+        for sb_name in self.b_names:
             self.simbods[sb_name].vizuals = self.viz_dicts[sb_name]
             self.view.add(self.batches[sb_name])
 
@@ -256,7 +264,7 @@ class SBViewer(scene.SceneCanvas):
         logging.debug("SimBody.set_transforms(" + str(sb_name) + ").")
 
         n_bods = len(self.dat_store["BODY_NAMES"])
-        n = self.body_names.index(sb_name)
+        n = self.b_names.index(sb_name)
         th = 2 * math.pi * n / n_bods
         # print("THETA>>> ", th)
         r = np.array(sb.state[0])

@@ -61,7 +61,7 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        self._base_color = self._body_data['body_color']
+        self._base_color    = self._body_data['body_color']
         # self._vizuals      = {}
         # self._v_mult        = 2
         # self._xyz_mult      = 2
@@ -119,12 +119,12 @@ class SimBody:
                                 ])
         # self.update_pos(self._state.[0])
         logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\nVEL:%s\nROT:%s\n",
-                     self._name,
-                     self._epoch,
-                     self._state[0],
-                     self._state[1],
-                     self._state[2],
-                     )
+                      self._name,
+                      self._epoch,
+                      self._state[0],
+                      self._state[1],
+                      self._state[2],
+                      )
 
     def set_epoch(self, epoch=None):
         if epoch is None:
