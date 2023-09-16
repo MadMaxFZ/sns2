@@ -90,12 +90,14 @@ def setup_datastore():
     for bod in body_set:
         if bod is not None:
             BODY_NAMES.append(bod.name)
+    # BODY_NAMES = set(BODY_NAMES)
 
     tex_dirlist = os.listdir(TEX_PATH)  # get listing of texture filenames
     for i in tex_dirlist:
         if "png" in i:
             TEX_FNAMES.append(i)  # add PNG filenames to list
     TEX_FNAMES.sort()  # sort the list
+    # TEX_FNAMES = set(TEX_FNAMES)
 
     # reference frame fixed to planet surfaces
     frame_set = [
@@ -146,6 +148,8 @@ def setup_datastore():
             colorset_rgba.append(color_norm)
         else:
             colorset_rgba.append(None)
+
+    # colorset_rgba = set(colorset_rgba)
 
     tex_idx = [
         0,
