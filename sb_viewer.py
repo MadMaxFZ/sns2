@@ -37,9 +37,6 @@ class SBViewer(scene.SceneCanvas):
         self.skymap = self.dat_store["SKYMAP"]
         self.sim_params = self.dat_store["SYS_PARAMS"]
         self.w_last = 0
-        self.simbods = None
-        self.sb_list = None
-        self.t_warp = 300000
         # self.viz_dicts = {}
         # self.batches = {}
         # self.viz_tr = {}
@@ -55,6 +52,9 @@ class SBViewer(scene.SceneCanvas):
                             iterations=-1,
                             )
         print("Target FPS:", 1 / self.wclock.interval)
+        self.simbods = self.init_simbodies(body_names=self.b_names)
+        self.sb_set = tuple(self.simbods.values())
+        self.t_warp = 500000
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
                                        show=False,
@@ -64,17 +64,15 @@ class SBViewer(scene.SceneCanvas):
         self.view = self.central_widget.add_view()
         self.view.camera = scene.cameras.FlyCamera(fov=30)
         self.view.camera.scale_factor = 0.01
-        self.view.camera.zoom_factor = 0.01
+        self.view.camera.zoom_factor = 0.001
         self.b_states = None
         self.b_symbs = ['star', 'o', 'o', 'o', '+', 'o', 'o', 'o', 'o', 'o', 'o', ]
         self.bods_viz = None
         self.sys_viz = None
         self.freeze()
-        self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sys_viz = self.init_sysviz()
-        self.sb_list = list(self.simbods.values())
         self.set_wide_ephems()
-        self.skymap.parent = self.view
+        self.skymap.parent = self.view.scene
         self.view.add(self.sys_viz)
         self.view.add(self.skymap)
         self.view.camera.set_range((-1e+09, 1e+09),

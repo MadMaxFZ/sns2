@@ -75,7 +75,7 @@ def setup_datastore():
         spacing=1 * u.s / 30,
         fps=30,
     )
-    body_set = [Sun,
+    body_set = (Sun,
                 Mercury,
                 Venus,
                 Earth,
@@ -86,7 +86,7 @@ def setup_datastore():
                 Uranus,
                 Neptune,  # except Pluto
                 Pluto,
-                ]
+                )
     for bod in body_set:
         if bod is not None:
             BODY_NAMES.append(bod.name)
@@ -100,47 +100,44 @@ def setup_datastore():
     # TEX_FNAMES = set(TEX_FNAMES)
 
     # reference frame fixed to planet surfaces
-    frame_set = [
-        SunFixed,
-        MercuryFixed,
-        VenusFixed,
-        ITRS,
-        LunaFixed,
-        MarsFixed,
-        JupiterFixed,
-        SaturnFixed,
-        UranusFixed,
-        NeptuneFixed,
-        None,
-    ]
+    frame_set = (SunFixed,
+                 MercuryFixed,
+                 VenusFixed,
+                 ITRS,
+                 LunaFixed,
+                 MarsFixed,
+                 JupiterFixed,
+                 SaturnFixed,
+                 UranusFixed,
+                 NeptuneFixed,
+                 None,
+                 )
     # rotational elements as function of time
-    rot_set = [
-        sun_rot_elements_at_epoch,
-        mercury_rot_elements_at_epoch,
-        venus_rot_elements_at_epoch,
-        earth_rot_elements_at_epoch,
-        moon_rot_elements_at_epoch,
-        mars_rot_elements_at_epoch,
-        jupiter_rot_elements_at_epoch,
-        saturn_rot_elements_at_epoch,
-        uranus_rot_elements_at_epoch,
-        neptune_rot_elements_at_epoch,
-        moon_rot_elements_at_epoch,
-    ]
+    rot_set = (sun_rot_elements_at_epoch,
+               mercury_rot_elements_at_epoch,
+               venus_rot_elements_at_epoch,
+               earth_rot_elements_at_epoch,
+               moon_rot_elements_at_epoch,
+               mars_rot_elements_at_epoch,
+               jupiter_rot_elements_at_epoch,
+               saturn_rot_elements_at_epoch,
+               uranus_rot_elements_at_epoch,
+               neptune_rot_elements_at_epoch,
+               moon_rot_elements_at_epoch,
+               )
     # body color values in RGBA (0...255)
-    color_RGBA = [
-        (253, 184, 19, 255),  # base color for each body
-        (26, 26, 26, 255),
-        (230, 230, 230, 255),
-        (47, 106, 105, 255),
-        (50, 50, 50, 255),
-        (153, 61, 0, 255),
-        (176, 127, 53, 255),
-        (176, 143, 54, 255),
-        (95, 128, 170, 255),
-        (54, 104, 150, 255),
-        (255, 255, 255, 255),
-    ]
+    color_RGBA = ((253, 184, 19, 255),  # base color for each body
+                  (26, 26, 26, 255),
+                  (230, 230, 230, 255),
+                  (47, 106, 105, 255),
+                  (50, 50, 50, 255),
+                  (153, 61, 0, 255),
+                  (176, 127, 53, 255),
+                  (176, 143, 54, 255),
+                  (95, 128, 170, 255),
+                  (54, 104, 150, 255),
+                  (255, 255, 255, 255),
+                  )
     colorset_rgba = []  # convert from RGBA to rgba (0...1)
     for c in color_RGBA:
         if c is not None:
@@ -151,51 +148,47 @@ def setup_datastore():
 
     # colorset_rgba = set(colorset_rgba)
 
-    tex_idx = [
-        0,
-        1,
-        3,
-        10,
-        17,
-        11,
-        12,
-        13,
-        15,
-        16,
-        17,
-    ]  # indices of texture filename for each body
+    tex_idx = (0,
+               1,
+               3,
+               10,
+               17,
+               11,
+               12,
+               13,
+               15,
+               16,
+               17,
+               )  # indices of texture filename for each body
 
-    body_types = [
-        "star",
-        "planet",
-        "moon",
-        "ship",
-    ]  # types of bodies in simulation
+    body_types = ("star",
+                  "planet",
+                  "moon",
+                  "ship",
+                  )  # types of bodies in simulation
 
-    type_set = [
-        0,
-        1,
-        1,
-        1,
-        2,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-    ]  # indices of type for each body
+    type_set = (0,
+                1,
+                1,
+                1,
+                2,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                )  # indices of type for each body
 
-    viz_keys = [
-        "reticle",
-        "nametag",
-        "refframe",
-        "ruler",
-        "surface",
-        "oscorbit",
-        "radvec",
-        "velvec",
-    ]
+    viz_keys = ("reticle",
+                "nametag",
+                "refframe",
+                "ruler",
+                "surface",
+                "oscorbit",
+                "radvec",
+                "velvec",
+                )
     com_viz = [viz_keys[1], viz_keys[2], viz_keys[4]]
     xtr_viz = [viz_keys[5], viz_keys[6], viz_keys[7]]
     xtr_viz.extend(com_viz)
