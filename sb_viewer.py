@@ -23,7 +23,7 @@ print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
 print(subprocess.run(["rm", "logs/sb_viewer.log"]))
 print(subprocess.run(["touch","logs/sb_viewer.log",]))
 logging.basicConfig(filename="logs/sb_viewer.log",
-                    level=logging.DEBUG,
+                    level=logging.INFO,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 
@@ -66,7 +66,9 @@ class SBViewer(scene.SceneCanvas):
         self.view.camera.scale_factor = 0.01
         self.view.camera.zoom_factor = 0.001
         self.b_states = None
-        self.b_symbs = ['star', 'o', 'o', 'o', '+', 'o', 'o', 'o', 'o', 'o', 'o', ]
+        self.b_symbs = ['star', 'o', 'o', 'o',
+                        # '+',
+                        'o', 'o', 'o', 'o', 'o', 'o', ]
         self.bods_viz = None
         self.sys_viz = None
         self.freeze()
@@ -142,8 +144,9 @@ class SBViewer(scene.SceneCanvas):
         update_t.start()
         update_t.join()
 
-        self.b_states = np.array([self.simbods[name].state[0, :] for name in self.b_names])
-        self.b_states[4] += self.simbods['Earth'].state[0, :]
+        # the anomay most likely resides here
+        self.b_states = np.array([sb.state[0, :] for sb in self.sb_set])
+        # self.b_states[4] += self.simbods['Earth'].state[0, :]
         self.bods_viz.set_data(pos=self.b_states,
                                face_color=self.dat_store["COLOR_SET"],
                                edge_color=(0, 1, 0, .2),
@@ -155,9 +158,9 @@ class SBViewer(scene.SceneCanvas):
 
         self._sys_epoch = new_epoch
 
-        logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
-                     self.avg_d_epoch,
-                     new_epoch.jd)
+        logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
+                      self.avg_d_epoch,
+                      new_epoch.jd)
         # print("\n\t>>> NEW EPOCH:", new_epoch.jd)
 
     def init_simbodies(self, body_names=None):
@@ -175,8 +178,8 @@ class SBViewer(scene.SceneCanvas):
         # self.sb_list = list(sb_dict.values())
 
     def do_updates(self, new_epoch=None):
-        for sb in self.simbods.values():
-            sb.update_state(new_epoch)
+        for sb in self.sb_set:
+            sb.update_state(epoch=new_epoch)
 
     def run(self):
         self.wclock.start()

@@ -29,8 +29,8 @@ logging.basicConfig(filename="logs/sim_body.log",
 
 class SimBody:
     epoch0 = J2000_TDB
-    R_set = {}
-    simbods = {}
+    # R_set = {}
+    # simbods = {}
 
     # TODO: trim down extraneous arguments here:
     def __init__(self,
@@ -94,7 +94,7 @@ class SimBody:
 
         r_set = [R, Rm, Rp,]
         self._body_data.update({'r_set' : r_set})
-        SimBody.simbods.update({self._name : self})
+        # /SimBody.simbods.update({self._name : self})
         self.set_time_range(epoch=self._epoch,
                             periods=self._periods,
                             spacing=self._spacing,
@@ -103,20 +103,17 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(ephem=self._ephem)
 
-    def update_state(self, epoch=None,):
-        self._epoch = Time(epoch,
-                           format='jd',
-                           scale='tdb'
-                           )
+    def update_state(self, epoch=None):
+        self.set_epoch(epoch)
         logging.debug("\n\t\t\tBODY:\t%s\n\t\t\tEPOCH:\t%s\n\t\t\tEPHEM:\t%s",
                       self._name,
                       str(self._epoch),
                       self._ephem
                       )
-        self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
+        self._state = np.array((self._ephem.rv(self._epoch)[0].to(self._dist_unit),
                                 self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
                                 self._rot_func(**toTD(self._epoch)),
-                                ])
+                                ))
         # self.update_pos(self._state.[0])
         logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\nVEL:%s\nROT:%s\n",
                       self._name,
@@ -175,7 +172,7 @@ class SimBody:
                                            plane=self._plane,
                                            )
 
-        logging.info("EPHEM : %s", str(self._ephem))
+        logging.debug("EPHEM : %s", str(self._ephem))
         print("EPHEM : ", self._ephem)
 
     def set_orbit(self, ephem=None):

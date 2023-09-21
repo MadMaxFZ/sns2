@@ -79,7 +79,7 @@ def setup_datastore():
                 Mercury,
                 Venus,
                 Earth,
-                Moon,  # all built-ins from poliastro
+                # Moon,  # all built-ins from poliastro
                 Mars,
                 Jupiter,
                 Saturn,
@@ -104,7 +104,7 @@ def setup_datastore():
                  MercuryFixed,
                  VenusFixed,
                  ITRS,
-                 LunaFixed,
+                 # LunaFixed,
                  MarsFixed,
                  JupiterFixed,
                  SaturnFixed,
@@ -117,7 +117,7 @@ def setup_datastore():
                mercury_rot_elements_at_epoch,
                venus_rot_elements_at_epoch,
                earth_rot_elements_at_epoch,
-               moon_rot_elements_at_epoch,
+               # moon_rot_elements_at_epoch,
                mars_rot_elements_at_epoch,
                jupiter_rot_elements_at_epoch,
                saturn_rot_elements_at_epoch,
@@ -130,7 +130,7 @@ def setup_datastore():
                   (26, 26, 26, 255),
                   (230, 230, 230, 255),
                   (47, 106, 105, 255),
-                  (50, 50, 50, 255),
+                  # (50, 50, 50, 255),
                   (153, 61, 0, 255),
                   (176, 127, 53, 255),
                   (176, 143, 54, 255),
@@ -146,13 +146,13 @@ def setup_datastore():
         else:
             colorset_rgba.append(None)
 
-    # colorset_rgba = set(colorset_rgba)
+    colorset_rgba = tuple(colorset_rgba)
 
     tex_idx = (0,
                1,
                3,
                10,
-               17,
+               # 17,
                11,
                12,
                13,
@@ -171,7 +171,7 @@ def setup_datastore():
                 1,
                 1,
                 1,
-                2,
+                # 2,
                 1,
                 1,
                 1,
@@ -198,7 +198,7 @@ def setup_datastore():
         Mercury=xtr_viz,
         Venus=xtr_viz,
         Earth=xtr_viz,
-        Moon=xtr_viz,
+        # Moon=xtr_viz,
         Mars=xtr_viz,
         Jupiter=xtr_viz,
         Saturn=xtr_viz,
