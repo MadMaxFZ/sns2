@@ -53,7 +53,7 @@ class SBViewer(scene.SceneCanvas):
                             )
         print("Target FPS:", 1 / self.wclock.interval)
         self.simbods = self.init_simbodies(body_names=self.b_names)
-        self.sb_set = tuple(self.simbods.values())
+        self.sb_set = list(self.simbods.values())
         self.t_warp = 500000
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
@@ -67,7 +67,7 @@ class SBViewer(scene.SceneCanvas):
         self.view.camera.zoom_factor = 0.001
         self.b_states = None
         self.b_symbs = ['star', 'o', 'o', 'o',
-                        # '+',
+                        '+',
                         'o', 'o', 'o', 'o', 'o', 'o', ]
         self.bods_viz = None
         self.sys_viz = None
@@ -138,15 +138,13 @@ class SBViewer(scene.SceneCanvas):
 
         new_epoch = self._sys_epoch + d_epoch
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
-        update_t = threading.Thread(target=self.do_updates,
-                                    kwargs=dict(new_epoch=new_epoch)
-                                    )
-        update_t.start()
-        update_t.join()
+        self.do_updates(new_epoch=new_epoch)
 
         # the anomay most likely resides here
-        self.b_states = np.array([sb.state[0, :] for sb in self.sb_set])
-        # self.b_states[4] += self.simbods['Earth'].state[0, :]
+        self.b_states = []
+        self.b_states.extend([sb.state[0] for sb in list(self.simbods.values())])
+        self.b_states[4] += self.simbods['Earth'].state[0, :]
+        self.b_states = np.array(self.b_states)
         self.bods_viz.set_data(pos=self.b_states,
                                face_color=self.dat_store["COLOR_SET"],
                                edge_color=(0, 1, 0, .2),
@@ -178,7 +176,7 @@ class SBViewer(scene.SceneCanvas):
         # self.sb_list = list(sb_dict.values())
 
     def do_updates(self, new_epoch=None):
-        for sb in self.sb_set:
+        for sb in list(self.simbods.values()):
             sb.update_state(epoch=new_epoch)
 
     def run(self):

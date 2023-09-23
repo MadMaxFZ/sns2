@@ -75,18 +75,18 @@ def setup_datastore():
         spacing=1 * u.s / 30,
         fps=30,
     )
-    body_set = (Sun,
+    body_set = [Sun,
                 Mercury,
                 Venus,
                 Earth,
-                # Moon,  # all built-ins from poliastro
+                Moon,  # all built-ins from poliastro
                 Mars,
                 Jupiter,
                 Saturn,
                 Uranus,
                 Neptune,  # except Pluto
                 Pluto,
-                )
+                ]
     for bod in body_set:
         if bod is not None:
             BODY_NAMES.append(bod.name)
@@ -100,44 +100,44 @@ def setup_datastore():
     # TEX_FNAMES = set(TEX_FNAMES)
 
     # reference frame fixed to planet surfaces
-    frame_set = (SunFixed,
+    frame_set = [SunFixed,
                  MercuryFixed,
                  VenusFixed,
                  ITRS,
-                 # LunaFixed,
+                 LunaFixed,
                  MarsFixed,
                  JupiterFixed,
                  SaturnFixed,
                  UranusFixed,
                  NeptuneFixed,
                  None,
-                 )
+                 ]
     # rotational elements as function of time
-    rot_set = (sun_rot_elements_at_epoch,
+    rot_set = [sun_rot_elements_at_epoch,
                mercury_rot_elements_at_epoch,
                venus_rot_elements_at_epoch,
                earth_rot_elements_at_epoch,
-               # moon_rot_elements_at_epoch,
+               moon_rot_elements_at_epoch,
                mars_rot_elements_at_epoch,
                jupiter_rot_elements_at_epoch,
                saturn_rot_elements_at_epoch,
                uranus_rot_elements_at_epoch,
                neptune_rot_elements_at_epoch,
                moon_rot_elements_at_epoch,
-               )
+               ]
     # body color values in RGBA (0...255)
-    color_RGBA = ((253, 184, 19, 255),  # base color for each body
+    color_RGBA = [(253, 184, 19, 255),  # base color for each body
                   (26, 26, 26, 255),
                   (230, 230, 230, 255),
                   (47, 106, 105, 255),
-                  # (50, 50, 50, 255),
+                  (50, 50, 50, 255),
                   (153, 61, 0, 255),
                   (176, 127, 53, 255),
                   (176, 143, 54, 255),
                   (95, 128, 170, 255),
                   (54, 104, 150, 255),
                   (255, 255, 255, 255),
-                  )
+                  ]
     colorset_rgba = []  # convert from RGBA to rgba (0...1)
     for c in color_RGBA:
         if c is not None:
@@ -146,32 +146,32 @@ def setup_datastore():
         else:
             colorset_rgba.append(None)
 
-    colorset_rgba = tuple(colorset_rgba)
+    # colorset_rgba = tuple(colorset_rgba)
 
-    tex_idx = (0,
+    tex_idx = [0,
                1,
                3,
                10,
-               # 17,
+               17,
                11,
                12,
                13,
                15,
                16,
                17,
-               )  # indices of texture filename for each body
+               ]  # indices of texture filename for each body
 
-    body_types = ("star",
+    body_types = ["star",
                   "planet",
                   "moon",
                   "ship",
-                  )  # types of bodies in simulation
+                  ]  # types of bodies in simulation
 
     type_set = (0,
                 1,
                 1,
                 1,
-                # 2,
+                2,
                 1,
                 1,
                 1,
@@ -198,7 +198,7 @@ def setup_datastore():
         Mercury=xtr_viz,
         Venus=xtr_viz,
         Earth=xtr_viz,
-        # Moon=xtr_viz,
+        Moon=xtr_viz,
         Mars=xtr_viz,
         Jupiter=xtr_viz,
         Saturn=xtr_viz,

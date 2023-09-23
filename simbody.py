@@ -42,7 +42,7 @@ class SimBody:
 
         if epoch is None:
             epoch = J2000_TDB
-        self._sb_parent        = None
+        self._sb_parent     = None
         self._name          = body_name
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
@@ -101,7 +101,7 @@ class SimBody:
                             )
         self.set_ephem(t_range=self._t_range)
         if self._body.parent is not None:
-            self.set_orbit(ephem=self._ephem)
+            self.set_orbit(self._ephem)
 
     def update_state(self, epoch=None):
         self.set_epoch(epoch)
@@ -110,18 +110,25 @@ class SimBody:
                       str(self._epoch),
                       self._ephem
                       )
-        self._state = np.array((self._ephem.rv(self._epoch)[0].to(self._dist_unit),
-                                self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
-                                self._rot_func(**toTD(self._epoch)),
-                                ))
+        if self._orbit is not None:
+            self._orbit.epoch = self._epoch
+            self._state = np.array([self._orbit.r.value,
+                                    self._orbit.v.value,
+                                    self._rot_func(**toTD(self._epoch)),
+                                    ])
+        else:
+            self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
+                                    self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
+                                    self._rot_func(**toTD(self._epoch)),
+                                    ])
         # self.update_pos(self._state.[0])
-        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\nVEL:%s\nROT:%s\n",
-                      self._name,
-                      self._epoch,
-                      self._state[0],
-                      self._state[1],
-                      self._state[2],
-                      )
+        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
+                     self._name,
+                     self._epoch,
+                     self._state[0],
+                     # self._state[1],
+                     # self._state[2],
+                     )
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -228,12 +235,16 @@ class SimBody:
         return self._state
 
     @property
+    def rad_pos(self):
+        return self._state[0]
+
+    @property
     def track(self):
         return self._track
 
-    @property
-    def viz_names(self):
-        return self._viz_names
+    # @property
+    # def viz_names(self):
+    #     return self._viz_names
 
     @property
     def t_span(self):
