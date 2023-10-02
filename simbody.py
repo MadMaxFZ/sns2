@@ -111,24 +111,25 @@ class SimBody:
                       self._ephem
                       )
         if self._orbit is not None:
-            self._orbit.epoch = self._epoch
-            self._state = np.array([self._orbit.r.value,
-                                    self._orbit.v.value,
+            neworbit = self._orbit.propagate(self._epoch)
+            self._state = np.array([neworbit.r.value,
+                                    neworbit.v.value,
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
+            self._orbit = neworbit
         else:
             self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
                                     self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
         # self.update_pos(self._state.[0])
-        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
-                     self._name,
-                     self._epoch,
-                     self._state[0],
-                     # self._state[1],
-                     # self._state[2],
-                     )
+        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
+                      self._name,
+                      self._epoch,
+                      self._state[0],
+                      # self._state[1],
+                      # self._state[2],
+                      )
 
     def set_epoch(self, epoch=None):
         if epoch is None:

@@ -23,7 +23,7 @@ print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
 print(subprocess.run(["rm", "logs/sb_viewer.log"]))
 print(subprocess.run(["touch","logs/sb_viewer.log",]))
 logging.basicConfig(filename="logs/sb_viewer.log",
-                    level=logging.INFO,
+                    level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 
