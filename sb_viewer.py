@@ -7,7 +7,7 @@ import subprocess
 import vispy.visuals.transforms as tr
 # from vispy.util.transforms import *
 from vispy.scene.visuals import Markers, Compound, Polygon
-# from vispy.color import Color
+from vispy.color import Color
 # from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
 from vispy.app.timer import *
@@ -112,8 +112,9 @@ class SBViewer(scene.SceneCanvas):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
         # frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
         self.bods_viz = Markers(edge_color=(0, 1, 0, 1))
+
         orb_vizz = Compound([Polygon(pos=self.simbods[name].o_track,
-                                     border_color=self.simbods[name].base_color,
+                                     border_color=self.simbods[name].traj_color(alpha=0.2),
                                      triangulate=False)
                              for name in self.b_names])
         viz = Compound([frame, self.bods_viz, orb_vizz])
@@ -140,7 +141,6 @@ class SBViewer(scene.SceneCanvas):
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
         self.do_updates(new_epoch=new_epoch)
 
-        # the anomay most likely resides here
         self.b_states = []
         self.b_states.extend([sb.state[0] for sb in list(self.simbods.values())])
         self.b_states[4] += self.simbods['Earth'].state[0, :]
@@ -151,7 +151,7 @@ class SBViewer(scene.SceneCanvas):
                                symbol=self.b_symbs,
                                )
         if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
-            logging.debug("RELOAD EPOCHS/EPHEM SETS...")
+            logging.info("RELOAD EPOCHS/EPHEM SETS...")
             self.set_wide_ephems(epoch=new_epoch)
 
         self._sys_epoch = new_epoch

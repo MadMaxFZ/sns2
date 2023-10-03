@@ -16,6 +16,7 @@ from data_functs import *
 from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
 from poliastro.twobody.orbit.scalar import Orbit
+from vispy.color import Color
 
 
 print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
@@ -102,6 +103,11 @@ class SimBody:
         self.set_ephem(t_range=self._t_range)
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
+
+    def traj_color(self, alpha=None):
+        b_clr = self.base_color
+        clr = (b_clr[0], b_clr[1], b_clr[2], alpha)
+        return clr
 
     def update_state(self, epoch=None):
         self.set_epoch(epoch)
