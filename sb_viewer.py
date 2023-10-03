@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import functiontrace
+# import functiontrace
 import numpy as np
 import math
 import subprocess
@@ -19,9 +19,9 @@ from simbody import SimBody
 from multiprocessing import Process
 import threading
 
-print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
-print(subprocess.run(["rm", "logs/sb_viewer.log"]))
-print(subprocess.run(["touch","logs/sb_viewer.log",]))
+# print(subprocess.run(["cp", "logs/sb_viewer.log", "logs/OLD_sb_viewer.log"]))
+# print(subprocess.run(["rm", "logs/sb_viewer.log"]))
+# print(subprocess.run(["touch","logs/sb_viewer.log",]))
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
@@ -34,7 +34,7 @@ class SBViewer(scene.SceneCanvas):
         self.dat_store = setup_datastore()
         self.b_names = self.dat_store["BODY_NAMES"]
         self.body_data = self.dat_store["BODY_DATA"]
-        self.skymap = self.dat_store["SKYMAP"]
+#         self.skymap = self.dat_store["SKYMAP"]
         self.sim_params = self.dat_store["SYS_PARAMS"]
         self.w_last = 0
         # self.viz_dicts = {}
@@ -74,9 +74,9 @@ class SBViewer(scene.SceneCanvas):
         self.freeze()
         self.sys_viz = self.init_sysviz()
         self.set_wide_ephems()
-        self.skymap.parent = self.view.scene
+#        self.skymap.parent = self.view.scene
         self.view.add(self.sys_viz)
-        self.view.add(self.skymap)
+#       self.view.add(self.skymap)
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09),

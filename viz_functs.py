@@ -1,16 +1,16 @@
 import logging
 from vispy.scene.visuals import Markers, Text, Arrow, XYZAxis, Axis, Polygon
-from planet_visual import Planet
-from PIL import Image
+# from planet_visual import Planet
+# from PIL import Image
 
 #viz2ignore = ["ruler", "oscorbit", "radvec", "velvec"]
 
 
-def get_tex_data(idx=None, fname=None):
-    with Image.open(fname) as im:
-        print("Getting texture:", fname, im.format, f"{im.size}x{im.mode}")
-        tex_data = im.copy()
-    return tex_data
+# def get_tex_data(idx=None, fname=None):
+#     with Image.open(fname) as im:
+#         print("Getting texture:", fname, im.format, f"{im.size}x{im.mode}")
+#         tex_data = im.copy()
+#     return tex_data
 
 
 def make_marker(*args, **kwargs):
