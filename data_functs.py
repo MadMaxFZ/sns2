@@ -6,7 +6,7 @@ import logging
 
 import _utils
 from planet_visual import SkyMap
-# from viz_functs import get_tex_data
+from viz_functs import get_tex_data
 from astropy.time import Time
 from poliastro.constants import J2000_TDB
 from poliastro.bodies import *
@@ -15,11 +15,11 @@ from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
 
 
-# logging.basicConfig(
-#     filename="logs/sns_defs.log",
-#     level=logging.INFO,
-#     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
-# )
+logging.basicConfig(
+    filename="logs/sns_defs.log",
+    level=logging.INFO,
+    format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
+)
 
 
 def earth_rot_elements_at_epoch(T=None, d=None):
@@ -192,7 +192,7 @@ def setup_datastore():
     com_viz = [viz_keys[1], viz_keys[2], viz_keys[4]]
     xtr_viz = [viz_keys[5], viz_keys[6], viz_keys[7]]
     xtr_viz.extend(com_viz)
-    # xtr_viz = com_viz
+    xtr_viz = com_viz
     viz_assign = dict(
         Sun=com_viz,
         Mercury=xtr_viz,
@@ -208,10 +208,10 @@ def setup_datastore():
     )
     sky_fname = TEX_PATH + TEX_FNAMES[24]
     print(sky_fname)
-    # skymap = SkyMap(edge_color=(0, 0, 1, .3),
-    #                 color=(0, 0, 0, .4),
-    #                 texture=get_tex_data(fname=sky_fname),
-    #                 )
+    skymap = SkyMap(edge_color=(0, 0, 1, .3),
+                    color=(0, 0, 0, .4),
+                    texture=get_tex_data(fname=sky_fname),
+                    )
     for idx in range(len(BODY_NAMES)):  # idx = [0..,len(BODY_NAMES)-1]
         _bod_name = BODY_NAMES[idx]
         _body = body_set[idx]
@@ -220,7 +220,7 @@ def setup_datastore():
         logging.debug(">LOADING STATIC DATA for " + str(_bod_name))
 
         tex_fname = TEX_PATH + TEX_FNAMES[tex_idx[idx]]  # get path of indexed filename
-#         tex_data_set.update({_bod_name: get_tex_data(fname=tex_fname)})  # add texture data to active dict
+        tex_data_set.update({_bod_name: get_tex_data(fname=tex_fname)})  # add texture data to active dict
         logging.debug("tex_data_set[" + str(idx) + "] = " + str(tex_fname))
 
         # a dict of ALL body data EXCEPT the viz_dict{}
@@ -234,7 +234,7 @@ def setup_datastore():
             rot_func=rot_set[idx],
             n_samples=180,
             body_color=colorset_rgba[idx],
-#             tex_data=tex_data_set[_bod_name],  # tex_data_set[idx],
+            tex_data=tex_data_set[_bod_name],  # tex_data_set[idx],
             viz_names=viz_assign[_bod_name],
         )
         R_set = {}
@@ -265,11 +265,11 @@ def setup_datastore():
         len(tex_idx),
         len(type_set),
         len(BODY_NAMES),
-     #   len(tex_data_set.keys()),
+        len(tex_data_set.keys()),
         len(TEX_FNAMES),
     ]
     print("Check sets =\n", check_sets)
-    assert check_sets == ([BODY_COUNT, ] * 7 + [100,])
+    assert check_sets == ([BODY_COUNT, ] *8 + [100,])
     print("\t>>>check sets check out!")
 
     DATASTORE = dict(
@@ -282,7 +282,7 @@ def setup_datastore():
         TYPE_COUNT=TYPE_COUNT,
         BODY_DATA=BODY_DATA,
         TEX_DAT_SET=tex_data_set,
-#         SKYMAP=skymap,
+        SKYMAP=skymap,
         COLOR_SET=colorset_rgba,
     )
 

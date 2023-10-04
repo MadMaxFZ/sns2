@@ -94,7 +94,7 @@ class SimBody:
 
         r_set = [R, Rm, Rp,]
         self._body_data.update({'r_set' : r_set})
-        # /SimBody.simbods.update({self._name : self})
+        # SimBody.simbods.update({self._name : self})
         self.set_time_range(epoch=self._epoch,
                             periods=self._periods,
                             spacing=self._spacing,

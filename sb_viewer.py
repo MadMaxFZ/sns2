@@ -5,10 +5,10 @@ import numpy as np
 import math
 import subprocess
 import vispy.visuals.transforms as tr
-# from vispy.util.transforms import *
+from vispy.util.transforms import *
 from vispy.scene.visuals import Markers, Compound, Polygon
-# from vispy.color import Color
-# from viz_functs import get_tex_data, get_viz_data
+from vispy.color import Color
+from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
 from vispy.app.timer import *
 from astropy.time import TimeDelta
@@ -34,7 +34,7 @@ class SBViewer(scene.SceneCanvas):
         self.dat_store = setup_datastore()
         self.b_names = self.dat_store["BODY_NAMES"]
         self.body_data = self.dat_store["BODY_DATA"]
-#         self.skymap = self.dat_store["SKYMAP"]
+        self.skymap = self.dat_store["SKYMAP"]
         self.sim_params = self.dat_store["SYS_PARAMS"]
         self.w_last = 0
         # self.viz_dicts = {}
@@ -74,9 +74,9 @@ class SBViewer(scene.SceneCanvas):
         self.freeze()
         self.sys_viz = self.init_sysviz()
         self.set_wide_ephems()
-#        self.skymap.parent = self.view.scene
+        self.skymap.parent = self.view.scene
         self.view.add(self.sys_viz)
-#       self.view.add(self.skymap)
+        self.view.add(self.skymap)
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
