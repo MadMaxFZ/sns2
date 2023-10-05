@@ -17,7 +17,7 @@ from poliastro.util import time_range
 from data_functs import *
 from simbody import SimBody
 from astropy import units as u
-from astropy.constants import G
+from astropy.constants.codata2014 import G
 from astropy.units import Quantity
 from multiprocessing import Process
 import threading
@@ -58,7 +58,7 @@ class SBViewer(scene.SceneCanvas):
         print("Target FPS:", 1 / self.wclock.interval)
         self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sb_set = list(self.simbods.values())
-        self.t_warp = 500000
+        self.t_warp = 200000
         self.rel_pos = None
         self.rel_vel = None
         self.accel = None
@@ -194,7 +194,8 @@ class SBViewer(scene.SceneCanvas):
             for sb2 in self.sb_set:
                 self.rel_pos[i][j] = sb2.state[0] - sb1.state[0]
                 self.rel_vel[i][j] = sb2.state[1] - sb1.state[1]
-                self.accel[i] += G * (sb1.body.mass + sb2.body.mass) / (self.rel_pos[i][j] * self.rel_pos[i][j])
+                if i != j:
+                    self.accel[i] += G * (sb1.body.mass + sb2.body.mass) / (self.rel_pos[i][j] * self.rel_pos[i][j])
                 j += 1
             i += 1
 

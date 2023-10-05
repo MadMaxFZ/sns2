@@ -21,10 +21,10 @@ from poliastro.twobody.orbit.scalar import Orbit
 # print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
 # print(subprocess.run(["rm", "logs/sim_body.log"]))
 # print(subprocess.run(["touch", "logs/sim_body.log", ]))
-# logging.basicConfig(filename="logs/sim_body.log",
-#                     level=logging.DEBUG,
-#                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
-#                     )
+logging.basicConfig(filename="logs/sim_body.log",
+                    level=logging.DEBUG,
+                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
+                    )
 
 
 class SimBody:
