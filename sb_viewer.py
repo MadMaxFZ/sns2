@@ -16,6 +16,9 @@ from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
 from data_functs import *
 from simbody import SimBody
+from astropy import units as u
+from astropy.constants import G
+from astropy.units import Quantity
 from multiprocessing import Process
 import threading
 
@@ -32,6 +35,7 @@ class SBViewer(scene.SceneCanvas):
     def __init__(self):
         self.INIT = False
         self.dat_store = setup_datastore()
+        self.bod_count = self.dat_store["BODY_COUNT"]
         self.b_names = self.dat_store["BODY_NAMES"]
         self.body_data = self.dat_store["BODY_DATA"]
         self.skymap = self.dat_store["SKYMAP"]
@@ -55,6 +59,9 @@ class SBViewer(scene.SceneCanvas):
         self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sb_set = list(self.simbods.values())
         self.t_warp = 500000
+        self.rel_pos = None
+        self.rel_vel = None
+        self.accel = None
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
                                        show=False,
@@ -140,9 +147,9 @@ class SBViewer(scene.SceneCanvas):
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
         self.do_updates(new_epoch=new_epoch)
 
-        # the anomay most likely resides here
+        # the anomaly most likely resides here
         self.b_states = []
-        self.b_states.extend([sb.state[0] for sb in list(self.simbods.values())])
+        self.b_states.extend([sb.state[0] for sb in self.sb_set])
         self.b_states[4] += self.simbods['Earth'].state[0, :]
         self.b_states = np.array(self.b_states)
         self.bods_viz.set_data(pos=self.b_states,
@@ -176,8 +183,23 @@ class SBViewer(scene.SceneCanvas):
         # self.sb_list = list(sb_dict.values())
 
     def do_updates(self, new_epoch=None):
-        for sb in list(self.simbods.values()):
+        for sb in self.sb_set:
             sb.update_state(epoch=new_epoch)
+        self.rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
+        self.rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
+        self.accel = np.zeros((self.bod_count,), dtype=type(np.zeros((3,), dtype=np.float64)))
+        i = 0
+        for sb1 in self.sb_set:
+            j = 0
+            for sb2 in self.sb_set:
+                self.rel_pos[i][j] = sb2.state[0] - sb1.state[0]
+                self.rel_vel[i][j] = sb2.state[1] - sb1.state[1]
+                self.accel[i] += G * (sb1.body.mass + sb2.body.mass) / (self.rel_pos[i][j] * self.rel_pos[i][j])
+                j += 1
+            i += 1
+
+        logging.info("\nREL_POS :\n%s\nVEL_POS :\n%s\nACCEL :\n%s",
+                     self.rel_pos, self.rel_vel, self.accel)
 
     def run(self):
         self.wclock.start()
