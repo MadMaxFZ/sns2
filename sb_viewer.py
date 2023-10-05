@@ -58,7 +58,7 @@ class SBViewer(scene.SceneCanvas):
         print("Target FPS:", 1 / self.wclock.interval)
         self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sb_set = list(self.simbods.values())
-        self.t_warp = 200000
+        self.t_warp = 100000
         self.rel_pos = None
         self.rel_vel = None
         self.accel = None
@@ -195,11 +195,11 @@ class SBViewer(scene.SceneCanvas):
                 self.rel_pos[i][j] = sb2.state[0] - sb1.state[0]
                 self.rel_vel[i][j] = sb2.state[1] - sb1.state[1]
                 if i != j:
-                    self.accel[i] += G * (sb1.body.mass + sb2.body.mass) / (self.rel_pos[i][j] * self.rel_pos[i][j])
+                    self.accel[i] += G / (self.rel_pos[i][j] * self.rel_pos[i][j])
                 j += 1
             i += 1
 
-        logging.info("\nREL_POS :\n%s\nVEL_POS :\n%s\nACCEL :\n%s",
+        logging.info("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                      self.rel_pos, self.rel_vel, self.accel)
 
     def run(self):
