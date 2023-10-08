@@ -59,9 +59,11 @@ class SBViewer(scene.SceneCanvas):
         self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sb_set = list(self.simbods.values())
         self.t_warp = 100000
-        self.rel_pos = None
-        self.rel_vel = None
-        self.accel = None
+        self.sys_rel_pos = None
+        self.sys_rel_vel = None
+        self.cam_rel_pos = None
+        self.cam_rel_vel = None
+        self.body_accel = None
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
                                        show=False,
@@ -185,22 +187,22 @@ class SBViewer(scene.SceneCanvas):
     def do_updates(self, new_epoch=None):
         for sb in self.sb_set:
             sb.update_state(epoch=new_epoch)
-        self.rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
-        self.rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
-        self.accel = np.zeros((self.bod_count,), dtype=type(np.zeros((3,), dtype=np.float64)))
+        self.sys_rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
+        self.sys_rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
+        self.body_accel = np.zeros((self.bod_count,), dtype=type(np.zeros((3,), dtype=np.float64)))
         i = 0
         for sb1 in self.sb_set:
             j = 0
             for sb2 in self.sb_set:
-                self.rel_pos[i][j] = sb2.state[0] - sb1.state[0]
-                self.rel_vel[i][j] = sb2.state[1] - sb1.state[1]
+                self.sys_rel_pos[i][j] = sb2.state[0] - sb1.state[0]
+                self.sys_rel_vel[i][j] = sb2.state[1] - sb1.state[1]
                 if i != j:
-                    self.accel[i] += G / (self.rel_pos[i][j] * self.rel_pos[i][j])
+                    self.body_accel[i] += (G * sb2.body.mass) / (self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
 
         logging.info("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
-                     self.rel_pos, self.rel_vel, self.accel)
+                     self.sys_rel_pos, self.sys_rel_vel, self.body_accel)
 
     def run(self):
         self.wclock.start()
