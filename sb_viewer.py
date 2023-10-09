@@ -59,15 +59,16 @@ class SBViewer(scene.SceneCanvas):
         self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sb_set = list(self.simbods.values())
         self.t_warp = 100000
-        self.sys_rel_pos = None
-        self.sys_rel_vel = None
-        self.cam_rel_pos = None
+        self.vec_type = type(np.zeros((3,), dtype=np.float64))
+        self.sys_rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=self.vec_type)
+        self.sys_rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=self.vec_type)
+        self.cam_rel_pos = np.zeros((self.bod_count, ), dtype=self.vec_type)
         self.cam_rel_vel = None
-        self.body_accel = None
+        self.body_accel = np.zeros((self.bod_count, ), dtype=self.vec_type)
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
                                        show=False,
-                                       bgcolor='black',
+                                       bgcolor=Color("black"),
                                        )
         self.unfreeze()
         self.view = self.central_widget.add_view()
@@ -187,21 +188,24 @@ class SBViewer(scene.SceneCanvas):
     def do_updates(self, new_epoch=None):
         for sb in self.sb_set:
             sb.update_state(epoch=new_epoch)
-        self.sys_rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
-        self.sys_rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
-        self.body_accel = np.zeros((self.bod_count,), dtype=type(np.zeros((3,), dtype=np.float64)))
+        # self.sys_rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
+        # self.sys_rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=type(np.zeros((3,), dtype=np.float64)))
+        # self.body_accel = np.zeros((self.bod_count,), dtype=type(np.zeros((3,), dtype=np.float64)))
         i = 0
         for sb1 in self.sb_set:
             j = 0
+            self.cam_rel_pos[i] = sb1.state[0] - self.view.camera.center
+            # self.cam_rel_vel[i] = sb1.state[1] - self.view.camera.
             for sb2 in self.sb_set:
                 self.sys_rel_pos[i][j] = sb2.state[0] - sb1.state[0]
                 self.sys_rel_vel[i][j] = sb2.state[1] - sb1.state[1]
                 if i != j:
+                    # TODO: all body positions must be in same reference system!! Moon orbit is rel to Earth!
                     self.body_accel[i] += (G * sb2.body.mass) / (self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
-
-        logging.info("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
+        logging.info("\nCAM_REL_POS :\n%s", self.cam_rel_pos)
+        logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                      self.sys_rel_pos, self.sys_rel_vel, self.body_accel)
 
     def run(self):
