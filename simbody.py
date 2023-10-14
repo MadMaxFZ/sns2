@@ -11,7 +11,7 @@ import numpy as np
 # from multiprocessing import get_logger
 # from astropy.coordinates import solar_system_ephemeris
 # from astropy.coordinates.solar_system import get_body_barycentric_posvel
-import subprocess
+# import subprocess
 from data_functs import *
 from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
