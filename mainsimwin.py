@@ -47,9 +47,8 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.add(self.skymap)
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
-                                   (-1e+09, 1e+09),
-                                   )                    # this initial range gets bulk of system
-        self.starsys = StarSystem()
+                                   (-1e+09, 1e+09), )       # this initial range gets bulk of system
+        self.star_sys = StarSystem()
 
     def init_sysviz(self):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
