@@ -26,6 +26,7 @@ class MainSimWindow(scene.SceneCanvas):
                                             bgcolor=Color("black"),
                                             )
         self.unfreeze()
+        self.star_sys = StarSystem()
         self.view = self.central_widget.add_view()
         self.view.camera = scene.cameras.FlyCamera(fov=30)
         self.view.camera.scale_factor = 0.01
@@ -48,7 +49,6 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09), )       # this initial range gets bulk of system
-        self.star_sys = StarSystem()
 
     def init_sysviz(self):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
