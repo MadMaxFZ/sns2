@@ -47,11 +47,9 @@ class StarSystem:
         self.cam = cam
         self.cam_rel_pos = np.zeros((self.body_count,), dtype=self.vec_type)
         self.cam_rel_vel = None
+        self.bod_states = None
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1))
-        self.b_states = None
-        self.b_symbs = ['star', 'o', 'o', 'o',
-                        '+',
-                        'o', 'o', 'o', 'o', 'o', 'o', ]     # could base this on body type
+        self.bod_symbs = None
         self.t_warp = 100000            # multiple to apply to real time in simulation
         self.set_wide_ephems()
         # self.wclock.start()
@@ -70,12 +68,11 @@ class StarSystem:
                                   format="jd",
                                   scale="tdb",
                                   )
-        for sb_name in self.body_names:
-            sb = self.simbods[sb_name]
+        for sb in self.sb_list:
             sb.set_ephem(t_range=full_t_range)
 
         self.end_epoch = full_t_range[-1]
-        print("END_EPOCH:", self.end_epoch)
+        logging.info("END_EPOCH:\n%s\n", self.end_epoch)
 
     def update_bodies(self, event=None):
         if self.INIT:
@@ -123,14 +120,16 @@ class StarSystem:
         for sb in self.sb_list:
             sb.update_state(epoch=new_epoch)
 
-        self.b_states = []
-        self.b_states.extend([sb.state[0] for sb in self.sb_list])
-        self.b_states[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
-        self.b_states = np.array(self.b_states)
-        self._bods_viz.set_data(pos=self.b_states,
+        self.bod_states = []
+        self.bod_states.extend([sb.state[0] for sb in self.sb_list])
+        self.bod_states[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
+        self.bod_states = np.array(self.bod_states)
+        self.bod_symbs = []
+        self.bod_symbs.extend([sb.body_symb for sb in self.sb_list])
+        self._bods_viz.set_data(pos=self.bod_states,
                                 face_color=self.DATASET["COLOR_SET"],
                                 edge_color=(0, 1, 0, .2),
-                                symbol=self.b_symbs,
+                                symbol=self.bod_symbs,
                                 )
 
         i = 0

@@ -62,6 +62,7 @@ class SimBody:
         self._type          = None
         self._state         = None
         self._base_color    = self._body_data['body_color']
+        self._body_symb     = None
         # self._vizuals      = {}
         # self._v_mult        = 2
         # self._xyz_mult      = 2
@@ -73,16 +74,20 @@ class SimBody:
 
         if self._body.parent is None:
             self._type = "star"
+            self._body_symb = 'star'
             self._sb_parent = None
         else:
             self._type = "planet"
+            self._body_symb = 'o'
             self._sb_parent = self._body.parent
 
         if self._name == "Moon":
             self._plane = Planes.EARTH_EQUATOR
+            self._body_symb = '+'
             self._type = "moon"
         else:
             self._plane = Planes.EARTH_ECLIPTIC
+            self._body_symb = 'diamond'
 
         if self._name == 'Sun' or self._type == 'star':
             R = self._body.R.value
@@ -214,6 +219,10 @@ class SimBody:
     @property
     def type(self):
         return self._type
+
+    @property
+    def body_symb(self):
+        return self._body_symb
 
     @property
     def epoch(self):

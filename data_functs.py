@@ -90,14 +90,14 @@ def setup_datastore():
     for bod in body_set:
         if bod is not None:
             BODY_NAMES.append(bod.name)
-    # BODY_NAMES = set(BODY_NAMES)
+    BODY_NAMES = tuple(BODY_NAMES)
 
     tex_dirlist = os.listdir(TEX_PATH)  # get listing of texture filenames
     for i in tex_dirlist:
         if "png" in i:
             TEX_FNAMES.append(i)  # add PNG filenames to list
     TEX_FNAMES.sort()  # sort the list
-    # TEX_FNAMES = set(TEX_FNAMES)
+    TEX_FNAMES = tuple(TEX_FNAMES)
 
     # reference frame fixed to planet surfaces
     frame_set = [SunFixed,
@@ -167,6 +167,12 @@ def setup_datastore():
                   "ship",
                   ]  # types of bodies in simulation
 
+    body_tmark = ['star',
+                  'o',
+                  '+',
+                  'diamond',
+                  ]
+
     type_set = (0,
                 1,
                 1,
@@ -229,6 +235,7 @@ def setup_datastore():
             body_obj=_body,
             parent_obj=_body.parent,
             body_type=body_types[type_set[idx]],
+            body_mark=body_tmark[type_set[idx]],
             fname_idx=tex_idx[idx],
             fixed_frame=frame_set[idx],
             rot_func=rot_set[idx],
@@ -291,10 +298,10 @@ def setup_datastore():
     return DATASTORE
 
 
-def get_skymap():
-    _SkyMap = setup_datastore()["SKYMAP"]
-    logging.info("SkyMap available for import: " + str(_SkyMap))
-    return _SkyMap
+# def get_skymap():
+#     _SkyMap = setup_datastore()["SKYMAP"]
+#     logging.info("SkyMap available for import: " + str(_SkyMap))
+#     return _SkyMap
 
 
 if __name__ == "__main__":
