@@ -34,9 +34,8 @@ class MainSimWindow(scene.SceneCanvas):
         self.skymap = self.star_sys.skymap
         self.simbods = None         # need to fix this
         self.b_names = None         # need to fix this
-        self.freeze()
-
         self.sys_viz = self.init_sysviz()
+        self.freeze()f
         self.skymap.parent = self.view.scene
         self.view.add(self.sys_viz)
         self.view.add(self.skymap)
@@ -47,10 +46,10 @@ class MainSimWindow(scene.SceneCanvas):
     def init_sysviz(self):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
         # frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
-        orb_vizz = Compound([Polygon(pos=self.simbods[name].o_track,
-                                     border_color=self.simbods[name].base_color,
+        orb_vizz = Compound([Polygon(pos=sb.o_track,
+                                     border_color=sb.base_color,
                                      triangulate=False)
-                             for name in self.b_names])
+                             for sb in self.star_sys.sb_list])
         viz = Compound([frame, self.star_sys.bods_viz, orb_vizz])
         viz.parent = self.view.scene
 
