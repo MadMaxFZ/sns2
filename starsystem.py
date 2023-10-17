@@ -1,15 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# import functiontrace
-# import numpy as np
-# import math
-# import subprocess
-# import vispy.visuals.transforms as tr
-# from vispy.util.transforms import *
-# from vispy.scene.visuals import Markers, Compound, Polygon
-# from vispy.color import Color
-# from viz_functs import get_tex_data, get_viz_data
-# from vispy import app, scene
 from vispy.app.timer import *
 from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
@@ -18,9 +8,7 @@ from data_functs import *
 from simbody import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-# from astropy.units import Quantity
-# from multiprocessing import Process
-# import threading
+from vispy.scene.visuals import Markers
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -29,19 +17,19 @@ logging.basicConfig(filename="logs/sb_viewer.log",
 
 
 class StarSystem:
-    def __init__(self):
+    def __init__(self, cam=None):
         self.INIT = False
-        self.dat_store = setup_datastore()
-        self.bod_count = self.dat_store["BODY_COUNT"]
-        self.b_names = self.dat_store["BODY_NAMES"]
-        self.body_data = self.dat_store["BODY_DATA"]
-        # self.skymap = self.dat_store["SKYMAP"]
-        self.sim_params = self.dat_store["SYS_PARAMS"]
+        self.DATASET = setup_datastore()
+        self.body_count = self.DATASET["BODY_COUNT"]
+        self.body_names = self.DATASET["BODY_NAMES"]    # cast this to a tuple?
+        self.body_data  = self.DATASET["BODY_DATA"]
+        self.skymap     = self.DATASET["SKYMAP"]
+        self.sim_params = self.DATASET["SYS_PARAMS"]
         self.w_last = 0
-        self.end_epoch = None
         self.d_epoch = None
         self.avg_d_epoch = None
-        self._sys_epoch = Time(self.dat_store["DEF_EPOCH"],
+        self.end_epoch = None
+        self._sys_epoch = Time(self.DATASET["DEF_EPOCH"],
                                format='jd',
                                scale='tdb',
                                )
@@ -50,17 +38,23 @@ class StarSystem:
                             iterations=-1,
                             )
         print("Target FPS:", 1 / self.wclock.interval)
-        self.simbods = self.init_simbodies(body_names=self.b_names)
-        self.sb_set = list(self.simbods.values())
-        self.t_warp = 100000
+        self.simbods = self.init_simbodies(body_names=self.body_names)
+        self.sb_list = list(self.simbods.values())
         self.vec_type = type(np.zeros((3,), dtype=np.float64))
-        self.sys_rel_pos = np.zeros((self.bod_count, self.bod_count), dtype=self.vec_type)
-        self.sys_rel_vel = np.zeros((self.bod_count, self.bod_count), dtype=self.vec_type)
-        self.cam_rel_pos = np.zeros((self.bod_count,), dtype=self.vec_type)
+        self.sys_rel_pos = np.zeros((self.body_count, self.body_count), dtype=self.vec_type)
+        self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=self.vec_type)
+        self.body_accel = np.zeros((self.body_count,), dtype=self.vec_type)
+        self.cam = cam
+        self.cam_rel_pos = np.zeros((self.body_count,), dtype=self.vec_type)
         self.cam_rel_vel = None
-        self.body_accel = np.zeros((self.bod_count,), dtype=self.vec_type)
+        self._bods_viz = Markers(edge_color=(0, 1, 0, 1))
+        self.b_states = None
+        self.b_symbs = ['star', 'o', 'o', 'o',
+                        '+',
+                        'o', 'o', 'o', 'o', 'o', 'o', ]     # could base this on body type
+        self.t_warp = 100000            # multiple to apply to real time in simulation
         self.set_wide_ephems()
-        self.wclock.start()
+        # self.wclock.start()
 
     def set_wide_ephems(self, epoch=None, span=None):
         year_span = self.simbods["Earth"].orbit.period
@@ -76,7 +70,7 @@ class StarSystem:
                                   format="jd",
                                   scale="tdb",
                                   )
-        for sb_name in self.b_names:
+        for sb_name in self.body_names:
             sb = self.simbods[sb_name]
             sb.set_ephem(t_range=full_t_range)
 
@@ -85,11 +79,11 @@ class StarSystem:
 
     def update_bodies(self, event=None):
         if self.INIT:
-            w_now = self.wclock.elapsed
+            w_now = self.wclock.elapsed     # not the first call
             dt = w_now - self.w_last
             self.w_last = w_now
         else:
-            w_now = 0
+            w_now = 0                       # the first call sets up self.w_last
             dt = 0
             self.w_last = w_now - dt
             self.INIT = True
@@ -102,18 +96,9 @@ class StarSystem:
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
         self.do_updates(new_epoch=new_epoch)
 
-        self.b_states = []
-        self.b_states.extend([sb.state[0] for sb in self.sb_set])
-        self.b_states[4] += self.simbods['Earth'].state[0, :]
-        self.b_states = np.array(self.b_states)
-        self.bods_viz.set_data(pos=self.b_states,
-                               face_color=self.dat_store["COLOR_SET"],
-                               edge_color=(0, 1, 0, .2),
-                               symbol=self.b_symbs,
-                               )
         if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
-            self.set_wide_ephems(epoch=new_epoch)
+            self.set_wide_ephems(epoch=new_epoch)               # reset ephem range
 
         self._sys_epoch = new_epoch
 
@@ -124,25 +109,36 @@ class StarSystem:
     def init_simbodies(self, body_names=None):
         solar_system_ephemeris.set("jpl")
         sb_dict = {}
-        for name in self.b_names:
+        for name in self.body_names:
             sb_dict.update({name: SimBody(body_name=name,
                                           epoch=self._sys_epoch,
                                           sim_param=self.sim_params,
                                           body_data=self.body_data[name],
+                                          # add marker symbol and marker size to body_data
                                           )})
         logging.info("\t>>> SimBody objects created....\n")
         return sb_dict
 
     def do_updates(self, new_epoch=None):
-        for sb in self.sb_set:
+        for sb in self.sb_list:
             sb.update_state(epoch=new_epoch)
 
+        self.b_states = []
+        self.b_states.extend([sb.state[0] for sb in self.sb_list])
+        self.b_states[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
+        self.b_states = np.array(self.b_states)
+        self._bods_viz.set_data(pos=self.b_states,
+                                face_color=self.DATASET["COLOR_SET"],
+                                edge_color=(0, 1, 0, .2),
+                                symbol=self.b_symbs,
+                                )
+
         i = 0
-        for sb1 in self.sb_set:
+        for sb1 in self.sb_list:
             j = 0
-            self.cam_rel_pos[i] = sb1.state[0] - self.view.camera.center
+            self.cam_rel_pos[i] = sb1.state[0] - self.cam.center
             # self.cam_rel_vel[i] = sb1.state[1] - self.view.camera.
-            for sb2 in self.sb_set:
+            for sb2 in self.sb_list:
                 self.sys_rel_pos[i][j] = sb2.state[0] - sb1.state[0]
                 self.sys_rel_vel[i][j] = sb2.state[1] - sb1.state[1]
                 if i != j:
@@ -158,6 +154,9 @@ class StarSystem:
     def run(self):
         self.wclock.start()
 
+    @property
+    def bods_viz(self):
+        return self._bods_viz
 
 def main():
     my_starsys = StarSystem()

@@ -26,18 +26,12 @@ class MainSimWindow(scene.SceneCanvas):
                                             bgcolor=Color("black"),
                                             )
         self.unfreeze()
-        self.star_sys = StarSystem()
         self.view = self.central_widget.add_view()
         self.view.camera = scene.cameras.FlyCamera(fov=30)
         self.view.camera.scale_factor = 0.01
         self.view.camera.zoom_factor = 0.001
-        self.b_states = None
-        self.b_symbs = ['star', 'o', 'o', 'o',
-                        '+',
-                        'o', 'o', 'o', 'o', 'o', 'o', ]     # could base this on body type
-        self.bods_viz = None
-        self.sys_viz = None
-        self.skymap = None          # need to fix this
+        self.star_sys = StarSystem(cam=self.view.camera)
+        self.skymap = self.star_sys.skymap
         self.simbods = None         # need to fix this
         self.b_names = None         # need to fix this
         self.freeze()
@@ -53,30 +47,18 @@ class MainSimWindow(scene.SceneCanvas):
     def init_sysviz(self):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
         # frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
-        self.bods_viz = Markers(edge_color=(0, 1, 0, 1))
         orb_vizz = Compound([Polygon(pos=self.simbods[name].o_track,
                                      border_color=self.simbods[name].base_color,
                                      triangulate=False)
                              for name in self.b_names])
-        viz = Compound([frame, self.bods_viz, orb_vizz])
+        viz = Compound([frame, self.star_sys.bods_viz, orb_vizz])
         viz.parent = self.view.scene
 
         return viz
 
-    def update_bodies(self, event=None):
-        self.b_states = []
-        self.b_states.extend([sb.state[0] for sb in self.sb_set])
-        self.b_states[4] += self.simbods['Earth'].state[0, :]
-        self.b_states = np.array(self.b_states)
-        self.bods_viz.set_data(pos=self.b_states,
-                               face_color=self.dat_store["COLOR_SET"],
-                               edge_color=(0, 1, 0, .2),
-                               symbol=self.b_symbs,
-                               )
-
     def run(self):
-        # self.wclock.start()
         self.show()
+        self.star_sys.run()
         app.run()
 
     def stop(self):
@@ -84,8 +66,8 @@ class MainSimWindow(scene.SceneCanvas):
 
 
 def main():
-    my_can = MainSimWindow()
-    my_can.run()
+    my_simwin = MainSimWindow()
+    my_simwin.run()
 
 
 if __name__ == "__main__":
