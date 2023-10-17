@@ -35,7 +35,7 @@ class MainSimWindow(scene.SceneCanvas):
         self.simbods = None         # need to fix this
         self.b_names = None         # need to fix this
         self.sys_viz = self.init_sysviz()
-        self.freeze()f
+        self.freeze()
         self.skymap.parent = self.view.scene
         self.view.add(self.sys_viz)
         self.view.add(self.skymap)
