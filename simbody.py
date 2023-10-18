@@ -87,7 +87,6 @@ class SimBody:
             self._type = "moon"
         else:
             self._plane = Planes.EARTH_ECLIPTIC
-            self._body_symb = 'diamond'
 
         if self._name == 'Sun' or self._type == 'star':
             R = self._body.R.value
@@ -202,7 +201,7 @@ class SimBody:
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._track is None) or (self.RESAMPLE is True):
-                self._track = self._orbit.sample(360).xyz.transpose().value         # FIX THIS !!!
+                self._track = self._orbit.sample(360).xyz.transpose().value
                 self.RESAMPLE = False
 
         else:

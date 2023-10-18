@@ -32,13 +32,11 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.camera.zoom_factor = 0.001
         self.star_sys = StarSystem(cam=self.view.camera)
         self.skymap = self.star_sys.skymap
-        self.simbods = None         # need to fix this
-        self.b_names = None         # need to fix this
         self.sys_viz = self.init_sysviz()
         self.freeze()
         self.skymap.parent = self.view.scene
-        self.view.add(self.sys_viz)
         self.view.add(self.skymap)
+        self.view.add(self.sys_viz)
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09), )       # this initial range gets bulk of system
