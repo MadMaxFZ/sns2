@@ -202,7 +202,7 @@ class SimBody:
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._track is None) or (self.RESAMPLE is True):
-                self._track = self._orbit.sample(360).xyz.transpose().value         # FIX THIS !!!
+                self._track = self._orbit.sample(360).xyz.transpose().value
                 self.RESAMPLE = False
 
         else:
