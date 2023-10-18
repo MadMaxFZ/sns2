@@ -34,20 +34,19 @@ class StarSystem:
                                scale='tdb',
                                )
         self.wclock = Timer(interval='auto',
-                            connect=self.update_bodies,  # change this
+                            connect=self.update_epoch,  # change this
                             iterations=-1,
                             )
         print("Target FPS:", 1 / self.wclock.interval)
         self.simbods = self.init_simbodies(body_names=self.body_names)
         self.sb_list = list(self.simbods.values())
-        self.vec_type = type(np.zeros((3,), dtype=np.float64))
-        self.sys_rel_pos = np.zeros((self.body_count, self.body_count), dtype=self.vec_type)
-        self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=self.vec_type)
-        self.body_accel = np.zeros((self.body_count,), dtype=self.vec_type)
+        self.sys_rel_pos = np.zeros((self.body_count, self.body_count), dtype=vec_type)
+        self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=vec_type)
+        self.body_accel = np.zeros((self.body_count,), dtype=vec_type)
         self.cam = cam
-        self.cam_rel_pos = np.zeros((self.body_count,), dtype=self.vec_type)
+        self.cam_rel_pos = np.zeros((self.body_count,), dtype=vec_type)
         self.cam_rel_vel = None
-        self.bod_states = None
+        self.bods_pos = None
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1))
         self.bod_symbs = None
         self.t_warp = 100000            # multiple to apply to real time in simulation
@@ -74,7 +73,7 @@ class StarSystem:
         self.end_epoch = full_t_range[-1]
         logging.info("END_EPOCH:\n%s\n", self.end_epoch)
 
-    def update_bodies(self, event=None):
+    def update_epoch(self, event=None):
         if self.INIT:
             w_now = self.wclock.elapsed     # not the first call
             dt = w_now - self.w_last
@@ -120,13 +119,13 @@ class StarSystem:
         for sb in self.sb_list:
             sb.update_state(epoch=new_epoch)
 
-        self.bod_states = []
-        self.bod_states.extend([sb.state[0] for sb in self.sb_list])
-        self.bod_states[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
-        self.bod_states = np.array(self.bod_states)
+        self.bods_pos = []
+        self.bods_pos.extend([sb.state[0] for sb in self.sb_list])
+        self.bods_pos[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
+        self.bods_pos = np.array(self.bods_pos)
         self.bod_symbs = []
         self.bod_symbs.extend([sb.body_symb for sb in self.sb_list])
-        self._bods_viz.set_data(pos=self.bod_states,
+        self._bods_viz.set_data(pos=self.bods_pos,
                                 face_color=self.DATASET["COLOR_SET"],
                                 edge_color=(0, 1, 0, .2),
                                 symbol=self.bod_symbs,

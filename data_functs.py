@@ -21,6 +21,7 @@ logging.basicConfig(
     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
 )
 
+vec_type = type(np.zeros((3,), dtype=np.float64))
 
 def earth_rot_elements_at_epoch(T=None, d=None):
     """
