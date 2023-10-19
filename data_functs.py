@@ -23,6 +23,7 @@ logging.basicConfig(
 
 vec_type = type(np.zeros((3,), dtype=np.float64))
 
+
 def earth_rot_elements_at_epoch(T=None, d=None):
     """
     :param T:
@@ -127,27 +128,27 @@ def setup_datastore():
                moon_rot_elements_at_epoch,
                ]
     # body color values in RGBA (0...255)
-    color_RGBA = [(253, 184, 19, 255),  # base color for each body
-                  (26, 26, 26, 255),
-                  (230, 230, 230, 255),
-                  (47, 106, 105, 255),
-                  (50, 50, 50, 255),
-                  (153, 61, 0, 255),
-                  (176, 127, 53, 255),
-                  (176, 143, 54, 255),
-                  (95, 128, 170, 255),
-                  (54, 104, 150, 255),
-                  (255, 255, 255, 255),
+    color_RGBA = [(253, 184, 19),  # base color for each body
+                  (26, 26, 26),
+                  (230, 230, 230),
+                  (47, 106, 105),
+                  (50, 50, 50),
+                  (153, 61, 0),
+                  (176, 127, 53),
+                  (176, 143, 54),
+                  (95, 128, 170),
+                  (54, 104, 150),
+                  (255, 255, 255),
                   ]
     colorset_rgba = []  # convert from RGBA to rgba (0...1)
     for c in color_RGBA:
         if c is not None:
-            color_norm = (c[0] / 255, c[1] / 255, c[2] / 255, c[3] / 255)
-            colorset_rgba.append(color_norm)
+            color_norm = [c[0] / 255, c[1] / 255, c[2] / 255, 1.]
+            colorset_rgba.append(np.array(color_norm))
         else:
             colorset_rgba.append(None)
 
-    # colorset_rgba = tuple(colorset_rgba)
+    colorset_rgba = np.array(colorset_rgba)
 
     tex_idx = [0,
                1,
