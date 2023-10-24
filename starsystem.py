@@ -118,7 +118,7 @@ class StarSystem:
     def do_updates(self, new_epoch=None):
         for sb in self.sb_list:
             sb.update_state(epoch=new_epoch)
-
+        # TODO: rework this ro not require recomputing lists unless necessary
         self.bods_pos = []
         self.bods_pos.extend([sb.state[0] for sb in self.sb_list])
         self.bods_pos[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
