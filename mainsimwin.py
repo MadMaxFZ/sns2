@@ -3,12 +3,10 @@
 # import functiontrace
 import numpy as np
 import math
-import vispy.visuals.transforms as tr
 from vispy.util.transforms import *
-from vispy.scene.visuals import Markers, Compound, Polygon
-from vispy.color import Color
 from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
+from vispy.color import Color
 from data_functs import *
 from starsystem import *
 
@@ -30,9 +28,9 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.camera = scene.cameras.FlyCamera(fov=30)
         self.view.camera.scale_factor = 0.01
         self.view.camera.zoom_factor = 0.001
-        self.star_sys = StarSystem(cam=self.view.camera)
+        self.star_sys = StarSystem(view=self.view)
         self.skymap = self.star_sys.skymap
-        self.sys_viz = self.init_sysviz()
+        self.sys_viz = self.star_sys.init_sysviz()
         self.freeze()
         self.skymap.parent = self.view.scene
         self.view.add(self.skymap)
@@ -41,17 +39,7 @@ class MainSimWindow(scene.SceneCanvas):
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09), )       # this initial range gets bulk of system
 
-    def init_sysviz(self):
-        frame = scene.visuals.XYZAxis(parent=self.view.scene)
-        # frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
-        orb_vizz = Compound([Polygon(pos=sb.o_track,
-                                     border_color=sb.base_color,
-                                     triangulate=False)
-                             for sb in self.star_sys.sb_list])
-        viz = Compound([frame, self.star_sys.bods_viz, orb_vizz])
-        viz.parent = self.view.scene
 
-        return viz
 
     def run(self):
         self.show()

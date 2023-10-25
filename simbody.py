@@ -1,27 +1,17 @@
 import logging
 import unittest.mock
 import numpy as np
-
-# from astropy.time import Time
-# from poliastro.util import time_range
-# from poliastro.constants import J2000_TDB
-# from poliastro.constants import J2000_TDB
-# from vispy.app.timer import *
-# from data_functs import setup_datastore
-# from multiprocessing import get_logger
-# from astropy.coordinates import solar_system_ephemeris
-# from astropy.coordinates.solar_system import get_body_barycentric_posvel
-# import subprocess
 from data_functs import *
 from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
 from poliastro.twobody.orbit.scalar import Orbit
+from vispy.color import Color, ColorArray
 
 
 # print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
 # print(subprocess.run(["rm", "logs/sim_body.log"]))
 # print(subprocess.run(["touch", "logs/sim_body.log", ]))
-logging.basicConfig(filename="logs/sim_body.log",
+logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -61,7 +51,9 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        self._base_color    = self._body_data['body_color']
+        self._base_color    = Color(self._body_data['body_color'])
+        self._colormap      = self.get_clrmap()
+        self._cm_offset     = 0
         self._body_symb     = None
         # self._vizuals      = {}
         # self._v_mult        = 2
@@ -107,6 +99,9 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
 
+    def dist2cam(self, cam=None):
+        d2c = (cam.canter - self.state[0]).mag
+
     def update_state(self, epoch=None):
         self.set_epoch(epoch)
         logging.debug("\n\t\t\tBODY:\t%s\n\t\t\tEPOCH:\t%s\n\t\t\tEPHEM:\t%s",
@@ -121,11 +116,13 @@ class SimBody:
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
             self._orbit = neworbit
+            self.update_alpha()
         else:
             self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
                                     self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
+
         # self.update_pos(self._state.[0])
         logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
                       self._name,
@@ -135,6 +132,25 @@ class SimBody:
                       # self._state[2],
                       )
 
+    def get_clrmap(self):
+        c_map = []
+        c_base = list(self.base_color.rgba)
+        print("c-base:", c_base, type(c_base))
+        for n in range(360):
+            c = c_base
+            c[3] = n / 360.
+            c_map.append(Color(c))
+
+        logging.debug("c_map: %s\n\t%s\t%s", c_map, type(c_map), type(c_map[0]))
+        return c_map
+
+    def update_alpha(self):
+        nu_deg = self.orbit.nu.value * 180 / np.pi
+        if (nu_deg - self._cm_offset) > 1:
+            self._cm_offset = math.floor(nu_deg)
+            for n in range(-self._cm_offset, 360 - self._cm_offset):
+                self._colormap[:][n] = n / 360
+
     def set_epoch(self, epoch=None):
         if epoch is None:
             epoch = self._epoch
@@ -142,9 +158,6 @@ class SimBody:
                            format='jd',
                            scale='tdb',
                            )
-
-    # def update_pos(self, pos=None):     # this doesn't get called
-    #     pass
 
     def set_time_range(self,
                        epoch=None,
@@ -250,6 +263,10 @@ class SimBody:
     @property
     def track(self):
         return self._track
+
+    @property
+    def colormap(self):
+        return self._colormap
 
     # @property
     # def viz_names(self):

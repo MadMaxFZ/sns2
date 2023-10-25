@@ -278,6 +278,7 @@ class Planet(visuals.Compound):
         logging.debug('>>>Generated %r faces and %r edges...', num_f, num_e)
 
         #   TODO:   EIGHT fucking lists!?! Is there a better way???
+        #       :   Yes! Put this mess inside a dictionary...
         return [self._verts,  # vertex coordinates
                 self._norms,  # vertex normals
                 self._txcds,  # texture coordinates

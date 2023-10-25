@@ -8,16 +8,18 @@ from data_functs import *
 from simbody import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-from vispy.scene.visuals import Markers
+from vispy.scene.visuals import Markers, Compound, Polygon, XYZAxis
+import vispy.visuals.transforms as tr
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 
+STAR_SIZE = 20
 
 class StarSystem:
-    def __init__(self, cam=None):
+    def __init__(self, view=None):
         self.INIT = False
         self.DATASET = setup_datastore()
         self.body_count = self.DATASET["BODY_COUNT"]
@@ -43,15 +45,36 @@ class StarSystem:
         self.sys_rel_pos = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.body_accel = np.zeros((self.body_count,), dtype=vec_type)
-        self.cam = cam
+        self._mainview = view
+        self.cam = self._mainview.camera
         self.cam_rel_pos = np.zeros((self.body_count,), dtype=vec_type)
         self.cam_rel_vel = None
+        self.frame_viz = None
         self.bods_pos = None
-        self._bods_viz = Markers(edge_color=(0, 1, 0, 1))
+        self._mark_sizes = self.get_mark_sizes()
+        self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
+                                 scaling=True,)   # TODO: Add size array and set scaling
         self.bod_symbs = None
+        self.orb_vizz = None
         self.t_warp = 100000            # multiple to apply to real time in simulation
         self.set_wide_ephems()
         # self.wclock.start()
+
+    def get_mark_sizes(self):
+        body_radii = [sb.body.R.value for sb in self.sb_list]
+        body_rmax = max(body_radii)
+        body_radii[0] = 25
+        norm2max = [(sb.body.R.value / body_rmax) for sb in self.sb_list]
+        body_rmin = min(norm2max)
+        norm2min = []
+        for n in norm2max:
+            if n != 1:
+                norm2min.append(round(n / body_rmin))
+            else:
+                norm2min.append(STAR_SIZE)
+
+        print("mark_sizes:", norm2min)
+        return body_radii
 
     def set_wide_ephems(self, epoch=None, span=None):
         year_span = self.simbods["Earth"].orbit.period
@@ -128,6 +151,7 @@ class StarSystem:
         self._bods_viz.set_data(pos=self.bods_pos,
                                 face_color=self.DATASET["COLOR_SET"],
                                 edge_color=(0, 1, 0, .2),
+                                size=self._mark_sizes,
                                 symbol=self.bod_symbs,
                                 )
 
@@ -145,9 +169,22 @@ class StarSystem:
                                 self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
-        logging.info("\nCAM_REL_POS :\n%s", self.cam_rel_pos)
+        logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self.cam_rel_pos])
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self.sys_rel_pos, self.sys_rel_vel, self.body_accel)
+
+    def init_sysviz(self):
+        self.frame_viz = XYZAxis(parent=self._mainview.scene)          # set parent in MainSimWindow ???
+        self.frame_viz.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
+        self.orb_vizz = Compound([Polygon(pos=sb.o_track,
+                                          border_color=sb.base_color,
+                                          triangulate=False)
+                                  for sb in self.sb_list])
+
+        viz = Compound([self.frame_viz, self.bods_viz, self.orb_vizz])
+        viz.parent = self._mainview.scene
+
+        return viz
 
     def run(self):
         self.wclock.start()
