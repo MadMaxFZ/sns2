@@ -37,7 +37,6 @@ class SimBody:
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
-
         # self._tex_data      = self._body_data['tex_data']
         # self._viz_names     = self._body_data['viz_names']
         self._dist_unit     = sim_param["dist_unit"]
@@ -51,7 +50,7 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        self._base_color    = Color(self._body_data['body_color'])
+        self._base_color    = np.array(self._body_data['body_color'])
         self._colormap      = self.get_clrmap()
         self._cm_offset     = 0
         self._body_symb     = None
@@ -99,8 +98,22 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
 
-    def dist2cam(self, cam=None):
-        d2c = (cam.canter - self.state[0]).mag
+        # if self._orbit is not None:
+        #     print("SHAPE o_track:", self.o_track.shape,
+        #           "\nSHAPE colormap:", self.colormap.shape)
+        #     assert len(self.o_track) == len(self.colormap)
+
+    def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
+        rel_pos = pos - self._state[0]
+        dist = np.linalg.norm(rel_pos)
+        if dist < 1e-09:
+            fov = 0.0
+        else:
+            fov = np.float64(2.0 * math.atan(self.body.R.value / dist))
+        return {"rel_pos": rel_pos,
+                "dist": dist,
+                "fov": fov,
+                }
 
     def update_state(self, epoch=None):
         self.set_epoch(epoch)
@@ -133,15 +146,11 @@ class SimBody:
                       )
 
     def get_clrmap(self):
-        c_map = []
-        c_base = list(self.base_color.rgba)
-        print("c-base:", c_base, type(c_base))
-        for n in range(360):
-            c = c_base
-            c[3] = n / 360.
-            c_map.append(Color(c))
-
-        logging.debug("c_map: %s\n\t%s\t%s", c_map, type(c_map), type(c_map[0]))
+        mt_map = np.zeros((360, 4), dtype=np.float64)
+        alphas = np.linspace(0, 1, num=360, endpoint=False)
+        mt_map[:, 3] = alphas
+        c_map = self.base_color + mt_map
+        logging.info("c_map: %s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
         return c_map
 
     def update_alpha(self):
@@ -149,7 +158,7 @@ class SimBody:
         if (nu_deg - self._cm_offset) > 1:
             self._cm_offset = math.floor(nu_deg)
             for n in range(-self._cm_offset, 360 - self._cm_offset):
-                self._colormap[:][n] = n / 360
+                self._colormap[..., n] = n / 360
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -266,7 +275,7 @@ class SimBody:
 
     @property
     def colormap(self):
-        return self._colormap
+        return ColorArray(self._colormap)
 
     # @property
     # def viz_names(self):

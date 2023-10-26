@@ -26,7 +26,7 @@ class MainSimWindow(scene.SceneCanvas):
         self.unfreeze()
         self.view = self.central_widget.add_view()
         self.view.camera = scene.cameras.FlyCamera(fov=30)
-        self.view.camera.scale_factor = 0.01
+        self.view.camera.scale_factor = 0.0001
         self.view.camera.zoom_factor = 0.001
         self.star_sys = StarSystem(view=self.view)
         self.skymap = self.star_sys.skymap
@@ -38,8 +38,6 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09), )       # this initial range gets bulk of system
-
-
 
     def run(self):
         self.show()

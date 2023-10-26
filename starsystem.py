@@ -10,13 +10,15 @@ from astropy import units as u
 from astropy.constants.codata2014 import G
 from vispy.scene.visuals import Markers, Compound, Polygon, XYZAxis
 import vispy.visuals.transforms as tr
+import math
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
-
 STAR_SIZE = 20
+MIN_MARK_SIZE = 5
+
 
 class StarSystem:
     def __init__(self, view=None):
@@ -46,14 +48,16 @@ class StarSystem:
         self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.body_accel = np.zeros((self.body_count,), dtype=vec_type)
         self._mainview = view
+        self._win_size = int(view.size[0])
         self.cam = self._mainview.camera
         self.cam_rel_pos = np.zeros((self.body_count,), dtype=vec_type)
         self.cam_rel_vel = None
         self.frame_viz = None
         self.bods_pos = None
-        self._mark_sizes = self.get_mark_sizes()
+        self._mark_sizes = np.array([23, 6, 6, 6, 6, 6, 7, 7, 6, 6, 6])
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
-                                 scaling=True,)   # TODO: Add size array and set scaling
+                                 size=self._mark_sizes,
+                                 scaling=False,)   # TODO: Add size array and set scaling
         self.bod_symbs = None
         self.orb_vizz = None
         self.t_warp = 100000            # multiple to apply to real time in simulation
@@ -61,20 +65,16 @@ class StarSystem:
         # self.wclock.start()
 
     def get_mark_sizes(self):
-        body_radii = [sb.body.R.value for sb in self.sb_list]
-        body_rmax = max(body_radii)
-        body_radii[0] = 25
-        norm2max = [(sb.body.R.value / body_rmax) for sb in self.sb_list]
-        body_rmin = min(norm2max)
-        norm2min = []
-        for n in norm2max:
-            if n != 1:
-                norm2min.append(round(n / body_rmin))
+        body_fovs = [sb.dist2pos(pos=self.cam.center)['fov'] for sb in self.sb_list]
+        raw_diams = [math.ceil(self._win_size * b_fov / self.cam.fov) for b_fov in body_fovs]
+        pix_diams = []
+        for rd in raw_diams:
+            if rd > MIN_MARK_SIZE:
+                pix_diams.append(rd)
             else:
-                norm2min.append(STAR_SIZE)
+                pix_diams.append(rd + MIN_MARK_SIZE)
 
-        print("mark_sizes:", norm2min)
-        return body_radii
+        return np.array(pix_diams)
 
     def set_wide_ephems(self, epoch=None, span=None):
         year_span = self.simbods["Earth"].orbit.period
@@ -141,43 +141,46 @@ class StarSystem:
     def do_updates(self, new_epoch=None):
         for sb in self.sb_list:
             sb.update_state(epoch=new_epoch)
-        # TODO: rework this ro not require recomputing lists unless necessary
+        # TODO: rework this to not require recomputing lists unless necessary
         self.bods_pos = []
         self.bods_pos.extend([sb.state[0] for sb in self.sb_list])
         self.bods_pos[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
         self.bods_pos = np.array(self.bods_pos)
         self.bod_symbs = []
         self.bod_symbs.extend([sb.body_symb for sb in self.sb_list])
-        self._bods_viz.set_data(pos=self.bods_pos,
-                                face_color=self.DATASET["COLOR_SET"],
-                                edge_color=(0, 1, 0, .2),
-                                size=self._mark_sizes,
-                                symbol=self.bod_symbs,
-                                )
 
         i = 0
         for sb1 in self.sb_list:
             j = 0
-            self.cam_rel_pos[i] = sb1.state[0] - self.cam.center
-            # self.cam_rel_vel[i] = sb1.state[1] - self.view.camera.
+            self.cam_rel_pos[i] = sb1.dist2pos(pos=self._mainview.camera.center)['rel_pos']
+            # self.cam_rel_vel[i] = sb1.state[1] - self._mainview.camera.
             for sb2 in self.sb_list:
-                self.sys_rel_pos[i][j] = sb2.state[0] - sb1.state[0]
+                self.sys_rel_pos[i][j] = sb2.dist2pos(pos=sb1.state[0])['rel_pos']
                 self.sys_rel_vel[i][j] = sb2.state[1] - sb1.state[1]
                 if i != j:
-                    # TODO: all body positions must be in same reference system!! Moon orbit is rel to Earth!
                     self.body_accel[i] += (G * sb2.body.mass) / (
-                                self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
+                            self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
-        logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self.cam_rel_pos])
+
+        self._mark_sizes = self.get_mark_sizes()
+        self._bods_viz.set_data(pos=self.bods_pos,
+                                face_color=self.DATASET["COLOR_SET"],
+                                edge_color=[0, 1, 0, .2],
+                                size=self._mark_sizes,
+                                symbol=self.bod_symbs,
+                                )
+        logging.info("\nMARK SIZES:\t%s", self._mark_sizes)
+        logging.debug("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self.cam_rel_pos])
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self.sys_rel_pos, self.sys_rel_vel, self.body_accel)
 
-    def init_sysviz(self):
+    def init_sysviz(self, poly_alpha=0.4):
         self.frame_viz = XYZAxis(parent=self._mainview.scene)          # set parent in MainSimWindow ???
         self.frame_viz.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
         self.orb_vizz = Compound([Polygon(pos=sb.o_track,
-                                          border_color=sb.base_color,
+                                          border_color=sb.colormap,
+                                          connect="strip",
                                           triangulate=False)
                                   for sb in self.sb_list])
 
