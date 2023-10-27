@@ -5,7 +5,7 @@ from data_functs import *
 from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
 from poliastro.twobody.orbit.scalar import Orbit
-from vispy.color import Color, ColorArray
+from vispy.color import Color, ColorArray, Colormap
 
 
 # print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
@@ -50,10 +50,13 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = None
-        self._base_color    = np.array(self._body_data['body_color'])
-        self._colormap      = self.get_clrmap()
-        self._cm_offset     = 0
-        self._body_symb     = None
+        alphas = np.linspace(0, 1, num=360, endpoint=False)
+        self.mt_map = np.zeros((360, 4), dtype=np.float64)
+        self.mt_map[:, 3] = alphas
+        self._base_color = np.array(self._body_data['body_color'])
+        self._colormap = self.get_clrmap()
+        self._cm_offset = 0
+        self._body_symb = None
         # self._vizuals      = {}
         # self._v_mult        = 2
         # self._xyz_mult      = 2
@@ -146,19 +149,19 @@ class SimBody:
                       )
 
     def get_clrmap(self):
-        mt_map = np.zeros((360, 4), dtype=np.float64)
-        alphas = np.linspace(0, 1, num=360, endpoint=False)
-        mt_map[:, 3] = alphas
-        c_map = self.base_color + mt_map
+        c_map = self.base_color + self.mt_map
         logging.info("c_map: %s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
-        return c_map
+
+        return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
 
     def update_alpha(self):
-        nu_deg = self.orbit.nu.value * 180 / np.pi
-        if (nu_deg - self._cm_offset) > 1:
-            self._cm_offset = math.floor(nu_deg)
-            for n in range(-self._cm_offset, 360 - self._cm_offset):
-                self._colormap[..., n] = n / 360
+        if self._orbit is not None:
+            nu_deg = self._orbit.nu.value * 180 / np.pi
+            if (nu_deg - self._cm_offset) > 1:
+                self._cm_offset = math.floor(nu_deg)
+                for n in range(-self._cm_offset, 360 - self._cm_offset):
+                    self.mt_map[:, 3] = n / 360
+            self.colormap = self.mt_map
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -276,6 +279,10 @@ class SimBody:
     @property
     def colormap(self):
         return ColorArray(self._colormap)
+
+    @colormap.setter
+    def colormap(self, new_cmap=None):
+        self._colormap = new_cmap
 
     # @property
     # def viz_names(self):

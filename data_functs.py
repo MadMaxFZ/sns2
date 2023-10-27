@@ -143,7 +143,7 @@ def setup_datastore():
     colorset_rgba = []  # convert from RGBA to rgba (0...1)
     for c in color_RGBA:
         if c is not None:
-            color_norm = [c[0] / 255, c[1] / 255, c[2] / 255, 0.]
+            color_norm = [c[0] / 255, c[1] / 255, c[2] / 255, 0]
             colorset_rgba.append(np.array(color_norm))
         else:
             colorset_rgba.append(None)

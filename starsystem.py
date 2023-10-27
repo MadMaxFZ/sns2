@@ -65,14 +65,17 @@ class StarSystem:
         # self.wclock.start()
 
     def get_mark_sizes(self):
-        body_fovs = [sb.dist2pos(pos=self.cam.center)['fov'] for sb in self.sb_list]
+        body_fovs = []
+        for sb in self.sb_list:
+            body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
+            sb.update_alpha()
         raw_diams = [math.ceil(self._win_size * b_fov / self.cam.fov) for b_fov in body_fovs]
         pix_diams = []
         for rd in raw_diams:
-            if rd > MIN_MARK_SIZE:
-                pix_diams.append(rd)
+            if rd < MIN_MARK_SIZE:
+                pix_diams.append(MIN_MARK_SIZE)
             else:
-                pix_diams.append(rd + MIN_MARK_SIZE)
+                pix_diams.append(rd)
 
         return np.array(pix_diams)
 
@@ -153,6 +156,7 @@ class StarSystem:
         for sb1 in self.sb_list:
             j = 0
             self.cam_rel_pos[i] = sb1.dist2pos(pos=self._mainview.camera.center)['rel_pos']
+            sb1
             # self.cam_rel_vel[i] = sb1.state[1] - self._mainview.camera.
             for sb2 in self.sb_list:
                 self.sys_rel_pos[i][j] = sb2.dist2pos(pos=sb1.state[0])['rel_pos']
@@ -179,9 +183,9 @@ class StarSystem:
         self.frame_viz = XYZAxis(parent=self._mainview.scene)          # set parent in MainSimWindow ???
         self.frame_viz.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
         self.orb_vizz = Compound([Polygon(pos=sb.o_track,
-                                          border_color=sb.colormap,
-                                          connect="strip",
-                                          triangulate=False)
+                                          border_color=sb.mt_map[-1],
+                                          # connect="strip",
+                                          triangulate=False, )
                                   for sb in self.sb_list])
 
         viz = Compound([self.frame_viz, self.bods_viz, self.orb_vizz])
