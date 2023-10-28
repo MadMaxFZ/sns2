@@ -286,12 +286,12 @@ def setup_datastore():
         SYS_PARAMS=SYS_PARAMS,
         TEX_FNAMES=TEX_FNAMES,
         TEX_PATH=TEX_PATH,
+        SKYMAP=skymap,
         BODY_NAMES=BODY_NAMES,
         BODY_COUNT=BODY_COUNT,
         TYPE_COUNT=TYPE_COUNT,
         BODY_DATA=BODY_DATA,
         TEX_DAT_SET=tex_data_set,
-        SKYMAP=skymap,
         COLOR_SET=colorset_rgba,
     )
 

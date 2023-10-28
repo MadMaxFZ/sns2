@@ -183,7 +183,7 @@ class StarSystem:
         self.frame_viz = XYZAxis(parent=self._mainview.scene)          # set parent in MainSimWindow ???
         self.frame_viz.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
         self.orb_vizz = Compound([Polygon(pos=sb.o_track,
-                                          border_color=sb.mt_map[-1],
+                                          border_color=sb.base_color,
                                           # connect="strip",
                                           triangulate=False, )
                                   for sb in self.sb_list])
