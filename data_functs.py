@@ -92,7 +92,8 @@ def setup_datastore():
     for bod in body_set:
         if bod is not None:
             BODY_NAMES.append(bod.name)
-    BODY_NAMES = tuple(BODY_NAMES)
+            
+    BODY_NAMES = tuple(BODY_NAMES)      # the tuple locks in the order of elements
 
     tex_dirlist = os.listdir(TEX_PATH)  # get listing of texture filenames
     for i in tex_dirlist:
@@ -128,17 +129,17 @@ def setup_datastore():
                moon_rot_elements_at_epoch,
                ]
     # body color values in RGBA (0...255)
-    color_RGBA = [(253, 184, 19),  # base color for each body
-                  (26, 26, 26),
-                  (230, 230, 230),
-                  (47, 106, 105),
-                  (50, 50, 50),
-                  (153, 61, 0),
-                  (176, 127, 53),
-                  (176, 143, 54),
-                  (95, 128, 170),
-                  (54, 104, 150),
-                  (255, 255, 255),
+    color_RGBA = [[253, 184, 19],  # base color for each body
+                  [26, 26, 26],
+                  [230, 230, 230],
+                  [47, 106, 105],
+                  [50, 50, 50],
+                  [153, 61, 0],
+                  [176, 127, 53],
+                  [176, 143, 54],
+                  [95, 128, 170],
+                  [54, 104, 150],
+                  [255, 255, 255],
                   ]
     colorset_rgba = []  # convert from RGBA to rgba (0...1)
     for c in color_RGBA:
@@ -217,7 +218,7 @@ def setup_datastore():
     sky_fname = TEX_PATH + TEX_FNAMES[24]
     print(sky_fname)
     skymap = SkyMap(edge_color=(0, 0, 1, .3),
-                    color=(0, 0, 0, .4),
+                    color=(0, 0, 0, .2),
                     texture=get_tex_data(fname=sky_fname),
                     )
     for idx in range(len(BODY_NAMES)):  # idx = [0..,len(BODY_NAMES)-1]

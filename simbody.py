@@ -52,14 +52,11 @@ class SimBody:
         self._state         = None
         alphas = np.linspace(0, 1, num=360, endpoint=False)
         self.mt_map = np.zeros((360, 4), dtype=np.float64)
-        self.mt_map[:, 3] = alphas
+        self.mt_map[:, 3] = np.ones((360,), dtype=np.float64)
         self._base_color = np.array(self._body_data['body_color'])
         self._colormap = self.get_clrmap()
         self._cm_offset = 0
         self._body_symb = None
-        # self._vizuals      = {}
-        # self._v_mult        = 2
-        # self._xyz_mult      = 2
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -152,7 +149,8 @@ class SimBody:
         c_map = self.base_color + self.mt_map
         logging.info("c_map: %s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
 
-        return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
+        # return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
+        return c_map
 
     def update_alpha(self):
         if self._orbit is not None:

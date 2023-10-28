@@ -60,7 +60,7 @@ class StarSystem:
                                  scaling=False,)   # TODO: Add size array and set scaling
         self.bod_symbs = None
         self.orb_vizz = None
-        self.t_warp = 100000            # multiple to apply to real time in simulation
+        self.t_warp = 1000            # multiple to apply to real time in simulation
         self.set_wide_ephems()
         # self.wclock.start()
 
@@ -183,7 +183,7 @@ class StarSystem:
         self.frame_viz = XYZAxis(parent=self._mainview.scene)          # set parent in MainSimWindow ???
         self.frame_viz.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
         self.orb_vizz = Compound([Polygon(pos=sb.o_track,
-                                          border_color=sb.base_color,
+                                          border_color=sb.base_color + np.array([0, 0, 0, .4]),
                                           # connect="strip",
                                           triangulate=False, )
                                   for sb in self.sb_list])
