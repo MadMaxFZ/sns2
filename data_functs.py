@@ -172,7 +172,7 @@ def setup_datastore():
 
     body_tmark = ['star',
                   'o',
-                  '+',
+                  'diamond',
                   'diamond',
                   ]
 
@@ -218,7 +218,7 @@ def setup_datastore():
     sky_fname = TEX_PATH + TEX_FNAMES[24]
     print(sky_fname)
     skymap = SkyMap(edge_color=(0, 0, 1, .3),
-                    color=(0, 0, 0, .2),
+                    color=(1, 1, 1, 1),
                     texture=get_tex_data(fname=sky_fname),
                     )
     for idx in range(len(BODY_NAMES)):  # idx = [0..,len(BODY_NAMES)-1]

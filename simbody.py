@@ -6,6 +6,7 @@ from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
 from poliastro.twobody.orbit.scalar import Orbit
 from vispy.color import Color, ColorArray, Colormap
+from vispy.scene.visuals import Polygon
 
 
 # print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
@@ -49,14 +50,15 @@ class SimBody:
         self._orbit         = None
         self._track         = None
         self._type          = None
-        self._state         = None
+        self._state         = np.zeros((3,), dtype=np.float64)
         alphas = np.linspace(0, 1, num=360, endpoint=False)
-        self.mt_map = np.zeros((360, 4), dtype=np.float64)
-        self.mt_map[:, 3] = np.ones((360,), dtype=np.float64)
+        self.alpha_map = np.zeros((360, 4), dtype=np.float64)
+        self.alpha_map[:, 3] = np.ones((360,), dtype=np.float64)
         self._base_color = np.array(self._body_data['body_color'])
         self._colormap = self.get_clrmap()
         self._cm_offset = 0
         self._body_symb = None
+        self._trk_poly = None
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -98,10 +100,9 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
 
-        # if self._orbit is not None:
-        #     print("SHAPE o_track:", self.o_track.shape,
-        #           "\nSHAPE colormap:", self.colormap.shape)
-        #     assert len(self.o_track) == len(self.colormap)
+    def assign_trk(self, trk=None):
+        assert type(trk) is Polygon
+        self._trk_poly = trk
 
     def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
         rel_pos = pos - self._state[0]
@@ -146,8 +147,8 @@ class SimBody:
                       )
 
     def get_clrmap(self):
-        c_map = self.base_color + self.mt_map
-        logging.info("c_map: %s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
+        c_map = self.base_color + self.alpha_map
+        logging.info("c_map:\n%s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
 
         # return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
         return c_map
@@ -158,8 +159,8 @@ class SimBody:
             if (nu_deg - self._cm_offset) > 1:
                 self._cm_offset = math.floor(nu_deg)
                 for n in range(-self._cm_offset, 360 - self._cm_offset):
-                    self.mt_map[:, 3] = n / 360
-            self.colormap = self.mt_map
+                    self.alpha_map[:, 3] = n / 360
+            self.colormap = self.alpha_map
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -239,12 +240,20 @@ class SimBody:
         return self._body
 
     @property
+    def sb_parent(self):
+        return self._sb_parent
+
+    @property
     def type(self):
         return self._type
 
     @property
     def body_symb(self):
         return self._body_symb
+
+    @property
+    def trk_poly(self):
+        return self._trk_poly
 
     @property
     def epoch(self):

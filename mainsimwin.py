@@ -26,8 +26,8 @@ class MainSimWindow(scene.SceneCanvas):
         self.unfreeze()
         self.view = self.central_widget.add_view()
         self.view.camera = scene.cameras.FlyCamera(fov=30)
-        self.view.camera.scale_factor = 0.0001
-        self.view.camera.zoom_factor = 0.001
+        self.view.camera.scale_factor = 0.000001
+        self.view.camera.zoom_factor = 0.00001
         self.star_sys = StarSystem(view=self.view)
         self.skymap = self.star_sys.skymap
         self.sys_viz = self.star_sys.init_sysviz()
