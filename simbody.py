@@ -76,12 +76,12 @@ class SimBody:
 
         if self._name == "Moon":
             self._plane = Planes.EARTH_EQUATOR
-            self._body_symb = '+'
+            self._body_symb = 'diamond'
             self._type = "moon"
         else:
             self._plane = Planes.EARTH_ECLIPTIC
 
-        if self._name == 'Sun' or self._type == 'star':
+        if self._name == 'Sun' or self._type == 'o':
             R = self._body.R.value
             Rm = Rp = R
         else:
@@ -148,7 +148,7 @@ class SimBody:
 
     def get_clrmap(self):
         c_map = self.base_color + self.alpha_map
-        logging.info("c_map:\n%s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
+        logging.debug("c_map:\n%s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
 
         # return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
         return c_map

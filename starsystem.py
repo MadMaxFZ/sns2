@@ -54,18 +54,18 @@ class StarSystem:
         self.cam_rel_vel = None
         self.frame_viz = None
         self.bods_pos = None
-        self._mark_sizes = np.array([23, 6, 6, 6, 6, 6, 7, 7, 6, 6, 6])
+        self._symb_sizes = np.array([23, 6, 6, 6, 6, 6, 7, 7, 6, 6, 6])
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
-                                 size=self._mark_sizes,
-                                 scaling=False,)
+                                 size=self._symb_sizes,
+                                 scaling=False, )
         self.bod_symbs = None
         self.trk_polys = []
+        self.poly_alpha = 0.5
         self.orb_vizz = None
         self.t_warp = 1000            # multiple to apply to real time in simulation
         self.set_wide_ephems()
-        # self.wclock.start()
 
-    def get_mark_sizes(self):
+    def get_symb_sizes(self):
         body_fovs = []
         for sb in self.sb_list:
             body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
@@ -149,8 +149,9 @@ class StarSystem:
         # collect positions of the bodies into an array
         self.bods_pos = []
         self.bods_pos.extend([sb.state[0] for sb in self.sb_list])
-        self.bods_pos[4] += self.simbods['Earth'].state[0, :]       # add Earth pos to Moon pos
+        self.bods_pos[4] += self.bods_pos[3]                        # add Earth pos to Moon pos
         self.bods_pos = np.array(self.bods_pos)
+        self.trk_polys[4].transform.translate = self.bods_pos[3]     # move moon orbit to Earth pos`
 
         # set the Markers symbols for the bodies
         self.bod_symbs = []
@@ -172,35 +173,36 @@ class StarSystem:
                 j += 1
             i += 1
 
-        self._mark_sizes = self.get_mark_sizes()        # update symbol sizes based upon FOV of body
+        self._symb_sizes = self.get_symb_sizes()        # update symbol sizes based upon FOV of body
         self._bods_viz.set_data(pos=self.bods_pos,
-                                face_color=np.array([sb.base_color + np.array([0, 0, 0, poly_alpha])
+                                face_color=np.array([sb.base_color + np.array([0, 0, 0, self.poly_alpha])
                                                      for sb in self.sb_list]),
                                 edge_color=[1, 0, 0, .6],
-                                size=self._mark_sizes,
+                                size=self._symb_sizes,
                                 symbol=self.bod_symbs,
                                 )
-        logging.debug("\nMARK SIZES:\t%s", self._mark_sizes)
-        logging.debug("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self.cam_rel_pos])
+        logging.info("\nSYMBOL SIZES :\t%s", self._symb_sizes)
+        logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self.cam_rel_pos])
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self.sys_rel_pos, self.sys_rel_vel, self.body_accel)
 
-    def init_sysviz(self, poly_alpha=0.5):
+    def init_sysviz(self):
         self.frame_viz = XYZAxis(parent=self._mainview.scene)       # set parent in MainSimWindow ???
         self.frame_viz.transform = tr.STTransform()
-        self.frame_viz.transform.scale = [1e+07, 1e+07, 1e+05]
+        self.frame_viz.transform.scale = [1e+05, 1e+05, 1e+05]
         for sb in self.sb_list:
             if sb.sb_parent is not None:
                 new_poly = Polygon(pos=sb.o_track,
-                                   border_color=sb.base_color + np.array([0, 0, 0, poly_alpha]),
+                                   border_color=sb.base_color + np.array([0, 0, 0, self.poly_alpha]),
                                    triangulate=False,
                                    )
+                # this segment should be in the update loop
                 new_poly.transform = tr.STTransform()
                 if not sb.sb_parent.name == self.sb_list[0].name:
                     new_poly.transform.translate = self.simbods[sb.sb_parent.name].state[0]
 
-                sb.assign_trk(trk=new_poly)         # TODO: add SimBody.assign_trk method
-                self.trk_polys.append(sb.trk_poly)  # TODO: add SimBody.trk_poly property
+                sb.assign_trk(trk=new_poly)
+                self.trk_polys.append(sb.trk_poly)
 
         self.orb_vizz = Compound(self.trk_polys)
         viz = Compound([self.frame_viz, self.bods_viz, self.orb_vizz])

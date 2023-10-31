@@ -323,6 +323,7 @@ class SkyMap(visuals.Compound):
             Number of rows that make up the sphere mesh
         radius : float
         """
+        # TODO: Enhance the set of methods to implement additional controls of this object.
 
         logging.debug('\n<--------------------------------->')
         logging.info('\tInitializing SkyMap object...')
