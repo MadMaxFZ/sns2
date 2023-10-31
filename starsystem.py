@@ -16,8 +16,8 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
-STAR_SIZE = 20
-MIN_MARK_SIZE = 5
+MIN_SYMB_SIZE = 5
+MAX_SYMB_SIZE = 20
 
 
 class StarSystem:
@@ -37,18 +37,18 @@ class StarSystem:
                                format='jd',
                                scale='tdb',
                                )
-        self.wclock = Timer(interval='auto',
-                            connect=self.update_epoch,  # change this
-                            iterations=-1,
-                            )
-        print("Target FPS:", 1 / self.wclock.interval)
+        self.w_clock = Timer(interval='auto',
+                             connect=self.update_epoch,  # change this
+                             iterations=-1,
+                             )
+        print("Target FPS:", 1 / self.w_clock.interval)
         self.simbods = self.init_simbodies(body_names=self.body_names)
         self.sb_list = [self.simbods[name] for name in self.body_names]
         self.sys_rel_pos = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.body_accel = np.zeros((self.body_count,), dtype=vec_type)
         self._mainview = view
-        self._win_size = int(view.size[0])
+        # self._win_size = int(view.size[0])
         self.cam = self._mainview.camera
         self.cam_rel_pos = np.zeros((self.body_count,), dtype=vec_type)
         self.cam_rel_vel = None
@@ -58,7 +58,7 @@ class StarSystem:
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
                                  size=self._symb_sizes,
                                  scaling=False, )
-        self.bod_symbs = None
+        self.bod_symbs = [sb.body_symb for sb in self.sb_list]
         self.trk_polys = []
         self.poly_alpha = 0.5
         self.orb_vizz = None
@@ -70,11 +70,12 @@ class StarSystem:
         for sb in self.sb_list:
             body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
             sb.update_alpha()
-        raw_diams = [math.ceil(self._win_size * b_fov / self.cam.fov) for b_fov in body_fovs]
+
+        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self.cam.fov) for b_fov in body_fovs]
         pix_diams = []
         for rd in raw_diams:
-            if rd < MIN_MARK_SIZE:
-                pix_diams.append(MIN_MARK_SIZE)
+            if rd < MIN_SYMB_SIZE:
+                pix_diams.append(MIN_SYMB_SIZE)
             else:
                 pix_diams.append(rd)
 
@@ -102,7 +103,7 @@ class StarSystem:
 
     def update_epoch(self, event=None):
         if self.INIT:
-            w_now = self.wclock.elapsed     # not the first call
+            w_now = self.w_clock.elapsed     # not the first call
             dt = w_now - self.w_last
             self.w_last = w_now
         else:
@@ -151,22 +152,20 @@ class StarSystem:
         self.bods_pos.extend([sb.state[0] for sb in self.sb_list])
         self.bods_pos[4] += self.bods_pos[3]                        # add Earth pos to Moon pos
         self.bods_pos = np.array(self.bods_pos)
-        self.trk_polys[4].transform.translate = self.bods_pos[3]     # move moon orbit to Earth pos`
-
-        # set the Markers symbols for the bodies
-        self.bod_symbs = []
-        self.bod_symbs.extend([sb.body_symb for sb in self.sb_list])
+        self.trk_polys[3].transform.translate = self.bods_pos[3]     # move moon orbit to Earth pos`
 
         i = 0
         for sb1 in self.sb_list:
             j = 0
             # collect the position relative to the camera location
             self.cam_rel_pos[i] = sb1.dist2pos(pos=self._mainview.camera.center)['rel_pos']
+
             # collect the relative position and velocity to the other bodies
             for sb2 in self.sb_list:
                 self.sys_rel_pos[i][j] = sb2.dist2pos(pos=sb1.state[0])['rel_pos']
                 self.sys_rel_vel[i][j] = sb2.state[1] - sb1.state[1]
                 if i != j:
+
                     # accumulate the acceleration from the other bodies
                     self.body_accel[i] += (G * sb2.body.mass) / (
                             self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
@@ -210,7 +209,7 @@ class StarSystem:
         return viz
 
     def run(self):
-        self.wclock.start()
+        self.w_clock.start()
 
     @property
     def bods_viz(self):

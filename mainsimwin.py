@@ -19,7 +19,7 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 class MainSimWindow(scene.SceneCanvas):
     def __init__(self):
         super(MainSimWindow, self).__init__(keys="interactive",
-                                            size=(1024, 768),
+                                            size=(1024, 512),
                                             show=False,
                                             bgcolor=Color("black"),
                                             )
