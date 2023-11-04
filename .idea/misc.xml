@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="spacenav311" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="spacenav311" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="spacenav" project-jdk-type="Python SDK" />
 </project>

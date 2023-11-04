@@ -215,7 +215,7 @@ def setup_datastore():
         Neptune=xtr_viz,
         Pluto=xtr_viz,
     )
-    sky_fname = TEX_PATH + TEX_FNAMES[24]
+    sky_fname = TEX_PATH + TEX_FNAMES[48]
     print(sky_fname)
     skymap = SkyMap(edge_color=(0, 0, 1, .3),
                     color=(1, 1, 1, 1),

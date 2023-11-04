@@ -39,6 +39,12 @@ class MainSimWindow(scene.SceneCanvas):
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09), )       # this initial range gets bulk of system
 
+    def on_key_press(self, ev):
+        if ev.key.name == "+":
+            self.view.camera.scale_factor *= 1.1
+        elif ev.key.name == "-":
+            self.view.camera.scale_factor /= 1.1
+
     def run(self):
         self.show()
         self.star_sys.run()

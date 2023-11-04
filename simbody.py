@@ -67,7 +67,7 @@ class SimBody:
 
         if self._body.parent is None:
             self._type = "star"
-            self._body_symb = 'star'
+            self._body_symb = 'o'
             self._sb_parent = None
         else:
             self._type = "planet"
@@ -76,7 +76,7 @@ class SimBody:
 
         if self._name == "Moon":
             self._plane = Planes.EARTH_EQUATOR
-            self._body_symb = 'diamond'
+            self._body_symb = 'o'
             self._type = "moon"
         else:
             self._plane = Planes.EARTH_ECLIPTIC

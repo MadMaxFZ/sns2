@@ -82,12 +82,12 @@ class StarSystem:
         return np.array(pix_diams)
 
     def set_wide_ephems(self, epoch=None, span=None):
-        year_span = self.simbods["Earth"].orbit.period
+        day_span = self.simbods["Earth"].orbit.period / 365.25
         if epoch is None:
             epoch = self._sys_epoch
 
         if span is None:
-            span = year_span
+            span = day_span
 
         full_t_range = time_range(epoch,
                                   periods=365,
@@ -167,7 +167,7 @@ class StarSystem:
                 if i != j:
 
                     # accumulate the acceleration from the other bodies
-                    self.body_accel[i] += (G * sb2.body.mass) / (
+                    self.body_accel[i] += (G * sb1.body.mass * sb2.body.mass) / (
                             self.sys_rel_pos[i][j] * self.sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
