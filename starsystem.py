@@ -18,6 +18,7 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     )
 MIN_SYMB_SIZE = 5
 MAX_SYMB_SIZE = 20
+ST = tr.STTransform
 
 
 class StarSystem:
@@ -29,40 +30,39 @@ class StarSystem:
         self.body_data  = self.DATASET["BODY_DATA"]
         self.skymap     = self.DATASET["SKYMAP"]
         self.sim_params = self.DATASET["SYS_PARAMS"]
-        self.w_last = 0
-        self.d_epoch = None
-        self.avg_d_epoch = None
-        self.end_epoch = None
         self._sys_epoch = Time(self.DATASET["DEF_EPOCH"],
                                format='jd',
                                scale='tdb',
                                )
-        self.w_clock = Timer(interval='auto',
-                             connect=self.update_epoch,  # change this
-                             iterations=-1,
-                             )
-        print("Target FPS:", 1 / self.w_clock.interval)
         self.simbods = self.init_simbodies(body_names=self.body_names)
         self.sb_list = [self.simbods[name] for name in self.body_names]
         self.sys_rel_pos = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.sys_rel_vel = np.zeros((self.body_count, self.body_count), dtype=vec_type)
         self.body_accel = np.zeros((self.body_count,), dtype=vec_type)
         self._mainview = view
-        # self._win_size = int(view.size[0])
         self.cam = self._mainview.camera
         self.cam_rel_pos = np.zeros((self.body_count,), dtype=vec_type)
         self.cam_rel_vel = None
-        self.frame_viz = None
         self.bods_pos = None
-        self._symb_sizes = np.array([23, 6, 6, 6, 6, 6, 7, 7, 6, 6, 6])
+        self._symb_sizes = self.get_symb_sizes()
+        self.bod_symbs = [sb.body_symb for sb in self.sb_list]
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
                                  size=self._symb_sizes,
                                  scaling=False, )
-        self.bod_symbs = [sb.body_symb for sb in self.sb_list]
         self.trk_polys = []
         self.poly_alpha = 0.5
         self.orb_vizz = None
-        self.t_warp = 1000            # multiple to apply to real time in simulation
+        self.frame_viz = None
+        self.w_last = 0
+        self.d_epoch = None
+        self.avg_d_epoch = None
+        self.end_epoch = None
+        self.w_clock = Timer(interval='auto',
+                             connect=self.update_epoch,  # change this
+                             iterations=-1,
+                             )
+        print("Target FPS:", 1 / self.w_clock.interval)
+        self.t_warp = 10000            # multiple to apply to real time in simulation
         self.set_wide_ephems()
 
     def get_symb_sizes(self):
@@ -149,21 +149,25 @@ class StarSystem:
 
         # collect positions of the bodies into an array
         self.bods_pos = []
-        self.bods_pos.extend([sb.state[0] for sb in self.sb_list])
+        self.bods_pos.extend([sb.pos for sb in self.sb_list])
         self.bods_pos[4] += self.bods_pos[3]                        # add Earth pos to Moon pos
+        # self.trk_polys[3].transform = ST(translate=self.bods_pos[3])  # move moon orbit to Earth pos
         self.bods_pos = np.array(self.bods_pos)
-        self.trk_polys[3].transform.translate = self.bods_pos[3]     # move moon orbit to Earth pos`
 
         i = 0
         for sb1 in self.sb_list:
             j = 0
             # collect the position relative to the camera location
             self.cam_rel_pos[i] = sb1.dist2pos(pos=self._mainview.camera.center)['rel_pos']
+            # if sb1.sb_parent is not None:
+            #     if sb1.sb_parent.name != self.sb_list[0].name:
+            #         pass
+            #         # sb1.trk_poly.transform = ST(translate=list(self.simbods[sb1.sb_parent.name].state[0]))
 
             # collect the relative position and velocity to the other bodies
             for sb2 in self.sb_list:
-                self.sys_rel_pos[i][j] = sb2.dist2pos(pos=sb1.state[0])['rel_pos']
-                self.sys_rel_vel[i][j] = sb2.state[1] - sb1.state[1]
+                self.sys_rel_pos[i][j] = sb2.dist2pos(pos=sb1.pos)['rel_pos']
+                self.sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
 
                     # accumulate the acceleration from the other bodies
@@ -195,12 +199,7 @@ class StarSystem:
                                    border_color=sb.base_color + np.array([0, 0, 0, self.poly_alpha]),
                                    triangulate=False,
                                    )
-                # this segment should be in the update loop
-                new_poly.transform = tr.STTransform()
-                if not sb.sb_parent.name == self.sb_list[0].name:
-                    new_poly.transform.translate = self.simbods[sb.sb_parent.name].state[0]
-
-                sb.assign_trk(trk=new_poly)
+                sb.trk_poly = new_poly
                 self.trk_polys.append(sb.trk_poly)
 
         self.orb_vizz = Compound(self.trk_polys)

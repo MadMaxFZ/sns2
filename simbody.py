@@ -27,7 +27,7 @@ class SimBody:
     def __init__(self,
                  body_name=None,
                  epoch=None,
-                 sim_param=None,
+                 sim_param=None,    # this can probably be done away with
                  body_data=None,
                  ):
 
@@ -81,7 +81,7 @@ class SimBody:
         else:
             self._plane = Planes.EARTH_ECLIPTIC
 
-        if self._name == 'Sun' or self._type == 'o':
+        if self._name == 'Sun' or self._type == 'star':
             R = self._body.R.value
             Rm = Rp = R
         else:
@@ -91,7 +91,6 @@ class SimBody:
 
         r_set = [R, Rm, Rp,]
         self._body_data.update({'r_set' : r_set})
-        # SimBody.simbods.update({self._name : self})
         self.set_time_range(epoch=self._epoch,
                             periods=self._periods,
                             spacing=self._spacing,
@@ -100,17 +99,13 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
 
-    def assign_trk(self, trk=None):
-        assert type(trk) is Polygon
-        self._trk_poly = trk
-
     def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
         rel_pos = pos - self._state[0]
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             fov = 0.0
         else:
-            fov = np.float64(2.0 * math.atan(self.body.R.value / dist))
+            fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
         return {"rel_pos": rel_pos,
                 "dist": dist,
                 "fov": fov,
@@ -255,6 +250,11 @@ class SimBody:
     def trk_poly(self):
         return self._trk_poly
 
+    @trk_poly.setter
+    def trk_poly(self, new_trk=None):
+        assert type(new_trk) is Polygon
+        self._trk_poly = new_trk
+
     @property
     def epoch(self):
         return self._epoch
@@ -276,8 +276,12 @@ class SimBody:
         return self._state
 
     @property
-    def rad_pos(self):
+    def pos(self):
         return self._state[0]
+
+    @property
+    def vel(self):
+        return self._state[1]
 
     @property
     def track(self):
@@ -290,10 +294,6 @@ class SimBody:
     @colormap.setter
     def colormap(self, new_cmap=None):
         self._colormap = new_cmap
-
-    # @property
-    # def viz_names(self):
-    #     return self._viz_names
 
     @property
     def t_span(self):
@@ -337,31 +337,6 @@ class SimBody:
     @property
     def base_color(self):
         return self._base_color
-
-    # @property
-    # def xyz_mult(self):
-    #     return self._xyz_mult
-
-    # @property
-    # def v_mult(self):
-    #     return self._v_mult
-
-    # @property
-    # def tex_data(self):
-    #     return self._tex_data
-
-    # @property
-    # def vizuals(self):
-    #     return self._vizuals
-
-    # @viz_names.setter
-    # def viz_names(self, vn=None):
-    #     self._viz_names = vn
-
-    # @vizuals.setter
-    # def vizuals(self, new_vd=None):
-    #     if type(new_vd) == dict and len(new_vd) == len(self.viz_names):
-    #         self._vizuals = new_vd
 
 
 if __name__ == "__main__":
