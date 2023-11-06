@@ -48,7 +48,9 @@ class StarSystem:
         self.bod_symbs = [sb.body_symb for sb in self.sb_list]
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
                                  size=self._symb_sizes,
-                                 scaling=False, )
+                                 scaling=False,
+                                 parent=self._mainview.scene,
+                                 )
         self.trk_polys = []
         self.poly_alpha = 0.5
         self.orb_vizz = None
@@ -63,42 +65,41 @@ class StarSystem:
                              )
         print("Target FPS:", 1 / self.w_clock.interval)
         self.t_warp = 10000            # multiple to apply to real time in simulation
-        self.set_wide_ephems()
+        self.set_ephems()
 
     def get_symb_sizes(self):
-        body_fovs = []
-        for sb in self.sb_list:
-            body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
-            sb.update_alpha()
-
-        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self.cam.fov) for b_fov in body_fovs]
         pix_diams = []
-        for rd in raw_diams:
-            if rd < MIN_SYMB_SIZE:
+        for sb in self.sb_list:
+            sb.update_alpha()
+            _diam = math.ceil(self._mainview.size[0] *
+                              sb.dist2pos(pos=self.cam.center)['fov'] /
+                              self.cam.fov)
+            if _diam < MIN_SYMB_SIZE:
                 pix_diams.append(MIN_SYMB_SIZE)
+                sb.show_plnt = False
+            elif _diam > MAX_SYMB_SIZE:
+                pix_diams.append(0)
+                sb.show_plnt = True
             else:
-                pix_diams.append(rd)
+                pix_diams.append(_diam)
+                sb.show_plnt = False
 
         return np.array(pix_diams)
 
-    def set_wide_ephems(self, epoch=None, span=None):
-        day_span = self.simbods["Earth"].orbit.period / 365.25
+    def set_ephems(self, epoch=None, span=None):
         if epoch is None:
             epoch = self._sys_epoch
+        else:
+            span = self.simbods["Earth"].orbit.period / 365.25
 
-        if span is None:
-            span = day_span
-
-        full_t_range = time_range(epoch,
-                                  periods=365,
-                                  spacing=span,
-                                  format="jd",
-                                  scale="tdb",
-                                  )
-        for sb in self.sb_list:
-            sb.set_ephem(t_range=full_t_range)
-
-        self.end_epoch = full_t_range[-1]
+        _t_range = time_range(epoch,
+                              periods=365,
+                              spacing=span,
+                              format="jd",
+                              scale="tdb",
+                              )
+        [sb.set_ephem(t_range=_t_range) for sb in self.sb_list]
+        self.end_epoch = _t_range[-1]
         logging.info("END_EPOCH:\n%s\n", self.end_epoch)
 
     def update_epoch(self, event=None):
@@ -122,7 +123,7 @@ class StarSystem:
 
         if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
-            self.set_wide_ephems(epoch=new_epoch)               # reset ephem range
+            self.set_ephems(epoch=new_epoch)               # reset ephem range
 
         self._sys_epoch = new_epoch
 
@@ -198,6 +199,7 @@ class StarSystem:
                 new_poly = Polygon(pos=sb.o_track,
                                    border_color=sb.base_color + np.array([0, 0, 0, self.poly_alpha]),
                                    triangulate=False,
+                                   parent=self._mainview.scene,
                                    )
                 sb.trk_poly = new_poly
                 self.trk_polys.append(sb.trk_poly)

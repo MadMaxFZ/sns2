@@ -38,8 +38,6 @@ class SimBody:
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
-        # self._tex_data      = self._body_data['tex_data']
-        # self._viz_names     = self._body_data['viz_names']
         self._dist_unit     = sim_param["dist_unit"]
         self._periods       = sim_param["periods"]
         self._spacing       = sim_param["spacing"]
@@ -51,7 +49,7 @@ class SimBody:
         self._track         = None
         self._type          = None
         self._state         = np.zeros((3,), dtype=np.float64)
-        alphas = np.linspace(0, 1, num=360, endpoint=False)
+        # alphas = np.linspace(0, 1, num=360, endpoint=False)
         self.alpha_map = np.zeros((360, 4), dtype=np.float64)
         self.alpha_map[:, 3] = np.ones((360,), dtype=np.float64)
         self._base_color = np.array(self._body_data['body_color'])
@@ -59,6 +57,7 @@ class SimBody:
         self._cm_offset = 0
         self._body_symb = None
         self._trk_poly = None
+        self._plnt_viz = None
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -82,12 +81,12 @@ class SimBody:
             self._plane = Planes.EARTH_ECLIPTIC
 
         if self._name == 'Sun' or self._type == 'star':
-            R = self._body.R.value
+            R = self._body.R
             Rm = Rp = R
         else:
-            R = self._body.R.value
-            Rm = self._body.R_mean.value
-            Rp = self._body.R_polar.value
+            R = self._body.R
+            Rm = self._body.R_mean
+            Rp = self._body.R_polar
 
         r_set = [R, Rm, Rp,]
         self._body_data.update({'r_set' : r_set})
@@ -99,8 +98,11 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
 
+    def assign_plnt(self, plnt_viz=None):
+        self._plnt_viz = plnt_viz
+
     def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
-        rel_pos = pos - self._state[0]
+        rel_pos = pos - self.pos
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             fov = 0.0
@@ -120,8 +122,8 @@ class SimBody:
                       )
         if self._orbit is not None:
             neworbit = self._orbit.propagate(self._epoch)
-            self._state = np.array([neworbit.r.value,
-                                    neworbit.v.value,
+            self._state = np.array([neworbit.r,
+                                    neworbit.v,
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
             self._orbit = neworbit
@@ -134,9 +136,9 @@ class SimBody:
 
         # self.update_pos(self._state.[0])
         logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
-                      self._name,
+                      self.name,
                       self._epoch,
-                      self._state[0],
+                      self.pos,
                       # self._state[1],
                       # self._state[2],
                       )
@@ -155,6 +157,7 @@ class SimBody:
                 self._cm_offset = math.floor(nu_deg)
                 for n in range(-self._cm_offset, 360 - self._cm_offset):
                     self.alpha_map[:, 3] = n / 360
+
             self.colormap = self.alpha_map
 
     def set_epoch(self, epoch=None):
@@ -341,4 +344,4 @@ class SimBody:
 
 if __name__ == "__main__":
 
-    print("SimBody doesn't really do much...")
+    print("SimBody doesn't really do much by itself...")
