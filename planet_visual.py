@@ -44,12 +44,12 @@ class Planet(visuals.Compound):
     def __init__(self, rows=36, cols=None,
                  refbody=None,
                  pos=None,
-                 edge_color=(0, 0, 0, 0.1),
-                 color=(1, 1, 1, 1),
+                 edge_color=np.array([0, 0, 0, 0.1]),
+                 color=np.array([1, 1, 1, 1]),
                  texture=None,
                  **kwargs,
                  ):
-        """This visual replaces the SphereVisual object and adds elements to compute, store and
+        """ This visual replaces the SphereVisual object and adds elements to compute, store and
         recall texture coordinates, and vector normals of the mesh.
 
         Parameters
@@ -58,12 +58,12 @@ class Planet(visuals.Compound):
             Number of cols that make up the sphere mesh
         rows : int
             Number of rows that make up the sphere mesh
-        radius : floNoneat
+        radius : float
         """
 
         logging.debug('\n<--------------------------------->')
         logging.debug('\tInitializing PlanetVisual object...')
-        self._pos   = np.ndarray([0, 0, 0])
+        self._pos   = np.array([0, 0, 0])
         self._verts = []
         self._norms = []
         self._txcds = []
@@ -74,27 +74,26 @@ class Planet(visuals.Compound):
         self._edge_colors = []  # EIGHT friggin' lists !!!
         self._texture = texture
         self._filter = None
-
-        #   TODO:   The texture filename should be looked up via the mapping constructed on StarSystem
-        # if _texture is an integer, use it as an index in the texture filenames list,
-        # if _texture is a string, use it as a filename. Otherwise use it as a texture.
-        # These quantities are dependent upon the Body associated with this visual
-        # if refbody is None:
-        self._radius = [1.0, 1.0, 1.0]
-        # elif refbody == Sun:
-        #     self._radius = [refbody.R.value,
-        #                     refbody.R.value,
-        #                     refbody.R.value,
-        #                     ]
-        # else:
-        #     self._radius = [refbody.R_mean.value,
-        #                     refbody.R.value,
-        #                     refbody.R_polar.value,
-        #                     ]
-        # self._state = None  # once attached to a Body,type is np.ndarray((3, 3), dtype=np.float32)
-        cols = rows * 2
+        if refbody is not None:
+            self._pos = refbody.pos
+            if refbody == Sun:
+                self._radius = [refbody.body.R.value,
+                                refbody.body.R.value,
+                                refbody.body.R.value,
+                                ]   
+            else:
+                self._radius = [refbody.body.R_mean.value,
+                                refbody.body.R.value,
+                                refbody.body.R_polar.value,
+                                ]
+        else:
+            self._radius = [1.0, 1.0, 1.0]
+            self._pos = nd.array([0.0, 0.0 ,0.0])
+            
+        if cols is None:
+            cols = rows * 2
+            
         logging.debug('Generating mesh data for %i rows and %i columns...', rows, cols)
-
         m_data = self._oblate_mesh(rows, cols, self._radius)
         self._verts = m_data[0]
         self._norms = m_data[1]
@@ -221,7 +220,6 @@ class Planet(visuals.Compound):
         num_ev = -1
 
         for row in range(0, rows + 1):
-
             phi = np.pi / 2 - row * rowstep
             xy = radius[1] * np.cos(phi)
             z = radius[2] * np.sin(phi)
@@ -231,28 +229,26 @@ class Planet(visuals.Compound):
                 x = xy * np.cos(theta)
                 y = xy * np.sin(theta)
                 vert = np.array([x, y, z])
-                # print(vert)
                 self._verts.append(vert)
                 self._norms.append(vert / np.sqrt(vert.dot(vert)))
                 self._txcds.append(np.array([1 - (col / cols), (row / rows)]))
                 num_v += 1
+                
         logging.debug('----->>> Generated %r vertices...', num_v)
-
         for i in range(0, rows):
 
             k1 = i * (cols + 1)
             k2 = k1 + cols + 1
 
             for j in range(0, cols):
-
                 if i != 0:
                     self._faces.append(np.array([k1, k2, k1 + 1]))
                     self._edges.append(np.array([k1, k2]))
                     self._edges.append(np.array([k2, k1 + 1]))
                     self._edges.append(np.array([k1 + 1, k1]))
-                    self._edge_colors.append((0, 0, 0, 0.1))
-                    self._edge_colors.append((0, 0, 0, 0))
-                    self._edge_colors.append((0, 0, 0, 0.1))
+                    self._edge_colors.append([0, 0, 0, 0.1])
+                    self._edge_colors.append([0, 0, 0, 0])
+                    self._edge_colors.append([0, 0, 0, 0.1])
                     num_f += 1
                     num_e += 3
                 if i != (rows - 1):
@@ -260,9 +256,9 @@ class Planet(visuals.Compound):
                     self._edges.append(np.array([k1 + 1, k2]))
                     self._edges.append(np.array([k2, k2 + 1]))
                     self._edges.append(np.array([k2 + 1, k1 + 1]))
-                    self._edge_colors.append((0, 0, 0, 0))
-                    self._edge_colors.append((0, 0, 0, 0))
-                    self._edge_colors.append((0, 0, 0, 0))
+                    self._edge_colors.append([0, 0, 0, 0])
+                    self._edge_colors.append([0, 0, 0, 0])
+                    self._edge_colors.append([0, 0, 0, 0])
                     num_f += 1
                     num_e += 3
 
@@ -307,8 +303,8 @@ class SkyMap(visuals.Compound):
     def __init__(self,
                  rows=18, cols=36,
                  radius=8e+09,
-                 edge_color=(1, 1, 1, 1),
-                 color=(1, 1, 1, 1),
+                 edge_color=[1, 1, 1, 1],
+                 color=[1, 1, 1, 1],
                  texture=None,
                  **kwargs,
                  ):
@@ -475,9 +471,9 @@ class SkyMap(visuals.Compound):
                     self._edges.append(np.array([k1, k2]))
                     self._edges.append(np.array([k2, k1 + 1]))
                     self._edges.append(np.array([k1 + 1, k1]))
-                    self._edge_colors.append((cr, cg, cb, 1))
-                    self._edge_colors.append((cr, cg, cb, 0))
-                    self._edge_colors.append((cr, cg, cb, 1))
+                    self._edge_colors.append([cr, cg, cb, 1])
+                    self._edge_colors.append([cr, cg, cb, 0])
+                    self._edge_colors.append([cr, cg, cb, 1])
                     num_f += 1
                     num_e += 3
                 if i != (rows - 1):
@@ -485,9 +481,9 @@ class SkyMap(visuals.Compound):
                     self._edges.append(np.array([k1 + 1, k2]))
                     self._edges.append(np.array([k2, k2 + 1]))
                     self._edges.append(np.array([k2 + 1, k1 + 1]))
-                    self._edge_colors.append((cr, cg, cb, 0))
-                    self._edge_colors.append((cr, cg, cb, 0))
-                    self._edge_colors.append((cr, cg, cb, 0))
+                    self._edge_colors.append([cr, cg, cb, 0])
+                    self._edge_colors.append([cr, cg, cb, 0])
+                    self._edge_colors.append([cr, cg, cb, 0])
                     num_f += 1
                     num_e += 3
 
@@ -537,7 +533,7 @@ def main():
     skymap = SkyMap(parent=view.scene,
                     radius=1e+02,
                     texture=s_tex,
-                    edge_color=(1, 0, 0, .3)
+                    edge_color=[1, 0, 0, .3]
                     )
     planet = Planet(# refbody=Earth,
                     parent=skymap,
