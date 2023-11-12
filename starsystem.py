@@ -48,9 +48,7 @@ class StarSystem:
         self.bod_symbs = [sb.body_symb for sb in self.sb_list]
         self._bods_viz = Markers(edge_color=(0, 1, 0, 1),
                                  size=self._symb_sizes,
-                                 scaling=False,
-                                 parent=self._mainview.scene,
-                                 )
+                                 scaling=False, )
         self.trk_polys = []
         self.poly_alpha = 0.5
         self.orb_vizz = None
@@ -68,25 +66,22 @@ class StarSystem:
         self.set_ephems()
 
     def get_symb_sizes(self):
-        pix_diams = []
+        body_fovs = []
         for sb in self.sb_list:
+            body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
             sb.update_alpha()
-            _diam = math.ceil(self._mainview.size[0] *
-                              sb.dist2pos(pos=self.cam.center)['fov'] /
-                              self.cam.fov)
-            if _diam < MIN_SYMB_SIZE:
+
+        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self.cam.fov) for b_fov in body_fovs]
+        pix_diams = []
+        for rd in raw_diams:
+            if rd < MIN_SYMB_SIZE:
                 pix_diams.append(MIN_SYMB_SIZE)
-                sb.show_plnt = False
-            elif _diam > MAX_SYMB_SIZE:
-                pix_diams.append(0)
-                sb.show_plnt = True
             else:
-                pix_diams.append(_diam)
-                sb.show_plnt = False
+                pix_diams.append(rd)
 
         return np.array(pix_diams)
 
-    def set_ephems(self, epoch=None, span=None):
+    def set_ephems(self, epoch=None, span=1):   # TODO: make default span to Time(1 day)
         if epoch is None:
             epoch = self._sys_epoch
         else:
@@ -199,7 +194,6 @@ class StarSystem:
                 new_poly = Polygon(pos=sb.o_track,
                                    border_color=sb.base_color + np.array([0, 0, 0, self.poly_alpha]),
                                    triangulate=False,
-                                   parent=self._mainview.scene,
                                    )
                 sb.trk_poly = new_poly
                 self.trk_polys.append(sb.trk_poly)
