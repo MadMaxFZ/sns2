@@ -1,0 +1,9 @@
+#6D6D6D Medium grey
+#C78727 Caramel
+#2ACB73 Metallic blue
+#D68341 Dull orange
+#A0815E Pale brown
+#E5D5B4 Pale
+#D0F6F7 Ice blue
+#5C89E3 Soft blue
+#D8C3A8 Mushroom

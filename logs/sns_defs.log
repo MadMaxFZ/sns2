@@ -1,0 +1,574 @@
+__init__:	INFO:2023-11-11 18:54:16,383:		Initializing SkyMap object...
+__init__:	INFO:2023-11-11 18:54:16,417:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-11 18:54:19,726:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:27,015:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:27,180:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:27,363:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:27,533:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:27,704:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:27,865:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:28,035:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:28,199:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 18:54:28,372:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-11 18:54:28,528:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-11 18:54:28,540:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-11 18:54:31,203:	END_EPOCH:
+2451909.0
+
+do_updates:	INFO:2023-11-11 18:54:33,572:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:33,573:	
+CAM_REL_DIST :
+[2003385992.7690089, 1949279805.4848833, 1939175646.4064038, 2081717082.1770463, 2081333048.9725838, 2136448556.1618974, 2669914670.3889155, 3261847146.600941, 3618477640.5175157, 4615872811.604451, 3466462245.4521265]
+do_updates:	INFO:2023-11-11 18:54:33,869:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:33,870:	
+CAM_REL_DIST :
+[2003385946.9769337, 1949576325.8562844, 1938732679.4616694, 2081289189.9292033, 2080901485.4105763, 2136778810.623242, 2669947520.645987, 3261839634.4379597, 3618544807.3086343, 4615912129.227004, 3466487648.829826]
+do_updates:	INFO:2023-11-11 18:54:33,916:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:33,916:	
+CAM_REL_DIST :
+[2003385945.8654008, 1949583641.5660918, 1938721953.404417, 2081278777.7808, 2080890995.9692838, 2136786825.1664903, 2669948318.000258, 3261839451.738495, 3618546439.1824946, 4615913084.49085, 3466488266.0540366]
+do_updates:	INFO:2023-11-11 18:54:34,207:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:34,208:	
+CAM_REL_DIST :
+[2003385939.3430095, 1949626682.3921065, 1938659038.9790869, 2081217655.5076964, 2080829431.4811447, 2136833852.0869927, 2669952996.780027, 3261838379.334004, 3618556016.3314376, 4615918690.756398, 3466491888.448877]
+do_updates:	INFO:2023-11-11 18:54:34,255:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:34,256:	
+CAM_REL_DIST :
+[2003385938.223659, 1949634088.286424, 1938648246.1679301, 2081207161.6923308, 2080818863.7225397, 2136841922.3727016, 2669953799.7300544, 3261838195.233593, 3618557660.1754966, 4615919653.030302, 3466492510.209683]
+do_updates:	INFO:2023-11-11 18:54:34,544:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:34,544:	
+CAM_REL_DIST :
+[2003385931.7669756, 1949676918.087719, 1938586015.495581, 2081146606.663046, 2080757893.3216903, 2136888471.9570212, 2669958431.306816, 3261837132.965452, 3618567143.6802464, 4615925204.495519, 3466496097.2375107]
+do_updates:	INFO:2023-11-11 18:54:34,591:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:34,591:	
+CAM_REL_DIST :
+[2003385930.6148043, 1949684580.7669086, 1938574915.1234612, 2081135796.5099125, 2080747011.0465932, 2136896778.24027, 2669959257.788668, 3261836943.3480167, 3618568836.230337, 4615926195.284013, 3466496737.430005]
+do_updates:	INFO:2023-11-11 18:54:34,887:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:34,887:	
+CAM_REL_DIST :
+[2003385924.0434577, 1949728399.3872526, 1938511630.6559577, 2081074116.3350492, 2080684931.1145768, 2136944150.807122, 2669963971.5463867, 3261835861.530514, 3618578491.0625663, 4615931847.058605, 3466500389.31419]
+do_updates:	INFO:2023-11-11 18:54:34,934:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:34,934:	
+CAM_REL_DIST :
+[2003385922.859758, 1949736313.2496557, 1938500235.8777966, 2081063001.3176138, 2080673746.1853914, 2136952683.716592, 2669964820.6316504, 3261835666.599727, 3618580230.4580684, 4615932865.272744, 3466501047.2353234]
+do_updates:	INFO:2023-11-11 18:54:35,219:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:35,219:	
+CAM_REL_DIST :
+[2003385916.4626327, 1949779192.337623, 1938438679.3441856, 2081002907.9475322, 2080613286.0740485, 2136998796.7388263, 2669969409.3488483, 3261834612.796206, 3618589632.1574616, 4615938368.88472, 3466504603.4257903]
+do_updates:	INFO:2023-11-11 18:54:35,265:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:35,266:	
+CAM_REL_DIST :
+[2003385915.3581254, 1949786614.4673162, 1938428055.4323153, 2080992528.325216, 2080602845.026407, 2137006758.160474, 2669970201.6161747, 3261834430.79349, 3618591255.664391, 4615939319.262449, 3466505217.521305]
+do_updates:	INFO:2023-11-11 18:54:35,561:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:35,561:	
+CAM_REL_DIST :
+[2003385908.7296767, 1949831272.773895, 1938364324.709602, 2080930212.0373638, 2080540171.841056, 2137054534.9433973, 2669974956.1930766, 3261833338.196352, 3618601000.257626, 4615945023.616825, 3466508903.465157]
+do_updates:	INFO:2023-11-11 18:54:35,607:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:35,607:	
+CAM_REL_DIST :
+[2003385907.6366432, 1949838656.0584674, 1938353819.8190448, 2080919931.8843656, 2080529834.7683094, 2137062413.0431626, 2669975740.218774, 3261833157.9691534, 3618602607.389396, 4615945964.411706, 3466509511.375741]
+do_updates:	INFO:2023-11-11 18:54:35,894:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:35,895:	
+CAM_REL_DIST :
+[2003385901.1922722, 1949882296.8363106, 1938291909.4541423, 2080859297.5560277, 2080468875.9815495, 2137108859.399738, 2669980362.687863, 3261832095.0443115, 3618612084.215894, 4615951512.036124, 3466513096.0879035]
+do_updates:	INFO:2023-11-11 18:54:35,941:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:35,942:	
+CAM_REL_DIST :
+[2003385900.1148078, 1949889611.6913197, 1938281562.5426202, 2080849155.8135023, 2080458681.8495657, 2137116624.6822615, 2669981135.534203, 3261831917.2737184, 3618613668.925417, 4615952439.708124, 3466513695.5257535]
+do_updates:	INFO:2023-11-11 18:54:36,230:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:36,231:	
+CAM_REL_DIST :
+[2003385893.6429682, 1949933659.3346367, 1938219438.5061135, 2080788214.7919517, 2080397437.3587053, 2137163265.410621, 2669985777.637713, 3261830849.1529617, 3618623188.9749374, 4615958012.651774, 3466517296.6395917]
+do_updates:	INFO:2023-11-11 18:54:36,278:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:36,278:	
+CAM_REL_DIST :
+[2003385892.5216372, 1949941310.4441948, 1938208679.093138, 2080777651.7481532, 2080386823.6893547, 2137171346.213563, 2669986581.9370484, 3261830664.0289207, 3618624838.69547, 4615958978.383482, 3466517920.677811]
+do_updates:	INFO:2023-11-11 18:54:36,576:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:36,576:	
+CAM_REL_DIST :
+[2003385885.8416111, 1949987007.8322754, 1938144609.7342594, 2080714699.4974291, 2080323581.821507, 2137219483.4692533, 2669991373.295029, 3261829560.8468995, 3618634667.970217, 4615964732.362458, 3466521638.8160925]
+do_updates:	INFO:2023-11-11 18:54:36,740:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:36,740:	
+CAM_REL_DIST :
+[2003385884.7042036, 1949994808.8508203, 1938133705.2494206, 2080703976.2242324, 2080312811.2785726, 2137227679.464392, 2669992189.1127386, 3261829372.9474835, 3618636341.8579535, 4615965712.244526, 3466522272.005515]
+do_updates:	INFO:2023-11-11 18:54:37,032:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:37,033:	
+CAM_REL_DIST :
+[2003385875.5599835, 1950057738.2018056, 1938046087.0214949, 2080617719.6037319, 2080226196.2540576, 2137293567.9181077, 2669998747.8373246, 3261827861.681838, 3618649801.8610215, 4615973591.65172, 3466527363.6347585]
+do_updates:	INFO:2023-11-11 18:54:37,080:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:37,080:	
+CAM_REL_DIST :
+[2003385874.4292746, 1950065545.8940089, 1938035258.8037937, 2080607047.9738793, 2080215482.9798105, 2137301714.780958, 2669999558.834127, 3261827674.730079, 3618651466.5666037, 4615974566.162671, 3466527993.3632407]
+do_updates:	INFO:2023-11-11 18:54:37,368:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:37,369:	
+CAM_REL_DIST :
+[2003385867.9551241, 1950110362.179486, 1937973284.7885003, 2080545920.5700185, 2080154128.4678547, 2137348359.7943773, 2670004202.3592305, 3261826603.9552784, 3618660999.676741, 4615980146.809864, 3466531599.5954256]
+do_updates:	INFO:2023-11-11 18:54:37,414:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:37,414:	
+CAM_REL_DIST :
+[2003385866.8673627, 1950117910.6531498, 1937962876.436244, 2080535646.108991, 2080143817.743742, 2137356196.5993922, 2670004982.5402718, 3261826423.9915915, 3618662601.6318874, 4615981084.58988, 3466532205.5953674]
+do_updates:	INFO:2023-11-11 18:54:37,711:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:37,712:	
+CAM_REL_DIST :
+[2003385860.3417773, 1950163307.1086593, 1937900461.6168406, 2080473984.0182264, 2080081949.5576456, 2137403208.4852917, 2670009662.8858314, 3261825344.031926, 3618672213.3608694, 4615986711.277533, 3466535841.6209145]
+do_updates:	INFO:2023-11-11 18:54:37,789:	
+SYMBOL SIZES :	[12  5  5  5  5  5  5  5  5  5  5]
+do_updates:	INFO:2023-11-11 18:54:37,790:	
+CAM_REL_DIST :
+[2003385858.6903946, 1950174825.8202026, 1937884673.7925375, 2080458372.948203, 2080066289.4458635, 2137415104.9372585, 2670010847.2974033, 3261825070.641836, 3618674646.1248426, 4615988135.415239, 3466536761.9195943]
+__init__:	INFO:2023-11-11 23:50:52,536:		Initializing SkyMap object...
+__init__:	INFO:2023-11-11 23:50:52,643:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-11 23:51:06,504:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:21,272:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:21,638:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:22,047:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:22,431:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:22,811:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:23,156:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:23,499:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:23,883:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-11 23:51:24,247:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-11 23:51:24,563:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-11 23:51:24,608:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-11 23:51:31,982:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 02:40:44,476:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 02:40:44,563:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 02:40:54,780:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:06,293:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:06,613:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:06,973:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:07,221:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:07,479:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:07,750:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:08,031:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:08,286:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:41:08,530:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 02:41:08,769:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 02:41:08,787:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 02:41:12,680:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 02:42:15,329:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 02:42:15,376:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 02:42:20,188:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:31,273:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:31,533:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:31,812:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:32,062:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:32,318:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:32,566:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:32,819:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:33,075:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:42:33,319:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 02:42:33,564:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 02:42:33,575:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 02:42:37,482:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 02:43:00,791:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 02:43:00,837:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 02:43:05,605:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:16,514:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:16,772:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:17,047:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:17,298:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:17,555:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:17,802:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:18,061:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:18,316:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 02:43:18,576:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 02:43:18,823:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 02:43:18,835:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 02:43:22,738:	END_EPOCH:
+2451909.0
+
+set_ephems:	INFO:2023-11-12 03:35:48,712:	END_EPOCH:
+2452273.240096199
+
+set_ephems:	INFO:2023-11-12 04:28:15,732:	END_EPOCH:
+2452637.4826505445
+
+__init__:	INFO:2023-11-12 05:05:36,290:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 05:05:36,322:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 05:05:39,571:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:46,873:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:47,037:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:47,220:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:47,381:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:47,548:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:47,709:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:47,878:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:48,043:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:05:48,208:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 05:05:48,362:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 05:05:48,374:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 05:05:50,943:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 05:20:52,910:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 05:20:52,942:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 05:20:56,123:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:03,344:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:03,500:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:03,688:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:03,876:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:04,063:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:04,235:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:04,438:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:04,642:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:21:04,860:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 05:21:05,017:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 05:21:05,032:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 05:21:07,650:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 05:31:54,178:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 05:31:54,209:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 05:31:57,441:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:04,772:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:04,939:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:05,131:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:05,296:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:05,470:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:05,638:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:05,805:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:05,971:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:32:06,147:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 05:32:06,303:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 05:32:06,315:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 05:32:08,903:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 05:36:40,431:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 05:36:40,464:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2023-11-12 05:36:43,702:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:50,971:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:51,138:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:51,323:	>>> COMPUTING ORBIT: 365354 x 406814 km x 20.9 deg (GCRS) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:51,483:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:51,650:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:51,812:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:51,977:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:52,140:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2023-11-12 05:36:52,309:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+init_simbodies:	INFO:2023-11-12 05:36:52,464:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 05:36:52,476:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 05:36:55,046:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 19:15:52,748:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:15:52,824:		SkyMap initialization has been completed...
+
+__init__:	INFO:2023-11-12 19:16:47,000:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:16:47,032:		SkyMap initialization has been completed...
+
+__init__:	INFO:2023-11-12 19:17:26,218:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:17:26,249:		SkyMap initialization has been completed...
+
+__init__:	INFO:2023-11-12 19:19:57,057:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:19:57,088:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-12 19:19:57,640:		>>> SimBody objects created....
+
+__init__:	INFO:2023-11-12 19:22:15,919:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:22:15,950:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-12 19:22:16,507:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 19:22:16,609:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 19:22:16,628:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 19:26:13,398:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:26:13,431:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-12 19:26:13,991:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 19:26:13,999:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 19:26:14,007:	END_EPOCH:
+2451909.0
+
+__init__:	INFO:2023-11-12 19:26:48,316:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:26:48,348:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-12 19:26:48,919:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 19:26:48,928:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 19:26:48,935:	END_EPOCH:
+2451909.0
+
+set_texture:	INFO:2023-11-12 19:26:49,041:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,041:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,126:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,126:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,278:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,278:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,370:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,370:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,470:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,470:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,582:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,582:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,668:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,668:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,829:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,829:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,909:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,909:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:49,991:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:49,991:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:26:50,080:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:26:50,081:		PlanetVisual initialization has completed...
+log_exception:	WARNING:2023-11-12 19:26:56,661:	Traceback (most recent call last):
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 59, in <module>
+    main()
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 54, in main
+    my_simwin.run()
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 46, in run
+    app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\_default_app.py", line 60, in run
+    return default_app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\application.py", line 160, in run
+    return self._backend._vispy_run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 335, in _vispy_run
+    return exec_func()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 943, in _vispy_timeout
+    self._vispy_timer._timeout()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\timer.py", line 160, in _timeout
+    self.events.timeout(
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 471, in _invoke_callback
+    _handle_exception(self.ignore_callback_errors,
+  << caught exception here: >>
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 469, in _invoke_callback
+    cb(event)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\starsystem.py", line 120, in update_epoch
+    self.do_updates(new_epoch=new_epoch)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\starsystem.py", line 152, in do_updates
+    sb.update_state(epoch=new_epoch)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\simbody.py", line 121, in update_state
+    neworbit = self._orbit.propagate(self._epoch)
+AttributeError: 'int' object has no attribute 'propagate'
+_handle_exception:	ERROR:2023-11-12 19:26:56,662:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> for Event
+_handle_exception:	ERROR:2023-11-12 19:26:57,023:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 2
+_handle_exception:	ERROR:2023-11-12 19:26:57,049:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 4
+_handle_exception:	ERROR:2023-11-12 19:26:57,114:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 8
+_handle_exception:	ERROR:2023-11-12 19:26:57,242:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 16
+_handle_exception:	ERROR:2023-11-12 19:26:57,496:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 32
+_handle_exception:	ERROR:2023-11-12 19:26:58,016:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 64
+_handle_exception:	ERROR:2023-11-12 19:26:59,034:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x00000289E6BE4160>> repeat 128
+__init__:	INFO:2023-11-12 19:28:06,063:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:28:06,095:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-12 19:28:06,657:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 19:28:06,665:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 19:28:06,672:	END_EPOCH:
+2451909.0
+
+set_texture:	INFO:2023-11-12 19:28:06,766:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:06,766:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:06,846:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:06,846:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,003:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,003:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,083:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,083:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,178:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,178:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,266:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,266:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,345:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,345:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,506:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,507:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,587:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,587:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,667:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,667:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:28:07,751:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:28:07,751:		PlanetVisual initialization has completed...
+log_exception:	WARNING:2023-11-12 19:28:08,744:	Traceback (most recent call last):
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 59, in <module>
+    main()
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 54, in main
+    my_simwin.run()
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 46, in run
+    app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\_default_app.py", line 60, in run
+    return default_app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\application.py", line 160, in run
+    return self._backend._vispy_run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 335, in _vispy_run
+    return exec_func()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 943, in _vispy_timeout
+    self._vispy_timer._timeout()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\timer.py", line 160, in _timeout
+    self.events.timeout(
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 471, in _invoke_callback
+    _handle_exception(self.ignore_callback_errors,
+  << caught exception here: >>
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 469, in _invoke_callback
+    cb(event)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\starsystem.py", line 120, in update_epoch
+    self.do_updates(new_epoch=new_epoch)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\starsystem.py", line 159, in do_updates
+    self.bods_pos = np.array(self.bods_pos)
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (11,) + inhomogeneous part.
+_handle_exception:	ERROR:2023-11-12 19:28:08,745:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> for Event
+_handle_exception:	ERROR:2023-11-12 19:28:08,759:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> repeat 2
+_handle_exception:	ERROR:2023-11-12 19:28:08,783:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> repeat 4
+_handle_exception:	ERROR:2023-11-12 19:28:08,839:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> repeat 8
+_handle_exception:	ERROR:2023-11-12 19:28:08,965:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> repeat 16
+_handle_exception:	ERROR:2023-11-12 19:28:09,268:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> repeat 32
+_handle_exception:	ERROR:2023-11-12 19:28:09,779:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x000002B361482620>> repeat 64
+__init__:	INFO:2023-11-12 19:30:26,532:		Initializing SkyMap object...
+__init__:	INFO:2023-11-12 19:30:26,563:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-12 19:30:27,162:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-12 19:30:27,194:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-12 19:30:27,209:	END_EPOCH:
+2451909.0
+
+set_texture:	INFO:2023-11-12 19:30:27,334:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:27,334:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:27,444:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:27,444:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:27,633:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:27,633:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:27,727:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:27,727:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:27,836:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:27,836:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:27,930:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:27,930:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:28,045:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:28,045:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:28,232:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:28,232:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:28,326:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:28,326:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:28,435:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:28,435:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-12 19:30:28,529:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-12 19:30:28,529:		PlanetVisual initialization has completed...
+__init__:	INFO:2023-11-13 12:33:15,647:		Initializing SkyMap object...
+__init__:	INFO:2023-11-13 12:33:15,741:		SkyMap initialization has been completed...
+
+init_simbodies:	INFO:2023-11-13 12:33:17,174:		>>> SimBody objects created....
+
+_showwarning:	WARNING:2023-11-13 12:33:17,197:	TimeDeltaMissingUnitWarning: Numerical value without unit or explicit format passed to TimeDelta, assuming days
+set_ephems:	INFO:2023-11-13 12:33:17,217:	END_EPOCH:
+2451909.0
+
+set_texture:	INFO:2023-11-13 12:33:17,334:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:17,338:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:17,434:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:17,434:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:17,638:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:17,638:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:17,735:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:17,735:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:17,841:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:17,842:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:17,950:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:17,950:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:18,052:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:18,053:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:18,247:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:18,248:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:18,350:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:18,350:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:18,451:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:18,451:		PlanetVisual initialization has completed...
+set_texture:	INFO:2023-11-13 12:33:18,549:	PlanetVisual.set_texture(): TextureFilter attached...
+__init__:	INFO:2023-11-13 12:33:18,549:		PlanetVisual initialization has completed...
+log_exception:	WARNING:2023-11-13 12:33:24,126:	Traceback (most recent call last):
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 59, in <module>
+    main()
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 54, in main
+    my_simwin.run()
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\mainsimwin.py", line 46, in run
+    app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\_default_app.py", line 60, in run
+    return default_app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\application.py", line 160, in run
+    return self._backend._vispy_run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 335, in _vispy_run
+    return exec_func()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 943, in _vispy_timeout
+    self._vispy_timer._timeout()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\timer.py", line 160, in _timeout
+    self.events.timeout(
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 471, in _invoke_callback
+    _handle_exception(self.ignore_callback_errors,
+  << caught exception here: >>
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 469, in _invoke_callback
+    cb(event)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\starsystem.py", line 120, in update_epoch
+    self.do_updates(new_epoch=new_epoch)
+  File "C:\Users\madmaxfz\PycharmProjects\sns2\starsystem.py", line 159, in do_updates
+    self.bods_pos = np.array(self.bods_pos)
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (11,) + inhomogeneous part.
+_handle_exception:	ERROR:2023-11-13 12:33:24,126:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> for Event
+_handle_exception:	ERROR:2023-11-13 12:33:24,518:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 2
+_handle_exception:	ERROR:2023-11-13 12:33:24,547:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 4
+_handle_exception:	ERROR:2023-11-13 12:33:24,617:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 8
+_handle_exception:	ERROR:2023-11-13 12:33:24,741:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 16
+_handle_exception:	ERROR:2023-11-13 12:33:24,995:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 32
+_handle_exception:	ERROR:2023-11-13 12:33:25,507:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 64
+_handle_exception:	ERROR:2023-11-13 12:33:26,531:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 128
+_handle_exception:	ERROR:2023-11-13 12:33:28,583:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 256
+_handle_exception:	ERROR:2023-11-13 12:33:32,696:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 512
+_handle_exception:	ERROR:2023-11-13 12:33:40,899:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 1024
+_handle_exception:	ERROR:2023-11-13 12:33:57,351:	Invoking <bound method StarSystem.update_epoch of <starsystem.StarSystem object at 0x0000014982A649A0>> repeat 2048
