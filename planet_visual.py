@@ -88,7 +88,7 @@ class Planet(visuals.Compound):
                                 ]
         else:
             self._radius = [1.0, 1.0, 1.0]
-            self._pos = nd.array([0.0, 0.0 ,0.0])
+            self._pos = np.array([0.0, 0.0 ,0.0])
             
         if cols is None:
             cols = rows * 2
@@ -166,7 +166,7 @@ class Planet(visuals.Compound):
 
     @property
     def radius(self):
-        return self._radius[0].value
+        return self._radius[1].value
 
     # @property
     # def texture(self):
@@ -221,7 +221,7 @@ class Planet(visuals.Compound):
 
         for row in range(0, rows + 1):
             phi = np.pi / 2 - row * rowstep
-            xy = radius[1] * np.cos(phi)
+            xy = radius[0] * np.cos(phi)
             z = radius[2] * np.sin(phi)
 
             for col in range(0, cols + 1):

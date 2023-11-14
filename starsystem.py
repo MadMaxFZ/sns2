@@ -210,6 +210,7 @@ class StarSystem:
     def bods_viz(self):
         return self._bods_viz
 
+
 def main():
     my_starsys = StarSystem()
     my_starsys.run()
