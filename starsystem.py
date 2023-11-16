@@ -58,28 +58,43 @@ class StarSystem:
         self.avg_d_epoch = None
         self.end_epoch = None
         self.w_clock = Timer(interval='auto',
-                             connect=self.update_epoch,  # change this
+                             connect=self.update_epochs,  # change this
                              iterations=-1,
                              )
         print("Target FPS:", 1 / self.w_clock.interval)
         self.t_warp = 10000            # multiple to apply to real time in simulation
         self.set_ephems()
 
-    def get_symb_sizes(self):
-        body_fovs = []
+    def init_simbodies(self, body_names=None):
+        solar_system_ephemeris.set("jpl")
+        sb_dict = {}
+        for name in self.body_names:
+            sb_dict.update({name: SimBody(body_name=name,
+                                          epoch=self._sys_epoch,
+                                          sim_param=self.sim_params,
+                                          body_data=self.body_data[name],
+                                          # add marker symbol to body_data
+                                          )})
+        logging.info("\t>>> SimBody objects created....\n")
+        return sb_dict
+
+    def init_sysviz(self):
+        self.frame_viz = XYZAxis(parent=self._mainview.scene)       # set parent in MainSimWindow ???
+        self.frame_viz.transform = tr.STTransform()
+        self.frame_viz.transform.scale = [1e+05, 1e+05, 1e+05]
         for sb in self.sb_list:
-            body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
-            sb.update_alpha()
+            if sb.sb_parent is not None:
+                new_poly = Polygon(pos=sb.o_track,
+                                   border_color=sb.base_color + np.array([0, 0, 0, self.poly_alpha]),
+                                   triangulate=False,
+                                   )
+                sb.trk_poly = new_poly
+                self.trk_polys.append(sb.trk_poly)
 
-        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self.cam.fov) for b_fov in body_fovs]
-        pix_diams = []
-        for rd in raw_diams:
-            if rd < MIN_SYMB_SIZE:
-                pix_diams.append(MIN_SYMB_SIZE)
-            else:
-                pix_diams.append(rd)
-
-        return np.array(pix_diams)
+        self.orb_vizz = Compound(self.trk_polys)
+        viz = Compound([self.frame_viz, self.bods_viz, self.orb_vizz])
+        viz.parent = self._mainview.scene
+        return viz
 
     def set_ephems(self, epoch=None, span=1):   # TODO: make default span to Time(1 day)
         if epoch is None:
@@ -97,7 +112,7 @@ class StarSystem:
         self.end_epoch = _t_range[-1]
         logging.info("END_EPOCH:\n%s\n", self.end_epoch)
 
-    def update_epoch(self, event=None):
+    def update_epochs(self, event=None):
         if self.INIT:
             w_now = self.w_clock.elapsed     # not the first call
             dt = w_now - self.w_last
@@ -112,34 +127,18 @@ class StarSystem:
         if self.avg_d_epoch is None:
             self.avg_d_epoch = d_epoch
 
-        new_epoch = self._sys_epoch + d_epoch
+        self._sys_epoch += d_epoch
         self.avg_d_epoch = (self.avg_d_epoch + d_epoch) / 2
-        self.do_updates(new_epoch=new_epoch)
-
-        if (self.end_epoch - new_epoch) < 2 * self.avg_d_epoch:
+        if (self.end_epoch - self._sys_epoch) < 2 * self.avg_d_epoch:
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
-            self.set_ephems(epoch=new_epoch)               # reset ephem range
+            self.set_ephems(epoch=self._sys_epoch)               # reset ephem range
 
-        self._sys_epoch = new_epoch
-
+        self.update_states(new_epoch=self._sys_epoch)
         logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
                       self.avg_d_epoch,
-                      new_epoch.jd)
+                      self._sys_epoch.jd)
 
-    def init_simbodies(self, body_names=None):
-        solar_system_ephemeris.set("jpl")
-        sb_dict = {}
-        for name in self.body_names:
-            sb_dict.update({name: SimBody(body_name=name,
-                                          epoch=self._sys_epoch,
-                                          sim_param=self.sim_params,
-                                          body_data=self.body_data[name],
-                                          # add marker symbol to body_data
-                                          )})
-        logging.info("\t>>> SimBody objects created....\n")
-        return sb_dict
-
-    def do_updates(self, new_epoch=None):
+    def update_states(self, new_epoch=None):
         for sb in self.sb_list:
             sb.update_state(epoch=new_epoch)
 
@@ -185,23 +184,21 @@ class StarSystem:
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self.sys_rel_pos, self.sys_rel_vel, self.body_accel)
 
-    def init_sysviz(self):
-        self.frame_viz = XYZAxis(parent=self._mainview.scene)       # set parent in MainSimWindow ???
-        self.frame_viz.transform = tr.STTransform()
-        self.frame_viz.transform.scale = [1e+05, 1e+05, 1e+05]
+    def get_symb_sizes(self):
+        body_fovs = []
         for sb in self.sb_list:
-            if sb.sb_parent is not None:
-                new_poly = Polygon(pos=sb.o_track,
-                                   border_color=sb.base_color + np.array([0, 0, 0, self.poly_alpha]),
-                                   triangulate=False,
-                                   )
-                sb.trk_poly = new_poly
-                self.trk_polys.append(sb.trk_poly)
+            body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
+            sb.update_alpha()
 
-        self.orb_vizz = Compound(self.trk_polys)
-        viz = Compound([self.frame_viz, self.bods_viz, self.orb_vizz])
-        viz.parent = self._mainview.scene
-        return viz
+        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self.cam.fov) for b_fov in body_fovs]
+        pix_diams = []
+        for rd in raw_diams:
+            if rd < MIN_SYMB_SIZE:
+                pix_diams.append(MIN_SYMB_SIZE)
+            else:
+                pix_diams.append(rd)
+
+        return np.array(pix_diams)
 
     def run(self):
         self.w_clock.start()

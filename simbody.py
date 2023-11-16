@@ -99,72 +99,6 @@ class SimBody:
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
 
-    def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
-        rel_pos = pos - self._state[0]
-        dist = np.linalg.norm(rel_pos)
-        if dist < 1e-09:
-            fov = 0.0
-        else:
-            fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
-        return {"rel_pos": rel_pos,
-                "dist": dist,
-                "fov": fov,
-                }
-
-    def update_state(self, epoch=None):
-        self.set_epoch(epoch)
-        logging.debug("\n\t\t\tBODY:\t%s\n\t\t\tEPOCH:\t%s\n\t\t\tEPHEM:\t%s",
-                      self._name,
-                      str(self._epoch),
-                      self._ephem
-                      )
-        if self._orbit is not None:
-            neworbit = self._orbit.propagate(self._epoch)
-            self._state = np.array([neworbit.r.value,
-                                    neworbit.v.value,
-                                    self._rot_func(**toTD(self._epoch)),
-                                    ])
-            self._orbit = neworbit
-            self.update_alpha()
-        else:
-            self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
-                                    self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
-                                    self._rot_func(**toTD(self._epoch)),
-                                    ])
-
-        # self.update_pos(self._state.[0])
-        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
-                      self._name,
-                      self._epoch,
-                      self._state[0],
-                      # self._state[1],
-                      # self._state[2],
-                      )
-
-    def get_clrmap(self):
-        c_map = self.base_color + self.alpha_map
-        logging.debug("c_map:\n%s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
-
-        # return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
-        return c_map
-
-    def update_alpha(self):
-        if self._orbit is not None:
-            nu_deg = self._orbit.nu.value * 180 / np.pi
-            if (nu_deg - self._cm_offset) > 1:
-                self._cm_offset = math.floor(nu_deg)
-                for n in range(-self._cm_offset, 360 - self._cm_offset):
-                    self.alpha_map[:, 3] = n / 360
-            self.colormap = self.alpha_map
-
-    def set_epoch(self, epoch=None):
-        if epoch is None:
-            epoch = self._epoch
-        self._epoch = Time(epoch,
-                           format='jd',
-                           scale='tdb',
-                           )
-
     def set_time_range(self,
                        epoch=None,
                        periods=None,
@@ -186,6 +120,14 @@ class SimBody:
                                    spacing=spacing,
                                    format='jd',
                                    scale='tdb',)
+
+    def set_epoch(self, epoch=None):
+        if epoch is None:
+            epoch = self._epoch
+        self._epoch = Time(epoch,
+                           format='jd',
+                           scale='tdb',
+                           )
 
     def set_ephem(self, t_range=None):
         logging.debug("get_ephem()")
@@ -225,6 +167,64 @@ class SimBody:
 
         else:
             self._orbit = 0
+
+    def update_state(self, epoch=None):
+        self.set_epoch(epoch)
+        logging.debug("\n\t\t\tBODY:\t%s\n\t\t\tEPOCH:\t%s\n\t\t\tEPHEM:\t%s",
+                      self._name,
+                      str(self._epoch),
+                      self._ephem
+                      )
+        if self._orbit is not None:
+            neworbit = self._orbit.propagate(self._epoch)
+            self._state = np.array([neworbit.r.value,
+                                    neworbit.v.value,
+                                    self._rot_func(**toTD(self._epoch)),
+                                    ])
+            self._orbit = neworbit
+            self.update_alpha()
+        else:
+            self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
+                                    self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
+                                    self._rot_func(**toTD(self._epoch)),
+                                    ])
+
+        # self.update_pos(self._state.[0])
+        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
+                      self._name,
+                      self._epoch,
+                      self._state[0],
+                      # self._state[1],
+                      # self._state[2],
+                      )
+
+    def update_alpha(self):
+        if self._orbit is not None:
+            nu_deg = self._orbit.nu.value * 180 / np.pi
+            if (nu_deg - self._cm_offset) > 1:
+                self._cm_offset = math.floor(nu_deg)
+                for n in range(-self._cm_offset, 360 - self._cm_offset):
+                    self.alpha_map[:, 3] = n / 360
+            self.colormap = self.alpha_map
+
+    def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
+        rel_pos = pos - self._state[0]
+        dist = np.linalg.norm(rel_pos)
+        if dist < 1e-09:
+            fov = 0.0
+        else:
+            fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
+        return {"rel_pos": rel_pos,
+                "dist": dist,
+                "fov": fov,
+                }
+
+    def get_clrmap(self):
+        c_map = self.base_color + self.alpha_map
+        logging.debug("c_map:\n%s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
+
+        # return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
+        return c_map
 
     @property
     def name(self):
