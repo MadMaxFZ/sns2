@@ -207,11 +207,13 @@ class SimBody:
                     self.alpha_map[:, 3] = n / 360
             self.colormap = self.alpha_map
 
-    def dist2pos(self, pos=np.zeros((3, ), dtype=np.float64)):
+    def rel2pos(self, pos=np.zeros((3,), dtype=np.float64)):
         rel_pos = pos - self._state[0]
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
-            fov = 0.0
+            dist = 0.0
+            rel_pos = vec_type([0, 0, 0])
+            fov = -1
         else:
             fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
         return {"rel_pos": rel_pos,

@@ -153,7 +153,7 @@ class StarSystem:
         for sb1 in self.sb_list:
             j = 0
             # collect the position relative to the camera location
-            self.cam_rel_pos[i] = sb1.dist2pos(pos=self._mainview.camera.center)['rel_pos']
+            self.cam_rel_pos[i] = sb1.rel2pos(pos=self._mainview.camera.center)['rel_pos']
             # if sb1.sb_parent is not None:
             #     if sb1.sb_parent.name != self.sb_list[0].name:
             #         pass
@@ -161,7 +161,7 @@ class StarSystem:
 
             # collect the relative position and velocity to the other bodies
             for sb2 in self.sb_list:
-                self.sys_rel_pos[i][j] = sb2.dist2pos(pos=sb1.pos)['rel_pos']
+                self.sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos)['rel_pos']
                 self.sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
 
@@ -187,7 +187,7 @@ class StarSystem:
     def get_symb_sizes(self):
         body_fovs = []
         for sb in self.sb_list:
-            body_fovs.append(sb.dist2pos(pos=self.cam.center)['fov'])
+            body_fovs.append(sb.rel2pos(pos=self.cam.center)['fov'])
             sb.update_alpha()
 
         raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self.cam.fov) for b_fov in body_fovs]
