@@ -21,6 +21,7 @@ from poliastro.bodies import Sun
 from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
 from multiprocessing import get_logger
+from data_functs import vec_type
 # from PIL import Image
 
 """------------------------------------------------------------------------------"""
@@ -43,9 +44,9 @@ class Planet(visuals.Compound):
 
     def __init__(self, rows=36, cols=None,
                  refbody=None,
-                 pos=None,
+                 pos=np.zeros((1,), dtype=vec_type),
                  edge_color=np.array([0, 0, 0, 0.1]),
-                 color=np.array([1, 1, 1, 1]),
+                 color=np.ones((4,), dtype=float),
                  texture=None,
                  **kwargs,
                  ):
@@ -63,7 +64,7 @@ class Planet(visuals.Compound):
 
         logging.debug('\n<--------------------------------->')
         logging.debug('\tInitializing PlanetVisual object...')
-        self._pos   = np.array([0, 0, 0])
+        self._pos   = pos
         self._verts = []
         self._norms = []
         self._txcds = []
@@ -74,21 +75,22 @@ class Planet(visuals.Compound):
         self._edge_colors = []  # EIGHT friggin' lists !!!
         self._texture = texture
         self._filter = None
+        #TODO: find a better way to assign a reference SimBody
         if refbody is not None:
             self._pos = refbody.pos
             if refbody == Sun:
-                self._radius = [refbody.body.R.value,
-                                refbody.body.R.value,
-                                refbody.body.R.value,
-                                ]   
+                self._radius = np.array([refbody.body.R.value,
+                                         refbody.body.R.value,
+                                         refbody.body.R.value,
+                                         ])
             else:
-                self._radius = [refbody.body.R_mean.value,
-                                refbody.body.R.value,
-                                refbody.body.R_polar.value,
-                                ]
+                self._radius = np.array([refbody.body.R_mean.value,
+                                         refbody.body.R.value,
+                                         refbody.body.R_polar.value,
+                                         ])
         else:
-            self._radius = [1.0, 1.0, 1.0]
-            self._pos = np.array([0.0, 0.0 ,0.0])
+            self._radius = np.ones((3,), dtype=vec_type)
+            self._pos = np.zeros((3,), dtype=vec_type)
             
         if cols is None:
             cols = rows * 2

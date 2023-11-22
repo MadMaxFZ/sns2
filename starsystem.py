@@ -80,8 +80,7 @@ class StarSystem:
 
     def init_sysviz(self):
         self._frame_viz = XYZAxis(parent=self._mainview.scene)       # set parent in MainSimWindow ???
-        self._frame_viz.transform = tr.STTransform()
-        self._frame_viz.transform.scale = [1e+05, 1e+05, 1e+05]
+        self._frame_viz.transform = tr.STTransform(scale = [1e+08, 1e+08, 1e+08])
         for sb in self._sb_list:
             if sb.sb_parent is not None:
                 new_poly = Polygon(pos=sb.o_track,

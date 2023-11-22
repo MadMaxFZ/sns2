@@ -38,7 +38,8 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.camera.set_range((-1e+09, 1e+09),
                                    (-1e+09, 1e+09),
                                    (-1e+09, 1e+09), )       # this initial range gets bulk of system
-        self.show()
+        if __name__ != "__main__":
+            self.run()
 
     def on_key_press(self, ev):
         if ev.key.name == "+":

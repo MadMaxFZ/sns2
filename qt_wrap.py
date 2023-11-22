@@ -8,6 +8,8 @@ import numpy as np
 from PyQt5 import QtWidgets
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
+from mainsimwin import MainSimWindow
+
 
 class MainQtWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -33,7 +35,18 @@ class Controls(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout()
         # define Qt controls here
 
-# probably should make this a subclass of MainSimWindow
+
 class CanvasWrapper:
     def __init__(self):
+        self.canvas = MainSimWindow()
+
+    def set_skymap_grid(self, color=(1, 1, 1, 1)):
         pass
+
+
+if __name__ == "__main__":
+    app = use_app("pyqt5")
+    app.create()
+    win = MainQtWindow()
+    win.show()
+    app.run()
