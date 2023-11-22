@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 # import functiontrace
-import numpy as np
-import math
-from vispy.util.transforms import *
-from viz_functs import get_tex_data, get_viz_data
+# import numpy as np
+# import math
+# from vispy.util.transforms import *
+# from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
 from vispy.color import Color
-from data_functs import *
+# from data_functs import *
 from starsystem import *
 
 logging.basicConfig(filename="logs/mainsimwin.log",
@@ -29,7 +29,7 @@ class MainSimWindow(scene.SceneCanvas):
         self.view.camera.scale_factor = 1.0
         self.view.camera.zoom_factor = 1.0
         self.star_sys = StarSystem(view=self.view)
-        self.skymap = self.star_sys.skymap
+        self.skymap = self.star_sys._skymap
         self.sys_viz = self.star_sys.init_sysviz()
         self.freeze()
         self.skymap.parent = self.view.scene
