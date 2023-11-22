@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import os
-import math
 import logging
-
-import _utils
-from planet_visual import SkyMap
-from viz_functs import get_tex_data
 from astropy.time import Time
 from poliastro.constants import J2000_TDB
 from poliastro.bodies import *
 from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
-
+from planet_visual import SkyMap
+from viz_functs import get_tex_data
 
 logging.basicConfig(
     filename="logs/sns_defs.log",
@@ -215,12 +211,15 @@ def setup_datastore():
         Neptune=xtr_viz,
         Pluto=xtr_viz,
     )
+
+    # TODO: This needs to live somewhere else, as in StarSystem class
     sky_fname = TEX_PATH + TEX_FNAMES[48]
     print(sky_fname)
     skymap = SkyMap(edge_color=(0, 0, 1, .3),
                     color=(1, 1, 1, 1),
                     texture=get_tex_data(fname=sky_fname),
                     )
+
     for idx in range(len(BODY_NAMES)):  # idx = [0..,len(BODY_NAMES)-1]
         _bod_name = BODY_NAMES[idx]
         _body = body_set[idx]

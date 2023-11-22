@@ -46,10 +46,14 @@ class MainSimWindow(scene.SceneCanvas):
             self.view.camera.scale_factor *= 1.1
         elif ev.key.name == "-":
             self.view.camera.scale_factor /= 1.1
-        if ev.key.name == "*":
+        elif ev.key.name == "*":
             self.view.camera.zoom_factor *= 1.1
         elif ev.key.name == "/":
             self.view.camera.zoom_factor /= 1.1
+        elif ev.key.name == "T":
+            self.star_sys.t_warp = self.star_sys.t_warp * 1.1
+        elif ev.key.name == "t":
+            self.star_sys.t_warp = self.star_sys.t_warp / 1.1
 
     def run(self):
         self.show()

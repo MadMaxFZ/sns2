@@ -1,9 +1,8 @@
 import logging
 from vispy.scene.visuals import Markers, Text, Arrow, XYZAxis, Axis, Polygon
-from planet_visual import Planet
 from PIL import Image
 
-#viz2ignore = ["ruler", "oscorbit", "radvec", "velvec"]
+# viz2ignore = ["ruler", "oscorbit", "radvec", "velvec"]
 
 
 def get_tex_data(idx=None, fname=None):

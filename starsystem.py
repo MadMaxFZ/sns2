@@ -208,6 +208,13 @@ class StarSystem:
     def bods_viz(self):
         return self._bods_viz
 
+    @property
+    def t_warp(self):
+        return self._t_warp
+
+    @t_warp.setter
+    def t_warp(self, new_twarp):
+        self._t_warp = new_twarp
 
 def main():
     my_starsys = StarSystem()
