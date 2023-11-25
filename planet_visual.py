@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #######################################################################################################################
 """
-   Copyright 2023 Max S. Whitten : madmaxfz@protonmail.com
+   Copyright 2023, Max S. Whitten : madmaxfz@protonmail.com
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the “Software”), to deal in the Software without restriction, including without limitation
 the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
@@ -21,8 +21,6 @@ from poliastro.bodies import Sun
 from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
 from multiprocessing import get_logger
-# from data_functs import vec_type
-# from PIL import Image
 
 """------------------------------------------------------------------------------"""
 
@@ -45,7 +43,7 @@ class Planet(visuals.Compound):
     def __init__(self, rows=36, cols=None,
                  refbody=None,
                  pos=np.zeros((3,), dtype=float),
-                 edge_color=np.array([0, 0, 0, 0.1]),
+                 edge_color=np.array([0, 0, 0, 0.3]),
                  color=np.ones((4,), dtype=float),
                  texture=None,
                  **kwargs,
@@ -75,9 +73,9 @@ class Planet(visuals.Compound):
         self._edge_colors = []  # EIGHT friggin' lists !!!
         self._texture = texture
         self._filter = None
-        #TODO: find a better way to assign a reference SimBody
+        # TODO: find a better way to assign a reference SimBody
         if refbody is not None:
-            self._pos = refbody.pos
+            # self._pos = refbody.pos
             if refbody == Sun:
                 self._radius = np.array([refbody.body.R.value,
                                          refbody.body.R.value,
@@ -89,8 +87,8 @@ class Planet(visuals.Compound):
                                          refbody.body.R_polar.value,
                                          ])
         else:
-            self._radius = np.ones((3,), dtype=vec_type)
-            self._pos = np.zeros((3,), dtype=vec_type)
+            self._radius = np.ones((3,), dtype=np.float64)
+            self._pos = np.zeros((3,), dtype=np.float64)
             
         if cols is None:
             cols = rows * 2
@@ -121,7 +119,7 @@ class Planet(visuals.Compound):
                                   )
 
         logging.debug('Initializing border mesh, cram into Compound and set the gl_state...')
-        if edge_color:
+        if edge_color.any():
             self._border = visuals.Mesh(vertices=mesh.get_vertices(),
                                         faces=mesh.get_edges(),
                                         color=edge_color,
@@ -305,8 +303,8 @@ class SkyMap(visuals.Compound):
     def __init__(self,
                  rows=18, cols=36,
                  radius=8e+09,
-                 edge_color=[1, 1, 1, 1],
-                 color=[1, 1, 1, 1],
+                 edge_color=(1, 1, 1, 1),
+                 color=(1, 1, 1, 1),
                  texture=None,
                  **kwargs,
                  ):
@@ -535,11 +533,12 @@ def main():
     skymap = SkyMap(parent=view.scene,
                     radius=1e+02,
                     texture=s_tex,
-                    edge_color=[1, 0, 0, .3]
+                    edge_color=[0, 0, 1, .3]
                     )
     planet = Planet(# refbody=Earth,
                     parent=skymap,
                     texture=p_tex,
+                    edge_color=np.array([0.7, 0.7, 0.7, 0.3]),
                     )
     # planet.set_texture(texture=texture)
     skymap.visible = True
