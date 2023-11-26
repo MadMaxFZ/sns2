@@ -21,6 +21,7 @@ from poliastro.bodies import Sun
 from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
 from multiprocessing import get_logger
+from simbody import SimBody
 
 """------------------------------------------------------------------------------"""
 

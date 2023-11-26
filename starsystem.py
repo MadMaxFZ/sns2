@@ -8,7 +8,7 @@ from data_functs import *
 from simbody import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-from vispy.scene.visuals import Markers, Compound, Polygon, XYZAxis
+from starsys_visual import SystemVizual
 import vispy.visuals.transforms as tr
 import math
 
@@ -29,7 +29,7 @@ class StarSystem:
         self._body_count = self._DATASET["BODY_COUNT"]
         self._body_names = self._DATASET["BODY_NAMES"]
         self._body_data  = self._DATASET["BODY_DATA"]
-        self._skymap     = self._DATASET["SKYMAP"]          # place this in new graphics class
+        # self._skymap     = self._DATASET["SKYMAP"]          # place this in new graphics class
         self._sim_params = self._DATASET["SYS_PARAMS"]
         self._sys_epoch = Time(self._DATASET["DEF_EPOCH"],
                                format='jd',
@@ -45,16 +45,17 @@ class StarSystem:
         self._cam_rel_pos = np.zeros((self._body_count,), dtype=vec_type)
         self._cam_rel_vel = None    # there is no readily available velocity for camera
 
-        self._bods_pos = None
-        self._symbol_sizes = self.get_symb_sizes()
-        self._bod_symbols  = [sb.body_symb for sb in self._sb_list]
-        self._body_markers = Markers(edge_color=(0, 1, 0, 1),
-                                     size=self._symbol_sizes,
-                                     scaling=False, )
-        self._track_polys = []
-        self._track_alpha = 0.5
-        self._orb_vizz = None
-        self._frame_viz = None
+        self._system_viz = SystemVizual(sim_bods=self._simbodies)
+        # self._bods_pos = None
+        # self._symbol_sizes = self.get_symb_sizes()
+        # self._bod_symbols  = [sb.body_symb for sb in self._sb_list]
+        # self._body_markers = Markers(edge_color=(0, 1, 0, 1),
+        #                              size=self._symbol_sizes,
+        #                              scaling=False, )
+        # self._track_polys = []
+        # self._track_alpha = 0.5
+        # self._orb_vizz = None
+        # self._frame_viz = None
 
         self._w_last = 0
         self._d_epoch = None
@@ -81,8 +82,8 @@ class StarSystem:
         logging.info("\t>>> SimBody objects created....\n")
         return sb_dict
 
-    # TODO: Consider making a new class containing all the system's graphical components
     def init_sysviz(self):
+        # TODO: generate/assign visuals here to build SystemVizual instance
         self._frame_viz = XYZAxis(parent=self._mainview.scene)       # set parent in MainSimWindow ???
         self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
         for sb in self._sb_list:
@@ -103,7 +104,8 @@ class StarSystem:
         if epoch is None:
             epoch = self._sys_epoch
         else:
-            span = self._simbodies["Earth"].orbit.period / 365.25
+            # span = self._simbodies["Earth"].orbit.period / 365.25
+            span = 86400 * u.s      # seconds per day
 
         _t_range = time_range(epoch,
                               periods=365,
@@ -169,6 +171,7 @@ class StarSystem:
                 j += 1
             i += 1
 
+        # refresh graphics here
         self._symbol_sizes = self.get_symb_sizes()        # update symbol sizes based upon FOV of body
         self._body_markers.set_data(pos=self._bods_pos,
                                     face_color=np.array([sb.base_color + np.array([0, 0, 0, self._track_alpha])

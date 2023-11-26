@@ -8,7 +8,7 @@ from poliastro.bodies import *
 from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
-from planet_visual import SkyMap
+# from planet_visual import SkyMap
 from viz_functs import get_tex_data
 
 logging.basicConfig(
@@ -215,10 +215,10 @@ def setup_datastore():
     # TODO: This needs to live somewhere else, as in StarSystem class
     sky_fname = TEX_PATH + TEX_FNAMES[48]
     print(sky_fname)
-    skymap = SkyMap(edge_color=(0, 0, 1, .3),
-                    color=(1, 1, 1, 1),
-                    texture=get_tex_data(fname=sky_fname),
-                    )
+    # skymap = SkyMap(edge_color=(0, 0, 1, .3),
+    #                 color=(1, 1, 1, 1),
+    #                 texture=get_tex_data(fname=sky_fname),
+    #                 )
 
     for idx in range(len(BODY_NAMES)):  # idx = [0..,len(BODY_NAMES)-1]
         _bod_name = BODY_NAMES[idx]
@@ -286,7 +286,7 @@ def setup_datastore():
         SYS_PARAMS=SYS_PARAMS,
         TEX_FNAMES=TEX_FNAMES,
         TEX_PATH=TEX_PATH,
-        SKYMAP=skymap,
+        # SKYMAP=skymap,
         BODY_NAMES=BODY_NAMES,
         BODY_COUNT=BODY_COUNT,
         TYPE_COUNT=TYPE_COUNT,

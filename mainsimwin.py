@@ -24,40 +24,37 @@ class MainSimWindow(scene.SceneCanvas):
                                             bgcolor=Color("black"),
                                             )
         self.unfreeze()
-        self.view = self.central_widget.add_view()
-        self.view.camera = scene.cameras.FlyCamera(fov=90)
-        self.view.camera.scale_factor = 1.0
-        self.view.camera.zoom_factor = 1.0
-        self.star_sys = StarSystem(system_view=self.view)
-        self.skymap = self.star_sys._skymap
-        self.sys_viz = self.star_sys.init_sysviz()
+        self._sys_view = self.central_widget.add_view()
+        self._sys_view.camera = scene.cameras.FlyCamera(fov=90)
+        self._sys_view.camera.scale_factor = 1.0
+        self._sys_view.camera.zoom_factor = 1.0
+        self._star_sys = StarSystem(system_view=self._sys_view)
+        self._system_viz = self._star_sys.init_sysviz()
         self.freeze()
-        self.skymap.parent = self.view.scene
-        self.view.add(self.skymap)
-        self.view.add(self.sys_viz)
-        self.view.camera.set_range((-1e+09, 1e+09),
-                                   (-1e+09, 1e+09),
-                                   (-1e+09, 1e+09), )       # this initial range gets bulk of system
+        self._sys_view.add(self._system_viz)
+        self._sys_view.camera.set_range((-1e+09, 1e+09),
+                                        (-1e+09, 1e+09),
+                                        (-1e+09, 1e+09), )       # this initial range gets bulk of system
         if __name__ != "__main__":
             self.run()
 
     def on_key_press(self, ev):
         if ev.key.name == "+":
-            self.view.camera.scale_factor *= 1.1
+            self._sys_view.camera.scale_factor *= 1.1
         elif ev.key.name == "-":
-            self.view.camera.scale_factor /= 1.1
+            self._sys_view.camera.scale_factor /= 1.1
         elif ev.key.name == "*":
-            self.view.camera.zoom_factor *= 1.1
+            self._sys_view.camera.zoom_factor *= 1.1
         elif ev.key.name == "/":
-            self.view.camera.zoom_factor /= 1.1
+            self._sys_view.camera.zoom_factor /= 1.1
         elif ev.key.name == "T":
-            self.star_sys.t_warp = self.star_sys.t_warp * 1.1
+            self._star_sys.t_warp = self._star_sys.t_warp * 1.1
         elif ev.key.name == "t":
-            self.star_sys.t_warp = self.star_sys.t_warp / 1.1
+            self._star_sys.t_warp = self._star_sys.t_warp / 1.1
 
     def run(self):
         self.show()
-        self.star_sys.run()
+        self._star_sys.run()
         app.run()
 
     def stop(self):
