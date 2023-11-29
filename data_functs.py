@@ -67,12 +67,11 @@ def setup_datastore():
     TYPE_COUNT = {}  # dict of body types and the count of each type
     BODY_DATA = {}  # dict of body name and the static parameters of each
     tex_data_set = {}  # dist of body name and the texture data associated with it
-    SYS_PARAMS = dict(
-        dist_unit=u.km,
-        periods=30,
-        spacing=1 * u.s / 30,
-        fps=30,
-    )
+    SYS_PARAMS = dict(dist_unit=u.km,
+                      periods=365,
+                      spacing=365.25 * 24 * 60 * 60 * u.s,
+                      fps=30,
+                      )
     body_set = [Sun,
                 Mercury,
                 Venus,

@@ -1,17 +1,10 @@
-import logging
-import unittest.mock
-import numpy as np
 from data_functs import *
 from poliastro.ephem import *
-from astropy.time import TimeDelta, Time
+from astropy import units as u
+from astropy.time import Time
 from poliastro.twobody.orbit.scalar import Orbit
-from vispy.color import Color, ColorArray, Colormap
 from vispy.scene.visuals import Polygon
 
-
-# print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
-# print(subprocess.run(["rm", "logs/sim_body.log"]))
-# print(subprocess.run(["touch", "logs/sim_body.log", ]))
 logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
@@ -27,38 +20,30 @@ class SimBody:
     def __init__(self,
                  body_name=None,
                  epoch=None,
-                 sim_param=None,    # this can probably be done away with
+                 dist_unit=u.km,
                  body_data=None,
+                 sim_param=None,
                  ):
 
         if epoch is None:
             epoch = J2000_TDB
+        self._is_primary    = False
         self._sb_parent     = None
         self._name          = body_name
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
-        # self._tex_data      = self._body_data['tex_data']
-        # self._viz_names     = self._body_data['viz_names']
-        self._dist_unit     = sim_param["dist_unit"]
+        self._dist_unit     = dist_unit
         self._periods       = sim_param["periods"]
         self._spacing       = sim_param["spacing"]
-        self._FPS           = sim_param["fps"]
-        self._t_span        = self._periods * self._spacing
         self._t_range       = None
         self._ephem         = None
         self._orbit         = None
         self._track         = None
         self._type          = None
         self._state         = np.zeros((3,), dtype=np.float64)
-        alphas = np.linspace(0, 1, num=360, endpoint=False)
-        self.alpha_map = np.zeros((360, 4), dtype=np.float64)
-        self.alpha_map[:, 3] = np.ones((360,), dtype=np.float64)
-        self._base_color = np.array(self._body_data['body_color'])
-        self._colormap = self.get_clrmap()
-        self._cm_offset = 0
-        self._body_symb = None
-        self._trk_poly = None
+        self._base_color    = np.array(self._body_data['body_color'])
+        self._track_alpha   = 0.6
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -67,16 +52,16 @@ class SimBody:
 
         if self._body.parent is None:
             self._type = "star"
-            self._body_symb = 'o'
+            self._body_symbol = 'o'
             self._sb_parent = None
         else:
             self._type = "planet"
-            self._body_symb = 'o'
+            self._body_symbol = 'o'
             self._sb_parent = self._body.parent
 
         if self._name == "Moon":
             self._plane = Planes.EARTH_EQUATOR
-            self._body_symb = 'o'
+            self._body_symbol = 'o'
             self._type = "moon"
         else:
             self._plane = Planes.EARTH_ECLIPTIC
@@ -176,16 +161,16 @@ class SimBody:
                       self._ephem
                       )
         if self._orbit is not None:
-            neworbit = self._orbit.propagate(self._epoch)
-            self._state = np.array([neworbit.r.value,
-                                    neworbit.v.value,
+            new_orbit = self._orbit.propagate(self._epoch)
+
+            self._state = np.array([new_orbit.r.to(self._dist_unit).value,
+                                    new_orbit.v.to(self._dist_unit / u.s).value,
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
-            self._orbit = neworbit
-            self.update_alpha()
+            self._orbit = new_orbit
         else:
-            self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit),
-                                    self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s),
+            self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit).value,
+                                    self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s).value,
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
 
@@ -197,15 +182,6 @@ class SimBody:
                       # self._state[1],
                       # self._state[2],
                       )
-
-    def update_alpha(self):
-        if self._orbit is not None:
-            nu_deg = self._orbit.nu.value * 180 / np.pi
-            if (nu_deg - self._cm_offset) > 1:
-                self._cm_offset = math.floor(nu_deg)
-                for n in range(-self._cm_offset, 360 - self._cm_offset):
-                    self.alpha_map[:, 3] = n / 360
-            self.colormap = self.alpha_map
 
     def rel2pos(self, pos=np.zeros((3,), dtype=np.float64)):
         rel_pos = pos - self._state[0]
@@ -220,13 +196,6 @@ class SimBody:
                 "dist": dist,
                 "fov": fov,
                 }
-
-    def get_clrmap(self):
-        c_map = self.base_color + self.alpha_map
-        logging.debug("c_map:\n%s\n\t%s\t%s\n", c_map, type(c_map), c_map.shape)
-
-        # return Colormap(colors=c_map, controls=np.linspace(0, 1, num=360), interpolation='linear')
-        return c_map
 
     @property
     def name(self):
@@ -245,8 +214,28 @@ class SimBody:
         return self._type
 
     @property
+    def base_color(self):
+        return self._base_color
+
+    @property
+    def body_symbol(self):
+        return self._body_symbol
+
+    @body_symbol.setter
+    def body_symbol(self, new_symbol='o'):
+        self._body_symbol = new_symbol
+
+    @property
+    def track_alpha(self):
+        return self._track_alpha
+
+    @track_alpha.setter
+    def track_alpha(self, new_alpha=1):
+        self._track_alpha = new_alpha
+
+    @property
     def body_symb(self):
-        return self._body_symb
+        return self._body_symbol
 
     @property
     def trk_poly(self):
@@ -289,29 +278,25 @@ class SimBody:
     def track(self):
         return self._track
 
-    @property
-    def colormap(self):
-        return ColorArray(self._colormap)
+    # @property
+    # def colormap(self):
+    #     return ColorArray(self._colormap)
 
-    @colormap.setter
-    def colormap(self, new_cmap=None):
-        self._colormap = new_cmap
-
-    @property
-    def t_span(self):
-        return self._t_span
-
-    @property
-    def periods(self):
-        return self._periods
+    # @colormap.setter
+    # def colormap(self, new_cmap=None):
+    #     self._colormap = new_cmap
+    #
+    # @property
+    # def periods(self):
+    #     return self._periods
 
     @property
     def o_track(self):
         return self._track
 
-    @property
-    def spacing(self):
-        return self._spacing
+    # @property
+    # def spacing(self):
+    #     return self._spacing
 
     @state.setter
     def state(self, new_state=None):
@@ -322,23 +307,23 @@ class SimBody:
                          new_state)
             pass
 
-    @periods.setter
-    def periods(self, p=None):
-        if p is not None:
-            self._periods = p
-
-    @spacing.setter
-    def spacing(self, s=None):
-        if s is not None:
-            self._spacing = s
+    # @periods.setter
+    # def periods(self, p=None):
+    #     if p is not None:
+    #         self._periods = p
+    #
+    # @spacing.setter
+    # def spacing(self, s=None):
+    #     if s is not None:
+    #         self._spacing = s
 
     @epoch.setter
     def epoch(self, e=None):
         self._epoch = e
 
-    @property
-    def base_color(self):
-        return self._base_color
+    # @property
+    # def base_color(self):
+    #     return self._base_color
 
 
 if __name__ == "__main__":

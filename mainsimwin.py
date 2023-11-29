@@ -25,11 +25,11 @@ class MainSimWindow(scene.SceneCanvas):
                                             )
         self.unfreeze()
         self._sys_view = self.central_widget.add_view()
-        self._sys_view.camera = scene.cameras.FlyCamera(fov=90)
+        self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_view.camera.scale_factor = 1.0
         self._sys_view.camera.zoom_factor = 1.0
-        self._star_sys = StarSystem(system_view=self._sys_view)
-        self._system_viz = self._star_sys.init_sysviz()
+        self._star_sys = StarSystem(sys_data=setup_datastore(), view=self._sys_view)
+        self._system_viz = self._star_sys.sys_viz
         self.freeze()
         self._sys_view.add(self._system_viz)
         self._sys_view.camera.set_range((-1e+09, 1e+09),
@@ -39,18 +39,28 @@ class MainSimWindow(scene.SceneCanvas):
             self.run()
 
     def on_key_press(self, ev):
-        if ev.key.name == "+":
-            self._sys_view.camera.scale_factor *= 1.1
-        elif ev.key.name == "-":
-            self._sys_view.camera.scale_factor /= 1.1
-        elif ev.key.name == "*":
-            self._sys_view.camera.zoom_factor *= 1.1
-        elif ev.key.name == "/":
-            self._sys_view.camera.zoom_factor /= 1.1
-        elif ev.key.name == "T":
-            self._star_sys.t_warp = self._star_sys.t_warp * 1.1
-        elif ev.key.name == "t":
-            self._star_sys.t_warp = self._star_sys.t_warp / 1.1
+        try:
+            if ev.key.name == "+":
+                self._sys_view.camera.scale_factor *= 1.1
+                print("SCALE_FACTOR", self._sys_view.camera.scale_factor)
+            elif ev.key.name == "-":
+                self._sys_view.camera.scale_factor *= 0.9
+                print("SCALE_FACTOR", self._sys_view.camera.scale_factor)
+            elif ev.key.name == "*":
+                self._sys_view.camera.zoom_factor *= 1.1
+                print("ZOOM_FACTOR", self._sys_view.camera.zoom_factor)
+            elif ev.key.name == "/":
+                self._sys_view.camera.zoom_factor *= 0.9
+                print("ZOOM_FACTOR", self._sys_view.camera.zoom_factor)
+            elif ev.key.name == "T":
+                self._star_sys.t_warp *= 1.1
+                print("TIME_WARP:", self._star_sys.t_warp)
+            elif ev.key.name == "t":
+                self._star_sys.t_warp *= 0.9
+                print("TIME_WARP:", self._star_sys.t_warp)
+
+        except AttributeError:
+            print("Key Error...")
 
     def run(self):
         self.show()

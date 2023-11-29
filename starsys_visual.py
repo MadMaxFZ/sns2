@@ -1,32 +1,126 @@
 # -*- coding: utf-8 -*-
 
 from planet_visual import *
-from vispy.scene import visuals
+from data_functs import vec_type
+from vispy.scene.visuals import *
+import vispy.visuals.transforms as tr
+import math
+
+MIN_SYMB_SIZE = 5
+MAX_SYMB_SIZE = 20
+ST = tr.STTransform
+MT = tr.MatrixTransform
+SUN_COLOR = [253 / 255, 184 / 255, 19 / 255]
+DEF_MARKS_INIT = dict(scaling=False,
+                      alpha=1,
+                      antialias=1,
+                      spherical=False,
+                      light_color=SUN_COLOR,
+                      light_position=(0, 0, 0),
+                      light_ambient=0.3,
+                      )
+DEF_MARKS_DATA = dict(pos=None,
+                      size=None,
+                      edge_width=None,
+                      edge_width_rel=None,
+                      edge_color=None,
+                      face_color=None,
+                      symbol=None,
+                      )
 
 
-class SystemVizual(visuals.Compound):
+class SystemVizual(Compound):
     """
     """
-    def __init__(self, sim_bods=None):
-        self._skymap = SkyMap(edge_color=(0, 0, 1, 0.4))
-        self._init_state = 0
+    def __init__(self, sim_bods=None, system_view=None):
         if self._check_simbods(sbs=sim_bods):
-            self._build_sys_viz(sbs=sim_bods)
+            self._simbods       = sim_bods
+            self._init_state    = 0
+            self._mainview      = system_view
+            self._cam           = self._mainview.camera
+            self._cam_rel_pos   = np.zeros((len(self._simbods.keys()),), dtype=vec_type)
+            self._cam_rel_vel   = None  # there is no readily available velocity for camera
+            self._skymap        = SkyMap(edge_color=(0, 0, 1, 0.4))
+            self._sb_symbols    = []
+            self._symbol_sizes  = []
+            self._bods_pos      = []
+            self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)     # a single instance of Markers
+            self._sb_planets    = {}       # a dict of Planet visuals
+            self._sb_tracks     = {}       # a dict of Polygon visuals
+            self._system_viz    = self._setup_sysviz(sbs=sim_bods)
+            super(SystemVizual, self).__init__([])
+        else:
+            print("Must provide a dictionary of SimBody objects...")
+            exit(1)
+
+    def _setup_sysviz(self, sbs=None):
+        # TODO: generate/assign visuals here to build SystemVizual instance
+        if sbs is not None:
+            self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
+            self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
+            self._sb_markers.parent = self._skymap
+            for sb_name, sb in sbs.items():
+                self._sb_symbols.append(sb.body_symbol)
+                if sb.sb_parent is not None:
+                    sb.trk_poly = Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
+                                          border_color=sb.base_color + np.array([0, 0, 0, sb.track_alpha]),
+                                          triangulate=False,
+                                          parent=self._skymap,
+                                          )
+                    self._sb_tracks.update({sb_name: sb.trk_poly})
+
+            self._orb_vizz = Compound(self._sb_tracks.values())
+            viz = Compound([self._skymap, self._frame_viz, self._orb_vizz, self._sb_markers])
+            viz.parent = self._mainview.scene
+            return viz
         else:
             print("Must provide SimBody dictionary...")
-            exit(1)
-        self._body_marks = None
-        self._body_marks_data = None
-        self._planet_vizz = None
-        self._planet_vizz_data = None
-        self._track_polys = None
-        self._track_polys_data = None
 
+    def update_sysviz(self):
+        # collect positions of the bodies into an array
+        _bods_pos = []
+        _bods_pos.extend([sb.pos for sb in self._simbods.values()])
+        _bods_pos[4] += _bods_pos[3]                        # add Earth pos to Moon pos
+        # self.trk_polys[3].transform = ST(translate=self.bods_pos[3])  # move moon orbit to Earth pos
+        self._bods_pos = np.array(_bods_pos)
 
-        super(SystemVizual, self).__init__([])
+        # collect the body positions relative to the camera location
+        self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
+                             for sb in self._simbods.values()]
+        self._symbol_sizes = self.get_symb_sizes()        # update symbol sizes based upon FOV of body
+        self._sb_markers.set_data(pos=self._bods_pos,
+                                  face_color=np.array([sb.base_color + np.array([0, 0, 0, sb.track_alpha])
+                                                       for sb in self._simbods.values()]),
+                                  edge_color=[1, 0, 0, .6],
+                                  size=self._symbol_sizes,
+                                  symbol=self._sb_symbols,
+                                  )
+        logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
+        logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
+
+    def get_symb_sizes(self):
+        body_fovs = []
+        for sb in self._simbods.values():
+            body_fovs.append(sb.rel2pos(pos=self._cam.center)['fov'])
+            # sb.update_alpha()
+
+        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self._cam.fov) for b_fov in body_fovs]
+        pix_diams = []
+        for rd in raw_diams:
+            if rd < MIN_SYMB_SIZE:
+                pix_diams.append(MIN_SYMB_SIZE)
+            elif rd > MAX_SYMB_SIZE:
+                pix_diams.append(0)
+            else:
+                pix_diams.append(rd)
+
+        return np.array(pix_diams)
 
     @staticmethod
     def _check_simbods(sbs=None):
+        """ Make sure that the simbods argument actually consists of
+            a dictionary of SimBody objects.
+        """
         check = True
         if sbs is None:
             print("Must provide something... FAILED")
@@ -41,13 +135,6 @@ class SystemVizual(visuals.Compound):
                     check = False
 
         return check
-
-    def _build_sys_viz(self, sbs=None):
-        if sbs is None:
-            print("Must provide SimBody dictionary...")
-        else:
-            for sb_name, sb in sbs.items():
-
 
     @property
     def skymap(self):
