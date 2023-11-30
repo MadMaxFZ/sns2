@@ -45,8 +45,8 @@ class SystemVizual(Compound):
             self._symbol_sizes  = []
             self._bods_pos      = []
             self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)     # a single instance of Markers
-            self._sb_planets    = {}       # a dict of Planet visuals
-            self._sb_tracks     = {}       # a dict of Polygon visuals
+            self._sb_planets    = []       # a list of Planet visuals
+            self._sb_tracks     = []       # a list of Polygon visuals
             self._system_viz    = self._setup_sysviz(sbs=sim_bods)
             super(SystemVizual, self).__init__([])
         else:
@@ -61,16 +61,26 @@ class SystemVizual(Compound):
             self._sb_markers.parent = self._skymap
             for sb_name, sb in sbs.items():
                 self._sb_symbols.append(sb.body_symbol)
+                self._sb_planets.append(Planet(refbody=sb,
+                                               color=sb.base_color,
+                                               texture=sb.texture,
+                                               visible=False,
+                                               parent=self._skymap
+                                               ))
                 if sb.sb_parent is not None:
-                    sb.trk_poly = Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
-                                          border_color=sb.base_color + np.array([0, 0, 0, sb.track_alpha]),
-                                          triangulate=False,
-                                          parent=self._skymap,
-                                          )
-                    self._sb_tracks.update({sb_name: sb.trk_poly})
+                    self._sb_tracks.append(Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
+                                                   border_color=sb.base_color +
+                                                   np.array([0, 0, 0, sb.track_alpha]),
+                                                   triangulate=False,
+                                                   parent=self._skymap,
+                                                   ))
 
-            self._orb_vizz = Compound(self._sb_tracks.values())
-            viz = Compound([self._skymap, self._frame_viz, self._orb_vizz, self._sb_markers])
+            viz = Compound([self._skymap,
+                            self._frame_viz,
+                            self._sb_tracks,
+                            self._sb_markers,
+                            self._sb_planets,
+                            ])
             viz.parent = self._mainview.scene
             return viz
         else:
@@ -102,17 +112,16 @@ class SystemVizual(Compound):
         body_fovs = []
         for sb in self._simbods.values():
             body_fovs.append(sb.rel2pos(pos=self._cam.center)['fov'])
-            # sb.update_alpha()
 
         raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self._cam.fov) for b_fov in body_fovs]
         pix_diams = []
         for rd in raw_diams:
             if rd < MIN_SYMB_SIZE:
                 pix_diams.append(MIN_SYMB_SIZE)
-            elif rd > MAX_SYMB_SIZE:
-                pix_diams.append(0)
-            else:
+            elif rd < MAX_SYMB_SIZE:
                 pix_diams.append(rd)
+            else:
+                pix_diams.append(0)
 
         return np.array(pix_diams)
 

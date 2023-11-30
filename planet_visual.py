@@ -44,7 +44,7 @@ class Planet(visuals.Compound):
 
     def __init__(self, rows=36, cols=None,
                  refbody=None,
-                 pos=np.zeros((3,), dtype=float),
+                 # pos=np.zeros((3,), dtype=float),
                  edge_color=np.array([0, 0, 0, 0.3]),
                  color=np.ones((4,), dtype=float),
                  texture=None,
@@ -64,7 +64,6 @@ class Planet(visuals.Compound):
 
         logging.debug('\n<--------------------------------->')
         logging.debug('\tInitializing PlanetVisual object...')
-        self._pos   = pos
         self._verts = []
         self._norms = []
         self._txcds = []
@@ -75,10 +74,9 @@ class Planet(visuals.Compound):
         self._edge_colors = []  # EIGHT friggin' lists !!!
         self._texture = texture
         self._filter = None
-        # TODO: find a better way to assign a reference SimBody
-        if refbody is not None:
-            # self._pos = refbody.pos
-            if refbody == Sun:
+        if type(refbody) == SimBody:
+            self._pos = refbody.pos
+            if refbody.name == "Sun":
                 self._radius = np.array([refbody.body.R.value,
                                          refbody.body.R.value,
                                          refbody.body.R.value,

@@ -61,6 +61,7 @@ class StarSystem:
                                           epoch=self._sys_epoch,
                                           body_data=self._body_data[name],
                                           sim_param=StarSystem.sim_params,
+                                          texture=self._body_data['tex_data'],
                                           # add marker symbol to body_data
                                           )})
         logging.info("\t>>> SimBody objects created....\n")

@@ -33,6 +33,7 @@ class SimBody:
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
+        self._tex_data      = self._body_data['tex_data']
         self._dist_unit     = dist_unit
         self._periods       = sim_param["periods"]
         self._spacing       = sim_param["spacing"]
@@ -277,6 +278,14 @@ class SimBody:
     @property
     def track(self):
         return self._track
+
+    @property
+    def texture(self):
+        return self._tex_data
+
+    @texture.setter
+    def texture(self, new_tex_data=None):
+        self._tex_data = new_tex_data
 
     # @property
     # def colormap(self):
