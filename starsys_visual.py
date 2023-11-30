@@ -44,9 +44,9 @@ class SystemVizual(Compound):
             self._sb_symbols    = []
             self._symbol_sizes  = []
             self._bods_pos      = []
-            self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)     # a single instance of Markers
             self._sb_planets    = []       # a list of Planet visuals
             self._sb_tracks     = []       # a list of Polygon visuals
+            self._sb_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._system_viz    = self._setup_sysviz(sbs=sim_bods)
             super(SystemVizual, self).__init__([])
         else:
@@ -63,8 +63,8 @@ class SystemVizual(Compound):
                 self._sb_symbols.append(sb.body_symbol)
                 self._sb_planets.append(Planet(refbody=sb,
                                                color=sb.base_color,
+                                               edge_color=sb.base_color,
                                                texture=sb.texture,
-                                               visible=False,
                                                parent=self._skymap
                                                ))
                 if sb.sb_parent is not None:
@@ -77,9 +77,9 @@ class SystemVizual(Compound):
 
             viz = Compound([self._skymap,
                             self._frame_viz,
-                            self._sb_tracks,
                             self._sb_markers,
-                            self._sb_planets,
+                            Compound(self._sb_tracks),
+                            Compound(self._sb_planets),
                             ])
             viz.parent = self._mainview.scene
             return viz
@@ -109,6 +109,7 @@ class SystemVizual(Compound):
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 
     def get_symb_sizes(self):
+        # TODO: Rework this method to have only one loop!
         body_fovs = []
         for sb in self._simbods.values():
             body_fovs.append(sb.rel2pos(pos=self._cam.center)['fov'])

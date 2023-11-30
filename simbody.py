@@ -1,3 +1,5 @@
+import numpy as np
+
 from data_functs import *
 from poliastro.ephem import *
 from astropy import units as u
@@ -33,7 +35,7 @@ class SimBody:
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
-        self._tex_data      = self._body_data['tex_data']
+        self._tex_data      = self._body_data['tex_dat']
         self._dist_unit     = dist_unit
         self._periods       = sim_param["periods"]
         self._spacing       = sim_param["spacing"]
@@ -42,48 +44,48 @@ class SimBody:
         self._orbit         = None
         self._track         = None
         self._type          = None
-        self._state         = np.zeros((3,), dtype=np.float64)
+        self._state         = np.zeros((3,), dtype=vec_type)
         self._base_color    = np.array(self._body_data['body_color'])
+        self._body_alpha    = 1.0
         self._track_alpha   = 0.6
-        self.x_ax           = np.array([1, 0, 0])
-        self.y_ax           = np.array([0, 1, 0])
-        self.z_ax           = np.array([0, 0, 1])
+        self.x_ax           = vec_type([1, 0, 0])
+        self.y_ax           = vec_type([0, 1, 0])
+        self.z_ax           = vec_type([0, 0, 1])
         self._epoch         = Time(epoch, format='jd', scale='tdb')
-        self.RESAMPLE       = False
+        self._RESAMPLE      = False
 
         if self._body.parent is None:
-            self._type = "star"
-            self._body_symbol = 'o'
-            self._sb_parent = None
+            self._type          = "star"
+            self._body_symbol   = 'o'
+            self._sb_parent     = None
         else:
-            self._type = "planet"
-            self._body_symbol = 'o'
-            self._sb_parent = self._body.parent
+            self._type          = "planet"
+            self._body_symbol   = 'o'
+            self._sb_parent     = self._body.parent
 
         if self._name == "Moon":
-            self._plane = Planes.EARTH_EQUATOR
-            self._body_symbol = 'o'
-            self._type = "moon"
+            self._plane         = Planes.EARTH_EQUATOR
+            self._body_symbol   = 'o'
+            self._type          = "moon"
         else:
-            self._plane = Planes.EARTH_ECLIPTIC
+            self._plane         = Planes.EARTH_ECLIPTIC
 
         if self._name == 'Sun' or self._type == 'star':
-            R = self._body.R.value
+            R  = self._body.R.value
             Rm = Rp = R
         else:
-            R = self._body.R.value
+            R  = self._body.R.value
             Rm = self._body.R_mean.value
             Rp = self._body.R_polar.value
 
-        r_set = [R, Rm, Rp,]
-        self._body_data.update({'r_set' : r_set})
+        self._rad_set = [R, Rm, Rp,]
+        self._body_data.update({'rad_set' : self._rad_set})
         self.set_time_range(epoch=self._epoch,
                             periods=self._periods,
                             spacing=self._spacing,
                             )
         self.set_ephem(t_range=self._t_range)
-        if self._body.parent is not None:
-            self.set_orbit(self._ephem)
+        self.set_orbit(self._ephem)
 
     def set_time_range(self,
                        epoch=None,
@@ -147,12 +149,14 @@ class SimBody:
             print(self._orbit)
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
-            if (self._track is None) or (self.RESAMPLE is True):
+            if (self._track is None) or (self._RESAMPLE is True):
                 self._track = self._orbit.sample(360).xyz.transpose().value
-                self.RESAMPLE = False
+                self._RESAMPLE = False
 
         else:
             self._orbit = 0
+            logging.info(">>> NO PARENT BODY, Orbit set to: %s",
+                         str(self._orbit))
 
     def update_state(self, epoch=None):
         self.set_epoch(epoch)
@@ -161,7 +165,7 @@ class SimBody:
                       str(self._epoch),
                       self._ephem
                       )
-        if self._orbit is not None:
+        if type(self._orbit) == Orbit:
             new_orbit = self._orbit.propagate(self._epoch)
 
             self._state = np.array([new_orbit.r.to(self._dist_unit).value,
@@ -218,6 +222,10 @@ class SimBody:
     def base_color(self):
         return self._base_color
 
+    @base_color.setter
+    def base_color(self, new_color=(1, 1, 1, 1)):
+        self._base_color = np.array(new_color)
+
     @property
     def body_symbol(self):
         return self._body_symbol
@@ -235,17 +243,29 @@ class SimBody:
         self._track_alpha = new_alpha
 
     @property
-    def body_symb(self):
+    def symbol(self):
         return self._body_symbol
 
-    @property
-    def trk_poly(self):
-        return self._trk_poly
+    @symbol.setter
+    def symbol(self, new_symbol='o'):
+        self._body_symbol = new_symbol
 
-    @trk_poly.setter
-    def trk_poly(self, new_trk=None):
-        assert type(new_trk) is Polygon
-        self._trk_poly = new_trk
+    # @property
+    # def trk_poly(self):
+    #     return self._trk_poly
+    #
+    # @trk_poly.setter
+    # def trk_poly(self, new_trk=None):
+    #     assert type(new_trk) is Polygon
+    #     self._trk_poly = new_trk
+
+    @property
+    def RESAMPLE(self):
+        return self._RESAMPLE
+
+    @RESAMPLE.setter
+    def RESAMPLE(self, new_sample=True):
+        self._RESAMPLE = True
 
     @property
     def epoch(self):

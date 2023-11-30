@@ -45,7 +45,7 @@ class Planet(visuals.Compound):
     def __init__(self, rows=36, cols=None,
                  refbody=None,
                  # pos=np.zeros((3,), dtype=float),
-                 edge_color=np.array([0, 0, 0, 0.3]),
+                 edge_color=np.array([0, 1, 0, 0.7]),
                  color=np.ones((4,), dtype=float),
                  texture=None,
                  **kwargs,

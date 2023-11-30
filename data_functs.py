@@ -59,19 +59,18 @@ def setup_datastore():
 
     :return:
     """
-    DEF_EPOCH = J2000_TDB  # default epoch
-    TEX_FNAMES = []  # list of texture filenames (will be sorted)
-    TEX_PATH = "C:\\Users\\madmaxfz\\PycharmProjects\\sns2\\resources\\textures\\"  # directory of texture image files
-    BODY_NAMES = []  # list of body names available in sim
-    BODY_COUNT = 0  # number of available bodies
-    TYPE_COUNT = {}  # dict of body types and the count of each type
-    BODY_DATA = {}  # dict of body name and the static parameters of each
-    tex_data_set = {}  # dist of body name and the texture data associated with it
-    SYS_PARAMS = dict(dist_unit=u.km,
-                      periods=365,
-                      spacing=365.25 * 24 * 60 * 60 * u.s,
-                      fps=30,
-                      )
+    DEF_EPOCH   = J2000_TDB  # default epoch
+    TEX_FNAMES  = []  # list of texture filenames (will be sorted)
+    TEX_PATH    = "C:\\_Projects\\sns2\\resources\\textures\\"  # directory of texture image files
+    BODY_NAMES  = []  # list of body names available in sim
+    BODY_COUNT  = 0  # number of available bodies
+    TYPE_COUNT  = {}  # dict of body types and the count of each type
+    BODY_DATA   = {}  # dict of body name and the static parameters of each
+    tex_dat_set = {}  # dist of body name and the texture data associated with it
+    SYS_PARAMS  = dict(dist_unit=u.km,
+                       periods=365,
+                       spacing=365.25 * 24 * 60 * 60 * u.s,
+                       fps=30,)
     body_set = [Sun,
                 Mercury,
                 Venus,
@@ -227,8 +226,8 @@ def setup_datastore():
         logging.debug(">LOADING STATIC DATA for " + str(_bod_name))
 
         tex_fname = TEX_PATH + TEX_FNAMES[tex_idx[idx]]  # get path of indexed filename
-        tex_data_set.update({_bod_name: get_tex_data(fname=tex_fname)})  # add texture data to active dict
-        logging.debug("tex_data_set[" + str(idx) + "] = " + str(tex_fname))
+        tex_dat_set.update({_bod_name: get_tex_data(fname=tex_fname)})  # add texture data to active dict
+        logging.debug("tex_dat_set[" + str(idx) + "] = " + str(tex_fname))
 
         # a dict of ALL body data EXCEPT the viz_dict{}
         _static_dat = dict(
@@ -242,7 +241,7 @@ def setup_datastore():
             rot_func=rot_set[idx],
             n_samples=180,
             body_color=colorset_rgba[idx],
-            tex_data=tex_data_set[_bod_name],  # tex_data_set[idx],
+            tex_dat=tex_dat_set[_bod_name],  # tex_dat_set[idx],
             viz_names=viz_assign[_bod_name],
         )
         R_set = {}
@@ -273,7 +272,7 @@ def setup_datastore():
         len(tex_idx),
         len(type_set),
         len(BODY_NAMES),
-        len(tex_data_set.keys()),
+        len(tex_dat_set.keys()),
         len(TEX_FNAMES),
     ]
     print("Check sets =\n", check_sets)
@@ -290,19 +289,13 @@ def setup_datastore():
         BODY_COUNT=BODY_COUNT,
         TYPE_COUNT=TYPE_COUNT,
         BODY_DATA=BODY_DATA,
-        TEX_DAT_SET=tex_data_set,
+        TEX_DAT_SET=tex_dat_set,
         COLOR_SET=colorset_rgba,
     )
 
     logging.debug("ALL visuals for the system have been created...!")
 
     return DATASTORE
-
-
-# def get_skymap():
-#     _SkyMap = setup_datastore()["SKYMAP"]
-#     logging.info("SkyMap available for import: " + str(_SkyMap))
-#     return _SkyMap
 
 
 if __name__ == "__main__":
@@ -312,11 +305,6 @@ if __name__ == "__main__":
 
         dict_store = setup_datastore()
         print("dict store:", dict_store)
-
-        # print("get_viz_data(Sun).items =",
-        #       get_viz_data(Sun).items(), '\n',
-        #       get_viz_data(Earth).items(),
-        #       '\n', get_viz_data(Moon).items())
         exit()
 
     main()
