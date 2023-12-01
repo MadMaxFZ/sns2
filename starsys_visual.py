@@ -44,8 +44,8 @@ class SystemVizual(Compound):
             self._sb_symbols    = []
             self._symbol_sizes  = []
             self._bods_pos      = []
-            self._sb_planets    = []       # a list of Planet visuals
-            self._sb_tracks     = []       # a list of Polygon visuals
+            self._sb_planets    = {}       # a dict of Planet visuals
+            self._sb_tracks     = {}       # a dict of Polygon visuals
             self._sb_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._system_viz    = self._setup_sysviz(sbs=sim_bods)
             super(SystemVizual, self).__init__([])
@@ -61,19 +61,23 @@ class SystemVizual(Compound):
             self._sb_markers.parent = self._skymap
             for sb_name, sb in sbs.items():
                 self._sb_symbols.append(sb.body_symbol)
-                self._sb_planets.append(Planet(refbody=sb,
-                                               color=sb.base_color,
-                                               edge_color=sb.base_color,
-                                               texture=sb.texture,
-                                               parent=self._skymap
-                                               ))
-                if sb.sb_parent is not None:
-                    self._sb_tracks.append(Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
-                                                   border_color=sb.base_color +
-                                                   np.array([0, 0, 0, sb.track_alpha]),
-                                                   triangulate=False,
-                                                   parent=self._skymap,
-                                                   ))
+                self._sb_planets.update({sb_name: Planet(refbody=sb,
+                                                         color=sb.base_color,
+                                                         edge_color=sb.base_color,
+                                                         texture=sb.texture,
+                                                         parent=self._skymap
+                                                         )
+                                         })
+                if sb.body.parent is not None:
+                    self._sb_tracks.update({sb_name: Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
+                                                             border_color=sb.base_color +
+                                                                          np.array([0, 0, 0, sb.track_alpha]),
+                                                             triangulate=False,
+                                                             parent=self._skymap,
+                                                             )
+                                            })
+
+            # now, go through and set the parents appropriately
 
             viz = Compound([self._skymap,
                             self._frame_viz,
