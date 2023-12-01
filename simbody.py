@@ -48,6 +48,8 @@ class SimBody:
         self._base_color    = np.array(self._body_data['body_color'])
         self._body_alpha    = 1.0
         self._track_alpha   = 0.6
+        if body_name == "Mercury":
+            self._track_alpha = 1.0
         self.x_ax           = vec_type([1, 0, 0])
         self.y_ax           = vec_type([0, 1, 0])
         self.z_ax           = vec_type([0, 0, 1])
@@ -201,6 +203,14 @@ class SimBody:
                 "dist": dist,
                 "fov": fov,
                 }
+
+    @property
+    def dist_unit(self):
+        return self._dist_unit
+
+    @dist_unit.setter
+    def dist_unit(self, new_unit=u.km):
+        self._dist_unit = new_unit
 
     @property
     def name(self):
