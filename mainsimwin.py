@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
-
-# import functiontrace
-# import numpy as np
-# import math
-# from vispy.util.transforms import *
-# from viz_functs import get_tex_data, get_viz_data
+# mainsimwin.py
 from vispy import app, scene
 from vispy.color import Color
-# from data_functs import *
 from starsystem import *
 
 logging.basicConfig(filename="logs/mainsimwin.log",

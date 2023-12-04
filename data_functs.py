@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# data_functs.py
 import os
 import logging
 from astropy.time import Time
@@ -8,7 +8,7 @@ from poliastro.bodies import *
 from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
-# from planet_visual import SkyMap
+# from skymap import SkyMap
 from viz_functs import get_tex_data
 
 logging.basicConfig(

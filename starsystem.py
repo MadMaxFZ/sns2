@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
+# starsystem.py
 
-from vispy.app.timer import *
+from astropy import units as u
+
 from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
+from astropy.constants.codata2014 import G
 from poliastro.util import time_range
+from vispy.app.timer import *
 from data_functs import *
 from simbody import SimBody
-from astropy import units as u
-from astropy.constants.codata2014 import G
 from starsys_visual import SystemVizual
+
+
+
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,

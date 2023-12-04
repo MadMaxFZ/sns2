@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-
-from planet_visual import *
-from data_functs import vec_type
-from vispy.scene.visuals import *
-import vispy.visuals.transforms as tr
+# starsys_visual.py
 import math
+import logging
+import numpy as np
+import vispy.visuals.transforms as tr
+from vispy.scene.visuals import *
+from data_functs import vec_type
+from simbody import SimBody
+from skymap import SkyMap
+from planet_visual import Planet
 
 MIN_SYMB_SIZE = 5
 MAX_SYMB_SIZE = 20
@@ -54,6 +58,9 @@ class SystemVizual(Compound):
             exit(1)
 
     def abs_body_pos(self, name=None):
+        # TODO: Move this method into SimBody module
+        #       Consider making a SimBody.rel2cam method, that takes
+        #       a View as an argument, so the cam from any view can be referenced
         if (name is not None) and (name in self._simbods.keys()):
             _pos = self._simbods[name].pos
             if self._simbods[name].body.parent is None:
@@ -109,7 +116,7 @@ class SystemVizual(Compound):
         self._bods_pos = []
         self._cam_rel_pos = []
         for sb_name, sb in self._simbods.items():
-            _body_pos = self.abs_body_pos(name=sb_name) * sb.dist_unit
+            _body_pos = self.abs_body_pos(name=sb_name)
             self._bods_pos.append(_body_pos)
             self._sb_planets[sb_name].transform = ST(translate=_body_pos)
             self._cam_rel_pos.append(sb.rel2pos(pos=self._mainview.camera.center)['rel_pos'])
@@ -129,6 +136,7 @@ class SystemVizual(Compound):
                                   edge_color=np.array(edge_colors),
                                   symbol=self._sb_symbols,
                                   )
+        self.update()
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 

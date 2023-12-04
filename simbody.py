@@ -1,16 +1,19 @@
-import numpy as np
+# -*- coding: utf-8 -*-
+# simbody.py
 
-from data_functs import *
+import math
+import logging
+import numpy as np
 from poliastro.ephem import *
-from astropy import units as u
-from astropy.time import Time
+from poliastro.constants import J2000_TDB
 from poliastro.twobody.orbit.scalar import Orbit
-from vispy.scene.visuals import Polygon
+from data_functs import toTD
 
 logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
+vec_type = type(np.zeros((3,), dtype=np.float64))
 
 
 class SimBody:

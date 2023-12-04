@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# viz_functs.py
 import logging
 from vispy.scene.visuals import Markers, Text, Arrow, XYZAxis, Axis, Polygon
 from PIL import Image
