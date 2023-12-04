@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from planet_visual import *
-from data_functs import vec_type
-from vispy.scene.visuals import *
-import vispy.visuals.transforms as tr
 import math
+import logging
+import numpy as np
+import vispy.visuals.transforms as tr
+from vispy.scene.visuals import *
+from data_functs import vec_type
+from planet_visual import Planet
+from skymap import SkyMap
+from simbody import SimBody
+
 
 MIN_SYMB_SIZE = 5
 MAX_SYMB_SIZE = 20
