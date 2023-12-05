@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# import functiontrace
-# import numpy as np
-# import math
-# from vispy.util.transforms import *
-# from viz_functs import get_tex_data, get_viz_data
 from vispy import app, scene
 from vispy.color import Color
-# from data_functs import *
 from starsystem import *
 
 logging.basicConfig(filename="logs/mainsimwin.log",
@@ -52,10 +46,10 @@ class MainSimWindow(scene.SceneCanvas):
             elif ev.key.name == "/":
                 self._sys_view.camera.zoom_factor *= 0.9
                 print("ZOOM_FACTOR", self._sys_view.camera.zoom_factor)
-            elif ev.key.name == "T":
+            elif ev.key.name == "]":
                 self._star_sys.t_warp *= 1.1
                 print("TIME_WARP:", self._star_sys.t_warp)
-            elif ev.key.name == "t":
+            elif ev.key.name == "[":
                 self._star_sys.t_warp *= 0.9
                 print("TIME_WARP:", self._star_sys.t_warp)
 
