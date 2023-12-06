@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from vispy import app, scene
 from vispy.color import Color
-from starsystem import *
+from starsystem import StarSystem
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -61,8 +62,8 @@ class MainSimWindow(scene.SceneCanvas):
         self._star_sys.run()
         app.run()
 
-    def stop(self):
-        app.quit()
+    # def stop(self):
+    #     app.quit()
 
 
 def main():

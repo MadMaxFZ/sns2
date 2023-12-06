@@ -6,7 +6,7 @@ import numpy as np
 import vispy.visuals.transforms as tr
 from vispy.scene.visuals import *
 from data_functs import vec_type
-from planet_visual import Planet
+from body_visual import BodyViz
 from skymap import SkyMap
 from simbody import SimBody
 
@@ -51,7 +51,7 @@ class SystemVizual(Compound):
             self._bods_pos      = []
             self._sb_planets    = []       # a list of Planet visuals
             self._sb_tracks     = []       # a list of Polygon visuals
-            self._sb_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
+            self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._system_viz    = self._setup_sysviz(sbs=sim_bods)
             super(SystemVizual, self).__init__([])
         else:
@@ -66,12 +66,12 @@ class SystemVizual(Compound):
             self._sb_markers.parent = self._skymap
             for sb_name, sb in sbs.items():
                 self._sb_symbols.append(sb.body_symbol)
-                self._sb_planets.append(Planet(refbody=sb,
-                                               color=sb.base_color,
-                                               edge_color=sb.base_color,
-                                               texture=sb.texture,
-                                               parent=self._skymap
-                                               ))
+                self._sb_planets.append(BodyViz(body_ref=sb.body,
+                                                color=sb.base_color,
+                                                edge_color=sb.base_color,
+                                                # texture=sb.texture,
+                                                parent=self._skymap
+                                                ))
                 if sb.sb_parent is not None:
                     self._sb_tracks.append(Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
                                                    border_color=sb.base_color +
@@ -93,8 +93,7 @@ class SystemVizual(Compound):
 
     def update_sysviz(self):
         # collect positions of the bodies into an array
-        _bods_pos = []
-        _bods_pos.extend([sb.pos for sb in self._simbods.values()])
+        _bods_pos = [sb.pos for sb in self._simbods.values()]
         _bods_pos[4] += _bods_pos[3]                        # add Earth pos to Moon pos
         # self.trk_polys[3].transform = ST(translate=self.bods_pos[3])  # move moon orbit to Earth pos
         self._bods_pos = np.array(_bods_pos)
