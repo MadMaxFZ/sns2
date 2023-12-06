@@ -13,7 +13,6 @@ class SkyMap(visuals.Compound):
     """
 
     """
-
     DEF_TEX_FNAME = "resources/textures/8k_zzESO_Milky_Way.png"
     with Image.open(DEF_TEX_FNAME) as im:
         print(DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
@@ -38,8 +37,6 @@ class SkyMap(visuals.Compound):
             Number of rows that make up the sphere mesh
         radius : float
         """
-        # TODO: Enhance the set of methods to implement additional controls of this object.
-
         logging.debug('\n<--------------------------------->')
         logging.info('\tInitializing SkyMap object...')
         self._verts = []
@@ -84,11 +81,6 @@ class SkyMap(visuals.Compound):
                                   meshdata=mesh,
                                   )
         logging.debug('MeshVisual initialized, setting up the TextureFilter...')
-        #   TODO:   Here would be a good place to apply a more sophisticated method that allows for
-        #       :   layering one or more textures in a specific sequence. Probably should implement a
-        #       :   class providing a state switch to select an ordered set of images to the mesh texture.
-        #       :   If this works, a LOT of interesting surface graphics could be devised.
-
         self._mesh.attach(TextureFilter(texcoords=np.array(self._txcds),
                                         texture=self._texture,
                                         )
