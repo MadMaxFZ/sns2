@@ -58,6 +58,17 @@ class SystemVizual(Compound):
             print("Must provide a dictionary of SimBody objects...")
             exit(1)
 
+    def abs_body_pos(self, name=None):
+        # TODO: Move this method into SimBody module
+        #       Consider making a SimBody.rel2cam method, that takes
+        #       a View as an argument, so the cam from any view can be referenced
+        if (name is not None) and (name in self._simbods.keys()):
+            _pos = self._simbods[name].pos
+            if self._simbods[name].body.parent is None:
+                return _pos
+            else:
+                return _pos + self.abs_body_pos(name=self._simbods[name].body.parent.name)
+
     def _setup_sysviz(self, sbs=None):
         # TODO: generate/assign visuals here to build SystemVizual instance
         if sbs is not None:
@@ -93,9 +104,8 @@ class SystemVizual(Compound):
 
     def update_sysviz(self):
         # collect positions of the bodies into an array
-        _bods_pos = [sb.pos for sb in self._simbods.values()]
-        _bods_pos[4] += _bods_pos[3]                        # add Earth pos to Moon pos
-        # self.trk_polys[3].transform = ST(translate=self.bods_pos[3])  # move moon orbit to Earth pos
+        _bods_pos = [self.abs_body_pos(name=sb.body.name) for sb in self._simbods.values()]
+        # self._sb_tracks[3].parent = self._sb_planets[3]  # move moon orbit to Earth pos
         self._bods_pos = np.array(_bods_pos)
 
         # collect the body positions relative to the camera location

@@ -149,7 +149,7 @@ class BodyVisual(CompoundVisual):
                                      texcoords=self._tex_coords,
                                      )
         self._mesh.attach(self._filter)
-        if edge_color:
+        if edge_color.any():
             self._border = MeshVisual(vertices=mesh.get_vertices(),
                                       faces=mesh.get_edges(),
                                       color=edge_color, mode='lines')
