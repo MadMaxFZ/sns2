@@ -25,48 +25,73 @@ def get_texture_data(fname=DEF_TEX_FNAME):
 
 
 def _oblate_sphere(rows, cols, radius, offset):
+    """ Generate mesh for a sphere along with texture coordinates such that
+        the 'stripe' anomaly is dealt with.
+
+    Parameters
+    ----------
+    rows : int - number of rows (usually even)
+    cols : int - number of columns (if None, set to rows * 2)
+    radius : float - mean radius of sphere (if None, set to 1)
+    offset : bool - offset each row by a column width?
+
+    Returns
+    -------
+    MeshData - mesh description of sphere
+    array - texture coordinates for each vertex
+
+    """
     # TODO: fix the verts and/or tex coords to remove 'stripe'
-    verts = np.empty((rows + 1, cols, 3), dtype=np.float32)
-    tex_coords = np.empty((rows + 1, cols, 2), dtype=np.float32)
+    #       I think I finally figured it out! Just need to change the code!
+
+    verts = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
+    tex_coords = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
     # compute vertices
     phi = (np.arange(rows + 1) * np.pi / rows).reshape(rows + 1, 1)
     s = radius * np.sin(phi)
     verts[..., 2] = radius * np.cos(phi)
-    th = ((np.arange(cols) * 2 * np.pi / cols).reshape(1, cols))
+    th = ((np.arange(cols + 1) * 2 * np.pi / cols).reshape(1, cols + 1))
     if offset:
         # rotate each row by 1/2 column
         th = th + ((np.pi / cols) * np.arange(rows + 1).reshape(rows + 1, 1))
+
     verts[..., 0] = s * np.cos(th)
     verts[..., 1] = s * np.sin(th)
-    # print(th / (2 * np.pi) * (cols + 1) / cols)
-    # print(phi / np.pi)
-    tex_coords[..., 0] = (th / (2 * np.pi)).clip(min=0.005, max=0.995)
+    # print(verts.size)
+    verts = verts.reshape((cols + 1) * (rows + 1), 3)
+    # print(verts.shape)
+
+    # set easternmost vert coords to match westernmost vert coords
+    for row in range(rows):
+        verts[(cols + 1) * (row + 2) - 1] = verts[(cols + 1) * (row+1)]
+
+    # compute texture coordinates here
+    tex_coords[..., 0] = (th / (2 * np.pi))
     tex_coords[..., 1] = phi / np.pi
-    # compute texture coordinates here?
 
-    # remove redundant vertices from top and bottom
-    verts = verts.reshape((rows + 1) * cols, 3)[cols - 1:-(cols - 1)]
-    tex_coords = tex_coords.reshape((rows + 1) * cols, 2)[cols - 1:-(cols - 1)]
+    # remove redundant vertices from north and south poles
+    verts = verts.reshape((rows + 1) * (cols + 1), 3)[cols + 1:rows * (cols + 2)]
+    tex_coords = tex_coords.reshape((rows + 1) * (cols + 1), 2)[cols + 1:rows * (cols + 2)]
 
-    # compute faces
-    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
-    rowtemplate1 = (((np.arange(cols).reshape(cols, 1) +
-                      np.array([[1, 0, 0]])) % (cols+2)) +
+    # compute faces as triplets of vertex indices
+    faces = np.empty(((rows + 1) * (cols + 1) * 2, 3), dtype=np.uint32)
+    rowtemplate1 = (((np.arange(cols + 1).reshape(cols + 1, 1) +
+                      np.array([[1, 0, 0]])) % (cols + 1)) +
                     np.array([[0, 0, cols]]))
-    rowtemplate2 = (((np.arange(cols).reshape(cols, 1) +
-                      np.array([[1, 0, 1]])) % (cols+2)) +
+    rowtemplate2 = (((np.arange(cols + 1).reshape(cols + 1, 1) +
+                      np.array([[1, 0, 1]])) % (cols + 1)) +
                     np.array([[0, cols, cols]]))
     for row in range(rows):
-        start = row * cols * 2
+        start = row * (cols + 2)
         # print((faces[start:start + cols]).shape, "\n", (rowtemplate1 + row * cols).shape, "\n")
-        faces[start:start + cols] = rowtemplate1 + row * cols
-        faces[start + cols:start + (cols * 2)] = rowtemplate2 + row * cols
+        faces[start:start + cols + 1] = rowtemplate1 + row * (cols + 1)
+        faces[start + cols + 2:start + 2 * cols + 3] = rowtemplate2 + row * (cols + 1)
 
     # cut off zero-area triangles at top and bottom
-    faces = faces[cols:-cols]
+    faces = faces[cols + 2:-(cols + 2)]
 
     # adjust for redundant vertices that were removed from top and bottom
-    vmin = cols - 1
+    vmin = cols + 1
     faces[faces < vmin] = vmin
     faces -= vmin
     vmax = verts.shape[0] - 1
@@ -74,7 +99,51 @@ def _oblate_sphere(rows, cols, radius, offset):
     return MeshData(vertices=verts, faces=faces), tex_coords
 
 
-class BodyVisual(CompoundVisual):
+def _latitude(rows, cols, radius, offset):
+    verts = np.empty((rows+1, cols, 3), dtype=np.float32)
+    tex_coords = np.empty((rows + 1, cols, 2), dtype=np.uint32)
+
+    # compute vertices
+    phi = (np.arange(rows+1) * np.pi / rows).reshape(rows+1, 1)
+    s = radius * np.sin(phi)
+    verts[..., 2] = radius * np.cos(phi)
+    th = ((np.arange(cols) * 2 * np.pi / cols).reshape(1, cols))
+    if offset:
+        # rotate each row by 1/2 column
+        th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
+    verts[..., 0] = s * np.cos(th)
+    verts[..., 1] = s * np.sin(th)
+    tex_coords[..., 0] = th / 2 * np.pi
+    tex_coords[..., 1] = phi / np.pi
+    # remove redundant vertices from top and bottom
+    verts = verts.reshape((rows + 1)*cols, 3)[cols-1:-(cols-1)]
+    tex_coords = tex_coords.reshape((rows + 1) * cols, 2)[cols - 1:-(cols - 1)]
+
+    # compute faces
+    faces = np.empty((rows*cols*2, 3), dtype=np.uint32)
+    rowtemplate1 = (((np.arange(cols).reshape(cols, 1) +
+                      np.array([[1, 0, 0]])) % cols) +
+                    np.array([[0, 0, cols]]))
+    rowtemplate2 = (((np.arange(cols).reshape(cols, 1) +
+                      np.array([[1, 0, 1]])) % cols) +
+                    np.array([[0, cols, cols]]))
+    for row in range(rows):
+        start = row * cols * 2
+        faces[start:start+cols] = rowtemplate1 + row * cols
+        faces[start+cols:start+(cols*2)] = rowtemplate2 + row * cols
+    # cut off zero-area triangles at top and bottom
+    faces = faces[cols:-cols]
+
+    # adjust for redundant vertices that were removed from top and bottom
+    vmin = cols-1
+    faces[faces < vmin] = vmin
+    faces -= vmin
+    vmax = verts.shape[0]-1
+    faces[faces > vmax] = vmax
+    return MeshData(vertices=verts, faces=faces), tex_coords
+
+
+class PlanetVisual(CompoundVisual):
     """ Visual that displays an oblate sphere with a texture,
         representing a celestial body surface.
 
@@ -107,28 +176,30 @@ class BodyVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, radius=1.0, rows=9, cols=None, offset=False,
+    def __init__(self, body_ref=None, radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
-                 shading=None, texture=None, **kwargs):
+                 shading=None, texture=None, method='oblate', **kwargs):
         if cols is None:        # auto set cols to 2 * rows
             cols = rows * 2
 
         self._radii = []
-        self._body_ref = kwargs.get("body_ref")
-        if type(self._body_ref) is Body:        # if body defined, get radii
-            try:
-                self._radii.append(self._body_ref.R)
-                self._radii.append(self._body_ref.R_mean)
-                self._radii.append(self._body_ref.R_polar)
+        if body_ref is not None:
+            self._body_ref = body_ref
+            if type(self._body_ref) is Body:        # if body defined, get radii
+                if self._body_ref.R_mean.value != 0:
+                    self._radii.append(self._body_ref.R)
+                    self._radii.append(self._body_ref.R_mean)
+                    self._radii.append(self._body_ref.R_polar)
+                else:                             # some have R only
+                    self._radii.extend([self._body_ref.R,
+                                        self._body_ref.R,
+                                        self._body_ref.R
+                                        ])
 
-            except:                             # some have R only
-                self._radii.extend([self._body_ref.R,
-                                    self._body_ref.R,
-                                    self._body_ref.R
-                                    ])
         else:
-            self._radii = [1.0, 1.0, 1.0]       # default to 1.0
+            texture = get_texture_data(fname=DEF_TEX_FNAME)
+            self._radii = [10000.0, 10000.0, 10000.0]      # default to 1.0
 
         if type(texture) == str:                # assume filename
             self._texture_data = get_texture_data(fname=texture)
@@ -137,10 +208,16 @@ class BodyVisual(CompoundVisual):
         else:                                   # use default
             self._texture_data = get_texture_data()
 
-        mesh, self._tex_coords = _oblate_sphere(rows, cols, radius, offset)
-        print(self._tex_coords)
-        self._mesh = MeshVisual(vertices=mesh.get_vertices(),
-                                faces=mesh.get_faces(),
+        if method == 'latitude':
+            _mesh, self._tex_coords = _latitude(rows, cols, radius, offset)
+            # print("Using 'latitude' method...")
+        else:
+            _mesh, self._tex_coords = _oblate_sphere(rows, cols, radius, offset)
+            # print("Using 'oblate' method...")
+
+        # print(self._tex_coords)
+        self._mesh = MeshVisual(vertices=_mesh.get_vertices(),
+                                faces=_mesh.get_faces(),
                                 vertex_colors=vertex_colors,
                                 face_colors=face_colors,
                                 color=color,
@@ -149,14 +226,14 @@ class BodyVisual(CompoundVisual):
                                      texcoords=self._tex_coords,
                                      )
         self._mesh.attach(self._filter)
-        if edge_color.any():
-            self._border = MeshVisual(vertices=mesh.get_vertices(),
-                                      faces=mesh.get_edges(),
+        if np.array(edge_color).any():
+            self._border = MeshVisual(vertices=_mesh.get_vertices(),
+                                      faces=_mesh.get_edges(),
                                       color=edge_color, mode='lines')
         else:
             self._border = MeshVisual()
 
-        CompoundVisual.__init__(self, [self._mesh, self._border])
+        super(PlanetVisual, self).__init__([self._mesh, self._border])
         self.mesh.set_gl_state(polygon_offset_fill=True,
                                polygon_offset=(1, 1),
                                depth_test=True)
@@ -184,23 +261,40 @@ class BodyVisual(CompoundVisual):
         self._mesh.attach(self._filter)
 
 
-BodyViz = create_visual_node(BodyVisual)
+Planet = create_visual_node(PlanetVisual)
 
 
 def main():
     # put a little test code here...
     print("BodyViz test code...")
     from vispy import app
+    # from vispy.app import Timer
     from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera
+    from skymap import SkyMap
+    # import vispy.visuals.transforms as tr
 
     win = SceneCanvas(title="BodyViz Test",
-                      keys="interactive")
+                      keys="interactive",
+                      bgcolor='white',
+                      )
     view = win.central_widget.add_view()
-    view.camera = ArcballCamera()
-    bod = BodyViz(body_ref=Sun, rows=36, texture=DEF_TEX_FNAME)
-    bod.texture = DEF_TEX_FNAME
+    view.camera = FlyCamera()
+    skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
+                    color=(1, 1, 1, 1),
+                    parent=view.scene)
+    view.add(skymap)
+    skymap.visible = True
+    bod = Planet(rows=36,
+                 texture=get_texture_data(DEF_TEX_FNAME),
+                 method='oblate',
+                 parent=skymap,
+                 )
     view.add(bod)
     view.camera.set_range()
+    # bod.transform = tr.MatrixTransform()
+    # for rot in range(3600):
+    #     bod.transform.rotate(rot * np.pi / 1800, [0, 0, 1])
+
     win.show()
     app.run()
 

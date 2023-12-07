@@ -8,7 +8,7 @@ from data_functs import *
 from simbody import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-from starsys_visual import SystemVizual
+from starsys_visual import StarSystem
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -16,7 +16,7 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     )
 
 
-class StarSystem:
+class StarSystemModel:
     """
 
     """
@@ -27,7 +27,7 @@ class StarSystem:
             sys_data = setup_datastore()
 
         self._INIT = False
-        StarSystem.sim_params = sys_data["SYS_PARAMS"]
+        StarSystemModel.sim_params = sys_data["SYS_PARAMS"]
         self._body_count = sys_data["BODY_COUNT"]
         self._body_names = sys_data["BODY_NAMES"]
         self._body_data  = sys_data["BODY_DATA"]
@@ -40,7 +40,7 @@ class StarSystem:
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count), dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count), dtype=vec_type)
         self._body_accel = np.zeros((self._body_count,), dtype=vec_type)
-        self._system_viz = SystemVizual(sim_bods=self._simbodies, system_view=view)
+        self._system_viz = StarSystem(sim_bods=self._simbodies, system_view=view)
         self._w_last = 0
         self._d_epoch = None
         self._avg_d_epoch = None
@@ -60,8 +60,11 @@ class StarSystem:
             sb_dict.update({name: SimBody(body_name=name,
                                           epoch=self._sys_epoch,
                                           body_data=self._body_data[name],
-                                          sim_param=StarSystem.sim_params,
+                                          sim_param=StarSystemModel.sim_params,
                                           )})
+        for sb in sb_dict.values():
+            if sb.body.parent is not None:
+                sb.sb_parent = sb_dict[sb.body.parent.name]
         logging.info("\t>>> SimBody objects created....\n")
         return sb_dict
 
@@ -145,9 +148,13 @@ class StarSystem:
     def t_warp(self, new_twarp):
         self._t_warp = new_twarp
 
+    @property
+    def simbodies(self):
+        return self._simbodies
+
 
 def main():
-    my_starsys = StarSystem()
+    my_starsys = StarSystemModel()
     my_starsys.run()
 
 

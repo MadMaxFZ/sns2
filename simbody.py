@@ -202,6 +202,16 @@ class SimBody:
                 "fov": fov,
                 }
 
+    def pos2primary(self):
+        # TODO: Move this method into SimBody module
+        #       Consider making a SimBody.rel2cam method, that takes
+        #       a View as an argument, so the cam from any view can be referenced
+        _pos = self.pos
+        if self.body.parent is None:
+            return _pos
+        else:
+            return _pos + self.sb_parent.pos2primary()
+
     @property
     def name(self):
         return self._name
@@ -213,6 +223,11 @@ class SimBody:
     @property
     def sb_parent(self):
         return self._sb_parent
+
+    @sb_parent.setter
+    def sb_parent(self, new_sb_parent=None):
+        if type(new_sb_parent) is SimBody:
+            self._sb_parent = new_sb_parent
 
     @property
     def type(self):

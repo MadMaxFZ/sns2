@@ -4,9 +4,12 @@ import math
 import logging
 import numpy as np
 import vispy.visuals.transforms as tr
-from vispy.scene.visuals import *
+from vispy.visuals import CompoundVisual
+from vispy.scene.visuals import (create_visual_node,
+                                 Markers, XYZAxis,
+                                 Compound, Polygon)
 from data_functs import vec_type
-from body_visual import BodyViz
+from body_visual import Planet
 from skymap import SkyMap
 from simbody import SimBody
 
@@ -21,7 +24,7 @@ DEF_MARKS_INIT = dict(scaling=False,
                       antialias=1,
                       spherical=False,
                       light_color=SUN_COLOR,
-                      light_position=(0, 0, 0),
+                      light_position=(0.01, 0.01, 0.01),
                       light_ambient=0.3,
                       )
 DEF_MARKS_DATA = dict(pos=None,
@@ -34,7 +37,7 @@ DEF_MARKS_DATA = dict(pos=None,
                       )
 
 
-class SystemVizual(Compound):
+class StarSystemVisual(CompoundVisual):
     """
     """
     def __init__(self, sim_bods=None, system_view=None):
@@ -46,28 +49,17 @@ class SystemVizual(Compound):
             self._cam_rel_pos   = np.zeros((len(self._simbods.keys()),), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap(edge_color=(0, 0, 1, 0.4))
-            self._sb_symbols    = []
+            self._bods_pos      = [sb.pos2primary() for sb in self._simbods.values()]
+            self._sb_symbols    = [sb.body_symbol for sb in self._simbods.values()]
             self._symbol_sizes  = []
-            self._bods_pos      = []
             self._sb_planets    = []       # a list of Planet visuals
             self._sb_tracks     = []       # a list of Polygon visuals
             self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
-            self._system_viz    = self._setup_sysviz(sbs=sim_bods)
-            super(SystemVizual, self).__init__([])
+            # self._system_viz    = self._setup_sysviz(sbs=sim_bods)
+            super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=sim_bods))
         else:
             print("Must provide a dictionary of SimBody objects...")
             exit(1)
-
-    def abs_body_pos(self, name=None):
-        # TODO: Move this method into SimBody module
-        #       Consider making a SimBody.rel2cam method, that takes
-        #       a View as an argument, so the cam from any view can be referenced
-        if (name is not None) and (name in self._simbods.keys()):
-            _pos = self._simbods[name].pos
-            if self._simbods[name].body.parent is None:
-                return _pos
-            else:
-                return _pos + self.abs_body_pos(name=self._simbods[name].body.parent.name)
 
     def _setup_sysviz(self, sbs=None):
         # TODO: generate/assign visuals here to build SystemVizual instance
@@ -75,14 +67,15 @@ class SystemVizual(Compound):
             self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
             self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
             self._sb_markers.parent = self._skymap
+            self._sb_symbols = [sb.body_symbol for sb in sbs.values()]
             for sb_name, sb in sbs.items():
-                self._sb_symbols.append(sb.body_symbol)
-                self._sb_planets.append(BodyViz(body_ref=sb.body,
-                                                color=sb.base_color,
-                                                edge_color=sb.base_color,
-                                                # texture=sb.texture,
-                                                parent=self._skymap
-                                                ))
+                self._sb_planets.append(Planet(body_ref=sb.body,
+                                               color=sb.base_color,
+                                               edge_color=sb.base_color,
+                                               texture=sb.texture,
+                                               parent=self._skymap,
+                                               visible=False,
+                                               ))
                 if sb.sb_parent is not None:
                     self._sb_tracks.append(Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
                                                    border_color=sb.base_color +
@@ -91,20 +84,19 @@ class SystemVizual(Compound):
                                                    parent=self._skymap,
                                                    ))
 
-            viz = Compound([self._skymap,
-                            self._frame_viz,
-                            self._sb_markers,
-                            Compound(self._sb_tracks),
-                            Compound(self._sb_planets),
-                            ])
-            viz.parent = self._mainview.scene
-            return viz
+            subvisuals = [self._skymap,
+                          self._frame_viz,
+                          self._sb_markers,
+                          Compound(self._sb_tracks),
+                          Compound(self._sb_planets),
+                          ]
+            return subvisuals
         else:
             print("Must provide SimBody dictionary...")
 
     def update_sysviz(self):
         # collect positions of the bodies into an array
-        _bods_pos = [self.abs_body_pos(name=sb.body.name) for sb in self._simbods.values()]
+        _bods_pos = [sb.pos2primary() for sb in self._simbods.values()]
         # self._sb_tracks[3].parent = self._sb_planets[3]  # move moon orbit to Earth pos
         self._bods_pos = np.array(_bods_pos)
 
@@ -174,3 +166,13 @@ class SystemVizual(Compound):
         else:
             print("Must provide a SkyMap object...")
 
+
+StarSystem = create_visual_node(StarSystemVisual)
+
+
+def main():
+    print("MAIN FUNCTION...")
+
+
+if __name__ == "__main__":
+    main()
