@@ -14,6 +14,10 @@ logging.basicConfig(filename="logs/sns_defs.log",
 
 
 class SimBody:
+    """
+        TODO: Provide a class method to create a SimBody based upon
+              a provided Body object.
+    """
     epoch0 = J2000_TDB
     # R_set = {}
     # simbods = {}

@@ -278,7 +278,7 @@ def main():
     from vispy import app
     # from vispy.app import Timer
     from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera
-    from skymap import SkyMap
+    from skymap import SkyMapVisual
     # import vispy.visuals.transforms as tr
 
     win = SceneCanvas(title="BodyViz Test",
@@ -287,9 +287,9 @@ def main():
                       )
     view = win.central_widget.add_view()
     view.camera = FlyCamera()
-    skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
-                    color=(1, 1, 1, 1),
-                    parent=view.scene)
+    skymap = SkyMapVisual(edge_color=(0, 0, 1, 0.3),
+                          color=(1, 1, 1, 1),
+                          parent=view.scene)
     view.add(skymap)
     skymap.visible = True
     bod = Planet(rows=36,

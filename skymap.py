@@ -1,6 +1,7 @@
 import logging
 import numpy as np
-from vispy.scene import visuals, SceneCanvas
+from vispy.visuals import CompoundVisual
+from vispy.scene.visuals import create_visual_node, Mesh
 # from poliastro.bodies import Sun
 from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
@@ -8,7 +9,7 @@ from multiprocessing import get_logger
 from PIL import Image
 
 
-class SkyMap(visuals.Compound):
+class SkyMapVisual(CompoundVisual):
     """
     """
 
@@ -50,7 +51,7 @@ class SkyMap(visuals.Compound):
         self._edge_colors = []  # EIGHT friggin' lists !!!
         self._radius = radius
         if texture is None:
-            self._texture = SkyMap.DEF_TEX
+            self._texture = SkyMapVisual.DEF_TEX
         else:
             self._texture = texture
         # self._state = np.ndarray((3, 3),
@@ -76,7 +77,7 @@ class SkyMap(visuals.Compound):
         mesh._vertex_normals = np.array(-1 * self._norms)
         # mesh._vertex_values = np.array(self._verts)
 
-        self._mesh = visuals.Mesh(vertices=mesh.get_vertices(),
+        self._mesh = Mesh(vertices=mesh.get_vertices(),
                                   faces=mesh.get_faces(),
                                   color=color,
                                   meshdata=mesh,
@@ -94,18 +95,18 @@ class SkyMap(visuals.Compound):
 
         logging.debug('Initializing border mesh, cram into Compound ans set the gl_state...')
         if edge_color:
-            self._border = visuals.Mesh(vertices=mesh.get_vertices(),
+            self._border = Mesh(vertices=mesh.get_vertices(),
                                         faces=mesh.get_edges(),
                                         color=edge_color,
                                         mode='lines',
                                         meshdata=mesh,
                                         )
         else:
-            self._border = visuals.Mesh()
+            self._border = Mesh()
 
         # create instance of inherited class, in this case a CompoundVisual
-        super(SkyMap, self).__init__([self._mesh, self._border],
-                                     )  # initialize the CompoundVisual
+        super(SkyMapVisual, self).__init__([self._mesh, self._border],
+                                           )  # initialize the CompoundVisual
 
         self._mesh.set_gl_state(polygon_offset_fill=True,
                                 polygon_offset=(1, 1),
@@ -227,3 +228,4 @@ class SkyMap(visuals.Compound):
                 ]
 
 
+SkyMap = create_visual_node(SkyMapVisual)

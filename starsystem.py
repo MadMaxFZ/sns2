@@ -18,7 +18,7 @@ logging.basicConfig(filename="logs/sb_viewer.log",
 
 class StarSystemModel:
     """
-
+        TODO: refactor so that simbodies becomes a class variable
     """
     sim_params = None
 
