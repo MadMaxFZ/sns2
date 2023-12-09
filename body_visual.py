@@ -260,6 +260,14 @@ class PlanetVisual(CompoundVisual):
                                      )
         self._mesh.attach(self._filter)
 
+    # @property
+    # def visible(self):
+    #     return self._visible
+    #
+    # @visible.setter
+    # def visible(self, new_visible=False):
+    #     self._visible = new_visible
+
 
 Planet = create_visual_node(PlanetVisual)
 
@@ -288,6 +296,7 @@ def main():
                  texture=get_texture_data(DEF_TEX_FNAME),
                  method='oblate',
                  parent=skymap,
+                 visible=True,
                  )
     view.add(bod)
     view.camera.set_range()

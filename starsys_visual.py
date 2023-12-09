@@ -52,8 +52,8 @@ class StarSystemVisual(CompoundVisual):
             self._bods_pos      = [sb.pos2primary() for sb in self._simbods.values()]
             self._sb_symbols    = [sb.body_symbol for sb in self._simbods.values()]
             self._symbol_sizes  = []
-            self._sb_planets    = []       # a list of Planet visuals
-            self._sb_tracks     = []       # a list of Polygon visuals
+            self._sb_planets    = {}       # a dict of Planet visuals
+            self._sb_tracks     = {}       # a dict of Polygon visuals
             self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             # self._system_viz    = self._setup_sysviz(sbs=sim_bods)
             super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=sim_bods))
@@ -69,40 +69,52 @@ class StarSystemVisual(CompoundVisual):
             self._sb_markers.parent = self._skymap
             self._sb_symbols = [sb.body_symbol for sb in sbs.values()]
             for sb_name, sb in sbs.items():
-                self._sb_planets.append(Planet(body_ref=sb.body,
-                                               color=sb.base_color,
-                                               edge_color=sb.base_color,
-                                               texture=sb.texture,
-                                               parent=self._skymap,
-                                               visible=False,
-                                               ))
+                self._sb_planets.update({sb_name: Planet(body_ref=sb.body,
+                                                         color=sb.base_color,
+                                                         edge_color=sb.base_color,
+                                                         texture=sb.texture,
+                                                         parent=self._skymap,
+                                                         visible=False,
+                                                         )
+                                         })
                 if sb.sb_parent is not None:
-                    self._sb_tracks.append(Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
-                                                   border_color=sb.base_color +
-                                                   np.array([0, 0, 0, sb.track_alpha]),
-                                                   triangulate=False,
-                                                   parent=self._skymap,
-                                                   ))
+                    self._sb_tracks.update({sb_name: Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
+                                                             border_color=sb.base_color +
+                                                                          np.array([0, 0, 0, sb.track_alpha]),
+                                                             triangulate=False,
+                                                             parent=self._skymap,
+                                                             )
+                                            })
+            for sb_name, sb in sbs.items():
+                if sb.body.parent is not None:
+                    self._sb_planets[sb_name].parent = self._sb_planets[sb.body.parent.name]
+                    self._sb_tracks[sb_name].parent = self._sb_planets[sb.body.parent.name]
 
             subvisuals = [self._skymap,
                           self._frame_viz,
                           self._sb_markers,
-                          Compound(self._sb_tracks),
-                          Compound(self._sb_planets),
+                          Compound(self._sb_tracks.values()),
+                          Compound(self._sb_planets.values()),
                           ]
             return subvisuals
         else:
             print("Must provide SimBody dictionary...")
 
     def update_sysviz(self):
-        # collect positions of the bodies into an array
-        _bods_pos = [sb.pos2primary() for sb in self._simbods.values()]
-        # self._sb_tracks[3].parent = self._sb_planets[3]  # move moon orbit to Earth pos
-        self._bods_pos = np.array(_bods_pos)
+        _bods_pos = {}
+        self._bods_pos = []
+        for sb_name, sb in self._simbods.items():
+            # collect positions of the bodies into an array
+            _bods_pos.update({sb_name: sb.pos2primary()})
+            # self._sb_planets[sb_name].transform = ST(translate=_bods_pos[sb_name])
+            # if sb.body.parent is not None:
+            #     self._sb_tracks[sb_name].transform = ST(translate=_bods_pos[sb.body.parent.name])
 
+        self._bods_pos = np.array(list(_bods_pos.values()))
         # collect the body positions relative to the camera location
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
                              for sb in self._simbods.values()]
+
         self._symbol_sizes = self.get_symb_sizes()        # update symbol sizes based upon FOV of body
         self._sb_markers.set_data(pos=self._bods_pos,
                                   face_color=np.array([sb.base_color + np.array([0, 0, 0, sb.track_alpha])
@@ -111,24 +123,26 @@ class StarSystemVisual(CompoundVisual):
                                   size=self._symbol_sizes,
                                   symbol=self._sb_symbols,
                                   )
+
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 
     def get_symb_sizes(self):
-        # TODO: Rework this method to have only one loop!
-        body_fovs = []
-        for sb in self._simbods.values():
-            body_fovs.append(sb.rel2pos(pos=self._cam.center)['fov'])
-
-        raw_diams = [math.ceil(self._mainview.size[0] * b_fov / self._cam.fov) for b_fov in body_fovs]
+        # TODO: Rework this method to have only one loop
         pix_diams = []
-        for rd in raw_diams:
-            if rd < MIN_SYMB_SIZE:
-                pix_diams.append(MIN_SYMB_SIZE)
-            elif rd < MAX_SYMB_SIZE:
-                pix_diams.append(rd)
-            else:
-                pix_diams.append(0)
+        for sb_name, sb in self._simbods.items():
+            body_fov = sb.rel2pos(pos=self._cam.center)['fov']
+            raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
+            self._sb_planets[sb_name].visible = False
+            if raw_diam < MIN_SYMB_SIZE:
+                pix_diam = MIN_SYMB_SIZE
+            elif raw_diam < MAX_SYMB_SIZE:
+                pix_diam = raw_diam
+            elif raw_diam >= MAX_SYMB_SIZE:
+                pix_diam = 0
+                self._sb_planets[sb_name].visible = True
+
+            pix_diams.append(pix_diam)
 
         return np.array(pix_diams)
 
