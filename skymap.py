@@ -5,7 +5,7 @@ from vispy.scene.visuals import create_visual_node, Mesh
 # from poliastro.bodies import Sun
 from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
-from multiprocessing import get_logger
+# from multiprocessing import get_logger
 from PIL import Image
 
 
@@ -15,7 +15,7 @@ class SkyMapVisual(CompoundVisual):
 
     DEF_TEX_FNAME = "resources/textures/8k_zzESO_Milky_Way.png"
     with Image.open(DEF_TEX_FNAME) as im:
-        print(DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
+        print("-->SKYMAP:", DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
         DEF_TEX = im.copy()
 
     def __init__(self,
