@@ -5,7 +5,7 @@ from vispy.scene.visuals import create_visual_node, Mesh
 # from poliastro.bodies import Sun
 from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
-from multiprocessing import get_logger
+# from multiprocessing import get_logger
 from PIL import Image
 
 
@@ -15,7 +15,7 @@ class SkyMapVisual(CompoundVisual):
 
     DEF_TEX_FNAME = "resources/textures/8k_zzESO_Milky_Way.png"
     with Image.open(DEF_TEX_FNAME) as im:
-        print(DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
+        print("-->SKYMAP:", DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
         DEF_TEX = im.copy()
 
     def __init__(self,
@@ -41,11 +41,11 @@ class SkyMapVisual(CompoundVisual):
 
         logging.debug('\n<--------------------------------->')
         logging.info('\tInitializing SkyMap object...')
-        self._verts = []
-        self._norms = []
-        self._txcds = []
-        self._faces = []
+        self._verts = []        # verts and faces are parameters for
+        self._faces = []        # the MeshData object
         self._edges = []
+        self._txcds = []        # native sphere screws these up somehow
+        self._norms = []
         self._h_edges = []
         self._v_edges = []
         self._edge_colors = []  # EIGHT friggin' lists !!!
@@ -54,12 +54,10 @@ class SkyMapVisual(CompoundVisual):
             self._texture = SkyMapVisual.DEF_TEX
         else:
             self._texture = texture
-        # self._state = np.ndarray((3, 3),
-        #                          dtype=np.float32
-        #                          )
-        logging.debug('Generating mesh data for %i rows and %i columns...', rows, cols)
 
+        logging.debug('Generating mesh data for %i rows and %i columns...', rows, cols)
         m_data = self._oblate_mesh(rows, cols, self._radius)
+
         self._verts = m_data[0]
         self._norms = m_data[1]
         self._txcds = m_data[2]
@@ -75,24 +73,16 @@ class SkyMapVisual(CompoundVisual):
         mesh._edge_colors = np.array(self._edge_colors)
         mesh._edges = np.array(self._edges)
         mesh._vertex_normals = np.array(-1 * self._norms)
-        # mesh._vertex_values = np.array(self._verts)
-
         self._mesh = Mesh(vertices=mesh.get_vertices(),
                                   faces=mesh.get_faces(),
                                   color=color,
                                   meshdata=mesh,
                                   )
         logging.debug('MeshVisual initialized, setting up the TextureFilter...')
-        #   TODO:   Here would be a good place to apply a more sophisticated method that allows for
-        #       :   layering one or more textures in a specific sequence. Probably should implement a
-        #       :   class providing a state switch to select an ordered set of images to the mesh texture.
-        #       :   If this works, a LOT of interesting surface graphics could be devised.
-
         self._mesh.attach(TextureFilter(texcoords=np.array(self._txcds),
                                         texture=self._texture,
                                         )
                           )
-
         logging.debug('Initializing border mesh, cram into Compound ans set the gl_state...')
         if edge_color:
             self._border = Mesh(vertices=mesh.get_vertices(),
@@ -107,7 +97,6 @@ class SkyMapVisual(CompoundVisual):
         # create instance of inherited class, in this case a CompoundVisual
         super(SkyMapVisual, self).__init__([self._mesh, self._border],
                                            )  # initialize the CompoundVisual
-
         self._mesh.set_gl_state(polygon_offset_fill=True,
                                 polygon_offset=(1, 1),
                                 depth_test=True,
@@ -155,9 +144,7 @@ class SkyMapVisual(CompoundVisual):
         num_e = -1
         num_eh = -1
         num_ev = -1
-        cr = 1.0
-        cg = 0.0
-        cb = 0.0
+        c_rgb = [1, 0, 0]
 
         for row in range(0, rows + 1):
 
@@ -189,9 +176,9 @@ class SkyMapVisual(CompoundVisual):
                     self._edges.append(np.array([k1, k2]))
                     self._edges.append(np.array([k2, k1 + 1]))
                     self._edges.append(np.array([k1 + 1, k1]))
-                    self._edge_colors.append([cr, cg, cb, 1])
-                    self._edge_colors.append([cr, cg, cb, 0])
-                    self._edge_colors.append([cr, cg, cb, 1])
+                    self._edge_colors.append(c_rgb + [1,])
+                    self._edge_colors.append(c_rgb + [0,])
+                    self._edge_colors.append(c_rgb + [1,])
                     num_f += 1
                     num_e += 3
                 if i != (rows - 1):
@@ -199,9 +186,9 @@ class SkyMapVisual(CompoundVisual):
                     self._edges.append(np.array([k1 + 1, k2]))
                     self._edges.append(np.array([k2, k2 + 1]))
                     self._edges.append(np.array([k2 + 1, k1 + 1]))
-                    self._edge_colors.append([cr, cg, cb, 0])
-                    self._edge_colors.append([cr, cg, cb, 0])
-                    self._edge_colors.append([cr, cg, cb, 0])
+                    self._edge_colors.append(c_rgb + [0,])
+                    self._edge_colors.append(c_rgb + [0,])
+                    self._edge_colors.append(c_rgb + [0,])
                     num_f += 1
                     num_e += 3
 

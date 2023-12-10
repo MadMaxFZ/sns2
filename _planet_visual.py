@@ -310,11 +310,6 @@ def main():
     p_tex = imread(planet_tex)
     print(skymap_tex, type(s_tex))
     print(planet_tex, type(p_tex))
-    # skymap = SkyMap(parent=view.scene,
-    #                 radius=1e+02,
-    #                 texture=s_tex,
-    #                 edge_color=[0, 0, 1, .3]
-    #                 )
     planet = Planet(# refbody=Earth,
                     parent=view.scene,
                     texture=p_tex,
