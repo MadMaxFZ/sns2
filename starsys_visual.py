@@ -15,7 +15,7 @@ from simbody import SimBody
 
 
 MIN_SYMB_SIZE = 5
-MAX_SYMB_SIZE = 20
+MAX_SYMB_SIZE = 30
 ST = tr.STTransform
 MT = tr.MatrixTransform
 SUN_COLOR = [253 / 255, 184 / 255, 19 / 255]
@@ -54,7 +54,11 @@ class StarSystemVisual(CompoundVisual):
             self._symbol_sizes  = []
             self._sb_planets    = {}       # a dict of Planet visuals
             self._sb_tracks     = {}       # a dict of Polygon visuals
-            self._sb_markers    = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
+            self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
+            self._cntr_markers = Markers(parent=self._skymap,
+                                         symbol='+',
+                                         size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
+                                         **DEF_MARKS_INIT)  # another instance of Markers
             # self._system_viz    = self._setup_sysviz(sbs=sim_bods)
             super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=sim_bods))
         else:
@@ -66,7 +70,8 @@ class StarSystemVisual(CompoundVisual):
         if sbs is not None:
             self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
             self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
-            self._sb_markers.parent = self._skymap
+            self._plnt_markers.parent = self._skymap
+            self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
             self._sb_symbols = [sb.body_symbol for sb in sbs.values()]
             for sb_name, sb in sbs.items():
                 self._sb_planets.update({sb_name: Planet(body_ref=sb.body,
@@ -92,7 +97,8 @@ class StarSystemVisual(CompoundVisual):
 
             subvisuals = [self._skymap,
                           self._frame_viz,
-                          self._sb_markers,
+                          self._plnt_markers,
+                          self._cntr_markers,
                           Compound(self._sb_tracks.values()),
                           Compound(self._sb_planets.values()),
                           ]
@@ -115,14 +121,34 @@ class StarSystemVisual(CompoundVisual):
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
                              for sb in self._simbods.values()]
 
-        self._symbol_sizes = self.get_symb_sizes()        # update symbol sizes based upon FOV of body
-        self._sb_markers.set_data(pos=self._bods_pos,
-                                  face_color=np.array([sb.base_color + np.array([0, 0, 0, sb.track_alpha])
-                                                       for sb in self._simbods.values()]),
-                                  edge_color=[1, 0, 0, .6],
-                                  size=self._symbol_sizes,
-                                  symbol=self._sb_symbols,
-                                  )
+        self._symbol_sizes = []                 # update symbol sizes based upon FOV of body
+        for sb_name, sb in self._simbods.items():
+            body_fov = sb.rel2pos(pos=self._cam.center)['fov']
+            pix_diam = 0
+            raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
+            self._sb_planets[sb_name].visible = False
+            if raw_diam < MIN_SYMB_SIZE:
+                pix_diam = MIN_SYMB_SIZE
+            elif raw_diam < MAX_SYMB_SIZE:
+                pix_diam = raw_diam
+            elif raw_diam >= MAX_SYMB_SIZE:
+                pix_diam = 0
+                self._sb_planets[sb_name].visible = True
+
+            self._symbol_sizes.append(pix_diam)
+
+        self._plnt_markers.set_data(pos=self._bods_pos,
+                                    face_color=np.array([sb.base_color + np.array([0, 0, 0, sb.track_alpha])
+                                                        for sb in self._simbods.values()]),
+                                    edge_color=[1, 0, 0, .6],
+                                    size=self._symbol_sizes,
+                                    symbol=self._sb_symbols,
+                                    )
+        self._cntr_markers.set_data(pos=self._bods_pos,
+                                    edge_color=[0, 1, 0, .6],
+                                    size=MIN_SYMB_SIZE,
+                                    symbol=['diamond' for sb in self._simbods.values()],
+                                    )
 
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
@@ -132,6 +158,7 @@ class StarSystemVisual(CompoundVisual):
         pix_diams = []
         for sb_name, sb in self._simbods.items():
             body_fov = sb.rel2pos(pos=self._cam.center)['fov']
+            pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
             self._sb_planets[sb_name].visible = False
             if raw_diam < MIN_SYMB_SIZE:

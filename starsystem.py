@@ -68,7 +68,7 @@ class StarSystemModel:
         logging.info("\t>>> SimBody objects created....\n")
         return sb_dict
 
-    def set_ephems(self, epoch=None, span=1):   # TODO: make default span to Time(1 day)
+    def set_ephems(self, epoch=None, span=1*u.day):   # TODO: make default span to Time(1 day)
         if epoch is None:
             epoch = self._sys_epoch
         else:
