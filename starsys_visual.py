@@ -13,16 +13,16 @@ from body_visual import Planet
 from skymap import SkyMap
 from simbody import SimBody
 
-
+# these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5
 MAX_SYMB_SIZE = 30
 ST = tr.STTransform
 MT = tr.MatrixTransform
-SUN_COLOR = [253 / 255, 184 / 255, 19 / 255]
+SUN_COLOR = tuple(np.array([253, 184, 19]) / 255)
 DEF_MARKS_INIT = dict(scaling=False,
                       alpha=1,
                       antialias=1,
-                      spherical=False,
+                      spherical=True,
                       light_color=SUN_COLOR,
                       light_position=(0.01, 0.01, 0.01),
                       light_ambient=0.3,
