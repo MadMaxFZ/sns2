@@ -11,7 +11,7 @@ from vispy.geometry import MeshData
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.visuals import CompoundVisual
-from vispy.scene.visuals import create_visual_node
+from vispy.scene.visuals import create_visual_node, Compound
 from PIL import Image
 
 DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"

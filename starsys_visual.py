@@ -70,7 +70,7 @@ class StarSystemVisual(CompoundVisual):
         if sbs is not None:
             self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
             self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
-            self._plnt_markers.parent = self._skymap
+            # self._plnt_markers.parent = self._skymap
             self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
             self._sb_symbols = [sb.body_symbol for sb in sbs.values()]
             for sb_name, sb in sbs.items():
