@@ -168,7 +168,7 @@ def setup_datastore():
     body_tmark = ['star',
                   'o',
                   'diamond',
-                  'diamond',
+                  '+',
                   ]
 
     type_set = (0,
