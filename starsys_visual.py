@@ -83,8 +83,9 @@ class StarSystemVisual(CompoundVisual):
                                                          )
                                          })
                 if sb.sb_parent is not None:
+                    print(sb.base_color, sb.base_color.shape)
                     self._sb_tracks.update({sb_name: Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
-                                                             border_color=sb.base_color +
+                                                             border_color=np.array(list(sb.base_color) + [0,]) +
                                                                           np.array([0, 0, 0, sb.track_alpha]),
                                                              triangulate=False,
                                                              parent=self._skymap,
@@ -138,8 +139,10 @@ class StarSystemVisual(CompoundVisual):
             self._symbol_sizes.append(pix_diam)
 
         self._plnt_markers.set_data(pos=self._bods_pos,
-                                    face_color=np.array([sb.base_color + np.array([0, 0, 0, sb.track_alpha])
-                                                        for sb in self._simbods.values()]),
+                                    face_color=[np.array(list(sb.base_color) + [0,]) +
+                                                np.array([0, 0, 0, sb.track_alpha])
+                                                for sb in self._simbods.values()
+                                                ],
                                     edge_color=[1, 0, 0, .6],
                                     size=self._symbol_sizes,
                                     symbol=self._sb_symbols,
@@ -149,7 +152,6 @@ class StarSystemVisual(CompoundVisual):
                                     size=MIN_SYMB_SIZE,
                                     symbol=['diamond' for sb in self._simbods.values()],
                                     )
-
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 

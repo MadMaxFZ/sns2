@@ -34,6 +34,7 @@ name_list = ['data_functs.py',
              'skymap.py',
              'body_visual.py',
              'starsys_visual.py',
+             'node.py',
              ]
 for name in name_list:
     filename = path_name + name

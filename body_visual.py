@@ -6,6 +6,7 @@
 # Modified by Max S. Whitten in order to address the "stripe" glitch
 
 import numpy as np
+import vispy.visuals.transforms as tr
 from poliastro.bodies import Body, Sun
 from vispy.geometry import MeshData
 from vispy.visuals.mesh import MeshVisual
