@@ -43,6 +43,10 @@ def toTD(epoch=None):
 
 def setup_datastore():
     """"""
+    # TODO: Convert this function into a class that contains all the body data and
+    #       has methods to return selected subsets of the data to users. This will
+    #       allow to create SimBody objects individually and compute any derived
+    #       quantities only as needed.
     DEF_EPOCH    = J2000_TDB  # default epoch
     SIM_PARAMS   = dict(sys_name="Sol",
                         def_epoch=DEF_EPOCH,
@@ -55,12 +59,11 @@ def setup_datastore():
     _tex_fnames  = []  # list of texture filenames (will be sorted)
     _tex_dat_set = {}  # dist of body name and the texture data associated with it
     _body_params = {}  # dict of body name and the static parameters of each
-    _body_names  = []  # list of body names available in sim
     _body_count  = 0   # number of available bodies
     _type_count  = {}  # dict of body types and the count of each typE
     _viz_assign   = {}  # dict of visual names to use for each body
 
-    body_set = [Sun,
+    _body_set = [Sun,
                 Mercury,
                 Venus,
                 Earth,
@@ -72,6 +75,8 @@ def setup_datastore():
                 Neptune,
                 Pluto,
                 ]
+    # list of body names available in sim, cast to a tuple to preserve order
+    _body_names = tuple([body.name for body in _body_set])
     # reference frame fixed to planet surfaces
     frame_set = [SunFixed,
                  MercuryFixed,
@@ -148,11 +153,6 @@ def setup_datastore():
     [_viz_assign.update({name: xtr_viz}) for name in _body_names]
     _viz_assign['Sun'] = com_viz
 
-    for _body in body_set:
-        if _body is not None:
-            _body_names.append(_body.name)
-    _body_names = tuple(_body_names)      # the tuple locks in the order of elements
-
     # get listing of texture filenames
     tex_dirlist = os.listdir(_tex_path)
     for i in tex_dirlist:
@@ -163,7 +163,7 @@ def setup_datastore():
 
     for idx in range(len(_body_names)):  # idx = [0..,len(_body_names)-1]
         _bod_name = _body_names[idx]
-        _body = body_set[idx]
+        _body = _body_set[idx]
         _bod_prnt = _body.parent
 
         logging.debug(">LOADING STATIC DATA for " + str(_bod_name))
@@ -209,7 +209,7 @@ def setup_datastore():
         _body_count += 1
 
     check_sets = [
-        len(body_set),
+        len(_body_set),
         len(colorset_rgb),
         len(frame_set),
         len(rot_set),

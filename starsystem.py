@@ -49,7 +49,7 @@ class StarSystemModel:
                               connect=self.update_epochs,  # change this
                               iterations=-1,
                               )
-        print("Target FPS:", 1 / self._w_clock.interval)
+        # print("Target FPS:", 1 / self._w_clock.interval)
         self._t_warp = 1.0             # multiple to apply to real time in simulation
         self.set_ephems()
 

@@ -83,7 +83,7 @@ class StarSystemVisual(CompoundVisual):
                                                          )
                                          })
                 if sb.sb_parent is not None:
-                    print(sb.base_color, sb.base_color.shape)
+                    # print(sb.base_color, sb.base_color.shape)
                     self._sb_tracks.update({sb_name: Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
                                                              border_color=np.array(list(sb.base_color) + [0,]) +
                                                                           np.array([0, 0, 0, sb.track_alpha]),
@@ -104,7 +104,7 @@ class StarSystemVisual(CompoundVisual):
                           Compound(self._sb_planets.values()),
                           ]
             return subvisuals
-        else:
+        else:# list of body names available in sim
             print("Must provide SimBody dictionary...")
 
     def update_sysviz(self):
