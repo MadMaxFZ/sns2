@@ -8,7 +8,7 @@ from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
                                  Compound, Polygon)
-from data_functs import vec_type
+from starsys_data import vec_type
 from body_visual import Planet
 from skymap import SkyMap
 from simbody import SimBody

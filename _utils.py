@@ -6,7 +6,7 @@ import sys
 import numpy as np
 import logging
 import subprocess
-from data_functs import *
+from starsys_data import *
 from viz_functs import *
 from multiprocessing import Pool, Queue, Process, Lock
 from astropy.time import TimeDelta, Time

@@ -3,7 +3,7 @@
 import logging
 from vispy import app, scene
 from vispy.color import Color
-from data_functs import *
+from starsys_data import *
 from starsystem import StarSystemModel
 
 logging.basicConfig(filename="logs/mainsimwin.log",

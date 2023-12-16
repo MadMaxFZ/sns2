@@ -4,7 +4,7 @@ from vispy.app.timer import *
 from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
-from data_functs import *
+from starsys_data import *
 from simbody import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
@@ -28,6 +28,8 @@ class StarSystemModel:
 
         self._INIT = False
         StarSystemModel.sim_params = sys_data["SYS_PARAMS"]
+        self._ephem_span = (StarSystemModel.sim_params['periods']
+                            * StarSystemModel.sim_params['spacing'])
         self._body_count = sys_data["BODY_COUNT"]
         self._body_names = sys_data["BODY_NAMES"]
         self._body_data  = sys_data["BODY_DATA"]
@@ -35,6 +37,7 @@ class StarSystemModel:
                                format='jd',
                                scale='tdb',
                                )
+        self._end_epoch = self._sys_epoch + self._ephem_span
         self._simbodies = self.init_simbodies(body_names=self._body_names)
         self._sb_list = [self._simbodies[name] for name in self._body_names]
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count), dtype=vec_type)
@@ -43,8 +46,7 @@ class StarSystemModel:
         self._system_viz = StarSystem(sim_bods=self._simbodies, system_view=view)
         self._w_last = 0
         self._d_epoch = None
-        self._avg_d_epoch = None
-        self._end_epoch = None
+        self._avg_d_epoch = 0 * u.s
         self._w_clock = Timer(interval='auto',
                               connect=self.update_epochs,  # change this
                               iterations=-1,
@@ -97,15 +99,15 @@ class StarSystemModel:
             self._INIT = True
 
         d_epoch = TimeDelta(dt * u.s * self._t_warp)
-        if self._avg_d_epoch is None:
+        self._sys_epoch += d_epoch
+        if self._sys_epoch > self._end_epoch:
+            self.set_ephems(epoch=self._sys_epoch)  # reset ephem range
+            logging.debug("RELOAD EPOCHS/EPHEM SETS...")
+
+        if self._avg_d_epoch.value == 0:
             self._avg_d_epoch = d_epoch
 
-        self._sys_epoch += d_epoch
         self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
-        if (self._end_epoch - self._sys_epoch) < 2 * self._avg_d_epoch:
-            logging.debug("RELOAD EPOCHS/EPHEM SETS...")
-            self.set_ephems(epoch=self._sys_epoch)               # reset ephem range
-
         self.update_states(new_epoch=self._sys_epoch)
         logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
                       self._avg_d_epoch,

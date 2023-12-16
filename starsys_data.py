@@ -45,7 +45,7 @@ def setup_datastore():
     """"""
     # TODO: Convert this function into a class that contains all the body data and
     #       has methods to return selected subsets of the data to users. This will
-    #       allow to create SimBody objects individually and compute any derived
+    #       allow, to create SimBody objects individually and compute any derived
     #       quantities only as needed.
     DEF_EPOCH    = J2000_TDB  # default epoch
     SIM_PARAMS   = dict(sys_name="Sol",
@@ -55,14 +55,14 @@ def setup_datastore():
                         spacing=24 * 60 * 60 * u.s,
                         fps=60,
                         )
-    _tex_path    = "C:\\_Projects\\sns2\\resources\\textures\\"  # directory of texture image files
-    _tex_fnames  = []  # list of texture filenames (will be sorted)
-    _tex_dat_set = {}  # dist of body name and the texture data associated with it
-    _body_params = {}  # dict of body name and the static parameters of each
-    _body_count  = 0   # number of available bodies
-    _type_count  = {}  # dict of body types and the count of each typE
-    _viz_assign   = {}  # dict of visual names to use for each body
-
+    _tex_path      = "C:\\_Projects\\sns2\\resources\\textures\\"  # directory of texture image files
+    _def_tex_fname = "2k_ymakemake_fictional.png"
+    _tex_fnames    = []  # list of texture filenames (will be sorted)
+    _tex_dat_set   = {}  # dist of body name and the texture data associated with it
+    _body_params   = {}  # dict of body name and the static parameters of each
+    _body_count    = 0   # number of available bodies
+    _type_count    = {}  # dict of body types and the count of each typE
+    _viz_assign    = {}  # dict of visual names to use for each body
     _body_set = [Sun,
                 Mercury,
                 Venus,
@@ -74,6 +74,15 @@ def setup_datastore():
                 Uranus,
                 Neptune,
                 Pluto,
+                # Phobos,
+                # Deimos,
+                # Europa,
+                # Ganymede,
+                # Enceladus,
+                # Titan,
+                # Titania,
+                # Triton,
+                # Charon,
                 ]
     # list of body names available in sim, cast to a tuple to preserve order
     _body_names = tuple([body.name for body in _body_set])
@@ -118,17 +127,8 @@ def setup_datastore():
                  ]
     colorset_rgb = np.array(color_RGB) / 256
     # indices of texture filenames for each body
-    tex_idx = (0,
-               1,
-               3,
-               10,
-               17,
-               11,
-               12,
-               13,
-               15,
-               16,
-               17,
+    tex_idx = (0, 1, 3, 10, 17, 11, 12, 13, 15, 16, 17,
+               # 21, 21, 21, 21, 21, 21, 21, 21, 21,
                )
     # types of bodies in simulation
     body_types = ("star",
@@ -168,7 +168,10 @@ def setup_datastore():
 
         logging.debug(">LOADING STATIC DATA for " + str(_bod_name))
 
-        tex_fname = _tex_path + _tex_fnames[tex_idx[idx]]  # get path of indexed filename
+        try:
+            tex_fname = _tex_path + _tex_fnames[tex_idx[idx]]  # get path of indexed filename
+        except:
+            tex_fname = _tex_path + _def_tex_fname
         _tex_dat_set.update({_bod_name: get_tex_data(fname=tex_fname)})  # add texture data to active dict
         logging.debug("_tex_dat_set[" + str(idx) + "] = " + str(tex_fname))
         if _body.parent is None:
