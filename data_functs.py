@@ -112,19 +112,6 @@ def setup_datastore():
                  [255, 255, 255],
                  ]
     colorset_rgb = np.array(color_RGB) / 256
-    # indices of texture filenames for each body
-    tex_idx = (0,
-               1,
-               3,
-               10,
-               17,
-               11,
-               12,
-               13,
-               15,
-               16,
-               17,
-               )
     # types of bodies in simulation
     body_types = ("star",
                   "planet",
@@ -145,7 +132,7 @@ def setup_datastore():
     com_viz = [viz_keys[1], viz_keys[2], viz_keys[4]]
     xtr_viz = [viz_keys[5], viz_keys[6], viz_keys[7]]
     xtr_viz.extend(com_viz)
-    [_viz_assign.update({name: xtr_viz}) for name in _body_names]
+    [_viz_assign.update({body.name: xtr_viz}) for body in body_set]
     _viz_assign['Sun'] = com_viz
 
     for _body in body_set:
@@ -161,6 +148,9 @@ def setup_datastore():
     # _tex_fnames = _tex_fnames.sort()  # it doesn't like this sort()
     _tex_fnames = tuple(_tex_fnames)    # the tuple locks in the order of sorted elements
 
+    # indices of texture filenames for each body
+    tex_idx = (0, 1, 3, 10, 17, 11, 12, 13, 15, 16, 17)
+
     for idx in range(len(_body_names)):  # idx = [0..,len(_body_names)-1]
         _bod_name = _body_names[idx]
         _body = body_set[idx]
@@ -171,6 +161,7 @@ def setup_datastore():
         tex_fname = _tex_path + _tex_fnames[tex_idx[idx]]  # get path of indexed filename
         _tex_dat_set.update({_bod_name: get_tex_data(fname=tex_fname)})  # add texture data to active dict
         logging.debug("_tex_dat_set[" + str(idx) + "] = " + str(tex_fname))
+
         if _body.parent is None:
             R = _body.R
             Rm = Rp = R
@@ -194,8 +185,8 @@ def setup_datastore():
                           rot_func=rot_set[idx],
                           body_color=colorset_rgb[idx],
                           tex_fname=_tex_fnames[tex_idx[idx]],
-                          tex_dat=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
-                          viz_names=_viz_assign[_bod_name],
+                          tex_dat=_tex_dat_set[_body.name],  # _tex_dat_set[idx],
+                          viz_names=_viz_assign[_body.name],
                           body_type=body_types[type_set[idx]],
                           body_mark=body_tmark[type_set[idx]],
                           n_samples=365,
