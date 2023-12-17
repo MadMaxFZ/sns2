@@ -26,7 +26,7 @@ def scan_fname(filename=None):
             show_info(method)
 
 path_name = "C:\\_Projects\\sns2\\"
-name_list = ['data_functs.py',
+name_list = ['starsys_data.py',
              'viz_functs.py',
              'mainsimwin.py',
              'starsystem.py',

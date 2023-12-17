@@ -1,9 +1,9 @@
 import numpy as np
 
-from data_functs import *
+from starsys_data import *
 from poliastro.ephem import *
 from astropy import units as u
-from astropy.time import Time
+from astropy.time import Time, TimeDelta
 from poliastro.twobody.orbit.scalar import Orbit
 from vispy.scene.visuals import Polygon
 
@@ -84,34 +84,13 @@ class SimBody:
 
         self._rad_set = [R, Rm, Rp,]
         self._body_data.update({'rad_set' : self._rad_set})
-        self.set_time_range(epoch=self._epoch,
-                            periods=self._periods,
-                            spacing=self._spacing,
-                            )
+        self._t_range = time_range(epoch,
+                                   periods=sim_param['periods'],
+                                   spacing=sim_param['spacing'],
+                                   format='jd',
+                                   scale='tdb', )
         self.set_ephem(t_range=self._t_range)
         self.set_orbit(self._ephem)
-
-    def set_time_range(self,
-                       epoch=None,
-                       periods=None,
-                       spacing=None,
-                       ):
-        logging.debug("set_time_range() at " + str(epoch.jd / 86400))
-        if epoch is None:
-            epoch = self._epoch
-
-        self._epoch = epoch
-        if periods is None:
-            periods = self._periods
-
-        if spacing is None:
-            spacing = self._spacing
-
-        self._t_range = time_range(epoch,
-                                   periods=periods,
-                                   spacing=spacing,
-                                   format='jd',
-                                   scale='tdb',)
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -290,9 +269,22 @@ class SimBody:
     def epoch(self):
         return self._epoch
 
+    @epoch.setter
+    def epoch(self, new_epoch=None):
+        if type(new_epoch) == Time:
+            self._epoch = Time(new_epoch,
+                               format='jd',
+                               scale='tdb',
+                               )
+
     @property
     def t_range(self):
         return self._t_range
+
+    @t_range.setter
+    def t_range(self, new_t_range=None):
+        if type(new_t_range) == Time:
+            self._t_range = new_t_range
 
     @property
     def ephem(self):
