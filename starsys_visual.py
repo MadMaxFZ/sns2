@@ -104,7 +104,7 @@ class StarSystemVisual(CompoundVisual):
                           Compound(self._sb_planets.values()),
                           ]
             return subvisuals
-        else:# list of body names available in sim
+        else:  # list of body names available in sim
             print("Must provide SimBody dictionary...")
 
     def update_sysviz(self):
