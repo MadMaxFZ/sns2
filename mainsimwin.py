@@ -4,7 +4,7 @@ import logging
 from vispy import app, scene
 from vispy.color import Color
 from starsys_data import *
-from starsystem import StarSystemModel
+from starsys_model import StarSystemModel
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -23,7 +23,8 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_view = self.central_widget.add_view()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_view.camera.zoom_factor = 1.0
-        self._star_sys = StarSystemModel(sys_data=setup_datastore(), view=self._sys_view)
+        self._star_sys = StarSystemModel(# bod_names=setup_datastore(),
+                                         view=self._sys_view)
         self._system_viz = self._star_sys.sys_viz
         self.freeze()
         self._sys_view.add(self._system_viz)

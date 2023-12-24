@@ -86,17 +86,16 @@ class SkyMapVisual(CompoundVisual):
         logging.debug('Initializing border mesh, cram into Compound ans set the gl_state...')
         if edge_color:
             self._border = Mesh(vertices=mesh.get_vertices(),
-                                        faces=mesh.get_edges(),
-                                        color=edge_color,
-                                        mode='lines',
-                                        meshdata=mesh,
-                                        )
+                                faces=mesh.get_edges(),
+                                color=edge_color,
+                                mode='lines',
+                                meshdata=mesh,
+                                )
         else:
             self._border = Mesh()
 
         # create instance of inherited class, in this case a CompoundVisual
-        super(SkyMapVisual, self).__init__([self._mesh, self._border],
-                                           )  # initialize the CompoundVisual
+        super(SkyMapVisual, self).__init__([self._mesh, self._border])  # initialize the CompoundVisual
         self._mesh.set_gl_state(polygon_offset_fill=True,
                                 polygon_offset=(1, 1),
                                 depth_test=True,

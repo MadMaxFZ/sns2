@@ -12,50 +12,52 @@ from starsys_visual import StarSystem
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
-                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
+                    format='%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s',
                     )
+
+SYS_DATA = SystemDataStore()
 
 
 class StarSystemModel:
     """
-        TODO: refactor so that simbodies becomes a class variable
     """
-    sim_params = None
+    sim_params = SYS_DATA.system_params
 
-    def __init__(self, sys_data=None, view=None):
-        if sys_data is None:
-            sys_data = setup_datastore()
+    def __init__(self, bod_names=SYS_DATA.body_names, view=None):
+        self._INIT        = False
+        self._ephem_span  = (StarSystemModel.sim_params['periods']
+                             * StarSystemModel.sim_params['spacing'])
+        self._body_count  = 0
+        self._body_names  = []
+        self._body_data   = {}
+        for name in bod_names:
+            if name in SYS_DATA.body_names:
+                self._body_count += 1
+                self._body_names.append(name)
+                self._body_data.update({name: SYS_DATA.get_body_data(name)})
 
-        self._INIT = False
-        StarSystemModel.sim_params = sys_data["SYS_PARAMS"]
-        self._ephem_span = (StarSystemModel.sim_params['periods']
-                            * StarSystemModel.sim_params['spacing'])
-        self._body_count = sys_data["BODY_COUNT"]
-        self._body_names = sys_data["BODY_NAMES"]
-        self._body_data  = sys_data["BODY_DATA"]
-        self._sys_epoch = Time(sys_data["DEF_EPOCH"],
-                               format='jd',
-                               scale='tdb',
-                               )
-        self._end_epoch = self._sys_epoch + self._ephem_span
-        self._simbodies = self.init_simbodies(body_names=self._body_names)
-        self._sb_list = [self._simbodies[name] for name in self._body_names]
+        self._simbodies   = self.init_simbodies(names=self._body_names)
+        self._sbod_list   = [self._simbodies[name] for name in self._body_names]
+        self._sys_epoch   = Time(SYS_DATA.def_epoch,
+                                 format='jd',
+                                 scale='tdb',
+                                 )
+        self._end_epoch   = self._sys_epoch + self._ephem_span
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count), dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count), dtype=vec_type)
-        self._body_accel = np.zeros((self._body_count,), dtype=vec_type)
-        self._system_viz = StarSystem(sim_bods=self._simbodies, system_view=view)
-        self._w_last = 0
-        self._d_epoch = None
+        self._body_accel  = np.zeros((self._body_count,), dtype=vec_type)
+        # self._system_viz  = StarSystem(sim_bods=self._simbodies, system_view=view)
+        self._w_last      = 0
+        self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock = Timer(interval='auto',
-                              connect=self.update_epochs,  # change this
-                              iterations=-1,
-                              )
-        # print("Target FPS:", 1 / self._w_clock.interval)
-        self._t_warp = 1.0             # multiple to apply to real time in simulation
+        self._w_clock     = Timer(interval='auto',
+                                  connect=self.update_epochs,  # change this
+                                  iterations=-1,
+                                  )
+        self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self.set_ephems()
 
-    def init_simbodies(self, body_names=None):
+    def init_simbodies(self, names=None):
         solar_system_ephemeris.set("jpl")
         sb_dict = {}
         for name in self._body_names:
@@ -70,20 +72,17 @@ class StarSystemModel:
         logging.info("\t>>> SimBody objects created....\n")
         return sb_dict
 
-    def set_ephems(self, epoch=None, span=1*u.day):   # TODO: make default span to Time(1 day)
+    def set_ephems(self, epoch=None, spacing=86400 * u.s):
         if epoch is None:
             epoch = self._sys_epoch
-        else:
-            # span = self._simbodies["Earth"].orbit.period / 365.25
-            span = 86400 * u.s      # seconds per day
 
         _t_range = time_range(epoch,
                               periods=365,
-                              spacing=span,
+                              spacing=spacing,
                               format="jd",
                               scale="tdb",
                               )
-        [sb.set_ephem(t_range=_t_range) for sb in self._sb_list]
+        [sb.set_ephem(t_range=_t_range) for sb in self._sbod_list]
         self._end_epoch = _t_range[-1]
         logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
@@ -114,15 +113,15 @@ class StarSystemModel:
                       self._sys_epoch.jd)
 
     def update_states(self, new_epoch=None):
-        for sb in self._sb_list:
+        for sb in self._sbod_list:
             sb.update_state(epoch=new_epoch)
 
-        self._system_viz.update_sysviz()
+        # self._system_viz.update_sysviz()
         i = 0
-        for sb1 in self._sb_list:
+        for sb1 in self._sbod_list:
             j = 0
             # collect the relative position and velocity to the other bodies
-            for sb2 in self._sb_list:
+            for sb2 in self._sbod_list:
                 self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos)['rel_pos']
                 self._sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:

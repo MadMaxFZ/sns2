@@ -30,7 +30,6 @@ class SimBody:
                  body_data=None,
                  sim_param=None,
                  ):
-
         if epoch is None:
             epoch = J2000_TDB
         self._is_primary    = False
@@ -39,10 +38,10 @@ class SimBody:
         self._body_data     = body_data
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
-        self._tex_data      = self._body_data['tex_dat']
+        self._tex_data      = self._body_data['tex_data']
         self._dist_unit     = dist_unit
-        self._periods       = sim_param["periods"]
-        self._spacing       = sim_param["spacing"]
+        self._periods       = sim_param['periods']
+        self._spacing       = sim_param['spacing']
         self._t_range       = None
         self._ephem         = None
         self._orbit         = None
