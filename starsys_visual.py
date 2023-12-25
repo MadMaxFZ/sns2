@@ -40,9 +40,9 @@ DEF_MARKS_DATA = dict(pos=None,
 class StarSystemVisual(CompoundVisual):
     """
     """
-    def __init__(self, sim_bods=None, system_view=None):
-        if self._check_simbods(sbs=sim_bods):
-            self._simbods       = sim_bods
+    def __init__(self, system_model=None, system_view=None):
+        if self._check_simbods(sbs=system_model):
+            self._simbods       = system_model.simbodies
             self._init_state    = 0
             self._mainview      = system_view
             self._cam           = self._mainview.camera
@@ -60,7 +60,7 @@ class StarSystemVisual(CompoundVisual):
                                          size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
                                          **DEF_MARKS_INIT)  # another instance of Markers
             # self._system_viz    = self._setup_sysviz(sbs=sim_bods)
-            super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=sim_bods))
+            super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=system_model))
         else:
             print("Must provide a dictionary of SimBody objects...")
             exit(1)

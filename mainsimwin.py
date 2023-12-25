@@ -6,6 +6,7 @@ from vispy.color import Color
 from starsys_data import *
 from starsys_model import StarSystemModel
 from starsys_visual import StarSystem
+from body_visual import Planet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -14,26 +15,34 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 
 
 class MainSimWindow(scene.SceneCanvas):
-    def __init__(self):
+    def __init__(self, body_names=None):
         super(MainSimWindow, self).__init__(keys="interactive",
                                             size=(1024, 512),
                                             show=False,
                                             bgcolor=Color("black"),
                                             )
         self.unfreeze()
+
+        self._system_mod = StarSystemModel(bod_names=body_names)
+        # create StarSystem Visual
+        self._system_viz = StarSystem()
+        # TODO: Set up a system view with a FlyCamera,
+        #       a secondary box with a Body list along
+        #       with a view of a selected Body.
+        #       25(75/25V)/75H
+        # or these sub-views could be within sys_viz?
+
         self._sys_view = self.central_widget.add_view()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_view.camera.zoom_factor = 1.0
-        self._star_sys = StarSystemModel(# bod_names=setup_datastore(),
-                                         view=self._sys_view)
-        self._system_viz = self._star_sys.sys_viz
         self.freeze()
         self._sys_view.add(self._system_viz)
-        self._sys_view.camera.set_range((-1e+09, 1e+09),
-                                        (-1e+09, 1e+09),
-                                        (-1e+09, 1e+09), )       # this initial range gets bulk of system
+        self._sys_view.camera.set_range(# (-1e+09, 1e+09),
+                                        # (-1e+09, 1e+09),
+                                        # (-1e+09, 1e+09),
+                                        )       # this initial range gets bulk of system
         self._sys_view.camera.scale_factor = 14.5e+06
-        self._star_sys.t_warp = 9000
+        self._system_mod.t_warp = 9000
         if __name__ != "__main__":
             self.run()
 
@@ -52,18 +61,18 @@ class MainSimWindow(scene.SceneCanvas):
                 self._sys_view.camera.fov *= 0.9
                 print("CAM_FOV", self._sys_view.camera.fov)
             elif ev.key.name == "]":
-                self._star_sys.t_warp *= 1.1
-                print("TIME_WARP:", self._star_sys.t_warp)
+                self._system_mod.t_warp *= 1.1
+                print("TIME_WARP:", self._system_mod.t_warp)
             elif ev.key.name == "[":
-                self._star_sys.t_warp *= 0.9
-                print("TIME_WARP:", self._star_sys.t_warp)
+                self._system_mod.t_warp *= 0.9
+                print("TIME_WARP:", self._system_mod.t_warp)
 
         except AttributeError:
             print("Key Error...")
 
     def run(self):
         self.show()
-        self._star_sys.run()
+        self._system_mod.run()
         app.run()
 
     # def stop(self):
@@ -71,7 +80,28 @@ class MainSimWindow(scene.SceneCanvas):
 
 
 def main():
-    my_simwin = MainSimWindow()
+    _body_include_set = ['Sun',
+                         'Mercury',
+                         'Venus',
+                         'Earth',
+                         'Moon',  # all built-ins from poliastro
+                         'Mars',
+                         'Jupiter',
+                         'Saturn',
+                         'Uranus',
+                         'Neptune',
+                         # 'Pluto',
+                         # 'Phobos',
+                         # 'Deimos',
+                         # 'Europa',
+                         # 'Ganymede',
+                         # 'Enceladus',
+                         # 'Titan',
+                         # 'Titania',
+                         # 'Triton',
+                         # 'Charon',
+                         ]
+    my_simwin = MainSimWindow(body_names=_body_include_set)
     my_simwin.run()
 
 

@@ -22,7 +22,8 @@ class StarSystemModel:
     """
     sim_params = SYS_DATA.system_params
 
-    def __init__(self, bod_names=SYS_DATA.body_names, view=None):
+    def __init__(self, bod_names=SYS_DATA.body_names, # view=None
+                 ):
         self._INIT        = False
 
         self._body_count  = 0
@@ -34,11 +35,11 @@ class StarSystemModel:
                 self._body_names.append(name)
                 self._body_data.update({name: SYS_DATA.get_body_data(name)})
 
-        self._simbodies   = self.init_simbodies()
-        self._sbod_list   = [self._simbodies[name] for name in self._body_names]
         self._sys_epoch   = Time(SYS_DATA.def_epoch,
                                  format='jd',
                                  scale='tdb')
+        self._simbodies = self.init_simbodies()
+        self._sbod_list = [self._simbodies[name] for name in self._body_names]
         self._ephem_span = (StarSystemModel.sim_params['periods']
                             * StarSystemModel.sim_params['spacing'])
         self._end_epoch   = self._sys_epoch + self._ephem_span
@@ -137,10 +138,6 @@ class StarSystemModel:
 
     def run(self):
         self._w_clock.start()
-
-    @property
-    def sys_viz(self):
-        return self._system_viz
 
     @property
     def t_warp(self):
