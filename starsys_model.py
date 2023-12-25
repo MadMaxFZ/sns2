@@ -8,7 +8,6 @@ from starsys_data import *
 from simbody import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-from starsys_visual import StarSystem
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -25,8 +24,7 @@ class StarSystemModel:
 
     def __init__(self, bod_names=SYS_DATA.body_names, view=None):
         self._INIT        = False
-        self._ephem_span  = (StarSystemModel.sim_params['periods']
-                             * StarSystemModel.sim_params['spacing'])
+
         self._body_count  = 0
         self._body_names  = []
         self._body_data   = {}
@@ -36,25 +34,24 @@ class StarSystemModel:
                 self._body_names.append(name)
                 self._body_data.update({name: SYS_DATA.get_body_data(name)})
 
-        self._simbodies   = self.init_simbodies(names=self._body_names)
+        self._simbodies   = self.init_simbodies()
         self._sbod_list   = [self._simbodies[name] for name in self._body_names]
         self._sys_epoch   = Time(SYS_DATA.def_epoch,
                                  format='jd',
-                                 scale='tdb',
-                                 )
+                                 scale='tdb')
+        self._ephem_span = (StarSystemModel.sim_params['periods']
+                            * StarSystemModel.sim_params['spacing'])
         self._end_epoch   = self._sys_epoch + self._ephem_span
-        self._sys_rel_pos = np.zeros((self._body_count, self._body_count), dtype=vec_type)
-        self._sys_rel_vel = np.zeros((self._body_count, self._body_count), dtype=vec_type)
-        self._body_accel  = np.zeros((self._body_count,), dtype=vec_type)
-        # self._system_viz  = StarSystem(sim_bods=self._simbodies, system_view=view)
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
         self._w_clock     = Timer(interval='auto',
                                   connect=self.update_epochs,  # change this
-                                  iterations=-1,
-                                  )
+                                  iterations=-1)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
+        self._sys_rel_pos = np.zeros((self._body_count, self._body_count), dtype=vec_type)
+        self._sys_rel_vel = np.zeros((self._body_count, self._body_count), dtype=vec_type)
+        self._body_accel = np.zeros((self._body_count,), dtype=vec_type)
         self.set_ephems()
 
     def init_simbodies(self, names=None):
@@ -72,18 +69,22 @@ class StarSystemModel:
         logging.info("\t>>> SimBody objects created....\n")
         return sb_dict
 
-    def set_ephems(self, epoch=None, spacing=86400 * u.s):
+    def set_ephems(self,
+                   epoch=None,
+                   periods=365,
+                   spacing=86400 * u.s,
+                   ):
         if epoch is None:
             epoch = self._sys_epoch
 
         _t_range = time_range(epoch,
-                              periods=365,
+                              periods=periods,
                               spacing=spacing,
                               format="jd",
                               scale="tdb",
                               )
         [sb.set_ephem(t_range=_t_range) for sb in self._sbod_list]
-        self._end_epoch = _t_range[-1]
+        self._end_epoch = epoch + periods * spacing
         logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
     def update_epochs(self, event=None):

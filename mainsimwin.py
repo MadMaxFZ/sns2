@@ -5,6 +5,7 @@ from vispy import app, scene
 from vispy.color import Color
 from starsys_data import *
 from starsys_model import StarSystemModel
+from starsys_visual import StarSystem
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
