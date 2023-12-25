@@ -282,7 +282,7 @@ class SystemDataStore:
 if __name__ == "__main__":
 
     def main():
-        logging.debug("-------->> RUNNING SYSTEMDATASTORE() STANDALONE <<---------------")
+        logging.debug("-------->> RUNNING SYSTEM_DATASTORE() STANDALONE <<---------------")
 
         dict_store = SystemDataStore()
         print("dict store:", dict_store)
