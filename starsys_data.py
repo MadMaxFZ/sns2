@@ -48,7 +48,7 @@ class SystemDataStore:
         DEF_EPOCH    = J2000_TDB  # default epoch
         SIM_PARAMS   = dict(sys_name="Sol",
                             def_epoch=DEF_EPOCH,
-                            dist_unit=u.km,
+                            dist_unit=u.m,
                             periods=365,
                             spacing=24 * 60 * 60 * u.s,
                             fps=60,
@@ -124,10 +124,7 @@ class SystemDataStore:
                       [255, 255, 255],
                       ]
         _colorset_rgb = np.array(_color_RGB) / 256
-        # indices of texture filenames for each body
-        _tex_idx = (0, 1, 3, 10, 17, 11, 12, 13, 15, 16, 17,
-                    # 21, 21, 21, 21, 21, 21, 21, 21, 21,
-                    )
+
         # types of bodies in simulation
         _body_types = ("star",
                        "planet",
@@ -141,8 +138,11 @@ class SystemDataStore:
                        'triangle',
                        )
         # indices of body type for each body
+        # TODO: Discover primary body and hierarchy tree instead of this
+
         _type_set = (0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, )
-        # visual elements to use on which bodies
+
+        # default visual elements to use on which bodies (not used)
         _viz_keys = ("reticle", "nametag", "refframe", "ruler",
                      "surface", "oscorbit", "radvec", "velvec", )
         _com_viz = [_viz_keys[1], _viz_keys[2], _viz_keys[4]]
@@ -158,6 +158,10 @@ class SystemDataStore:
                 _tex_fnames.append(i)       # add PNG type files to list
         # _tex_fnames = _tex_fnames.sort()  # it doesn't like this sort()
         _tex_fnames = tuple(_tex_fnames)    # the tuple locks in the order of sorted elements
+        # indices of texture filenames for each body
+        _tex_idx = (0, 1, 3, 10, 17, 11, 12, 13, 15, 16, 17,
+                    # 21, 21, 21, 21, 21, 21, 21, 21, 21,
+                    )
 
         for idx in range(len(_body_names)):  # idx = [0..,len(_body_names)-1]
             _bod_name = _body_names[idx]
@@ -196,10 +200,10 @@ class SystemDataStore:
                               body_color=_colorset_rgb[idx],
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
-                              viz_names=_viz_assign[_bod_name],
                               body_type=_body_types[_type_set[idx]],
                               body_mark=_body_tmark[_type_set[idx]],
                               n_samples=365,
+                              viz_names=_viz_assign[_bod_name],
                               )
             _body_params.update({_bod_name: _body_data})
 

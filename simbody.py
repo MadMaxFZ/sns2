@@ -57,6 +57,8 @@ class SimBody:
         self._epoch         = Time(epoch, format='jd', scale='tdb')
         self._RESAMPLE      = False
 
+        # TODO: Fix and/or move this section elsewhere
+        #  <<<
         if self._body.parent is None:
             self._type          = "star"
             self._body_symbol   = 'o'
@@ -64,7 +66,6 @@ class SimBody:
         else:
             self._type          = "planet"
             self._body_symbol   = 'o'
-            self._sb_parent     = self._body.parent
 
         if self._name == "Moon":
             self._plane         = Planes.EARTH_EQUATOR
@@ -83,6 +84,8 @@ class SimBody:
 
         self._rad_set = [R, Rm, Rp,]
         self._body_data.update({'rad_set' : self._rad_set})
+        # >>>
+
         self._t_range = time_range(epoch,
                                    periods=sim_param['periods'],
                                    spacing=sim_param['spacing'],
