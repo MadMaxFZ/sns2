@@ -122,21 +122,21 @@ class StarSystemVisual(CompoundVisual):
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
                              for sb in self._simbods.values()]
 
-        self._symbol_sizes = []                 # update symbol sizes based upon FOV of body
-        for sb_name, sb in self._simbods.items():
-            body_fov = sb.rel2pos(pos=self._cam.center)['fov']
-            pix_diam = 0
-            raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
-            self._sb_planets[sb_name].visible = False
-            if raw_diam < MIN_SYMB_SIZE:
-                pix_diam = MIN_SYMB_SIZE
-            elif raw_diam < MAX_SYMB_SIZE:
-                pix_diam = raw_diam
-            elif raw_diam >= MAX_SYMB_SIZE:
-                pix_diam = 0
-                self._sb_planets[sb_name].visible = True
-
-            self._symbol_sizes.append(pix_diam)
+        self._symbol_sizes = self.get_symb_sizes()                 # update symbol sizes based upon FOV of body
+        # for sb_name, sb in self._simbods.items():
+        #     body_fov = sb.rel2pos(pos=self._cam.center)['fov']
+        #     pix_diam = 0
+        #     raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
+        #     self._sb_planets[sb_name].visible = False
+        #     if raw_diam < MIN_SYMB_SIZE:
+        #         pix_diam = MIN_SYMB_SIZE
+        #     elif raw_diam < MAX_SYMB_SIZE:
+        #         pix_diam = raw_diam
+        #     elif raw_diam >= MAX_SYMB_SIZE:
+        #         pix_diam = 0
+        #         self._sb_planets[sb_name].visible = True
+        #
+        #     self._symbol_sizes.append(pix_diam)
 
         self._plnt_markers.set_data(pos=self._bods_pos,
                                     face_color=[np.array(list(sb.base_color) + [0,]) +
@@ -157,6 +157,7 @@ class StarSystemVisual(CompoundVisual):
 
     def get_symb_sizes(self):
         # TODO: Rework this method to have only one loop
+        #       Also make cam an argument rather than an instance variable
         pix_diams = []
         for sb_name, sb in self._simbods.items():
             body_fov = sb.rel2pos(pos=self._cam.center)['fov']
