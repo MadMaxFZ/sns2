@@ -5,7 +5,7 @@ from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
 from starsys_data import *
-from simbody import SimBody
+from sysbody_model import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
 
@@ -22,27 +22,8 @@ class StarSystemModel:
     """
     sim_params = SYS_DATA.system_params
 
-    def __init__(self, bod_names=SYS_DATA.body_names, # view=None
-                 ):
+    def __init__(self, bod_names=SYS_DATA.body_names):
         self._INIT        = False
-
-        self._body_count  = 0
-        self._body_names  = []
-        self._body_data   = {}
-        for name in bod_names:
-            if name in SYS_DATA.body_names:
-                self._body_count += 1
-                self._body_names.append(name)
-                self._body_data.update({name: SYS_DATA.get_body_data(name)})
-
-        self._sys_epoch   = Time(SYS_DATA.def_epoch,
-                                 format='jd',
-                                 scale='tdb')
-        self._simbodies = self.init_simbodies()
-        self._sbod_list = [self._simbodies[name] for name in self._body_names]
-        self._ephem_span = (StarSystemModel.sim_params['periods']
-                            * StarSystemModel.sim_params['spacing'])
-        self._end_epoch   = self._sys_epoch + self._ephem_span
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
@@ -50,25 +31,59 @@ class StarSystemModel:
                                   connect=self.update_epochs,  # change this
                                   iterations=-1)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
-        self._sys_rel_pos = np.zeros((self._body_count, self._body_count), dtype=vec_type)
-        self._sys_rel_vel = np.zeros((self._body_count, self._body_count), dtype=vec_type)
-        self._body_accel = np.zeros((self._body_count,), dtype=vec_type)
-        self.set_ephems()
+        self._sys_epoch   = Time(SYS_DATA.def_epoch,
+                                 format='jd',
+                                 scale='tdb')
+        self._ephem_span  = (StarSystemModel.sim_params['periods']
+                             * StarSystemModel.sim_params['spacing'])
+        self._end_epoch   = self._sys_epoch + self._ephem_span
 
-    def init_simbodies(self, names=None):
         solar_system_ephemeris.set("jpl")
-        sb_dict = {}
-        for name in self._body_names:
-            sb_dict.update({name: SimBody(body_name=name,
-                                          epoch=self._sys_epoch,
-                                          body_data=self._body_data[name],
-                                          sim_param=StarSystemModel.sim_params,
-                                          )})
-        for sb in sb_dict.values():
-            if sb.body.parent is not None:
-                sb.sb_parent = sb_dict[sb.body.parent.name]
-        logging.info("\t>>> SimBody objects created....\n")
-        return sb_dict
+        self._body_count  = 0
+        self._body_names  = []
+        self._body_data   = {}
+        self._simbod_dict = {}
+        for _name in bod_names:
+            if _name in SYS_DATA.body_names:
+                self._body_count += 1
+                self._body_names.append(_name)
+                self._body_data.update({_name: SYS_DATA.get_body_data(_name)})
+                self.add_simbody(self._body_data[_name])
+
+        for sb in self._simbod_dict.values():
+            parent = sb.body.parent
+            sb.plane = Planes.EARTH_ECLIPTIC
+            if parent is not None:
+                if parent.name in self._body_names:
+                    sb.sb_parent = self._simbod_dict[sb.body.parent.name]
+                    if sb.sb_parent.type == 'star':
+                        sb.type = 'planet'
+                    elif sb.sb_parent.type == 'planet':
+                        sb.type = 'moon'
+                        sb.plane = Planes.EARTH_EQUATOR
+            else:
+                sb.type       = 'star'
+                sb.sb_parent  = None
+                sb.is_primary = True
+
+        SimBody.simbodies = self._simbod_dict
+
+        self.set_ephems()
+        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._bod_tot_acc = np.zeros((self._body_count,),
+                                     dtype=vec_type)
+
+    def add_simbody(self, body_data=None):
+        name = body_data['body_name']
+        self._simbod_dict.update({name: SimBody(body_data=body_data,
+                                                epoch=self._sys_epoch,
+                                                sim_param=StarSystemModel.sim_params,
+                                                )
+                                  })
+        logging.info("\t>>> SimBody object created....\n")
 
     def set_ephems(self,
                    epoch=None,
@@ -84,7 +99,7 @@ class StarSystemModel:
                               format="jd",
                               scale="tdb",
                               )
-        [sb.set_ephem(t_range=_t_range) for sb in self._sbod_list]
+        [sb.set_ephem(t_range=_t_range) for sb in self.simbod_list]
         self._end_epoch = epoch + periods * spacing
         logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
@@ -140,6 +155,10 @@ class StarSystemModel:
         self._w_clock.start()
 
     @property
+    def simbod_list(self):
+        return [self._simbod_dict[name] for name in self._body_names]
+
+    @property
     def t_warp(self):
         return self._t_warp
 
@@ -149,7 +168,7 @@ class StarSystemModel:
 
     @property
     def simbodies(self):
-        return self._simbodies
+        return self._simbod_dict
 
 
 def main():

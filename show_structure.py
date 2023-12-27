@@ -28,11 +28,11 @@ def scan_fname(filename=None):
 path_name = "C:\\_Projects\\sns2\\"
 name_list = ['starsys_data.py',
              'viz_functs.py',
-             'mainsimwin.py',
+             'sim_window.py',
              'starsys_model.py',
-             'simbody.py',
-             'skymap.py',
-             'body_visual.py',
+             'sysbody_model.py',
+             'sys_skymap.py',
+             'sysbody_visual.py',
              'starsys_visual.py',
              'node.py',
              ]

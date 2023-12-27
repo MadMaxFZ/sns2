@@ -19,60 +19,60 @@ class SimBody:
               a provided Body object.
     """
     epoch0 = J2000_TDB
-    # R_set = {}
-    # simbods = {}
+    simbodies = {}
 
     # TODO: trim down extraneous arguments here:
     def __init__(self,
-                 body_name=None,
                  epoch=None,
-                 dist_unit=u.km,
                  body_data=None,
                  sim_param=None,
                  ):
-        if epoch is None:
-            epoch = J2000_TDB
         self._is_primary    = False
+        self._RESAMPLE      = False
         self._sb_parent     = None
-        self._name          = body_name
         self._body_data     = body_data
-        self._body          = self._body_data['body_obj']
-        self._rot_func      = self._body_data['rot_func']
-        self._tex_data      = self._body_data['tex_data']
-        self._dist_unit     = dist_unit
+        self._name          = body_data['body_name']
+        self._body          = body_data['body_obj']
+        self._rot_func      = body_data['rot_func']
+        self._tex_data      = body_data['tex_data']
+        self._dist_unit     = sim_param['dist_unit']
         self._periods       = sim_param['periods']
         self._spacing       = sim_param['spacing']
         self._t_range       = None
         self._ephem         = None
         self._orbit         = None
-        self._track         = None
+        self._trajectory    = None
         self._type          = None
+        self._plane         = Planes.EARTH_ECLIPTIC
         self._state         = np.zeros((3,), dtype=vec_type)
-        self._base_color    = np.array(self._body_data['body_color'])
-        self._body_alpha    = 1.0
-        self._track_alpha   = 0.6
+        # self._base_color    = np.array(self._body_data['body_color'])
+        # self._body_alpha    = 1.0
+        # self._track_alpha   = 0.6
         self.x_ax           = vec_type([1, 0, 0])
         self.y_ax           = vec_type([0, 1, 0])
         self.z_ax           = vec_type([0, 0, 1])
+        if epoch is None:
+            epoch = SimBody.epoch0
+
         self._epoch         = Time(epoch, format='jd', scale='tdb')
-        self._RESAMPLE      = False
 
         # TODO: Fix and/or move this section elsewhere
         #  <<<
-        if self._body.parent is None:
-            self._type          = "star"
-            self._body_symbol   = 'o'
-            self._sb_parent     = None
-        else:
-            self._type          = "planet"
-            self._body_symbol   = 'o'
-
-        if self._name == "Moon":
-            self._plane         = Planes.EARTH_EQUATOR
-            self._body_symbol   = 'o'
-            self._type          = "moon"
-        else:
-            self._plane         = Planes.EARTH_ECLIPTIC
+        # if self._body.parent is None:
+        #     self._type          = "star"
+        #     self._body_symbol   = 'o'
+        #     self._sb_parent     = None
+        #     self._is_primary    = True
+        # else:
+        #     self._type          = "planet"
+        #     self._body_symbol   = 'o'
+        #
+        # if self._name == "Moon":
+        #     self._plane         = Planes.EARTH_EQUATOR
+        #     self._body_symbol   = 'o'
+        #     self._type          = "moon"
+        # else:
+        #     self._plane         = Planes.EARTH_ECLIPTIC
 
         if self._name == 'Sun' or self._type == 'star':
             R  = self._body.R.value
@@ -134,8 +134,8 @@ class SimBody:
             print(self._orbit)
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
-            if (self._track is None) or (self._RESAMPLE is True):
-                self._track = self._orbit.sample(360).xyz.transpose().value
+            if (self._trajectory is None) or (self._RESAMPLE is True):
+                self._trajectory = self._orbit.sample(360).xyz.transpose().value
                 self._RESAMPLE = False
 
         else:
@@ -215,8 +215,20 @@ class SimBody:
             self._sb_parent = new_sb_parent
 
     @property
+    def is_primary(self):
+        return self._is_primary
+
+    @is_primary.setter
+    def is_primary(self, is_pri=None):
+        self._is_primary = is_pri
+
+    @property
     def type(self):
         return self._type
+
+    @type.setter
+    def type(self, new_type=None):
+        self._type = new_type
 
     @property
     def base_color(self):
@@ -241,6 +253,14 @@ class SimBody:
     @track_alpha.setter
     def track_alpha(self, new_alpha=1):
         self._track_alpha = new_alpha
+
+    @property
+    def plane(self):
+        return self._plane
+
+    @plane.setter
+    def plane(self, new_plane=None):
+        self._plane = new_plane
 
     @property
     def symbol(self):
@@ -310,7 +330,7 @@ class SimBody:
 
     @property
     def track(self):
-        return self._track
+        return self._trajectory
 
     @property
     def texture(self):
@@ -334,7 +354,7 @@ class SimBody:
 
     @property
     def o_track(self):
-        return self._track
+        return self._trajectory
 
     # @property
     # def spacing(self):

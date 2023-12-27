@@ -24,7 +24,7 @@ class MainSimWindow(scene.SceneCanvas):
 
         self._system_mod = StarSystemModel(bod_names=body_names)
         # create StarSystem Visual
-        self._system_viz = StarSystem()
+        self._system_viz = StarSystem(system_model=self._system_mod)
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.

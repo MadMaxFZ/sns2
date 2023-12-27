@@ -9,9 +9,9 @@ from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
                                  Compound, Polygon)
 from starsys_data import vec_type
-from body_visual import Planet
-from skymap import SkyMap
-from simbody import SimBody
+from sysbody_visual import Planet
+from sys_skymap import SkyMap
+from sysbody_model import SimBody
 
 # these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5

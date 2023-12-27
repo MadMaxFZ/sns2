@@ -203,13 +203,13 @@ class SkyMapVisual(CompoundVisual):
         logging.debug('>>>Generated %r faces and %r edges...', num_f, num_e)
 
         #   TODO:   EIGHT fucking lists!?! Is there a better way???
-        return [self._verts,  # vertex coordinates
-                self._norms,  # vertex normals
-                self._txcds,  # texture coordinates
-                self._faces,  # face triangle vertex indices
-                self._edges,  # complete set of edge vertex indices
-                self._h_edges,  # horizontal edge vertex indices
-                self._v_edges,  # vertical edge vertex indices
+        return [self._verts,       # vertex coordinates
+                self._norms,       # vertex normals
+                self._txcds,       # texture coordinates
+                self._faces,       # face triangle vertex indices
+                self._edges,       # complete set of edge vertex indices
+                self._h_edges,     # horizontal edge vertex indices
+                self._v_edges,     # vertical edge vertex indices
                 self._edge_colors  # color assigned to each edge
                 ]
 

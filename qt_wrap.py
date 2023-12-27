@@ -8,7 +8,7 @@ import numpy as np
 from PyQt5 import QtWidgets
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
-from mainsimwin import MainSimWindow
+from sim_window import MainSimWindow
 
 
 class MainQtWindow(QtWidgets.QMainWindow):

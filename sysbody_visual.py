@@ -279,7 +279,7 @@ def main():
     from vispy import app
     # from vispy.app import Timer
     from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera
-    from skymap import SkyMapVisual
+    from sys_skymap import SkyMapVisual
     # import vispy.visuals.transforms as tr
 
     win = SceneCanvas(title="BodyViz Test",
