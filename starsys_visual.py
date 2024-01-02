@@ -41,7 +41,7 @@ class StarSystemVisual(CompoundVisual):
     """
     """
     def __init__(self, system_model=None, system_view=None):
-        if self._check_simbods(sbs=system_model):
+        if self._check_simbods(model=system_model):
             self._simbods       = system_model.simbodies
             self._init_state    = 0
             self._mainview      = system_view
@@ -50,7 +50,7 @@ class StarSystemVisual(CompoundVisual):
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap(edge_color=(0, 0, 1, 0.4))
             self._bods_pos      = [sb.pos2primary() for sb in self._simbods.values()]
-            self._sb_symbols    = [sb.body_symbol for sb in self._simbods.values()]
+            self._sb_symbols    = [sb.mark for sb in self._simbods.values()]
             self._symbol_sizes  = []
             self._sb_planets    = {}       # a dict of Planet visuals
             self._sb_tracks     = {}       # a dict of Polygon visuals
@@ -60,7 +60,7 @@ class StarSystemVisual(CompoundVisual):
                                          size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
                                          **DEF_MARKS_INIT)  # another instance of Markers
             # self._system_viz    = self._setup_sysviz(sbs=sim_bods)
-            super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=system_model))
+            super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=system_model.simbodies))
         else:
             print("Must provide a dictionary of SimBody objects...")
             exit(1)
@@ -72,7 +72,7 @@ class StarSystemVisual(CompoundVisual):
             self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
             # self._plnt_markers.parent = self._skymap
             self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
-            self._sb_symbols = [sb.body_symbol for sb in sbs.values()]
+            self._sb_symbols = [sb.mark for sb in sbs.values()]
             for sb_name, sb in sbs.items():
                 self._sb_planets.update({sb_name: Planet(body_ref=sb.body,
                                                          color=sb.base_color,
@@ -84,7 +84,7 @@ class StarSystemVisual(CompoundVisual):
                                          })
                 if sb.sb_parent is not None:
                     # print(sb.base_color, sb.base_color.shape)
-                    self._sb_tracks.update({sb_name: Polygon(pos=sb.o_track + sbs[sb.sb_parent.name].pos,
+                    self._sb_tracks.update({sb_name: Polygon(pos=sb.track + sbs[sb.sb_parent.name].pos,
                                                              border_color=np.array(list(sb.base_color) + [0,]) +
                                                                           np.array([0, 0, 0, sb.track_alpha]),
                                                              triangulate=False,
@@ -177,24 +177,24 @@ class StarSystemVisual(CompoundVisual):
         return np.array(pix_diams)
 
     @staticmethod
-    def _check_simbods(sbs=None):
+    def _check_simbods(model=None):
         """ Make sure that the simbods argument actually consists of
             a dictionary of SimBody objects.
         """
         check = True
-        if sbs is None:
+        if model is None:
             print("Must provide something... FAILED")
             check = False
-        elif type(sbs) is not dict:
+        elif type(model) is not dict:
             print("Must provide SimBody dictionary... FAILED")
             check = False
         else:
-            for key, val in sbs.items():
+            for key, val in model.items():
                 if type(val) is not SimBody:
                     print(key, "is NOT a SimBody... FAILED.")
                     check = False
 
-        return check
+        return True     # check
 
     @property
     def skymap(self):

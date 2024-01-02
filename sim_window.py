@@ -22,9 +22,7 @@ class MainSimWindow(scene.SceneCanvas):
                                             )
         self.unfreeze()
 
-        self._system_mod = StarSystemModel(bod_names=body_names)
-        # create StarSystem Visual
-        self._system_viz = StarSystem(system_model=self._system_mod)
+        self._sys_mod = StarSystemModel(bod_names=body_names)
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
@@ -32,16 +30,21 @@ class MainSimWindow(scene.SceneCanvas):
         # or these sub-views could be within sys_viz?
 
         self._sys_view = self.central_widget.add_view()
+        self._sys_viz = None
+
+        self.freeze()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_view.camera.zoom_factor = 1.0
-        self.freeze()
-        self._sys_view.add(self._system_viz)
+        self._sys_viz = StarSystem(system_model=self.model, system_view=self._sys_view)
+        self._sys_view.add(self._sys_viz)
         self._sys_view.camera.set_range(# (-1e+09, 1e+09),
                                         # (-1e+09, 1e+09),
                                         # (-1e+09, 1e+09),
                                         )       # this initial range gets bulk of system
         self._sys_view.camera.scale_factor = 14.5e+06
-        self._system_mod.t_warp = 9000
+        self._sys_mod.t_warp = 9000
+        # create StarSystem Visual
+
         if __name__ != "__main__":
             self.run()
 
@@ -60,23 +63,29 @@ class MainSimWindow(scene.SceneCanvas):
                 self._sys_view.camera.fov *= 0.9
                 print("CAM_FOV", self._sys_view.camera.fov)
             elif ev.key.name == "]":
-                self._system_mod.t_warp *= 1.1
-                print("TIME_WARP:", self._system_mod.t_warp)
+                self._sys_mod.t_warp *= 1.1
+                print("TIME_WARP:", self._sys_mod.t_warp)
             elif ev.key.name == "[":
-                self._system_mod.t_warp *= 0.9
-                print("TIME_WARP:", self._system_mod.t_warp)
+                self._sys_mod.t_warp *= 0.9
+                print("TIME_WARP:", self._sys_mod.t_warp)
 
         except AttributeError:
             print("Key Error...")
 
     def run(self):
         self.show()
-        self._system_mod.run()
+        self._sys_mod.run()
         app.run()
 
     # def stop(self):
     #     app.quit()
+    @property
+    def model(self):
+        return self._sys_mod
 
+    @property
+    def view(self):
+        return self._sys_view
 
 def main():
     _body_include_set = ['Sun',

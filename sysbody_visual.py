@@ -6,6 +6,7 @@
 # Modified by Max S. Whitten in order to address the "stripe" glitch
 
 import numpy as np
+from PIL import Image
 import vispy.visuals.transforms as tr
 from poliastro.bodies import Body, Sun
 from vispy.geometry import MeshData
@@ -13,7 +14,7 @@ from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import create_visual_node, Compound
-from PIL import Image
+
 
 DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
 
@@ -277,9 +278,9 @@ def main():
     # put a little test code here...
     print("BodyViz test code...")
     from vispy import app
-    # from vispy.app import Timer
+    from vispy.app.timer import Timer
     from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera
-    from sys_skymap import SkyMapVisual
+    from sys_skymap import SkyMap
     # import vispy.visuals.transforms as tr
 
     win = SceneCanvas(title="BodyViz Test",
@@ -288,15 +289,15 @@ def main():
                       )
     view = win.central_widget.add_view()
     view.camera = FlyCamera()
-    skymap = SkyMapVisual(edge_color=(0, 0, 1, 0.3),
+    skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
                           color=(1, 1, 1, 1),
                           parent=view.scene)
-    view.add(skymap)
-    skymap.visible = True
+    # view.add(skymap)
+    skymap.visible = False
     bod = Planet(rows=36,
                  texture=get_texture_data(DEF_TEX_FNAME),
                  method='oblate',
-                 parent=skymap,
+                 parent=view.scene,
                  visible=True,
                  )
     view.add(bod)

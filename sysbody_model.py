@@ -5,7 +5,6 @@ from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time, TimeDelta
 from poliastro.twobody.orbit.scalar import Orbit
-from vispy.scene.visuals import Polygon
 
 logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
@@ -21,7 +20,6 @@ class SimBody:
     epoch0 = J2000_TDB
     simbodies = {}
 
-    # TODO: trim down extraneous arguments here:
     def __init__(self,
                  epoch=None,
                  body_data=None,
@@ -43,6 +41,7 @@ class SimBody:
         self._orbit         = None
         self._trajectory    = None
         self._type          = None
+        self._mark          = None
         self._plane         = Planes.EARTH_ECLIPTIC
         self._state         = np.zeros((3,), dtype=vec_type)
         # self._base_color    = np.array(self._body_data['body_color'])
@@ -74,7 +73,8 @@ class SimBody:
         # else:
         #     self._plane         = Planes.EARTH_ECLIPTIC
 
-        if self._name == 'Sun' or self._type == 'star':
+        if (self._name == 'Sun' or self._type == 'star' or
+                (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.value
             Rm = Rp = R
         else:
@@ -188,8 +188,7 @@ class SimBody:
                 }
 
     def pos2primary(self):
-        # TODO: Move this method into SimBody module
-        #       Consider making a SimBody.rel2cam method, that takes
+        # TODO: Consider making a SimBody.rel2cam method, that takes
         #       a View as an argument, so the cam from any view can be referenced
         _pos = self.pos
         if self.body.parent is None:
@@ -232,19 +231,19 @@ class SimBody:
 
     @property
     def base_color(self):
-        return self._base_color
+        return self._body_data['body_color']
 
     @base_color.setter
     def base_color(self, new_color=(1, 1, 1, 1)):
         self._base_color = np.array(new_color)
 
     @property
-    def body_symbol(self):
-        return self._body_symbol
+    def mark(self):
+        return self._body_data['body_mark']
 
-    @body_symbol.setter
-    def body_symbol(self, new_symbol='o'):
-        self._body_symbol = new_symbol
+    @mark.setter
+    def mark(self, new_symbol='o'):
+        self._mark = new_symbol
 
     @property
     def track_alpha(self):

@@ -48,7 +48,7 @@ class SystemDataStore:
         DEF_EPOCH    = J2000_TDB  # default epoch
         SIM_PARAMS   = dict(sys_name="Sol",
                             def_epoch=DEF_EPOCH,
-                            dist_unit=u.m,
+                            dist_unit=u.km,
                             periods=365,
                             spacing=24 * 60 * 60 * u.s,
                             fps=60,
