@@ -69,6 +69,8 @@ class StarSystemModel:
         SimBody.simbodies = self._simbod_dict
 
         self.set_ephems()
+        self.set_orbits()
+
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
@@ -103,6 +105,9 @@ class StarSystemModel:
         self._end_epoch = epoch + periods * spacing
         logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
+    def set_orbits(self):
+        [sb.set_orbit() for sb in self.simbod_list]
+
     def update_epochs(self, event=None):
         if self._INIT:
             w_now = self._w_clock.elapsed     # not the first call
@@ -130,26 +135,26 @@ class StarSystemModel:
                       self._sys_epoch.jd)
 
     def update_states(self, new_epoch=None):
-        for sb in self._sbod_list:
+        for sb in self.simbod_list:
             sb.update_state(epoch=new_epoch)
 
         # self._system_viz.update_sysviz()
         i = 0
-        for sb1 in self._sbod_list:
+        for sb1 in self.simbod_list:
             j = 0
             # collect the relative position and velocity to the other bodies
-            for sb2 in self._sbod_list:
+            for sb2 in self.simbod_list:
                 self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos)['rel_pos']
                 self._sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
                     # accumulate the acceleration from the other bodies
-                    self._body_accel[i] += (G * sb1.body.mass * sb2.body.mass) / (
+                    self.body_accel[i] += (G * sb1.body.mass * sb2.body.mass) / (
                             self._sys_rel_pos[i][j] * self._sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
 
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
-                      self._sys_rel_pos, self._sys_rel_vel, self._body_accel)
+                      self._sys_rel_pos, self._sys_rel_vel, self.body_accel)
 
     def run(self):
         self._w_clock.start()
@@ -157,6 +162,10 @@ class StarSystemModel:
     @property
     def simbod_list(self):
         return [self._simbod_dict[name] for name in self._body_names]
+
+    @property
+    def body_accel(self):
+        return self._bod_tot_acc
 
     @property
     def t_warp(self):

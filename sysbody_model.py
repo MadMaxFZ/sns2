@@ -46,7 +46,7 @@ class SimBody:
         self._state         = np.zeros((3,), dtype=vec_type)
         # self._base_color    = np.array(self._body_data['body_color'])
         # self._body_alpha    = 1.0
-        # self._track_alpha   = 0.6
+        self._track_alpha   = 0.6
         self.x_ax           = vec_type([1, 0, 0])
         self.y_ax           = vec_type([0, 1, 0])
         self.z_ax           = vec_type([0, 0, 1])
@@ -127,11 +127,11 @@ class SimBody:
             ephem = self._ephem
 
         if self._sb_parent is not None:
-            self._orbit = Orbit.from_ephem(self._sb_parent,
+            self._orbit = Orbit.from_ephem(self.body.parent,
                                            ephem,
                                            self._epoch,
                                            )
-            print(self._orbit)
+            # print(self._orbit)
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._trajectory is None) or (self._RESAMPLE is True):

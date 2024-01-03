@@ -37,9 +37,9 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_view.camera.zoom_factor = 1.0
         self._sys_viz = StarSystem(system_model=self.model, system_view=self._sys_view)
         self._sys_view.add(self._sys_viz)
-        self._sys_view.camera.set_range(# (-1e+09, 1e+09),
-                                        # (-1e+09, 1e+09),
-                                        # (-1e+09, 1e+09),
+        self._sys_view.camera.set_range((-1e+09, 1e+09),
+                                        (-1e+09, 1e+09),
+                                        (-1e+09, 1e+09),
                                         )       # this initial range gets bulk of system
         self._sys_view.camera.scale_factor = 14.5e+06
         self._sys_mod.t_warp = 9000
