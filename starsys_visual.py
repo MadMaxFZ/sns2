@@ -84,7 +84,7 @@ class StarSystemVisual(CompoundVisual):
                                          })
                 if sb.sb_parent is not None:
                     print("Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sbs[sb.sb_parent.name].pos)
-                    self._sb_tracks.update({sb_name: Polygon(pos=sb.track + sbs[sb.sb_parent.name].pos,
+                    self._sb_tracks.update({sb_name: Polygon(pos=sb._trajectory + sbs[sb.sb_parent.name].pos,
                                                              border_color=np.array(list(sb.base_color) + [0,]) +
                                                                           np.array([0, 0, 0, sb.track_alpha]),
                                                              triangulate=False,

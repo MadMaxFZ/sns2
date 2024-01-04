@@ -61,29 +61,43 @@ class SystemDataStore:
         _body_count    = 0   # number of available bodies
         _type_count    = {}  # dict of body types and the count of each typE
         _viz_assign    = {}  # dict of visual names to use for each body
-        _body_set = [Sun,
-                     Mercury,
-                     Venus,
-                     Earth,
-                     Moon,  # all built-ins from poliastro
-                     Mars,
-                     Jupiter,
-                     Saturn,
-                     Uranus,
-                     Neptune,
-                     Pluto,
-                     # Phobos,
-                     # Deimos,
-                     # Europa,
-                     # Ganymede,
-                     # Enceladus,
-                     # Titan,
-                     # Titania,
-                     # Triton,
-                     # Charon,
-                     ]
-        # list of body names available in sim, cast to a tuple to preserve order
-        _body_names = tuple([body.name for body in _body_set])
+        _body_set: list[Body]      = [Sun,      # all built-ins from poliastro
+                                      Mercury,
+                                      Venus,
+                                      Earth,
+                                      Moon,
+                                      Mars,
+                                      Jupiter,
+                                      Saturn,
+                                      Uranus,
+                                      Neptune,
+                                      Pluto,
+                                      # TODO: Find textures and rotational elements for the outer system moons,
+                                      #       otherwise apply a default condition
+                                      # Phobos,
+                                      # Deimos,
+                                      # Europa,
+                                      # Ganymede,
+                                      # Enceladus,
+                                      # Titan,
+                                      # Titania,
+                                      # Triton,
+                                      # Charon,
+                                      ]
+        self._body_names = [bod.name for bod in _body_set]
+        # orbital periods of bodies
+        _o_per_set = [0,
+                      0,
+                      0,
+                      365.25 * u.d,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      ]
         # reference frame fixed to planet surfaces
         _frame_set = [SunFixed,
                       MercuryFixed,
@@ -148,7 +162,7 @@ class SystemDataStore:
         _com_viz = [_viz_keys[1], _viz_keys[2], _viz_keys[4]]
         _xtr_viz = [_viz_keys[5], _viz_keys[6], _viz_keys[7]]
         _xtr_viz.extend(_com_viz)
-        [_viz_assign.update({name: _xtr_viz}) for name in _body_names]
+        [_viz_assign.update({name: _xtr_viz}) for name in self._body_names]
         _viz_assign['Sun'] = _com_viz
 
         # get listing of texture filenames
@@ -163,8 +177,8 @@ class SystemDataStore:
                     # 21, 21, 21, 21, 21, 21, 21, 21, 21,
                     )
 
-        for idx in range(len(_body_names)):  # idx = [0..,len(_body_names)-1]
-            _bod_name = _body_names[idx]
+        for idx in range(len(self._body_names)):  # idx = [0..,len(_body_names)-1]
+            _bod_name = self._body_names[idx]
             _body = _body_set[idx]
             _bod_prnt = _body.parent
 
@@ -204,6 +218,7 @@ class SystemDataStore:
                               body_mark=_body_tmark[_type_set[idx]],
                               n_samples=365,
                               viz_names=_viz_assign[_bod_name],
+                              o_period=_o_per_set[idx],
                               )
             _body_params.update({_bod_name: _body_data})
 
@@ -220,7 +235,7 @@ class SystemDataStore:
             len(_rot_set),
             len(_tex_idx),
             len(_type_set),
-            len(_body_names),
+            len(self._body_names),
             len(_tex_dat_set.keys()),
             len(_tex_fnames),
         ]
@@ -235,7 +250,7 @@ class SystemDataStore:
                                TEX_PATH=_tex_path,
                                TEX_DAT_SET=_tex_dat_set,
                                BODY_COUNT=_body_count,
-                               BODY_NAMES=_body_names,
+                               BODY_NAMES=self._body_names,
                                COLOR_SET=_colorset_rgb,
                                TYPE_COUNT=_type_count,
                                BODY_DATA=_body_params,
@@ -260,7 +275,8 @@ class SystemDataStore:
 
     @property
     def body_names(self):
-        return self._datastore['BODY_NAMES']
+        # list of body names available in sim, cast to a tuple to preserve order
+        return tuple([name for name in self._body_names])
 
     def get_body_data(self,
                       body_name=None,

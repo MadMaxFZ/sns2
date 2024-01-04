@@ -11,6 +11,8 @@ logging.basicConfig(filename="logs/sns_defs.log",
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 
+MIN_FOV = 1 / 3600      # I think this would be arc-seconds
+
 
 class SimBody:
     """
@@ -32,21 +34,18 @@ class SimBody:
         self._name          = body_data['body_name']
         self._body          = body_data['body_obj']
         self._rot_func      = body_data['rot_func']
+        self._o_period      = body_data['o_period']
         self._tex_data      = body_data['tex_data']
         self._dist_unit     = sim_param['dist_unit']
         self._periods       = sim_param['periods']
-        self._spacing       = sim_param['spacing']
-        self._t_range       = None
-        self._ephem         = None
-        self._orbit         = None
+        self._spacing       = self._o_period / self._periods
         self._trajectory    = None
         self._type          = None
-        self._mark          = None
+        self._ephem: Ephem  = None
+        self._orbit: Orbit  = None
+        self._t_range: time_range = None
         self._plane         = Planes.EARTH_ECLIPTIC
         self._state         = np.zeros((3,), dtype=vec_type)
-        # self._base_color    = np.array(self._body_data['body_color'])
-        # self._body_alpha    = 1.0
-        self._track_alpha   = 0.6
         self.x_ax           = vec_type([1, 0, 0])
         self.y_ax           = vec_type([0, 1, 0])
         self.z_ax           = vec_type([0, 0, 1])
@@ -54,6 +53,10 @@ class SimBody:
             epoch = SimBody.epoch0
 
         self._epoch         = Time(epoch, format='jd', scale='tdb')
+        # self._base_color    = np.array(self._body_data['body_color'])
+        # self._body_alpha    = 1.0
+        self._track_alpha   = 0.6
+        self._mark = None
 
         # TODO: Fix and/or move this section elsewhere
         #  <<<
@@ -88,6 +91,8 @@ class SimBody:
 
         self._t_range = time_range(epoch,
                                    periods=sim_param['periods'],
+                                   # TODO:  spacing = orbital_period / periods
+                                   #        reset value once orbital period it known
                                    spacing=sim_param['spacing'],
                                    format='jd',
                                    scale='tdb', )
@@ -173,13 +178,16 @@ class SimBody:
                       # self._state[2],
                       )
 
-    def rel2pos(self, pos=np.zeros((3,), dtype=np.float64)):
+    def rel2pos(self, pos=None):
+        if pos is None:
+            pos = self.pos2primary()
+
         rel_pos = pos - self._state[0]
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             dist = 0.0
             rel_pos = vec_type([0, 0, 0])
-            fov = -1
+            fov = MIN_FOV
         else:
             fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
         return {"rel_pos": rel_pos,
@@ -251,7 +259,7 @@ class SimBody:
 
     @track_alpha.setter
     def track_alpha(self, new_alpha=1):
-        self._track_alpha = new_alpha
+        self._track_alpha = 0.6
 
     @property
     def plane(self):
@@ -303,9 +311,17 @@ class SimBody:
         return self._t_range
 
     @t_range.setter
-    def t_range(self, new_t_range=None):
-        if type(new_t_range) == Time:
-            self._t_range = new_t_range
+    def t_range(self,
+                periods=None,
+                spacing=None, ):
+        if type(periods) == int:
+            self._t_range = time_range(self._epoch,
+                                       periods=periods,
+                                       # TODO:  spacing = orbital_period / periods
+                                       #        reset value once orbital period it known
+                                       spacing=spacing,
+                                       format='jd',
+                                       scale='tdb', )
 
     @property
     def ephem(self):

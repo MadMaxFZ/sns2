@@ -29714,3 +29714,1215 @@ add_simbody:	INFO:2023-12-27 04:58:55,689:		>>> SimBody object created....
 set_ephems:	INFO:2023-12-27 04:58:55,697:	END_EPOCH:
 2451910.0
 
+set_orbit:	INFO:2024-01-02 03:44:38,414:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,415:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,424:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,424:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,431:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,431:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,441:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,442:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,448:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,448:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,455:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,455:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,461:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,462:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,468:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,468:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,475:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,476:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:44:38,481:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:44:38,482:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:44:38,492:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 03:49:17,537:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,537:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,545:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,545:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,551:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,551:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,558:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,558:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,566:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,566:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,572:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,572:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,578:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,579:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,583:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,584:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,589:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,589:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:49:17,596:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:49:17,596:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:49:17,603:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 03:50:15,512:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,513:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,528:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,528:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,544:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,544:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,560:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,560:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,576:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,576:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,589:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,589:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,604:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,604:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,618:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,618:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,632:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,632:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:50:15,647:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:50:15,647:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:50:15,668:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 03:53:01,942:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,943:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,949:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,949:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,955:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,955:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,961:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,961:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,967:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,967:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,972:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,973:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,978:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,978:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,984:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,984:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,988:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,989:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:01,994:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:01,994:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:53:02,001:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 03:53:44,684:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,684:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,690:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,690:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,695:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,696:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,711:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,711:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,720:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,721:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,727:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,727:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,733:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,733:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,738:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,738:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,744:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,744:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:53:44,749:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:53:44,749:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:53:44,756:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 03:56:31,596:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,596:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,611:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,611:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,624:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,624:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,638:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,639:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,652:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,652:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,665:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,665:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,677:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,677:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,689:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,689:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,701:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,702:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:56:31,716:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:56:31,716:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:56:31,734:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 03:59:59,381:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,382:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,416:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,416:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,439:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,449:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,477:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,478:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,502:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,503:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,515:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,515:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,528:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,528:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,540:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,541:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,554:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,554:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 03:59:59,567:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 03:59:59,567:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 03:59:59,587:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 04:02:39,662:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,662:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,668:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,668:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,673:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,674:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,680:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,680:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,687:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,687:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,693:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,693:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,698:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,698:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,703:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,703:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,708:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,708:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:02:39,713:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:02:39,713:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:02:39,720:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 04:06:07,607:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,607:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,613:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,613:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,619:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,619:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,626:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,626:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,632:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,632:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,638:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,639:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,644:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,644:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,650:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,650:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,657:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,657:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:06:07,663:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:06:07,663:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:06:07,674:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 04:06:07,723:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 04:06:07,769:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 04:08:25,466:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,467:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,473:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,473:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,480:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,480:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,486:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,486:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,495:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,495:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,502:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,502:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,508:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,508:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,514:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,514:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,519:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,520:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:08:25,526:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:08:25,526:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:08:25,534:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 04:08:25,588:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 04:08:25,637:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 04:10:41,114:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,115:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,122:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,122:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,128:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,129:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,137:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,137:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,142:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,143:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,147:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,148:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,155:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,155:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,161:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,161:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,167:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,167:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:10:41,173:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:10:41,174:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:10:41,182:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 04:10:41,234:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 04:10:41,281:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 04:11:12,057:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,057:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,063:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,063:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,070:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,070:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,076:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,076:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,082:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,082:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,087:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,088:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,092:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,093:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,097:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,097:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,103:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,103:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:11:12,108:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:11:12,108:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:11:12,114:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 04:11:12,162:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 04:11:12,210:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 04:15:51,669:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,669:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,676:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,676:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,682:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,682:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,688:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,689:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,695:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,695:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,700:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,700:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,706:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,707:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,712:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,712:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,717:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,717:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:15:51,723:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:15:51,723:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:15:51,731:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 04:15:51,781:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 04:15:51,829:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 04:16:16,613:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,613:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,619:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,619:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,625:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,625:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,632:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,632:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,638:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,638:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,643:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,644:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,648:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,649:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,654:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,654:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,659:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,659:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 04:16:16,663:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 04:16:16,664:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 04:16:16,671:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 04:16:16,718:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 04:16:16,765:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 05:07:13,998:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:13,998:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,004:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,004:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,010:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,010:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,016:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,016:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,023:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,023:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,028:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,028:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,034:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,034:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,039:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,039:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,044:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,044:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:14,049:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:14,049:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 05:07:14,056:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 05:07:14,106:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 05:07:14,159:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 05:07:59,666:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,666:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,674:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,674:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,680:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,680:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,687:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,687:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,694:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,694:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,711:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,712:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,720:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,721:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,729:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,729:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,734:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,734:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:07:59,740:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:07:59,740:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 05:07:59,747:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 05:07:59,801:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 05:07:59,867:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 05:09:01,747:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,747:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,764:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,765:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,781:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,781:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,797:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,797:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,811:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,812:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,826:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,826:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,839:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,840:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,854:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,854:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,866:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,867:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:09:01,881:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:09:01,881:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 05:09:01,907:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 05:09:17,425:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 05:09:17,500:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 05:14:44,892:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,893:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,906:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,906:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,920:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,920:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,934:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,934:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,950:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,950:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,964:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,964:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,977:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,977:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:44,990:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:44,990:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:45,003:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:45,004:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 05:14:45,018:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 05:14:45,018:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 05:14:45,037:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 05:14:45,158:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 05:14:45,230:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 11:40:34,491:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,491:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,506:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,506:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,520:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,520:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,541:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,541:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,555:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,555:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,572:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,573:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,588:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,588:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,600:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,600:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,612:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,612:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:40:34,624:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:40:34,626:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:40:34,642:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 11:40:34,876:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 11:40:34,993:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 11:43:56,292:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,293:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,308:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,308:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,322:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,322:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,337:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,337:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,353:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,353:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,368:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,368:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,382:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,383:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,397:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,397:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,411:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,411:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:43:56,428:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:43:56,429:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:43:56,449:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-02 11:43:56,617:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 11:43:56,701:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 11:51:13,484:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,485:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,493:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,493:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,499:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,499:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,509:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,509:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,516:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,516:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,523:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,524:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,529:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,529:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,535:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,535:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,544:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,544:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:51:13,549:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:51:13,549:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:51:13,560:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 11:51:13,560:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-02 11:53:40,170:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,170:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,183:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,183:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,193:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,193:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,205:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,205:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,215:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,215:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,225:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,226:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,240:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,240:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,252:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,252:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,258:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,258:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:53:40,267:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:53:40,267:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:53:40,283:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 11:53:40,283:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-02 11:54:42,755:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,756:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,764:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,764:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,770:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,770:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,777:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,778:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,784:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,784:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,790:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,790:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,797:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,797:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,802:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,802:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,808:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,808:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:54:42,816:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:54:42,816:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:54:42,823:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 11:54:42,824:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-02 11:54:49,088:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:02,669:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:02,995:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:03,292:	>>> COMPUTING ORBIT: 146647618 x -146648516 km x 0.0 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:03,596:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:03,888:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:04,189:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:04,485:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:55:04,791:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+__init__:	INFO:2024-01-02 11:55:05,133:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 11:55:05,189:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 11:57:38,728:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,729:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,739:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,739:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,744:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,745:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,752:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,752:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,760:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,760:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,765:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,765:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,773:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,773:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,778:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,779:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,784:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,784:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:57:38,791:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:57:38,791:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:57:38,798:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 11:57:38,798:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-02 11:57:43,498:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:57,054:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:57,379:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:57,692:	>>> COMPUTING ORBIT: 146647618 x -146648516 km x 0.0 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:58,021:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:58,388:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:58,729:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:59,096:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:57:59,499:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+__init__:	INFO:2024-01-02 11:57:59,921:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 11:57:59,976:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-02 11:59:16,562:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,562:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,570:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,570:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,580:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,580:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,588:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,588:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,594:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,594:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,604:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,605:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,610:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,610:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,618:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,618:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,623:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,623:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 11:59:16,628:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 11:59:16,628:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 11:59:16,637:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 11:59:16,637:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-02 11:59:21,456:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:35,228:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:35,565:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:35,916:	>>> COMPUTING ORBIT: 146647618 x -146648516 km x 0.0 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:36,214:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:36,518:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:36,825:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:37,115:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 11:59:37,408:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+__init__:	INFO:2024-01-02 11:59:37,760:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 11:59:37,807:		SkyMap initialization has been completed...
+
+log_exception:	WARNING:2024-01-02 11:59:41,577:	Traceback (most recent call last):
+  File "C:\_Projects\sns2\sim_window.py", line 118, in <module>
+    main()
+  File "C:\_Projects\sns2\sim_window.py", line 113, in main
+    my_simwin.run()
+  File "C:\_Projects\sns2\sim_window.py", line 78, in run
+    app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\_default_app.py", line 60, in run
+    return default_app.run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\application.py", line 160, in run
+    return self._backend._vispy_run()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 336, in _vispy_run
+    return exec_func()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\backends\_qt.py", line 968, in _vispy_timeout
+    self._vispy_timer._timeout()
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\app\timer.py", line 160, in _timeout
+    self.events.timeout(
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 471, in _invoke_callback
+    _handle_exception(self.ignore_callback_errors,
+  << caught exception here: >>
+  File "C:\Users\madmaxfz\anaconda3\envs\spacenav\lib\site-packages\vispy\util\event.py", line 469, in _invoke_callback
+    cb(event)
+  File "C:\_Projects\sns2\starsys_model.py", line 132, in update_epochs
+    self.update_states(new_epoch=self._sys_epoch)
+  File "C:\_Projects\sns2\starsys_model.py", line 138, in update_states
+    for sb in self._sbod_list:
+AttributeError: 'StarSystemModel' object has no attribute '_sbod_list'
+_handle_exception:	ERROR:2024-01-02 11:59:41,577:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> for Event
+_handle_exception:	ERROR:2024-01-02 11:59:41,642:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 2
+_handle_exception:	ERROR:2024-01-02 11:59:41,759:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 4
+_handle_exception:	ERROR:2024-01-02 11:59:41,817:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 8
+_handle_exception:	ERROR:2024-01-02 11:59:41,944:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 16
+_handle_exception:	ERROR:2024-01-02 11:59:42,200:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 32
+_handle_exception:	ERROR:2024-01-02 11:59:42,711:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 64
+_handle_exception:	ERROR:2024-01-02 11:59:43,839:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 128
+_handle_exception:	ERROR:2024-01-02 11:59:45,895:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 256
+_handle_exception:	ERROR:2024-01-02 11:59:49,991:	Invoking <bound method StarSystemModel.update_epochs of <starsys_model.StarSystemModel object at 0x00000207D2F85C00>> repeat 512
+set_orbit:	INFO:2024-01-02 12:09:03,287:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,287:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,298:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,298:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,303:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,304:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,316:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,317:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,325:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,325:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,332:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,332:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,337:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,337:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,347:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,347:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,352:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,352:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-02 12:09:03,363:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-02 12:09:03,363:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-02 12:09:03,372:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-02 12:09:03,372:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-02 12:09:07,692:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:19,804:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:20,142:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:20,517:	>>> COMPUTING ORBIT: 146647618 x -146648516 km x 0.0 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:20,796:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:21,085:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:21,344:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:21,607:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-02 12:09:21,865:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+__init__:	INFO:2024-01-02 12:09:22,164:		Initializing SkyMap object...
+__init__:	INFO:2024-01-02 12:09:22,207:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-04 04:50:20,803:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,804:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,811:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,811:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,820:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,820:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,828:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,828:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,836:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,836:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,843:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,843:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,851:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,851:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,857:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,858:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,864:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,864:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:50:20,871:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:50:20,871:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-04 04:50:20,878:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-04 04:50:20,878:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-04 04:50:24,928:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:36,547:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:36,839:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:37,169:	>>> COMPUTING ORBIT: 146647618 x -146648516 km x 0.0 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:37,504:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:37,810:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:38,098:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:38,395:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:50:38,723:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+__init__:	INFO:2024-01-04 04:50:39,201:		Initializing SkyMap object...
+__init__:	INFO:2024-01-04 04:50:39,257:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-04 04:52:08,232:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,232:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,238:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,238:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,244:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,244:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,251:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,251:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,257:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,258:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,264:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,264:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,270:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,270:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,275:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,275:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,280:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,280:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:08,286:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:08,286:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-04 04:52:08,293:	END_EPOCH:
+2451910.0
+
+set_orbit:	INFO:2024-01-04 04:52:08,294:	>>> NO PARENT BODY, Orbit set to: 0
+set_orbit:	INFO:2024-01-04 04:52:12,516:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_orbit:	INFO:2024-01-04 04:52:57,200:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,200:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,206:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,206:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,212:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,212:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,219:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,219:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,224:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,224:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,229:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,229:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,234:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,234:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,239:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,239:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,244:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,245:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:52:57,249:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:52:57,250:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-04 04:52:57,256:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-04 04:52:57,304:		Initializing SkyMap object...
+__init__:	INFO:2024-01-04 04:52:57,355:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-04 04:55:14,113:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,113:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,120:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,120:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,126:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,126:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,132:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,132:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,140:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,140:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,145:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,146:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,152:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,152:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,158:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,158:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,163:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,163:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:55:14,168:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:55:14,169:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-04 04:55:14,176:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-04 04:55:14,222:		Initializing SkyMap object...
+__init__:	INFO:2024-01-04 04:55:14,268:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-04 04:56:07,394:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,394:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,402:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,402:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,410:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,410:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,416:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,417:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,425:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,425:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,431:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,431:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,437:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,437:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,442:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,442:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,447:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,448:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:07,453:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:07,453:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-04 04:56:07,460:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-04 04:56:07,509:		Initializing SkyMap object...
+__init__:	INFO:2024-01-04 04:56:07,561:		SkyMap initialization has been completed...
+
+set_orbit:	INFO:2024-01-04 04:56:24,590:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,591:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,598:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,598:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,605:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,605:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,611:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,611:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,619:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,619:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,624:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,624:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,629:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,629:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,634:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,634:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,640:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,640:		>>> SimBody object created....
+
+set_orbit:	INFO:2024-01-04 04:56:24,645:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-01-04 04:56:24,645:		>>> SimBody object created....
+
+set_ephems:	INFO:2024-01-04 04:56:24,652:	END_EPOCH:
+2451910.0
+
+__init__:	INFO:2024-01-04 04:56:24,701:		Initializing SkyMap object...
+__init__:	INFO:2024-01-04 04:56:24,753:		SkyMap initialization has been completed...
+

@@ -69,7 +69,6 @@ class StarSystemModel:
         SimBody.simbodies = self._simbod_dict
 
         self.set_ephems()
-        self.set_orbits()
 
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
