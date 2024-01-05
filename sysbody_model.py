@@ -149,15 +149,11 @@ class SimBody:
                          str(self._orbit))
 
     def update_state(self, epoch=None):
-        self.set_epoch(epoch)
-        logging.debug("\n\t\t\tBODY:\t%s\n\t\t\tEPOCH:\t%s\n\t\t\tEPHEM:\t%s",
-                      self._name,
-                      str(self._epoch),
-                      self._ephem
-                      )
+        if epoch is not None:
+            self.set_epoch(epoch)
+
         if type(self._orbit) == Orbit:
             new_orbit = self._orbit.propagate(self._epoch)
-
             self._state = np.array([new_orbit.r.to(self._dist_unit).value,
                                     new_orbit.v.to(self._dist_unit / u.s).value,
                                     self._rot_func(**toTD(self._epoch)),
