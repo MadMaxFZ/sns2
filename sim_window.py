@@ -87,6 +87,7 @@ class MainSimWindow(scene.SceneCanvas):
     def view(self):
         return self._sys_view
 
+
 def main():
     _body_include_set = ['Sun',
                          'Mercury',
@@ -98,7 +99,7 @@ def main():
                          'Saturn',
                          'Uranus',
                          'Neptune',
-                         # 'Pluto',
+                         'Pluto',
                          # 'Phobos',
                          # 'Deimos',
                          # 'Europa',

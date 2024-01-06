@@ -38,12 +38,13 @@ class SimBody:
         self._tex_data      = body_data['tex_data']
         self._dist_unit     = sim_param['dist_unit']
         self._periods       = sim_param['periods']
-        self._spacing       = self._o_period / self._periods
+        self._spacing       = self._o_period.to(u.d) / self._periods
         self._trajectory    = None
         self._type          = None
         self._ephem: Ephem  = None
         self._orbit: Orbit  = None
         self._t_range: time_range = None
+        self._end_epoch     = None
         self._plane         = Planes.EARTH_ECLIPTIC
         self._state         = np.zeros((3,), dtype=vec_type)
         self.x_ax           = vec_type([1, 0, 0])
@@ -53,10 +54,10 @@ class SimBody:
             epoch = SimBody.epoch0
 
         self._epoch         = Time(epoch, format='jd', scale='tdb')
-        # self._base_color    = np.array(self._body_data['body_color'])
-        # self._body_alpha    = 1.0
+        self._base_color    = np.array(self._body_data['body_color'])
+        self._body_alpha    = 1.0
         self._track_alpha   = 0.6
-        self._mark = None
+        self._mark = "o"
 
         # TODO: Fix and/or move this section elsewhere
         #  <<<
@@ -89,15 +90,14 @@ class SimBody:
         self._body_data.update({'rad_set' : self._rad_set})
         # >>>
 
-        self._t_range = time_range(epoch,
-                                   periods=sim_param['periods'],
-                                   # TODO:  spacing = orbital_period / periods
-                                   #        reset value once orbital period it known
-                                   spacing=sim_param['spacing'],
+        self._t_range = time_range(self._epoch,
+                                   periods=self._periods,
+                                   spacing=self._spacing,
                                    format='jd',
                                    scale='tdb', )
-        self.set_ephem(t_range=self._t_range)
-        self.set_orbit(self._ephem)
+        self._end_epoch = self._epoch + sim_param['periods'] * self._spacing
+        self.set_ephem(epoch=self._epoch, t_range=self._t_range)
+        self.set_orbit(ephem=self._ephem)
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -107,31 +107,38 @@ class SimBody:
                            scale='tdb',
                            )
 
-    def set_ephem(self, t_range=None):
-        logging.debug("get_ephem()")
+    def set_ephem(self, epoch=None, t_range=None):
+        if epoch is None:
+            epoch = self._epoch
         if t_range is None:
-            t_range = self._epoch
+            self._t_range = time_range(epoch,
+                                       periods=self._periods,
+                                       spacing=self._spacing,
+                                       format='jd',
+                                       scale='tdb',
+                                       )
+            self._end_epoch += self._periods * self._spacing
+
         if self._orbit is None:
             self._ephem = Ephem.from_body(self._body,
-                                          epochs=t_range,
-                                          attractor=self._sb_parent,
+                                          epochs=self._t_range,
+                                          attractor=self.body.parent,
                                           plane=self._plane,
                                           )
         elif self._orbit != 0:
             self._ephem = Ephem.from_orbit(orbit=self._orbit,
-                                           epochs=t_range,
+                                           epochs=self._t_range,
                                            plane=self._plane,
                                            )
 
-        logging.debug("EPHEM : %s", str(self._ephem))
-        print("EPHEM : ", self._ephem)
+        logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
+        print("EPHEM for", self.name, ": ", self._ephem)
 
     def set_orbit(self, ephem=None):
-        logging.debug("get_orbit()")
         if ephem is None:
             ephem = self._ephem
 
-        if self._sb_parent is not None:
+        if self.body.parent is not None:
             self._orbit = Orbit.from_ephem(self.body.parent,
                                            ephem,
                                            self._epoch,
@@ -143,7 +150,7 @@ class SimBody:
                 self._trajectory = self._orbit.sample(360).xyz.transpose().value
                 self._RESAMPLE = False
 
-        else:
+        elif self._body.parent is None:
             self._orbit = 0
             logging.info(">>> NO PARENT BODY, Orbit set to: %s",
                          str(self._orbit))
@@ -166,19 +173,16 @@ class SimBody:
                                     ])
 
         # self.update_pos(self._state.[0])
-        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\nPOS:%s\n",  # VEL:%s\nROT:%s\n,
-                      self._name,
-                      self._epoch,
-                      self._state[0],
-                      # self._state[1],
-                      # self._state[2],
-                      )
+        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
+                     self._name,
+                     self._epoch,
+                     np.linalg.norm(self._state[0]),
+                     np.linalg.norm(self._state[1]),
+                     self._state[2],
+                     )
 
-    def rel2pos(self, pos=None):
-        if pos is None:
-            pos = self.pos2primary()
-
-        rel_pos = pos - self._state[0]
+    def rel2pos(self, pos=vec_type([0, 0, 0])):
+        rel_pos = pos - self.pos2primary
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             dist = 0.0
@@ -186,19 +190,11 @@ class SimBody:
             fov = MIN_FOV
         else:
             fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
+
         return {"rel_pos": rel_pos,
                 "dist": dist,
                 "fov": fov,
                 }
-
-    def pos2primary(self):
-        # TODO: Consider making a SimBody.rel2cam method, that takes
-        #       a View as an argument, so the cam from any view can be referenced
-        _pos = self.pos
-        if self.body.parent is None:
-            return _pos
-        else:
-            return _pos + self.sb_parent.pos2primary()
 
     @property
     def name(self):
@@ -266,6 +262,10 @@ class SimBody:
         self._plane = new_plane
 
     @property
+    def spacing(self):
+        return self._spacing
+
+    @property
     def symbol(self):
         return self._body_symbol
 
@@ -291,6 +291,14 @@ class SimBody:
         self._RESAMPLE = True
 
     @property
+    def pos2primary(self):
+        _pos = self.pos
+        if self.body.parent is None:
+            return _pos
+        else:
+            return _pos + SimBody.simbodies[self.body.parent.name].pos2primary
+
+    @property
     def epoch(self):
         return self._epoch
 
@@ -301,6 +309,15 @@ class SimBody:
                                format='jd',
                                scale='tdb',
                                )
+
+    @property
+    def end_epoch(self):
+        return self._end_epoch
+
+    @end_epoch.setter
+    def end_epoch(self, new_end=None):
+        if type(new_end) == Time:
+            self._end_epoch = new_end
 
     @property
     def t_range(self):
@@ -333,7 +350,7 @@ class SimBody:
 
     @property
     def pos(self):
-        return self._state[0]
+        return np.array(self.state[0])
 
     @property
     def vel(self):
@@ -362,10 +379,6 @@ class SimBody:
     # @property
     # def periods(self):
     #     return self._periods
-
-    @property
-    def o_track(self):
-        return self._trajectory
 
     # @property
     # def spacing(self):

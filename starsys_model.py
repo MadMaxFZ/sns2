@@ -60,7 +60,8 @@ class StarSystemModel:
                         sb.type = 'planet'
                     elif sb.sb_parent.type == 'planet':
                         sb.type = 'moon'
-                        sb.plane = Planes.EARTH_EQUATOR
+                        if parent.name == "Earth":
+                            sb.plane = Planes.EARTH_EQUATOR
             else:
                 sb.type       = 'star'
                 sb.sb_parent  = None
@@ -68,7 +69,7 @@ class StarSystemModel:
 
         SimBody.simbodies = self._simbod_dict
 
-        self.set_ephems()
+        # self.set_ephems()
 
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
@@ -76,6 +77,7 @@ class StarSystemModel:
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
+        self.run()
 
     def add_simbody(self, body_data=None):
         name = body_data['body_name']
@@ -84,7 +86,7 @@ class StarSystemModel:
                                                 sim_param=StarSystemModel.sim_params,
                                                 )
                                   })
-        logging.info("\t>>> SimBody object created....\n")
+        logging.info("\t>>> SimBody object %s created....\n", name)
 
     def set_ephems(self,
                    epoch=None,
@@ -94,15 +96,16 @@ class StarSystemModel:
         if epoch is None:
             epoch = self._sys_epoch
 
-        _t_range = time_range(epoch,
-                              periods=periods,
-                              spacing=spacing,
-                              format="jd",
-                              scale="tdb",
-                              )
-        [sb.set_ephem(t_range=_t_range) for sb in self.simbod_list]
-        self._end_epoch = epoch + periods * spacing
-        logging.info("END_EPOCH:\n%s\n", self._end_epoch)
+        for sb in self.simbod_list:
+            _t_range = time_range(epoch,
+                                  periods=periods,
+                                  spacing=sb.spacing,
+                                  format="jd",
+                                  scale="tdb",
+                                  )
+            sb.set_ephem(t_range=_t_range)
+            sb.end_epoch = epoch + periods * spacing
+            logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
     def set_orbits(self):
         [sb.set_orbit() for sb in self.simbod_list]
@@ -120,9 +123,11 @@ class StarSystemModel:
 
         d_epoch = TimeDelta(dt * u.s * self._t_warp)
         self._sys_epoch += d_epoch
-        if self._sys_epoch > self._end_epoch:
-            self.set_ephems(epoch=self._sys_epoch)  # reset ephem range
-            logging.debug("RELOAD EPOCHS/EPHEM SETS...")
+        for sb in self.simbod_list:
+            if self._sys_epoch > sb.end_epoch:
+                sb.set_ephem(epoch=self._sys_epoch)  # reset ephem range
+                sb.RESAMPLE = True
+                logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
         if self._avg_d_epoch.value == 0:
             self._avg_d_epoch = d_epoch

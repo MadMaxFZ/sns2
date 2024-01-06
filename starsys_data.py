@@ -86,17 +86,17 @@ class SystemDataStore:
                                       ]
         self._body_names = [bod.name for bod in _body_set]
         # orbital periods of bodies
-        _o_per_set = [0,
-                      0,
-                      0,
-                      365.25 * u.d,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
+        _o_per_set = [11.86 * u.year,
+                      87.97 * u.d,
+                      224.70 * u.d,
+                      365.26 * u.d,
+                      27.3 * u.d,
+                      686.98 * u.d,
+                      11.86 * u.year,
+                      29.46 * u.year,
+                      84.01 * u.year,
+                      164.79 * u.year,
+                      248 * u.year,
                       ]
         # reference frame fixed to planet surfaces
         _frame_set = [SunFixed,
@@ -218,7 +218,7 @@ class SystemDataStore:
                               body_mark=_body_tmark[_type_set[idx]],
                               n_samples=365,
                               viz_names=_viz_assign[_bod_name],
-                              o_period=_o_per_set[idx],
+                              o_period=_o_per_set[idx].to(u.s),
                               )
             _body_params.update({_bod_name: _body_data})
 

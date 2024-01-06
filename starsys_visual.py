@@ -49,7 +49,7 @@ class StarSystemVisual(CompoundVisual):
             self._cam_rel_pos   = np.zeros((len(self._simbods.keys()),), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap(edge_color=(0, 0, 1, 0.4))
-            self._bods_pos      = [sb.pos2primary() for sb in self._simbods.values()]
+            self._bods_pos      = [sb.pos2primary for sb in self._simbods.values()]
             self._sb_symbols    = [sb.mark for sb in self._simbods.values()]
             self._symbol_sizes  = []
             self._sb_planets    = {}       # a dict of Planet visuals
@@ -69,7 +69,8 @@ class StarSystemVisual(CompoundVisual):
         # TODO: generate/assign visuals here to build SystemVizual instance
         if sbs is not None:
             self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
-            self._frame_viz.transform = ST(scale=[1e+08, 1e+08, 1e+08])
+            self._frame_viz.transform = MT()
+            self._frame_viz.transform.scale([1e+08, 1e+08, 1e+08])
             # self._plnt_markers.parent = self._skymap
             self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
             self._sb_symbols = [sb.mark for sb in sbs.values()]
@@ -83,8 +84,8 @@ class StarSystemVisual(CompoundVisual):
                                                          )
                                          })
                 if sb.sb_parent is not None:
-                    print("Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sbs[sb.sb_parent.name].pos)
-                    self._sb_tracks.update({sb_name: Polygon(pos=sb._trajectory + sbs[sb.sb_parent.name].pos,
+                    # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
+                    self._sb_tracks.update({sb_name: Polygon(pos=sb.track,  # + sb.sb_parent.pos,
                                                              border_color=np.array(list(sb.base_color) + [0,]) +
                                                                           np.array([0, 0, 0, sb.track_alpha]),
                                                              triangulate=False,
@@ -94,7 +95,11 @@ class StarSystemVisual(CompoundVisual):
             for sb_name, sb in sbs.items():
                 if sb.body.parent is not None:
                     self._sb_planets[sb_name].parent = self._sb_planets[sb.body.parent.name]
+                    self._sb_planets[sb_name].transform = MT()
+                    self._sb_planets[sb_name].transform.translate(sb.pos)
                     self._sb_tracks[sb_name].parent = self._sb_planets[sb.body.parent.name]
+                    self._sb_tracks[sb_name].transform = MT()
+                    self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos)
 
             subvisuals = [self._skymap,
                           self._frame_viz,
@@ -112,31 +117,18 @@ class StarSystemVisual(CompoundVisual):
         self._bods_pos = []
         for sb_name, sb in self._simbods.items():
             # collect positions of the bodies into an array
-            _bods_pos.update({sb_name: sb.pos2primary()})
+            _bods_pos.update({sb_name: sb.pos2primary})
+            self._bods_pos.append(sb.pos2primary)
             # self._sb_planets[sb_name].transform = ST(translate=_bods_pos[sb_name])
             # if sb.body.parent is not None:
             #     self._sb_tracks[sb_name].transform = ST(translate=_bods_pos[sb.body.parent.name])
 
-        self._bods_pos = np.array(list(_bods_pos.values()))
+        self._bods_pos = np.array(self._bods_pos)
         # collect the body positions relative to the camera location
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
                              for sb in self._simbods.values()]
 
         self._symbol_sizes = self.get_symb_sizes()                 # update symbol sizes based upon FOV of body
-        # for sb_name, sb in self._simbods.items():
-        #     body_fov = sb.rel2pos(pos=self._cam.center)['fov']
-        #     pix_diam = 0
-        #     raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
-        #     self._sb_planets[sb_name].visible = False
-        #     if raw_diam < MIN_SYMB_SIZE:
-        #         pix_diam = MIN_SYMB_SIZE
-        #     elif raw_diam < MAX_SYMB_SIZE:
-        #         pix_diam = raw_diam
-        #     elif raw_diam >= MAX_SYMB_SIZE:
-        #         pix_diam = 0
-        #         self._sb_planets[sb_name].visible = True
-        #
-        #     self._symbol_sizes.append(pix_diam)
 
         self._plnt_markers.set_data(pos=self._bods_pos,
                                     face_color=[np.array(list(sb.base_color) + [0,]) +
@@ -155,12 +147,15 @@ class StarSystemVisual(CompoundVisual):
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 
-    def get_symb_sizes(self):
+    def get_symb_sizes(self, camera=None):
         # TODO: Rework this method to have only one loop
         #       Also make cam an argument rather than an instance variable
+        if camera is None:
+            camera = self._cam
+
         pix_diams = []
         for sb_name, sb in self._simbods.items():
-            body_fov = sb.rel2pos(pos=self._cam.center)['fov']
+            body_fov = sb.rel2pos(pos=camera.center)['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
             self._sb_planets[sb_name].visible = False
@@ -185,16 +180,16 @@ class StarSystemVisual(CompoundVisual):
         if model is None:
             print("Must provide something... FAILED")
             check = False
-        elif type(model) is not dict:
+        elif type(model.simbodies) is not dict:
             print("Must provide SimBody dictionary... FAILED")
             check = False
         else:
-            for key, val in model.items():
+            for key, val in model.simbodies.items():
                 if type(val) is not SimBody:
                     print(key, "is NOT a SimBody... FAILED.")
                     check = False
 
-        return True     # check
+        return check
 
     @property
     def skymap(self):
