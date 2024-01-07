@@ -38,6 +38,7 @@ class SimBody:
         self._tex_data      = body_data['tex_data']
         self._dist_unit     = sim_param['dist_unit']
         self._periods       = sim_param['periods']
+        self._mark          = None
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._trajectory    = None
         self._type          = None
@@ -47,9 +48,9 @@ class SimBody:
         self._end_epoch     = None
         self._plane         = Planes.EARTH_ECLIPTIC
         self._state         = np.zeros((3,), dtype=vec_type)
-        self.x_ax           = vec_type([1, 0, 0])
-        self.y_ax           = vec_type([0, 1, 0])
-        self.z_ax           = vec_type([0, 0, 1])
+        self.x_ax           = np.array([1, 0, 0])
+        self.y_ax           = np.array([0, 1, 0])
+        self.z_ax           = np.array([0, 0, 1])
         if epoch is None:
             epoch = SimBody.epoch0
 
@@ -182,7 +183,7 @@ class SimBody:
                      )
 
     def rel2pos(self, pos=vec_type([0, 0, 0])):
-        rel_pos = pos - self.pos2primary
+        rel_pos = pos - self.pos2bary
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             dist = 0.0
@@ -218,8 +219,9 @@ class SimBody:
         return self._is_primary
 
     @is_primary.setter
-    def is_primary(self, is_pri=None):
-        self._is_primary = is_pri
+    def is_primary(self, is_pri):
+        if type(is_pri) == bool:
+            self._is_primary = is_pri
 
     @property
     def type(self):
@@ -265,14 +267,6 @@ class SimBody:
     def spacing(self):
         return self._spacing
 
-    @property
-    def symbol(self):
-        return self._body_symbol
-
-    @symbol.setter
-    def symbol(self, new_symbol='o'):
-        self._body_symbol = new_symbol
-
     # @property
     # def trk_poly(self):
     #     return self._trk_poly
@@ -290,13 +284,23 @@ class SimBody:
     def RESAMPLE(self, new_sample=True):
         self._RESAMPLE = True
 
-    @property
+    @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
         _pos = self.pos
         if self.body.parent is None:
             return _pos
         else:
             return _pos + SimBody.simbodies[self.body.parent.name].pos2primary
+
+    @property                   # this returns the position of a body relative to system barycenter
+    def pos2bary(self):
+        _pos = self.pos
+        if self.is_primary:
+            return _pos
+        elif self.sb_parent.is_primary:
+            return _pos
+        else:
+            return _pos + SimBody.simbodies[self.body.parent.name].pos2bary
 
     @property
     def epoch(self):

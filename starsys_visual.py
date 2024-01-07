@@ -70,8 +70,8 @@ class StarSystemVisual(CompoundVisual):
         if sbs is not None:
             self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
             self._frame_viz.transform = MT()
-            self._frame_viz.transform.scale([1e+08, 1e+08, 1e+08])
-            # self._plnt_markers.parent = self._skymap
+            self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
+            self._plnt_markers.parent = self._skymap
             self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
             self._sb_symbols = [sb.mark for sb in sbs.values()]
             for sb_name, sb in sbs.items():
@@ -93,13 +93,14 @@ class StarSystemVisual(CompoundVisual):
                                                              )
                                             })
             for sb_name, sb in sbs.items():
+                self._sb_planets[sb_name].transform = MT()
                 if sb.body.parent is not None:
-                    self._sb_planets[sb_name].parent = self._sb_planets[sb.body.parent.name]
-                    self._sb_planets[sb_name].transform = MT()
-                    self._sb_planets[sb_name].transform.translate(sb.pos)
-                    self._sb_tracks[sb_name].parent = self._sb_planets[sb.body.parent.name]
+                    sb.sb_parent = self._sb_planets[sb.body.parent.name]
+                    self._sb_planets[sb_name].transform.translate(sb.pos2primary + np.array([0, 0, 0, 0]))
+                    self._sb_planets[sb_name].parent = self._sb_planets[sb.sb_parent.name]
+                    self._sb_tracks[sb_name].parent = self._sb_planets[sb.sb_parent.name]
                     self._sb_tracks[sb_name].transform = MT()
-                    self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos)
+                    self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2primary + np.array([0, 0, 0, 0]))
 
             subvisuals = [self._skymap,
                           self._frame_viz,
@@ -113,22 +114,30 @@ class StarSystemVisual(CompoundVisual):
             print("Must provide SimBody dictionary...")
 
     def update_sysviz(self):
-        _bods_pos = {}
-        self._bods_pos = []
+        self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
+
         for sb_name, sb in self._simbods.items():
-            # collect positions of the bodies into an array
-            _bods_pos.update({sb_name: sb.pos2primary})
-            self._bods_pos.append(sb.pos2primary)
-            # self._sb_planets[sb_name].transform = ST(translate=_bods_pos[sb_name])
-            # if sb.body.parent is not None:
-            #     self._sb_tracks[sb_name].transform = ST(translate=_bods_pos[sb.body.parent.name])
+            # print(sb.pos2primary - sb.pos)
+
+            if self._sb_planets[sb_name].visible:
+                sb_pos = np.zeros((4,))
+                sb_pos[0:3] = sb.pos2primary
+                xform = self._sb_planets[sb_name].transform
+                xform.reset()
+                xform.rotate(sb.state[2, 2], sb.z_ax)
+                xform.rotate(np.pi * sb.state[2, 1] / 2, sb.y_ax)
+                xform.rotate(sb.state[2, 0], sb.z_ax)
+                xform.translate(sb_pos)
+                # if self._sb_planets[sb_name].transform == xform:
+                #     print("SAME")
+                # else:
+                #     print("DIFFERENT")
+                #     self._sb_planets[sb_name].transform = xform
 
         self._bods_pos = np.array(self._bods_pos)
         # collect the body positions relative to the camera location
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
                              for sb in self._simbods.values()]
-
-        self._symbol_sizes = self.get_symb_sizes()                 # update symbol sizes based upon FOV of body
 
         self._plnt_markers.set_data(pos=self._bods_pos,
                                     face_color=[np.array(list(sb.base_color) + [0,]) +
@@ -148,13 +157,16 @@ class StarSystemVisual(CompoundVisual):
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 
     def get_symb_sizes(self, camera=None):
-        # TODO: Rework this method to have only one loop
-        #       Also make cam an argument rather than an instance variable
         if camera is None:
             camera = self._cam
 
         pix_diams = []
+        self._bods_pos = []
         for sb_name, sb in self._simbods.items():
+            self._bods_pos.append(sb.pos2bary)
+            # if sb.type not in ['star', 'planet']:
+            #     self._bods_pos[-1] += sb.sb_parent.pos
+
             body_fov = sb.rel2pos(pos=camera.center)['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from vispy.app.timer import *
 from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
@@ -27,9 +26,7 @@ class StarSystemModel:
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = Timer(interval='auto',
-                                  connect=self.update_epochs,  # change this
-                                  iterations=-1)
+        self._w_clock     = None
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(SYS_DATA.def_epoch,
                                  format='jd',
@@ -77,6 +74,9 @@ class StarSystemModel:
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
+
+    def assign_timer(self, clock):
+        self._w_clock = clock
         self.run()
 
     def add_simbody(self, body_data=None):
@@ -148,17 +148,20 @@ class StarSystemModel:
             j = 0
             # collect the relative position and velocity to the other bodies
             for sb2 in self.simbod_list:
-                self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos)['rel_pos']
+                self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos2primary)['rel_pos']
                 self._sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
                     # accumulate the acceleration from the other bodies
-                    self.body_accel[i] += (G * sb1.body.mass * sb2.body.mass) / (
+                    self.body_accel[i] += (G * sb2.body.mass) / (
                             self._sys_rel_pos[i][j] * self._sys_rel_pos[i][j] * u.m * u.m)
                 j += 1
             i += 1
 
+
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
-                      self._sys_rel_pos, self._sys_rel_vel, self.body_accel)
+                      self._sys_rel_pos,
+                      self._sys_rel_vel,
+                      self.body_accel)
 
     def run(self):
         self._w_clock.start()
@@ -178,6 +181,10 @@ class StarSystemModel:
     @t_warp.setter
     def t_warp(self, new_twarp):
         self._t_warp = new_twarp
+
+    @property
+    def model_clock(self):
+        return self._w_clock
 
     @property
     def simbodies(self):

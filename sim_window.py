@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
 from starsys_data import *
@@ -23,6 +24,10 @@ class MainSimWindow(scene.SceneCanvas):
         self.unfreeze()
 
         self._sys_mod = StarSystemModel(bod_names=body_names)
+        self._clock = Timer(interval='auto',
+                            connect=self.on_timer,
+                            iterations=-1)
+        self._sys_mod.assign_timer(self._clock)
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
@@ -43,7 +48,6 @@ class MainSimWindow(scene.SceneCanvas):
                                         )       # this initial range gets bulk of system
         self._sys_view.camera.scale_factor = 14.5e+06
         self._sys_mod.t_warp = 9000
-        # create StarSystem Visual
 
         if __name__ != "__main__":
             self.run()
@@ -71,6 +75,10 @@ class MainSimWindow(scene.SceneCanvas):
 
         except AttributeError:
             print("Key Error...")
+
+    def on_timer(self, event=None):
+        self._sys_mod.update_epochs()
+        self._sys_viz.update_sysviz()
 
     def run(self):
         self.show()
