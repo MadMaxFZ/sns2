@@ -170,7 +170,7 @@ class StarSystemVisual(CompoundVisual):
             body_fov = sb.rel2pos(pos=camera.center)['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
-            self._sb_planets[sb_name].visible = False
+
             if raw_diam < MIN_SYMB_SIZE:
                 pix_diam = MIN_SYMB_SIZE
             elif raw_diam < MAX_SYMB_SIZE:
@@ -178,6 +178,8 @@ class StarSystemVisual(CompoundVisual):
             elif raw_diam >= MAX_SYMB_SIZE:
                 pix_diam = 0
                 self._sb_planets[sb_name].visible = True
+            else:
+                self._sb_planets[sb_name].visible = False
 
             pix_diams.append(pix_diam)
 

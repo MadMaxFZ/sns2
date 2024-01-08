@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 import vispy.visuals.transforms as tr
 from poliastro.bodies import Body, Sun
+from sysbody_model import SimBody
 from vispy.geometry import MeshData
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
@@ -178,7 +179,7 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, body_ref=None, radius=1.0, rows=10, cols=None, offset=False,
+    def __init__(self, ref_simbod=None, radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
                  shading=None, texture=None, method='oblate', **kwargs):
@@ -186,17 +187,18 @@ class PlanetVisual(CompoundVisual):
             cols = rows * 2
 
         self._radii = []
-        if body_ref is not None:
-            self._body_ref = body_ref
-            if type(self._body_ref) is Body:        # if body defined, get radii
-                if self._body_ref.R_mean.value != 0:
-                    self._radii.append(self._body_ref.R)
-                    self._radii.append(self._body_ref.R_mean)
-                    self._radii.append(self._body_ref.R_polar)
+        if ref_simbod is not None:
+            self._ref_sb = ref_simbod
+            if type(self._ref_sb) is SimBody:        # if SimBody defined, get radii
+                _body = self._ref_sb.body
+                if _body.R_mean.value != 0:
+                    self._radii.append(_body.R)
+                    self._radii.append(_body.R_mean)
+                    self._radii.append(_body.R_polar)
                 else:                             # some have R only
-                    self._radii.extend([self._body_ref.R,
-                                        self._body_ref.R,
-                                        self._body_ref.R
+                    self._radii.extend([_body.R,
+                                        _body.R,
+                                        _body.R
                                         ])
 
         else:
@@ -262,13 +264,13 @@ class PlanetVisual(CompoundVisual):
                                      )
         self._mesh.attach(self._filter)
 
-    # @property
-    # def visible(self):
-    #     return self._visible
-    #
-    # @visible.setter
-    # def visible(self, new_visible=False):
-    #     self._visible = new_visible
+    @property
+    def visible(self):
+        return self._visible
+
+    @visible.setter
+    def visible(self, new_visible=False):
+        self._visible = new_visible
 
 
 Planet = create_visual_node(PlanetVisual)
@@ -290,8 +292,8 @@ def main():
     view = win.central_widget.add_view()
     view.camera = FlyCamera()
     skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
-                          color=(1, 1, 1, 1),
-                          parent=view.scene)
+                    color=(1, 1, 1, 1),
+                    parent=view.scene)
     # view.add(skymap)
     skymap.visible = False
     bod = Planet(rows=36,

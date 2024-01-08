@@ -174,13 +174,13 @@ class SimBody:
                                     ])
 
         # self.update_pos(self._state.[0])
-        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
+        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
                      self._name,
-                     self._epoch,
-                     np.linalg.norm(self._state[0]),
-                     np.linalg.norm(self._state[1]),
-                     self._state[2],
-                     )
+                      self._epoch,
+                      np.linalg.norm(self._state[0]),
+                      np.linalg.norm(self._state[1]),
+                      self._state[2],
+                      )
 
     def rel2pos(self, pos=vec_type([0, 0, 0])):
         rel_pos = pos - self.pos2bary
