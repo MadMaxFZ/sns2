@@ -9,12 +9,13 @@ import numpy as np
 from PIL import Image
 import vispy.visuals.transforms as tr
 from poliastro.bodies import Body, Sun
+from astropy import units as u
 from sysbody_model import SimBody
 from vispy.geometry import MeshData
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.visuals import CompoundVisual
-from vispy.scene.visuals import create_visual_node, Compound
+from vispy.scene.visuals import create_visual_node
 
 
 DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
@@ -186,31 +187,33 @@ class PlanetVisual(CompoundVisual):
         if cols is None:        # auto set cols to 2 * rows
             cols = rows * 2
 
+        self._pos = None
         self._radii = []
+        self._texture_data = None
         if ref_simbod is not None:
             self._ref_sb = ref_simbod
             if type(self._ref_sb) is SimBody:        # if SimBody defined, get radii
                 _body = self._ref_sb.body
+                self.pos = self._ref_sb.pos2bary
                 if _body.R_mean.value != 0:
-                    self._radii.append(_body.R)
-                    self._radii.append(_body.R_mean)
-                    self._radii.append(_body.R_polar)
+                    self._radii.extend([_body.R,
+                                        _body.R_mean,
+                                        _body.R_polar])
                 else:                             # some have R only
                     self._radii.extend([_body.R,
                                         _body.R,
-                                        _body.R
-                                        ])
+                                        _body.R])
+
+            if type(texture) == str:  # assume filename
+                self._texture_data = get_texture_data(fname=texture)
+            elif texture is not None:  # assume image
+                self._texture_data = texture
+            else:  # use default
+                self._texture_data = self._ref_sb.texture
 
         else:
             texture = get_texture_data(fname=DEF_TEX_FNAME)
-            self._radii = [10000.0, 10000.0, 10000.0]      # default to 1.0
-
-        if type(texture) == str:                # assume filename
-            self._texture_data = get_texture_data(fname=texture)
-        elif texture is not None:               # assume image
-            self._texture_data = texture
-        else:                                   # use default
-            self._texture_data = get_texture_data()
+            self._radii = [10000.0, 10000.0, 10000.0] * u.km     # default to 1.0
 
         if method == 'latitude':
             _mesh, self._tex_coords = _latitude(rows, cols, radius, offset)
@@ -253,6 +256,18 @@ class PlanetVisual(CompoundVisual):
         return self._border
 
     @property
+    def pos(self):
+        return self._pos
+
+    @pos.setter
+    def pos(self, new_pos):
+        if new_pos is not None:
+            self._pos = new_pos
+            self.transform = tr.MatrixTransform()
+            self.transform.translate(self._pos)
+            self._update()
+
+    @property
     def texture(self):
         return self._texture_data
 
@@ -263,6 +278,7 @@ class PlanetVisual(CompoundVisual):
                                      texcoords=np.array(self._tex_coords),
                                      )
         self._mesh.attach(self._filter)
+        self._update()
 
     @property
     def visible(self):
