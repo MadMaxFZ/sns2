@@ -285,16 +285,16 @@ class SystemDataStore:
         res = {}
         if (body_name in self.body_names) and (data_keys is None):
             res = self._datastore['BODY_DATA'][body_name]
-        else:
-            for key in data_keys:
-                if key in self._datastore['BODY_DATA'][body_name].keys():
-                    res.update({key: self._datastore['BODY_DATA'][body_name][data_keys]})
-
-        if (body_name is None) and (data_keys is None):
-            res = self._datastore['BODY_DATA']
-        elif data_keys in self._datastore['BODY_DATA'][body_name].keys():
-            [res.update({name: self._datastore['BODY_DATA'][name][data_keys]})
-             for name in self.body_names]
+        # else:
+        #     for key in data_keys:
+        #         if key in self._datastore['BODY_DATA'][body_name].keys():
+        #             res.update({key: self._datastore['BODY_DATA'][body_name][key]})
+        #
+        # if (body_name is None) and (data_keys is None):
+        #     res = self._datastore['BODY_DATA']
+        # elif any([key in self._datastore['BODY_DATA'][body_name].keys() for key in data_keys]):
+        #     [res.update({key: self._datastore['BODY_DATA'][body_name][key]})
+        #      for key in data_keys]
 
         return res
 

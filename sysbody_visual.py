@@ -152,9 +152,10 @@ class PlanetVisual(CompoundVisual):
         if refbod_name is not None:
 
             if refbod_name in SYS_DATA.body_names:        # if SimBody defined, get radii
-                _body = SYS_DATA.get_body_data(body_name=refbod_name,
-                                               data_keys="body_obj")
-
+                self._data = SYS_DATA.get_body_data(body_name=refbod_name,
+                                                    data_keys=['body_obj',
+                                                               'tex_data'])
+                _body = self._data['body_obj']
                 # self.pos = self._ref_sb.pos2bary
                 if _body.R_mean.value != 0:
                     self._radii.extend([_body.R,
@@ -168,14 +169,13 @@ class PlanetVisual(CompoundVisual):
             if type(texture) == str:  # assume filename
                 self._texture_data = get_texture_data(fname=texture)
             elif texture is None:  # assume image
-                self._texture_data = SYS_DATA.get_body_data(body_name=refbod_name,
-                                                            data_keys='tex_data')
+                self._texture_data = self._data['tex_data']
             else:  # use default
                 self._texture_data = texture
 
         else:
             texture = get_texture_data(fname=DEF_TEX_FNAME)
-            self._radii = [10000.0, 10000.0, 10000.0] * u.km     # default to 1.0
+            self._radii = [1.0, 1.0, 1.0] * u.km     # default to 1.0
 
         if method == 'latitude':
             radius = self._radii[0]
@@ -272,15 +272,19 @@ class PlanetVisual(CompoundVisual):
 Planet = create_visual_node(PlanetVisual)
 
 
-def main():
-    # put a little test code here...
-    print("BodyViz test code...")
+def on_timer(event=None):
+    pass
+
+
+if __name__ == "__main__":
     from vispy import app
     from vispy.app.timer import Timer
     from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera
     from sys_skymap import SkyMap
-    # import vispy.visuals.transforms as tr
+    import vispy.visuals.transforms as tr
 
+    # put a little test code here...
+    print("BodyViz test code...")
     win = SceneCanvas(title="BodyViz Test",
                       keys="interactive",
                       bgcolor='white',
@@ -298,15 +302,19 @@ def main():
                  parent=view.scene,
                  visible=True,
                  )
+    bod.transform = tr.MatrixTransform()
     view.add(bod)
     view.camera.set_range()
-    # bod.transform = tr.MatrixTransform()
+
+    bod_timer = Timer(interval='auto',
+                      connect=on_timer,
+                      iterations=-1,
+                      start=True,
+                      app=app.application)
+
     # for rot in range(3600):
     #     bod.transform.rotate(rot * np.pi / 1800, [0, 0, 1])
 
     win.show()
     app.run()
 
-
-if __name__ == "__main__":
-    main()
