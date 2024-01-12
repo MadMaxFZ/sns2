@@ -23,11 +23,11 @@ class MainSimWindow(scene.SceneCanvas):
                                             )
         self.unfreeze()
 
-        self._sys_mod = StarSystemModel(bod_names=body_names)
+        self._sys_mod = StarSystemModel(body_names=body_names)
         self._clock = Timer(interval='auto',
                             connect=self.on_timer,
                             iterations=-1)
-        self._sys_mod.assign_timer(self._clock)
+        self.model.assign_timer(self._clock)
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
@@ -67,11 +67,11 @@ class MainSimWindow(scene.SceneCanvas):
                 self._sys_view.camera.fov *= 0.9
                 print("CAM_FOV", self._sys_view.camera.fov)
             elif ev.key.name == "]":
-                self._sys_mod.t_warp *= 1.1
-                print("TIME_WARP:", self._sys_mod.t_warp)
+                self.model.t_warp *= 1.1
+                print("TIME_WARP:", self.model.t_warp)
             elif ev.key.name == "[":
-                self._sys_mod.t_warp *= 0.9
-                print("TIME_WARP:", self._sys_mod.t_warp)
+                self.model.t_warp *= 0.9
+                print("TIME_WARP:", self.model.t_warp)
 
         except AttributeError:
             print("Key Error...")
@@ -82,7 +82,7 @@ class MainSimWindow(scene.SceneCanvas):
 
     def run(self):
         self.show()
-        self._sys_mod.run()
+        self.model.run()
         app.run()
 
     # def stop(self):

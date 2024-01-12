@@ -344,9 +344,59 @@ class SimBody:
     def ephem(self):
         return self._ephem
 
+    @ephem.setter
+    def ephem(self, epoch=None, t_range=None):
+        if epoch is None:
+            epoch = self._epoch
+        if t_range is None:
+            self._t_range = time_range(epoch,
+                                       periods=self._periods,
+                                       spacing=self._spacing,
+                                       format='jd',
+                                       scale='tdb',
+                                       )
+            self._end_epoch += self._periods * self._spacing
+
+        if self._orbit is None:
+            self._ephem = Ephem.from_body(self._body,
+                                          epochs=self._t_range,
+                                          attractor=self.body.parent,
+                                          plane=self._plane,
+                                          )
+        elif self._orbit != 0:
+            self._ephem = Ephem.from_orbit(orbit=self._orbit,
+                                           epochs=self._t_range,
+                                           plane=self._plane,
+                                           )
+
+        logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
+        print("EPHEM for", self.name, ": ", self._ephem)
+
     @property
     def orbit(self):
         return self._orbit
+
+    @orbit.setter
+    def orbit(self, ephem=None):
+        if ephem is None:
+            ephem = self._ephem
+
+        if self.body.parent is not None:
+            self._orbit = Orbit.from_ephem(self.body.parent,
+                                           ephem,
+                                           self._epoch,
+                                           )
+            # print(self._orbit)
+            logging.info(">>> COMPUTING ORBIT: %s",
+                         str(self._orbit))
+            if (self._trajectory is None) or (self.RESAMPLE is True):
+                self._trajectory = self.orbit.sample(360).xyz.transpose().value
+                self._RESAMPLE = False
+
+        elif self._body.parent is None:
+            self._orbit = 0
+            logging.info(">>> NO PARENT BODY, Orbit set to: %s",
+                         str(self._orbit))
 
     @property
     def state(self):

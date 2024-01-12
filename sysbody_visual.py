@@ -6,25 +6,15 @@
 # Modified by Max S. Whitten in order to address the "stripe" glitch
 
 import numpy as np
-import vispy.visuals.transforms as tr
-from PIL import Image
+# import vispy.visuals.transforms as tr
 from astropy import units as u
-from starsys_model import SYS_DATA
-from sysbody_model import SimBody
+from starsys_model import SimBody, get_texture_data, DEF_TEX_FNAME
 from vispy.geometry import MeshData
+from vispy.visuals import CompoundVisual
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
-from vispy.visuals import CompoundVisual
+from vispy.visuals import transforms as tr
 from vispy.scene.visuals import create_visual_node
-
-DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
-
-
-def get_texture_data(fname=DEF_TEX_FNAME):
-    with Image.open(fname) as im:
-        print(fname, im.format, f"{im.size}x{im.mode}")
-
-        return im.copy()
 
 
 def _latitude(rows, cols, radius, offset):
@@ -139,7 +129,7 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, refbod_name=None, radius=1.0, rows=10, cols=None, offset=False,
+    def __init__(self, sb_ref=None, radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
                  shading=None, texture=None, method='oblate', **kwargs):
@@ -148,34 +138,24 @@ class PlanetVisual(CompoundVisual):
 
         self._pos = None
         self._radii = []
-        self._texture_data = None
-        if refbod_name is not None:
+        self._texture_data = sb_ref.texture
+        if sb_ref is (not None and type(sb_ref) == SimBody):
+            _body = sb_ref.body
+            # self.pos = self._ref_sb.pos2bary
+            if _body.R_mean.value != 0:
+                self._radii.extend([_body.R,
+                                    _body.R_mean,
+                                    _body.R_polar])
+            else:                             # some have R only
+                self._radii.extend([_body.R,
+                                    _body.R,
+                                    _body.R])
 
-            if refbod_name in SYS_DATA.body_names:        # if SimBody defined, get radii
-                self._data = SYS_DATA.get_body_data(body_name=refbod_name,
-                                                    data_keys=['body_obj',
-                                                               'tex_data'])
-                _body = self._data['body_obj']
-                # self.pos = self._ref_sb.pos2bary
-                if _body.R_mean.value != 0:
-                    self._radii.extend([_body.R,
-                                        _body.R_mean,
-                                        _body.R_polar])
-                else:                             # some have R only
-                    self._radii.extend([_body.R,
-                                        _body.R,
-                                        _body.R])
-
-            if type(texture) == str:  # assume filename
-                self._texture_data = get_texture_data(fname=texture)
-            elif texture is None:  # assume image
-                self._texture_data = self._data['tex_data']
-            else:  # use default
-                self._texture_data = texture
+            # self._texture = sb_ref.texture
 
         else:
-            texture = get_texture_data(fname=DEF_TEX_FNAME)
-            self._radii = [1.0, 1.0, 1.0] * u.km     # default to 1.0
+            self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0
+            # self._texture = sb_ref.texture
 
         if method == 'latitude':
             radius = self._radii[0]
@@ -200,9 +180,9 @@ class PlanetVisual(CompoundVisual):
                                 color=color,
                                 shading=shading)
         print("TEXTURE:\n", self._texture_data,
-              "\nTEXCOORD:\n", self._tex_coords,
+              # "\nTEXCOORD:\n", self._tex_coords,
               )
-        self._filter = TextureFilter(texture=self._texture_data,
+        self._filter = TextureFilter(texture=self.texture,
                                      texcoords=self._tex_coords,
                                      enabled=True,
                                      # shape=(self._texture_data.height, self._texture_data.width)
@@ -251,8 +231,8 @@ class PlanetVisual(CompoundVisual):
         return self._texture_data
 
     @texture.setter
-    def texture(self, new_texture=DEF_TEX_FNAME):
-        self._texture_data = get_texture_data(fname=new_texture)
+    def texture(self, new_texture=None):
+        self._texture_data = new_texture
         self._filter = TextureFilter(self._texture_data,
                                      np.array(self._tex_coords),
                                      enabled=True,

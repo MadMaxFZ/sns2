@@ -13,39 +13,40 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     format='%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s',
                     )
 
-SYS_DATA = SystemDataStore()
+# SYS_DATA = SystemDataStore()
 
 
 class StarSystemModel:
     """
     """
-    sim_params = SYS_DATA.system_params
+    # sim_params = SYS_DATA.system_params
 
-    def __init__(self, bod_names=SYS_DATA.body_names):
+    def __init__(self, body_names=None):
+        self._data        = SystemDataStore()
         self._INIT        = False
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
         self._w_clock     = None
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
-        self._sys_epoch   = Time(SYS_DATA.def_epoch,
+        self._sys_epoch   = Time(self._data.def_epoch,
                                  format='jd',
                                  scale='tdb')
-        self._ephem_span  = (StarSystemModel.sim_params['periods']
-                             * StarSystemModel.sim_params['spacing'])
+        self._ephem_span  = (self._data.system_params['periods']
+                             * self._data.system_params['spacing'])
         self._end_epoch   = self._sys_epoch + self._ephem_span
 
         solar_system_ephemeris.set("jpl")
         self._body_count  = 0
         self._body_names  = []
-        self._body_data   = {}
         self._simbod_dict = {}
-        for _name in bod_names:
-            if _name in SYS_DATA.body_names:
+        if body_names is None:
+            body_names = self._data.body_names
+        for _name in body_names:
+            if _name in self._data.body_names:
                 self._body_count += 1
                 self._body_names.append(_name)
-                self._body_data.update({_name: SYS_DATA.get_body_data(_name)})
-                self.add_simbody(self._body_data[_name])
+                self.add_simbody(body_name=_name)
 
         for sb in self._simbod_dict.values():
             parent = sb.body.parent
@@ -79,14 +80,15 @@ class StarSystemModel:
         self._w_clock = clock
         self.run()
 
-    def add_simbody(self, body_data=None):
-        name = body_data['body_name']
-        self._simbod_dict.update({name: SimBody(body_data=body_data,
-                                                epoch=self._sys_epoch,
-                                                sim_param=StarSystemModel.sim_params,
-                                                )
-                                  })
-        logging.info("\t>>> SimBody object %s created....\n", name)
+    def add_simbody(self, body_name=None):
+        if body_name is not None:
+            if body_name in self._body_names:
+                self._simbod_dict.update({body_name: SimBody(body_data=self._data.body_data(name=body_name),
+                                                             epoch=self._sys_epoch,
+                                                             sim_param=self._data.system_params,
+                                                             )
+                                          })
+            logging.info("\t>>> SimBody object %s created....\n", body_name)
 
     def set_ephems(self,
                    epoch=None,
@@ -108,7 +110,7 @@ class StarSystemModel:
             logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
     def set_orbits(self):
-        [sb.set_orbit() for sb in self.simbod_list]
+        [sb.orbit(ephem=sb.ephem) for sb in self.simbod_list]
 
     def update_epochs(self, event=None):
         if self._INIT:
@@ -125,7 +127,7 @@ class StarSystemModel:
         self._sys_epoch += d_epoch
         for sb in self.simbod_list:
             if self._sys_epoch > sb.end_epoch:
-                sb.set_ephem(epoch=self._sys_epoch)  # reset ephem range
+                sb.ephem = self._sys_epoch  # reset ephem range
                 sb.RESAMPLE = True
                 logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 

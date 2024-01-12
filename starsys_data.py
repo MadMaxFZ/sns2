@@ -2,6 +2,7 @@
 
 import os
 import logging
+from PIL import Image
 from astropy.time import Time
 from poliastro.constants import J2000_TDB
 from poliastro.bodies import *
@@ -14,7 +15,15 @@ logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.INFO,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
+
 vec_type = type(np.zeros((3,), dtype=np.float64))
+DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
+
+
+def get_texture_data(fname=DEF_TEX_FNAME):
+    with Image.open(fname) as im:
+        print(fname, im.format, f"{im. size}x{im.mode}")
+        return im.copy()
 
 
 def earth_rot_elements_at_epoch(T=None, d=None):
@@ -52,8 +61,9 @@ class SystemDataStore:
                             periods=365,
                             spacing=24 * 60 * 60 * u.s,
                             fps=60,
+                            n_samples=365,
                             )
-        _tex_path      = "C:\\_Projects\\sns2\\resources\\textures\\"  # directory of texture image files
+        _tex_path      = "C:\\_Projects\\sns2\\resources\\textures\\"  # directory of texture image files for windows
         _def_tex_fname = "2k_ymakemake_fictional.png"
         _tex_fnames    = []  # list of texture filenames (will be sorted)
         _tex_dat_set   = {}  # dist of body name and the texture data associated with it
@@ -216,7 +226,6 @@ class SystemDataStore:
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
                               body_type=_body_types[_type_set[idx]],
                               body_mark=_body_tmark[_type_set[idx]],
-                              n_samples=365,
                               viz_names=_viz_assign[_bod_name],
                               o_period=_o_per_set[idx].to(u.s),
                               )
@@ -271,30 +280,28 @@ class SystemDataStore:
 
     @property
     def body_count(self):
-        return self._datastore['BODY_COUNT']
+        return len(self.body_names)
 
     @property
     def body_names(self):
         # list of body names available in sim, cast to a tuple to preserve order
         return tuple([name for name in self._body_names])
 
-    def get_body_data(self,
-                      body_name=None,
-                      data_keys=None,
-                      ):
-        res = {}
-        if (body_name in self.body_names) and (data_keys is None):
-            res = self._datastore['BODY_DATA'][body_name]
-        # else:
-        #     for key in data_keys:
-        #         if key in self._datastore['BODY_DATA'][body_name].keys():
-        #             res.update({key: self._datastore['BODY_DATA'][body_name][key]})
-        #
-        # if (body_name is None) and (data_keys is None):
-        #     res = self._datastore['BODY_DATA']
-        # elif any([key in self._datastore['BODY_DATA'][body_name].keys() for key in data_keys]):
-        #     [res.update({key: self._datastore['BODY_DATA'][body_name][key]})
-        #      for key in data_keys]
+    def body_data(self, name=None):
+        res = None
+        if name is None:
+            res = self._datastore['BODY_DATA']
+        elif name in self.body_names:
+            res = self._datastore['BODY_DATA'][name]
+
+        return res
+
+    def texture_data(self, name=None):
+        res = None
+        if name is None:
+            res = self._datastore['TEX_DAT_SET']
+        elif name in self.body_names:
+            res = self._datastore['TEX_DAT_SET'][name]
 
         return res
 
@@ -306,6 +313,7 @@ if __name__ == "__main__":
 
         dict_store = SystemDataStore()
         print("dict store:", dict_store)
+        print(dict_store.body_data["Earth"])
         exit()
 
     main()

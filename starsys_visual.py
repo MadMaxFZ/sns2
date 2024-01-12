@@ -75,14 +75,15 @@ class StarSystemVisual(CompoundVisual):
             self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
             self._sb_symbols = [sb.mark for sb in sbs.values()]
             for sb_name, sb in sbs.items():
-                self._sb_planets.update({sb_name: Planet(body_ref=sb.body,
-                                                         color=sb.base_color,
-                                                         edge_color=sb.base_color,
-                                                         texture=sb.texture,
-                                                         parent=self._skymap,
-                                                         visible=False,
-                                                         )
-                                         })
+                p = Planet(sb_ref=sb,
+                           body=sb.body,
+                           color=sb.base_color,
+                           edge_color=sb.base_color,
+                           texture=sb.texture,
+                           parent=self._skymap,
+                           visible=False,
+                           )
+                self._sb_planets.update({sb_name: p})
                 if sb.sb_parent is not None:
                     # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
                     self._sb_tracks.update({sb_name: Polygon(pos=sb.track,  # + sb.sb_parent.pos,
