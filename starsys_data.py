@@ -51,6 +51,7 @@ class SystemDataStore:
                             dist_unit=u.km,
                             periods=365,
                             spacing=24 * 60 * 60 * u.s,
+                            n_samples=365,
                             fps=60,
                             )
         _tex_path      = "C:\\_Projects\\sns2\\resources\\textures\\"  # directory of texture image files
@@ -211,14 +212,14 @@ class SystemDataStore:
                               fname_idx=_tex_idx[idx],
                               fixed_frame=_frame_set[idx],
                               rot_func=_rot_set[idx],
-                              body_color=_colorset_rgb[idx],
+                              o_period=_o_per_set[idx].to(u.s),
+                              body_type=_body_types[_type_set[idx]],
+
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
-                              body_type=_body_types[_type_set[idx]],
-                              body_mark=_body_tmark[_type_set[idx]],
-                              n_samples=365,
                               viz_names=_viz_assign[_bod_name],
-                              o_period=_o_per_set[idx].to(u.s),
+                              body_color=_colorset_rgb[idx],
+                              body_mark=_body_tmark[_type_set[idx]],
                               )
             _body_params.update({_bod_name: _body_data})
 
