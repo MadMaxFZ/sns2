@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import sys
 import math
 import logging
 import numpy as np
@@ -63,7 +64,7 @@ class StarSystemVisual(CompoundVisual):
             super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=system_model.simbodies))
         else:
             print("Must provide a dictionary of SimBody objects...")
-            exit(1)
+            sys.exit(1)
 
     def _setup_sysviz(self, sbs=None):
         # TODO: generate/assign visuals here to build SystemVizual instance
