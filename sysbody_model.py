@@ -38,7 +38,7 @@ class SimBody:
         self._tex_data      = body_data['tex_data']
         self._dist_unit     = sim_param['dist_unit']
         self._periods       = sim_param['periods']
-        self._mark          = None
+        self._mark          = body_data['body_mark']
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._trajectory    = None
         self._type          = None
