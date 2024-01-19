@@ -4,6 +4,8 @@ from starsys_data import *
 from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time, TimeDelta
+from vispy.geometry import MeshData
+from starsys_data import SystemDataStore
 from poliastro.twobody.orbit.scalar import Orbit
 
 logging.basicConfig(filename="logs/sns_defs.log",
@@ -22,11 +24,7 @@ class SimBody:
     epoch0 = J2000_TDB
     simbodies = {}
 
-    def __init__(self,
-                 epoch=None,
-                 body_data=None,
-                 sim_param=None,
-                 ):
+    def __init__(self, body_data=None):
         self._is_primary    = False
         self._RESAMPLE      = False
         self._sb_parent     = None
@@ -36,9 +34,10 @@ class SimBody:
         self._rot_func      = body_data['rot_func']
         self._o_period      = body_data['o_period']
         self._tex_data      = body_data['tex_data']
-        self._dist_unit     = sim_param['dist_unit']
-        self._periods       = sim_param['periods']
         self._mark          = body_data['body_mark']
+        self._base_color    = body_data['body_color']
+        self._dist_unit     = u.km
+        self._periods       = 365
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._trajectory    = None
         self._type          = None
@@ -51,14 +50,10 @@ class SimBody:
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
-        if epoch is None:
-            epoch = SimBody.epoch0
-
-        self._epoch         = Time(epoch, format='jd', scale='tdb')
-        self._base_color    = np.array(self._body_data['body_color'])
+        self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
         self._body_alpha    = 1.0
         self._track_alpha   = 0.6
-        self._mark = "o"
+        # self._mark = "o"
 
         # TODO: Fix and/or move this section elsewhere
         #  <<<
@@ -96,7 +91,7 @@ class SimBody:
                                    spacing=self._spacing,
                                    format='jd',
                                    scale='tdb', )
-        self._end_epoch = self._epoch + sim_param['periods'] * self._spacing
+        self._end_epoch = self._epoch + self._periods * self._spacing
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
 

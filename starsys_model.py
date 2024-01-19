@@ -83,11 +83,7 @@ class StarSystemModel:
     def add_simbody(self, body_name=None):
         if body_name is not None:
             if body_name in self._body_names:
-                self._simbod_dict.update({body_name: SimBody(body_data=self._data.body_data(name=body_name),
-                                                             epoch=self._sys_epoch,
-                                                             sim_param=self._data.system_params,
-                                                             )
-                                          })
+                self._simbod_dict.update({body_name: SimBody(body_data=self._data.body_data(name=body_name))})
             logging.info("\t>>> SimBody object %s created....\n", body_name)
 
     def set_ephems(self,

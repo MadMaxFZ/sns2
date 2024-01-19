@@ -69,9 +69,10 @@ class StarSystemVisual(CompoundVisual):
     def _setup_sysviz(self, sbs=None):
         # TODO: generate/assign visuals here to build SystemVizual instance
         if sbs is not None:
-            self._frame_viz = XYZAxis(parent=self._skymap)  # set parent in MainSimWindow ???
-            self._frame_viz.transform = ST(scale=(1e+08, 1e+08, 1e+08))
-            self._plnt_markers.parent = self._skymap
+            self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
+            self._frame_viz.transform = MT()
+            self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
+            self._plnt_markers.parent = self._mainview.scene
             self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
             self._sb_symbols = [sb.mark for sb in sbs.values()]
             for sb_name, sb in sbs.items():
@@ -80,8 +81,9 @@ class StarSystemVisual(CompoundVisual):
                               color=sb.base_color,
                               edge_color=sb.base_color,
                               texture=sb.texture,
-                              parent=self._skymap,
+                              parent=self._mainview.scene,
                               visible=False,
+                              method='oblate',
                               )
                 plnt.transform = MT()
                 self._sb_planets.update({sb_name: plnt})
@@ -91,16 +93,16 @@ class StarSystemVisual(CompoundVisual):
                                    border_color=np.array(list(sb.base_color) + [0, ]) +
                                                 np.array([0, 0, 0, sb.track_alpha]),
                                    triangulate=False,
-                                   parent=self._skymap,
+                                   parent=self._mainview.scene,
                                    )
                     poly.transform = MT()
                     self._sb_tracks.update({sb_name: poly})
             for sb_name, sb in sbs.items():
                 if sb.body.parent is not None:
                     sb.sb_parent = self._sb_planets[sb.body.parent.name]
-                    self._sb_planets[sb_name].parent = self._sb_planets[sb.sb_parent.name]
+                    self._sb_planets[sb_name].parent = self._mainview.scene
                     self._sb_planets[sb_name].transform.translate(sb.pos2bary + np.array([0, 0, 0, 0]))
-                    self._sb_tracks[sb_name].parent = self._sb_planets[sb.sb_parent.name]
+                    self._sb_tracks[sb_name].parent = self._mainview.scene
                     self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2bary + np.array([0, 0, 0, 0]))
 
             subvisuals = [self._skymap,

@@ -4,102 +4,25 @@
 # Distributed under the (new) BSD License. See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 # Modified by Max S. Whitten in order to address the "stripe" glitch
+import os
+import sys
 
 import numpy as np
 import logging
 # import vispy.visuals.transforms as tr
 from astropy import units as u
-from starsys_model import SimBody, get_texture_data, DEF_TEX_FNAME
-from vispy.geometry import MeshData
 from vispy.visuals import CompoundVisual
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.visuals import transforms as trx
 from vispy.scene.visuals import create_visual_node
+from starsys_model import SimBody
+from starsys_data import DEF_TEX_FNAME, SystemDataStore, _latitude, _oblate_sphere, get_texture_data
 
 logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
-
-
-def _latitude(rows, cols, radius, offset):
-    verts = np.empty((rows+1, cols, 3), dtype=np.float32)
-
-    # compute vertices
-    phi = (np.arange(rows+1) * np.pi / rows).reshape(rows+1, 1)
-    s = radius * np.sin(phi)
-    verts[..., 2] = radius * np.cos(phi)
-    th = ((np.arange(cols) * 2 * np.pi / cols).reshape(1, cols))
-    if offset:
-        # rotate each row by 1/2 column
-        th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
-    verts[..., 0] = s * np.cos(th)
-    verts[..., 1] = s * np.sin(th)
-    # remove redundant vertices from top and bottom
-    verts = verts.reshape((rows+1)*cols, 3)[cols-1:-(cols-1)]
-
-    # compute faces
-    faces = np.empty((rows*cols*2, 3), dtype=np.uint32)
-    rowtemplate1 = (((np.arange(cols).reshape(cols, 1) +
-                      np.array([[1, 0, 0]])) % cols) +
-                    np.array([[0, 0, cols]]))
-    rowtemplate2 = (((np.arange(cols).reshape(cols, 1) +
-                      np.array([[1, 0, 1]])) % cols) +
-                    np.array([[0, cols, cols]]))
-    for row in range(rows):
-        start = row * cols * 2
-        faces[start:start+cols] = rowtemplate1 + row * cols
-        faces[start+cols:start+(cols*2)] = rowtemplate2 + row * cols
-    # cut off zero-area triangles at top and bottom
-    faces = faces[cols:-cols]
-
-    # adjust for redundant vertices that were removed from top and bottom
-    vmin = cols-1
-    faces[faces < vmin] = vmin
-    faces -= vmin
-    vmax = verts.shape[0]-1
-    faces[faces > vmax] = vmax
-    return MeshData(vertices=verts, faces=faces)
-
-
-def _oblate_sphere(rows, cols, radius, offset):
-    verts = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
-    # compute vertices
-    phi = (np.arange(rows+1) * np.pi / rows).reshape(rows+1, 1)
-    s = radius[0] * np.sin(phi)
-    verts[..., 2] = radius[2] * np.cos(phi)
-    th = ((np.arange(cols + 1) * 2 * np.pi / cols).reshape(1, cols + 1))
-    if offset:
-        # rotate each row by 1/2 column
-        th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
-
-    verts[..., 0] = s * np.cos(th)
-    verts[..., 1] = s * np.sin(th)
-    # remove redundant vertices from top and bottom
-    verts = verts.reshape((rows + 1) * (cols + 1), 3)[cols:-cols]
-    # compute faces
-    faces = np.empty((rows * (cols + 1) * 2, 3), dtype=np.uint32)
-    rowtemplate1 = (((np.arange(cols + 1).reshape(cols + 1, 1) +
-                      np.array([[1, 0, 0]])) % (cols + 1) +
-                    np.array([[0, 0, cols + 2]])))
-    rowtemplate2 = (((np.arange(cols + 1).reshape(cols + 1, 1) +
-                      np.array([[1, 0, 1]])) % (cols + 1) +
-                    np.array([[0, cols + 2, cols + 2]])))
-    for row in range(rows):
-        start = row * (cols + 1) * 2
-        faces[start:start+(cols + 1)] = rowtemplate1 + row * (cols + 1)
-        faces[start+(cols + 1):start+(cols + 1) * 2] = rowtemplate2 + row * (cols + 1)
-    # cut off zero-area triangles at top and bottom
-    faces = faces[cols:-cols]
-
-    # adjust for redundant vertices that were removed from top and bottom
-    vmin = cols
-    faces[faces < vmin] = vmin
-    faces -= vmin
-    vmax = verts.shape[0]-1
-    faces[faces > vmax] = vmax
-    return MeshData(vertices=verts, faces=faces)
 
 
 class PlanetVisual(CompoundVisual):
@@ -135,7 +58,7 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, sb_ref=None, radius=1.0, rows=10, cols=None, offset=False,
+    def __init__(self, sb_ref=None, body=None, radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
                  shading=None, texture=None, method='oblate', **kwargs):
@@ -148,15 +71,16 @@ class PlanetVisual(CompoundVisual):
         if self._sb_ref is (not None and type(self._sb_ref) == SimBody):
             self.pos = self._sb_ref.pos
             self._texture_data = sb_ref.texture
-            _body = self._sb_ref.body
-            if _body.R_mean.value != 0:
-                self._radii = np.array([_body.R,
-                                        _body.R_mean,
-                                        _body.R_polar])
+            if body is None:
+                body = self._sb_ref.body
+            if body.R_mean.value != 0:
+                self._radii = np.array([body.R,
+                                        body.R_mean,
+                                        body.R_polar])
             else:                             # some have R only
-                self._radii = np.array([_body.R,
-                                        _body.R,
-                                        _body.R])
+                self._radii = np.array([body.R,
+                                        body.R,
+                                        body.R])
 
         else:           # no SimBody provided
             self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0
@@ -278,13 +202,16 @@ def main():
                     parent=view.scene)
     view.add(skymap)
     skymap.visible = False
-    bod = Planet(rows=36,
+    bod = Planet(rows=18,
                  sb_ref="Earth",
-                 method='oblate',
+                 method='latitude',
                  parent=view.scene,
                  visible=True,
                  )
-    bod_trx = trx.STTransform().as_matrix()
+    # md_lat = _latitude()
+    # md_obl = _oblate_sphere()
+    # [print(i) for i in dir(md_obl)]
+    bod_trx = trx.MatrixTransform()
     view.add(bod)
     view.camera.set_range()
     rps = 0.5

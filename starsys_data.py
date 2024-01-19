@@ -9,6 +9,7 @@ from poliastro.bodies import *
 from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
+from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
 
 logging.basicConfig(filename="logs/sns_defs.log",
@@ -48,6 +49,90 @@ def toTD(epoch=None):
     d = (epoch - J2000_TDB).jd
     T = d / 36525
     return dict(T=T, d=d)
+
+
+def _latitude(rows=4, cols=8, radius=1, offset=False):
+    verts = np.empty((rows+1, cols, 3), dtype=np.float32)
+
+    # compute vertices
+    phi = (np.arange(rows+1) * np.pi / rows).reshape(rows+1, 1)
+    s = radius * np.sin(phi)
+    verts[..., 2] = radius * np.cos(phi)
+    th = ((np.arange(cols) * 2 * np.pi / cols).reshape(1, cols))
+    if offset:
+        # rotate each row by 1/2 column
+        th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
+    verts[..., 0] = s * np.cos(th)
+    verts[..., 1] = s * np.sin(th)
+    # remove redundant vertices from top and bottom
+    verts = verts.reshape((rows+1)*cols, 3)[cols-1:-(cols-1)]
+
+    # compute faces
+    faces = np.empty((rows*cols*2, 3), dtype=np.uint32)
+    rowtemplate1 = (((np.arange(cols).reshape(cols, 1) +
+                      np.array([[1, 0, 0]])) % (cols)) +
+                    np.array([[0, 0, cols]]))
+    rowtemplate2 = (((np.arange(cols).reshape(cols, 1) +
+                      np.array([[1, 0, 1]])) % (cols)) +
+                    np.array([[0, cols, cols]]))
+    for row in range(rows):
+        start = row * cols * 2
+        faces[start:start + cols] = rowtemplate1 + row * cols
+        faces[start + cols:start + 2 * cols] = rowtemplate2 + row * cols
+    # cut off zero-area triangles at top and bottom
+    faces = faces[cols:-cols]
+
+    # adjust for redundant vertices that were removed from top and bottom
+    vmin = cols-1
+    faces[faces < vmin] = vmin
+    faces -= vmin
+    vmax = verts.shape[0]-1
+    faces[faces > vmax] = vmax
+    return MeshData(vertices=verts, faces=faces)
+
+
+def _oblate_sphere(rows=4, cols=8, radius=(1, 1, 1), offset=False):
+    verts = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
+    tex_coords = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
+    # compute vertices
+    phi = (np.arange(rows+1) * np.pi / rows).reshape(rows+1, 1)
+    s = radius[0] * np.sin(phi)
+    verts[..., 2] = radius[2] * np.cos(phi)
+    th = ((np.arange(cols + 1) * 2 * np.pi / cols).reshape(1, cols + 1))
+    if offset:
+        # rotate each row by 1/2 column
+        th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
+
+    verts[..., 0] = s * np.cos(th)
+    verts[..., 1] = s * np.sin(th)
+    tex_coords[..., 0] = (th / (2 * np.pi))
+    tex_coords[..., 1] = phi / np.pi
+    # remove redundant vertices from top and bottom
+    verts = verts.reshape((rows + 1) * (cols + 1), 3)[cols:-cols]
+    tex_coords = tex_coords.reshape((rows + 1) * (cols + 1), 3)[cols:-cols]
+    # compute faces
+    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
+    rowtemplate1 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 0]])) % (cols + 2)) +
+                    np.array([[0, 0, cols + 1]]))
+    rowtemplate2 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 1]])) % (cols + 2)) +
+                    np.array([[0, cols + 1, cols + 1]]))
+    # print(rowtemplate1.shape, "\n", rowtemplate2.shape)
+    for row in range(rows):
+        start = row * cols * 2
+        faces[start:start+cols] = rowtemplate1 + row * (cols + 1)
+        faces[start+cols:start + (2 * cols)] = rowtemplate2 + row * (cols + 1)
+        # print(len(faces[start:start+cols]), len(faces[start+cols:start+(2*cols)]))
+
+    # cut off zero-area triangles at top and bottom
+    faces = faces[cols:-cols]
+
+    # adjust for redundant vertices that were removed from top and bottom
+    vmin = cols
+    faces[faces < vmin] = vmin
+    faces -= vmin
+    vmax = verts.shape[0] - 1
+    faces[faces > vmax] = vmax
+    return MeshData(vertices=verts, faces=faces)
 
 
 class SystemDataStore:
