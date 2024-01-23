@@ -140,7 +140,7 @@ class SystemDataStore:
         """
         """
         DEF_EPOCH    = J2000_TDB  # default epoch
-        SIM_PARAMS   = dict(sys_name="Sol",
+        SYS_PARAMS   = dict(sys_name="Sol",
                             def_epoch=DEF_EPOCH,
                             dist_unit=u.km,
                             periods=365,
@@ -303,16 +303,16 @@ class SystemDataStore:
                               body_obj=_body,
                               parent_name=_par_name,
                               r_set=(R, Rm, Rp),
-                              fname_idx=_tex_idx[idx],
                               fixed_frame=_frame_set[idx],
                               rot_func=_rot_set[idx],
+                              o_period=_o_per_set[idx].to(u.s),
+                              body_type=_body_types[_type_set[idx]],
                               body_color=_colorset_rgb[idx],
+                              fname_idx=_tex_idx[idx],
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
-                              body_type=_body_types[_type_set[idx]],
                               body_mark=_body_tmark[_type_set[idx]],
                               viz_names=_viz_assign[_bod_name],
-                              o_period=_o_per_set[idx].to(u.s),
                               )
             _body_params.update({_bod_name: _body_data})
 
@@ -339,7 +339,7 @@ class SystemDataStore:
         logging.debug("STATIC DATA has been loaded and verified...")
 
         self._datastore = dict(DEF_EPOCH=DEF_EPOCH,
-                               SYS_PARAMS=SIM_PARAMS,
+                               SYS_PARAMS=SYS_PARAMS,
                                TEX_FNAMES=_tex_fnames,
                                TEX_PATH=_tex_path,
                                TEX_DAT_SET=_tex_dat_set,
@@ -352,16 +352,12 @@ class SystemDataStore:
         logging.debug("ALL data for the system have been collected...!")
 
     @property
-    def def_epoch(self):
+    def default_epoch(self):
         return self._datastore['DEF_EPOCH']
 
     @property
     def system_params(self):
         return self._datastore['SYS_PARAMS']
-
-    @property
-    def texture_path(self):
-        return self._datastore['TEX_PATH']
 
     @property
     def body_count(self):
@@ -381,14 +377,32 @@ class SystemDataStore:
 
         return res
 
+    @property
+    def texture_path(self):
+        return self._datastore['TEX_PATH']
+
+    @property
+    def texture_fname(self, name=None):
+        res = None
+        if name is None:
+            res = self._datastore['TEX_FNAMES']
+        elif name in self.body_names:
+            res = self._datastore['BODY_DATA'][name]['tex_fname']
+
+        return res
+
+    @property
     def texture_data(self, name=None):
         res = None
         if name is None:
             res = self._datastore['TEX_DAT_SET']
         elif name in self.body_names:
-            res = self._datastore['TEX_DAT_SET'][name]
+            res = self._datastore['BODY_DATA'][name]['tex_data']
 
         return res
+
+
+sys_data = SystemDataStore()
 
 
 if __name__ == "__main__":
@@ -398,7 +412,7 @@ if __name__ == "__main__":
 
         dict_store = SystemDataStore()
         print("dict store:", dict_store)
-        print(dict_store.body_data["Earth"])
+        print(dict_store.body_data("Earth"))
         exit()
 
     main()

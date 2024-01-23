@@ -58,29 +58,29 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, sb_ref=None, body=None, radius=1.0, rows=10, cols=None, offset=False,
+    def __init__(self, body_name='Earth', body=None, radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
                  shading=None, texture=None, method='oblate', **kwargs):
 
         super(PlanetVisual, self).__init__([])
         self.unfreeze()
-        self._sb_ref = sb_ref
         self._radii = np.zeros((3,),dtype=np.float64)
         self._pos = np.zeros((3,), dtype=np.float64)
-        if self._sb_ref is (not None and type(self._sb_ref) == SimBody):
-            self.pos = self._sb_ref.pos
-            self._texture_data = sb_ref.texture
+        self._sb_ref = SimBody(body_name=body_name)
+        if self._sb_ref is not None and type(self._sb_ref) == SimBody:
+            # self.pos = self._sb_ref.pos
+            self._texture_data = self._sb_ref.texture
             if body is None:
                 body = self._sb_ref.body
             if body.R_mean.value != 0:
-                self._radii = np.array([body.R,
-                                        body.R_mean,
-                                        body.R_polar])
+                self._radii = np.array([body.R.value,
+                                        body.R_mean.value,
+                                        body.R_polar.value])
             else:                             # some have R only
-                self._radii = np.array([body.R,
-                                        body.R,
-                                        body.R])
+                self._radii = np.array([body.R.value,
+                                        body.R.value,
+                                        body.R.value])
 
         else:           # no SimBody provided
             self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0
@@ -111,7 +111,7 @@ class PlanetVisual(CompoundVisual):
                     self._tex_coords[row, col] = [row / rows, col / cols]
 
             self._tex_coords = self._tex_coords.reshape((rows + 1) * (cols + 1), 2)
-            logging.info("TEXTURE_COORDS: %S", self._tex_coords)
+            logging.info("TEXTURE_COORDS: %s", self._tex_coords)
             self._filter = TextureFilter(texture=self.texture,
                                          texcoords=self._tex_coords,
                                          enabled=True,
@@ -193,17 +193,17 @@ def main():
     print("BodyViz test code...")
     win = SceneCanvas(title="BodyViz Test",
                       keys="interactive",
-                      bgcolor='white',
+                      bgcolor='black',
                       )
     view = win.central_widget.add_view()
     view.camera = FlyCamera()
     skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
                     color=(1, 1, 1, 1),
                     parent=view.scene)
-    view.add(skymap)
+    # view.add(skymap)
     skymap.visible = False
     bod = Planet(rows=18,
-                 sb_ref="Earth",
+                 body_name='Earth',
                  method='latitude',
                  parent=view.scene,
                  visible=True,
@@ -211,24 +211,25 @@ def main():
     # md_lat = _latitude()
     # md_obl = _oblate_sphere()
     # [print(i) for i in dir(md_obl)]
-    bod_trx = trx.MatrixTransform()
+    bod.transform = trx.MatrixTransform()
+    bod_trx = bod.transform
     view.add(bod)
     view.camera.set_range()
     rps = 0.5
 
     def on_timer(event=None):
-        bod_trx.reset()
-        bod_trx.rotate(bod_timer.elapsed * 2 * np.pi * rps, (0, 0, 1))
-        bod.transform = bod_trx
-        bod.update()
+        bod.transform.reset()
+        bod.transform.rotate(bod_timer.elapsed * 2 * np.pi * rps, (0, 0, 1))
+        # bod.transform = bod_trx
+        logging.debug("transform = %s", bod.transform)
 
-    bod_timer = Timer(interval=0.25,
+    bod_timer = Timer(interval=0.1,
                       connect=on_timer,
                       iterations=-1,
                       start=True,
                       # app=win.app,
                       )
-    on_timer()
+    # on_timer()
     win.show()
     win.app.run()
 

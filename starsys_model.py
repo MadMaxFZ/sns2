@@ -29,7 +29,7 @@ class StarSystemModel:
         self._avg_d_epoch = 0 * u.s
         self._w_clock     = None
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
-        self._sys_epoch   = Time(self._data.def_epoch,
+        self._sys_epoch   = Time(self._data.default_epoch,
                                  format='jd',
                                  scale='tdb')
         self._ephem_span  = (self._data.system_params['periods']
@@ -65,7 +65,7 @@ class StarSystemModel:
                 sb.sb_parent  = None
                 sb.is_primary = True
 
-        SimBody.simbodies = self._simbod_dict
+        SimBody.simbod_set = self._simbod_dict
 
         # self.set_ephems()
 
@@ -83,7 +83,7 @@ class StarSystemModel:
     def add_simbody(self, body_name=None):
         if body_name is not None:
             if body_name in self._body_names:
-                self._simbod_dict.update({body_name: SimBody(body_data=self._data.body_data(name=body_name))})
+                self._simbod_dict.update({body_name: SimBody(body_name=body_name)})
             logging.info("\t>>> SimBody object %s created....\n", body_name)
 
     def set_ephems(self,

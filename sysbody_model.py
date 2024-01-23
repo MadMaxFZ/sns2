@@ -5,7 +5,7 @@ from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time, TimeDelta
 from vispy.geometry import MeshData
-from starsys_data import SystemDataStore
+from starsys_data import sys_data
 from poliastro.twobody.orbit.scalar import Orbit
 
 logging.basicConfig(filename="logs/sns_defs.log",
@@ -22,20 +22,20 @@ class SimBody:
               a provided Body object.
     """
     epoch0 = J2000_TDB
-    simbodies = {}
+    simbod_set = {}
 
-    def __init__(self, body_data=None):
+    def __init__(self, body_name=None):
         self._is_primary    = False
         self._RESAMPLE      = False
         self._sb_parent     = None
-        self._body_data     = body_data
-        self._name          = body_data['body_name']
-        self._body          = body_data['body_obj']
-        self._rot_func      = body_data['rot_func']
-        self._o_period      = body_data['o_period']
-        self._tex_data      = body_data['tex_data']
-        self._mark          = body_data['body_mark']
-        self._base_color    = body_data['body_color']
+        self._body_data     = sys_data.body_data(body_name)
+        self._name          = self._body_data['body_name']
+        self._body          = self._body_data['body_obj']
+        self._rot_func      = self._body_data['rot_func']
+        self._o_period      = self._body_data['o_period']
+        self._tex_data      = self._body_data['tex_data']
+        self._mark          = self._body_data['body_mark']
+        self._base_color    = self._body_data['body_color']
         self._dist_unit     = u.km
         self._periods       = 365
         self._spacing       = self._o_period.to(u.d) / self._periods
@@ -54,24 +54,6 @@ class SimBody:
         self._body_alpha    = 1.0
         self._track_alpha   = 0.6
         # self._mark = "o"
-
-        # TODO: Fix and/or move this section elsewhere
-        #  <<<
-        # if self._body.parent is None:
-        #     self._type          = "star"
-        #     self._body_symbol   = 'o'
-        #     self._sb_parent     = None
-        #     self._is_primary    = True
-        # else:
-        #     self._type          = "planet"
-        #     self._body_symbol   = 'o'
-        #
-        # if self._name == "Moon":
-        #     self._plane         = Planes.EARTH_EQUATOR
-        #     self._body_symbol   = 'o'
-        #     self._type          = "moon"
-        # else:
-        #     self._plane         = Planes.EARTH_ECLIPTIC
 
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
@@ -285,7 +267,7 @@ class SimBody:
         if self.body.parent is None:
             return _pos
         else:
-            return _pos + SimBody.simbodies[self.body.parent.name].pos2primary
+            return _pos + SimBody.simbod_set[self.body.parent.name].pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):
@@ -295,7 +277,7 @@ class SimBody:
         elif self.sb_parent.is_primary:
             return _pos
         else:
-            return _pos + SimBody.simbodies[self.body.parent.name].pos2bary
+            return _pos + SimBody.simbod_set[self.body.parent.name].pos2bary
 
     @property
     def epoch(self):
@@ -461,6 +443,12 @@ class SimBody:
     #     return self._base_color
 
 
+def main():
+    bod_name = "Earth"
+    sb = SimBody(body_name=bod_name)
+
+
 if __name__ == "__main__":
 
+    main()
     print("SimBody doesn't really do much...")
