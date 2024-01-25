@@ -11,11 +11,13 @@ import numpy as np
 import logging
 # import vispy.visuals.transforms as tr
 from astropy import units as u
+from PIL import Image
 from vispy.visuals import CompoundVisual
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.visuals import transforms as trx
 from vispy.scene.visuals import create_visual_node
+from vispy.geometry.meshdata import MeshData
 from starsys_model import SimBody
 from starsys_data import DEF_TEX_FNAME, SystemDataStore, _latitude, _oblate_sphere, get_texture_data
 
@@ -58,7 +60,7 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, body_name='Earth', body=None, radius=1.0, rows=10, cols=None, offset=False,
+    def __init__(self, body_name='Earth', radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
                  shading=None, texture=None, method='oblate', **kwargs):
@@ -70,9 +72,7 @@ class PlanetVisual(CompoundVisual):
         self._sb_ref = SimBody(body_name=body_name)
         if self._sb_ref is not None and type(self._sb_ref) == SimBody:
             # self.pos = self._sb_ref.pos
-            self._texture_data = self._sb_ref.texture
-            if body is None:
-                body = self._sb_ref.body
+            body = self._sb_ref.body
             if body.R_mean.value != 0:
                 self._radii = np.array([body.R.value,
                                         body.R_mean.value,
@@ -82,10 +82,16 @@ class PlanetVisual(CompoundVisual):
                                         body.R.value,
                                         body.R.value])
 
+            if texture is None:
+                self._texture_data = self._sb_ref.texture
+            else:
+                self._texture_data = texture
+
         else:           # no SimBody provided
             self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0
-            self._texture_data = None
+            self._texture_data = get_texture_data(DEF_TEX_FNAME)
 
+        self._texture_data = self._texture_data.transpose(Image.Transpose.ROTATE_270)
         if cols is None:        # auto set cols to 2 * rows
             cols = rows * 2
 
@@ -95,8 +101,9 @@ class PlanetVisual(CompoundVisual):
             # print("Using 'latitude' method...")
         else:
             radius = self._radii
-            self._mesh_data = _oblate_sphere(rows, cols, radius, offset)
-            # print("Using 'oblate' method...")
+            self._surface_data = _oblate_sphere(rows, cols, radius, offset)
+            self._mesh_data = MeshData(vertices=self._surface_data['verts'],
+                                       faces=self._surface_data['faces'])
 
         self._mesh = MeshVisual(vertices=self._mesh_data.get_vertices(),
                                 faces=self._mesh_data.get_faces(),
@@ -104,19 +111,15 @@ class PlanetVisual(CompoundVisual):
                                 face_colors=face_colors,
                                 color=color,
                                 shading=shading)
-        if self._texture_data is not None:
-            self._tex_coords = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
-            for row in np.arange(rows + 1):
-                for col in np.arange(cols + 1):
-                    self._tex_coords[row, col] = [row / rows, col / cols]
 
-            self._tex_coords = self._tex_coords.reshape((rows + 1) * (cols + 1), 2)
-            logging.info("TEXTURE_COORDS: %s", self._tex_coords)
-            self._filter = TextureFilter(texture=self.texture,
-                                         texcoords=self._tex_coords,
-                                         enabled=True,
-                                         )
-            self._mesh.attach(self._filter)
+        # if self._texture_data is not None:
+        #     self._tex_coords = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
+        #     for row in np.arange(rows + 1):
+        #         for col in np.arange(cols + 1):
+        #             self._tex_coords[row, col] = [row / rows, col / cols]
+        #
+        #     self._tex_coords = self._tex_coords.reshape((rows + 1) * (cols + 1), 2)
+        #     logging.info("TEXTURE_COORDS: %s", self._tex_coords)
 
         if np.array(edge_color).any():
             self._border = MeshVisual(vertices=self._mesh_data.get_vertices(),
@@ -126,6 +129,7 @@ class PlanetVisual(CompoundVisual):
             self._border = MeshVisual()
 
         self.freeze()
+        self.texture = self._texture_data
         self._mesh.set_gl_state(polygon_offset_fill=True,
                                 polygon_offset=(1, 1),
                                 depth_test=True)
@@ -162,13 +166,15 @@ class PlanetVisual(CompoundVisual):
         return self._texture_data
 
     @texture.setter
-    def texture(self, new_texture=None):
-        self._texture_data = new_texture
-        self._filter = TextureFilter(self._texture_data,
-                                     self._tex_coords,
-                                     enabled=True,
-                                     )
-        self._mesh.attach(self._filter)
+    def texture(self, new_data=None):
+        if new_data is None:
+            new_data = self._texture_data
+
+        _filter = TextureFilter(new_data.transpose(Image.Transpose.ROTATE_270),
+                                self._surface_data['tcord'],
+                                enabled=True,
+                                )
+        self._mesh.attach(_filter)
         self.update()
 
     # @property
@@ -186,7 +192,7 @@ Planet = create_visual_node(PlanetVisual)
 def main():
     from vispy import app
     from vispy.app.timer import Timer
-    from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera
+    from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera, TurntableCamera
     from sys_skymap import SkyMap
     import vispy.visuals.transforms as trx
 
@@ -196,15 +202,15 @@ def main():
                       bgcolor='black',
                       )
     view = win.central_widget.add_view()
-    view.camera = FlyCamera()
+    view.camera = TurntableCamera()
     skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
                     color=(1, 1, 1, 1),
                     parent=view.scene)
-    # view.add(skymap)
-    skymap.visible = False
+    view.add(skymap)
+    skymap.visible = True
     bod = Planet(rows=18,
                  body_name='Earth',
-                 method='latitude',
+                 method='oblate',
                  parent=view.scene,
                  visible=True,
                  )
@@ -215,15 +221,21 @@ def main():
     bod_trx = bod.transform
     view.add(bod)
     view.camera.set_range()
-    rps = 0.5
+    view.camera.scale_factor = 15761445.040766222
+    rps = 1.0
 
     def on_timer(event=None):
         bod.transform.reset()
         bod.transform.rotate(bod_timer.elapsed * 2 * np.pi * rps, (0, 0, 1))
+        bod.transform.rotate(23.5 * np.pi / 360, (1, 0, 0))
+        # bod.transform.scale((1200, 1200, 1200))
         # bod.transform = bod_trx
         logging.debug("transform = %s", bod.transform)
+        logging.debug("ZOOM FACTOR: %s", view.camera.zoom_factor)
+        logging.debug("SCALE FACTOR: %s", view.camera.scale_factor)
+        logging.debug("CENTER: %s", view.camera.center)
 
-    bod_timer = Timer(interval=0.1,
+    bod_timer = Timer(interval='auto',
                       connect=on_timer,
                       iterations=-1,
                       start=True,
