@@ -13,8 +13,6 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     format='%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s',
                     )
 
-# SYS_DATA = SystemDataStore()
-
 
 class StarSystemModel:
     """
@@ -22,18 +20,17 @@ class StarSystemModel:
     # sim_params = SYS_DATA.system_params
 
     def __init__(self, body_names=None):
-        self._data        = SystemDataStore()
         self._INIT        = False
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
         self._w_clock     = None
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
-        self._sys_epoch   = Time(self._data.default_epoch,
+        self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
                                  scale='tdb')
-        self._ephem_span  = (self._data.system_params['periods']
-                             * self._data.system_params['spacing'])
+        self._ephem_span  = (sys_data.system_params['periods']
+                             * sys_data.system_params['spacing'])
         self._end_epoch   = self._sys_epoch + self._ephem_span
 
         solar_system_ephemeris.set("jpl")
@@ -41,9 +38,9 @@ class StarSystemModel:
         self._body_names  = []
         self._simbod_dict = {}
         if body_names is None:
-            body_names = self._data.body_names
+            body_names = sys_data.body_names
         for _name in body_names:
-            if _name in self._data.body_names:
+            if _name in sys_data.body_names:
                 self._body_count += 1
                 self._body_names.append(_name)
                 self.add_simbody(body_name=_name)
@@ -127,11 +124,12 @@ class StarSystemModel:
                 sb.RESAMPLE = True
                 logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
+        self.update_states(new_epoch=self._sys_epoch)
+
         if self._avg_d_epoch.value == 0:
             self._avg_d_epoch = d_epoch
 
         self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
-        self.update_states(new_epoch=self._sys_epoch)
         logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
                       self._avg_d_epoch,
                       self._sys_epoch.jd)
@@ -140,21 +138,19 @@ class StarSystemModel:
         for sb in self.simbod_list:
             sb.update_state(epoch=new_epoch)
 
-        # self._system_viz.update_sysviz()
         i = 0
         for sb1 in self.simbod_list:
             j = 0
             # collect the relative position and velocity to the other bodies
             for sb2 in self.simbod_list:
-                self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos2primary)['rel_pos']
+                self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos2bary)['rel_pos']
                 self._sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
                     # accumulate the acceleration from the other bodies
                     self.body_accel[i] += (G * sb2.body.mass) / (
-                            self._sys_rel_pos[i][j] * self._sys_rel_pos[i][j] * u.m * u.m)
+                            self._sys_rel_pos[i][j] * self._sys_rel_pos[i][j] * u.km * u.km)
                 j += 1
             i += 1
-
 
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self._sys_rel_pos,
@@ -163,6 +159,15 @@ class StarSystemModel:
 
     def run(self):
         self._w_clock.start()
+
+    @property
+    def epoch(self):
+        return self._sys_epoch
+
+    @epoch.setter
+    def epoch(self, new_epoch=None):
+        self._sys_epoch = new_epoch
+        self.update_epochs()
 
     @property
     def simbod_list(self):

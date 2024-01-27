@@ -60,28 +60,16 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, body_name='Earth', radius=1.0, rows=10, cols=None, offset=False,
+    def __init__(self, body_name='Earth', sim_body=None,
+                 radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
                  shading=None, texture=None, method='oblate', **kwargs):
 
-        super(PlanetVisual, self).__init__([])
-        self.unfreeze()
         self._radii = np.zeros((3,),dtype=np.float64)
         self._pos = np.zeros((3,), dtype=np.float64)
-        self._sb_ref = SimBody(body_name=body_name)
+        self._sb_ref = sim_body
         if self._sb_ref is not None and type(self._sb_ref) == SimBody:
-            # self.pos = self._sb_ref.pos
-            body = self._sb_ref.body
-            if body.R_mean.value != 0:
-                self._radii = np.array([body.R.value,
-                                        body.R_mean.value,
-                                        body.R_polar.value])
-            else:                             # some have R only
-                self._radii = np.array([body.R.value,
-                                        body.R.value,
-                                        body.R.value])
-
             if texture is None:
                 self._texture_data = self._sb_ref.texture
             else:
@@ -128,12 +116,11 @@ class PlanetVisual(CompoundVisual):
         else:
             self._border = MeshVisual()
 
-        self.freeze()
         self.texture = self._texture_data
         self._mesh.set_gl_state(polygon_offset_fill=True,
                                 polygon_offset=(1, 1),
                                 depth_test=True)
-        [self.add_subvisual(v) for v in [self._mesh, self._border]]
+        super(PlanetVisual, self).__init__([v for v in [self._mesh, self._border]])
 
     @property
     def mesh(self):
@@ -150,18 +137,6 @@ class PlanetVisual(CompoundVisual):
         return self._border
 
     @property
-    def pos(self):
-        return self._pos
-
-    @pos.setter
-    def pos(self, new_pos):
-        if new_pos is not None:
-            self._pos = new_pos
-            self.transform = trx.STTransform().as_matrix()
-            self.transform.translate(self._pos)
-            self.update()
-
-    @property
     def texture(self):
         return self._texture_data
 
@@ -175,8 +150,19 @@ class PlanetVisual(CompoundVisual):
                                 enabled=True,
                                 )
         self._mesh.attach(_filter)
-        self.update()
+        # self.update()
 
+    # @property
+    # def pos(self):
+    #     return self._pos
+    #
+    # @pos.setter
+    # def pos(self, new_pos):
+    #     if new_pos is not None:
+    #         self._pos = new_pos
+    #         self.transform = trx.STTransform().as_matrix()
+    #         self.transform.translate(self._pos)
+    #         self.update()
     # @property
     # def visible(self):
     #     return self._visible
@@ -208,8 +194,8 @@ def main():
                     parent=view.scene)
     view.add(skymap)
     skymap.visible = True
-    bod = Planet(rows=18,
-                 body_name='Earth',
+    bod = Planet(rows=36,
+                 body_name='Mars',
                  method='oblate',
                  parent=view.scene,
                  visible=True,

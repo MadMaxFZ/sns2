@@ -22,35 +22,28 @@ class MainSimWindow(scene.SceneCanvas):
                                             bgcolor=Color("black"),
                                             )
         self.unfreeze()
-
         self._sys_mod = StarSystemModel(body_names=body_names)
-        self._clock = Timer(interval='auto',
-                            connect=self.on_timer,
-                            iterations=-1)
-        self.model.assign_timer(self._clock)
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
         #       25(75/25V)/75H
         # or these sub-views could be within sys_viz?
-
+        self._sys_mod.t_warp = 9000
         self._sys_view = self.central_widget.add_view()
-        self._sys_viz = None
-
-        self.freeze()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
-        self._sys_view.camera.zoom_factor = 1.0
-        self._sys_viz = StarSystem(system_model=self.model, system_view=self._sys_view)
+        self._sys_viz = StarSystem(system_model=self._sys_mod, system_view=self._sys_view)
         self._sys_view.add(self._sys_viz)
         self._sys_view.camera.set_range((-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
                                         )       # this initial range gets bulk of system
+        self._sys_view.camera.zoom_factor = 1.0
         self._sys_view.camera.scale_factor = 14.5e+06
-        self._sys_mod.t_warp = 9000
-
-        if __name__ != "__main__":
-            self.run()
+        self._clock = Timer(interval='auto',
+                            connect=self.on_timer,
+                            iterations=-1)
+        self._sys_mod.assign_timer(self._clock)
+        self.freeze()
 
     def on_key_press(self, ev):
         try:

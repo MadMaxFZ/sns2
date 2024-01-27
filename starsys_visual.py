@@ -60,29 +60,22 @@ class StarSystemVisual(CompoundVisual):
                                          symbol='+',
                                          size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
                                          **DEF_MARKS_INIT)  # another instance of Markers
-            # self._system_viz    = self._setup_sysviz(sbs=sim_bods)
-            super(StarSystemVisual, self).__init__(subvisuals=self._setup_sysviz(sbs=system_model.simbodies))
-        else:
-            print("Must provide a dictionary of SimBody objects...")
-            sys.exit(1)
-
-    def _setup_sysviz(self, sbs=None):
-        # TODO: generate/assign visuals here to build SystemVizual instance
-        if sbs is not None:
-            self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
-            self._frame_viz.transform = MT()
-            self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
             self._plnt_markers.parent = self._mainview.scene
-            self._cntr_markers.set_data(symbol=['+' for sb in sbs.values()])
-            self._sb_symbols = [sb.mark for sb in sbs.values()]
-            for sb_name, sb in sbs.items():
-                plnt = Planet(sb_ref=sb,
-                              body=sb.body,
+            self._cntr_markers.set_data(symbol=['+' for sb in self._simbods.values()])
+
+            self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
+            self._frame_viz.transform = tr.MatrixTransform()
+            self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
+
+            self._sb_symbols = [sb.mark for sb in self._simbods.values()]
+            for sb_name, sb in self._simbods.items():
+                plnt = Planet(body_name=sb_name,
+                              sim_body=sb,
                               color=sb.base_color,
                               edge_color=sb.base_color,
-                              texture=sb.texture,
+                              # texture=sb.texture,
                               parent=self._mainview.scene,
-                              visible=False,
+                              visible=True,
                               method='oblate',
                               )
                 plnt.transform = MT()
@@ -97,13 +90,6 @@ class StarSystemVisual(CompoundVisual):
                                    )
                     poly.transform = MT()
                     self._sb_tracks.update({sb_name: poly})
-            for sb_name, sb in sbs.items():
-                if sb.body.parent is not None:
-                    sb.sb_parent = self._sb_planets[sb.body.parent.name]
-                    self._sb_planets[sb_name].parent = self._mainview.scene
-                    self._sb_planets[sb_name].transform.translate(sb.pos2bary + np.array([0, 0, 0, 0]))
-                    self._sb_tracks[sb_name].parent = self._mainview.scene
-                    self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2bary + np.array([0, 0, 0, 0]))
 
             subvisuals = [self._skymap,
                           self._frame_viz,
@@ -112,9 +98,25 @@ class StarSystemVisual(CompoundVisual):
                           Compound(self._sb_tracks.values()),
                           Compound(self._sb_planets.values()),
                           ]
-            return subvisuals
-        else:  # list of body names available in sim
-            print("Must provide SimBody dictionary...")
+            super(StarSystemVisual, self).__init__(subvisuals=subvisuals)
+
+        else:
+            print("Must provide a dictionary of SimBody objects...")
+            sys.exit(1)
+
+    # def _setup_sysviz(self, sbs=None):
+    #     # TODO: generate/assign visuals here to build SystemVizual instance
+    #     if sbs is not None:
+    #
+    #         for sb_name, sb in sbs.items():
+    #             if sb.body.parent is not None:
+    #                 sb.sb_parent = self._mainview.scene
+    #                 self._sb_planets[sb_name].parent = self._mainview.scene
+    #                 self._sb_planets[sb_name].transform.translate(sb.pos2bary + np.array([0, 0, 0, 0]))
+    #                 self._sb_tracks[sb_name].parent = self._mainview.scene
+    #                 self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2bary + np.array([0, 0, 0, 0]))
+    #     else:  # list of body names available in sim
+    #         print("Must provide SimBody dictionary...")
 
     def update_sysviz(self):
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
@@ -196,10 +198,10 @@ class StarSystemVisual(CompoundVisual):
         """
         check = True
         if model is None:
-            print("Must provide something... FAILED")
+            print("Must provide a model... FAILED")
             check = False
         elif type(model.simbodies) is not dict:
-            print("Must provide SimBody dictionary... FAILED")
+            print("Model must provide a SimBody dictionary... FAILED")
             check = False
         else:
             for key, val in model.simbodies.items():
