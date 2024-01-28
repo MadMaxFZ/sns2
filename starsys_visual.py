@@ -55,19 +55,12 @@ class StarSystemView:
             self._symbol_sizes  = []
             self._sb_planets    = {}       # a dict of Planet visuals
             self._sb_tracks     = {}       # a dict of Polygon visuals
-            self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
-            self._cntr_markers = Markers(parent=self._skymap,
-                                         symbol='+',
-                                         size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
-                                         **DEF_MARKS_INIT)  # another instance of Markers
-            self._plnt_markers.parent = self._mainview.scene
-            self._cntr_markers.set_data(symbol=['+' for sb in self._simbods.values()])
-
             self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
             self._frame_viz.transform = MT()
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
-
             self._sb_symbols = [sb.mark for sb in self._simbods.values()]
+            ''' Generate Planet visual object for each SimBody
+            '''
             for sb_name, sb in self._simbods.items():
                 plnt = Planet(body_name=sb_name,
                               sim_body=sb,
@@ -78,8 +71,10 @@ class StarSystemView:
                               visible=True,
                               method='oblate',
                               )
-                plnt.transform = MT()
+                plnt.transform = MT()   # np.eye(4, 4, dtype=np.float64)
                 self._sb_planets.update({sb_name: plnt})
+                ''' Generate Polygon visual object for each SimBody orbit
+                '''
                 if sb.sb_parent is not None:
                     # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
                     poly = Polygon(pos=sb.track,  # + sb.sb_parent.pos,
@@ -88,8 +83,16 @@ class StarSystemView:
                                    triangulate=False,
                                    parent=self._mainview.scene,
                                    )
-                    poly.transform = MT()
+                    poly.transform = MT()   # np.eye(4, 4, dtype=np.float64)
                     self._sb_tracks.update({sb_name: poly})
+
+            self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
+            self._cntr_markers = Markers(parent=self._skymap,
+                                         symbol='+',
+                                         size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
+                                         **DEF_MARKS_INIT)  # another instance of Markers
+            self._plnt_markers.parent = self._mainview.scene
+            self._cntr_markers.set_data(symbol=['+' for sb in self._simbods.values()])
 
             self._subv = dict(sk_map=self._skymap,
                               r_fram=self._frame_viz,
@@ -109,6 +112,8 @@ class StarSystemView:
                 self._mainview.add(v)
             else:
                 [self._mainview.add(t) for t in v.values()]
+
+        pass
 
     def update_vizz(self):
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body

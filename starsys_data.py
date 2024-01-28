@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+import os, sys
 import logging
 from PIL import Image
 from astropy.time import Time
@@ -413,7 +413,8 @@ if __name__ == "__main__":
         logging.debug("-------->> RUNNING SYSTEM_DATASTORE() STANDALONE <<---------------")
 
         dict_store = SystemDataStore()
-        print("dict store:", dict_store)
+        [print(i) for i in dir(dict_store.body_names)]
+        print(dict_store.get_body_data("Earth"))
         print(dict_store.body_data("Earth"))
         exit()
 
