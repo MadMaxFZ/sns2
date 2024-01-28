@@ -65,7 +65,7 @@ class SimBody:
             Rp = self._body.R_polar.to(self._dist_unit).value
 
         self._rad_set = [R, Rm, Rp,]
-        print(self._rad_set)
+        logging.info("RADIUS SET: %s", self._rad_set)
         self._body_data.update({'rad_set' : self._rad_set})
         # >>>
 
