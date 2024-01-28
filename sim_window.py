@@ -6,7 +6,7 @@ from vispy import app, scene
 from vispy.color import Color
 from starsys_data import *
 from starsys_model import StarSystemModel
-from starsys_visual import StarSystem
+from starsys_visual import StarSystemView
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -31,8 +31,8 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_mod.t_warp = 9000
         self._sys_view = self.central_widget.add_view()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
-        self._sys_vizz = StarSystem(system_model=self._sys_mod, system_view=self._sys_view)
-        [self._sys_view.add(v) for v in self._sys_vizz.subv]
+        self._sys_vizz = StarSystemView(system_model=self._sys_mod, system_view=self._sys_view)
+        self._sys_vizz.load_vizz()
         self._sys_view.camera.set_range((-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
@@ -71,7 +71,7 @@ class MainSimWindow(scene.SceneCanvas):
 
     def on_timer(self, event=None):
         self._sys_mod.update_epochs()
-        self._sys_viz.update_sysviz()
+        self._sys_vizz.update_vizz()
 
     def run(self):
         self.show()

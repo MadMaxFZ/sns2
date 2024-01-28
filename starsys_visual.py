@@ -64,7 +64,7 @@ class StarSystemView:
             self._cntr_markers.set_data(symbol=['+' for sb in self._simbods.values()])
 
             self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
-            self._frame_viz.transform = tr.MatrixTransform()
+            self._frame_viz.transform = MT()
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
 
             self._sb_symbols = [sb.mark for sb in self._simbods.values()]
@@ -91,32 +91,26 @@ class StarSystemView:
                     poly.transform = MT()
                     self._sb_tracks.update({sb_name: poly})
 
-            self.subv =dict(skymap=self._skymap,
-                            r_fram=self._frame_viz,
-                            p_mrks=self._plnt_markers,
-                            c_mrks=self._cntr_markers,
-                            tracks=self._sb_tracks,
-                            surfcs=self._sb_planets,
-                            )
+            self._subv = dict(sk_map=self._skymap,
+                              r_fram=self._frame_viz,
+                              p_mrks=self._plnt_markers,
+                              c_mrks=self._cntr_markers,
+                              tracks=self._sb_tracks,
+                              surfcs=self._sb_planets,
+                              )
+            self.load_vizz()
         else:
             print("Must provide a dictionary of SimBody objects...")
             sys.exit(1)
 
-    # def _setup_sysviz(self, sbs=None):
-    #     # TODO: generate/assign visuals here to build SystemVizual instance
-    #     if sbs is not None:
-    #
-    #         for sb_name, sb in sbs.items():
-    #             if sb.body.parent is not None:
-    #                 sb.sb_parent = self._mainview.scene
-    #                 self._sb_planets[sb_name].parent = self._mainview.scene
-    #                 self._sb_planets[sb_name].transform.translate(sb.pos2bary + np.array([0, 0, 0, 0]))
-    #                 self._sb_tracks[sb_name].parent = self._mainview.scene
-    #                 self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2bary + np.array([0, 0, 0, 0]))
-    #     else:  # list of body names available in sim
-    #         print("Must provide SimBody dictionary...")
+    def load_vizz(self):
+        for k, v in  self._subv.items():
+            if "_" in k:
+                self._mainview.add(v)
+            else:
+                [self._mainview.add(t) for t in v.values()]
 
-    def update_sysviz(self):
+    def update_vizz(self):
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
         _bods_pos = []
         for sb_name, sb in self._simbods.items():
@@ -132,11 +126,10 @@ class StarSystemView:
                 xform.rotate(sb.state[2, 0], sb.z_ax)
                 xform.translate(sb_pos)
                 self._sb_planets[sb_name].transform = xform
-                # if self._sb_planets[sb_name].transform == xform:
-                #     print("SAME")
-                # else:
-                #     print("DIFFERENT")
-                #     self._sb_planets[sb_name].transform = xform
+
+            if sb.sb_parent is not None:
+                self._sb_tracks[sb_name].transform.reset()
+                self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2bary)
 
         self._bods_pos = np.array(_bods_pos)
         # collect the body positions relative to the camera location
@@ -227,7 +220,7 @@ class StarSystemView:
             print("Must provide a SkyMap object...")
 
 
-StarSystem = create_visual_node(StarSystemView)
+# StarSystem = create_visual_node(StarSystemView)
 
 
 def main():
