@@ -57,14 +57,15 @@ class SimBody:
 
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
-            R  = self._body.R.value
+            R  = self._body.R.to(self._dist_unit).value
             Rm = Rp = R
         else:
-            R  = self._body.R.value
-            Rm = self._body.R_mean.value
-            Rp = self._body.R_polar.value
+            R  = self._body.R.to(self._dist_unit).value
+            Rm = self._body.R_mean.to(self._dist_unit).value
+            Rp = self._body.R_polar.to(self._dist_unit).value
 
         self._rad_set = [R, Rm, Rp,]
+        print(self._rad_set)
         self._body_data.update({'rad_set' : self._rad_set})
         # >>>
 
@@ -151,7 +152,7 @@ class SimBody:
                                     ])
 
         # self.update_pos(self._state.[0])
-        logging.debug("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
+        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
                      self._name,
                       self._epoch,
                       np.linalg.norm(self._state[0]),
@@ -181,6 +182,10 @@ class SimBody:
     @property
     def body(self):
         return self._body
+
+    @property
+    def radius(self):
+        return self._rad_set
 
     @property
     def sb_parent(self):

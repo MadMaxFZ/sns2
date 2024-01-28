@@ -9,13 +9,11 @@ import sys
 
 import numpy as np
 import logging
-# import vispy.visuals.transforms as tr
 from astropy import units as u
 from PIL import Image
 from vispy.visuals import CompoundVisual
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
-from vispy.visuals import transforms as trx
 from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
 from starsys_model import SimBody
@@ -74,6 +72,8 @@ class PlanetVisual(CompoundVisual):
                 self._texture_data = self._sb_ref.texture
             else:
                 self._texture_data = texture
+
+            self._radii = self._sb_ref.radius
 
         else:           # no SimBody provided
             self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0

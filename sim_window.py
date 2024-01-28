@@ -32,7 +32,7 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_view = self.central_widget.add_view()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_vizz = StarSystemView(system_model=self._sys_mod, system_view=self._sys_view)
-        self._sys_vizz.load_vizz()
+        # self._sys_vizz.load_vizz()
         self._sys_view.camera.set_range((-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
                                         (-1e+09, 1e+09),

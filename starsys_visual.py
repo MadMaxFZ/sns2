@@ -4,7 +4,7 @@ import sys
 import math
 import logging
 import numpy as np
-import vispy.visuals.transforms as tr
+import vispy.visuals.transforms as trx
 from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
@@ -17,8 +17,8 @@ from sysbody_model import SimBody
 # these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5
 MAX_SYMB_SIZE = 30
-ST = tr.STTransform
-MT = tr.MatrixTransform
+ST = trx.STTransform
+MT = trx.MatrixTransform
 SUN_COLOR = tuple(np.array([253, 184, 19]) / 256)
 DEF_MARKS_INIT = dict(scaling=False,
                       alpha=1,
@@ -63,15 +63,16 @@ class StarSystemView:
             '''
             for sb_name, sb in self._simbods.items():
                 plnt = Planet(body_name=sb_name,
+                              rows=18,
                               sim_body=sb,
                               color=sb.base_color,
-                              edge_color=sb.base_color,
+                              edge_color=(0, 0, 0, .2),       # sb.base_color,
                               # texture=sb.texture,
                               parent=self._mainview.scene,
                               visible=True,
                               method='oblate',
                               )
-                plnt.transform = MT()   # np.eye(4, 4, dtype=np.float64)
+                plnt.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
                 self._sb_planets.update({sb_name: plnt})
                 ''' Generate Polygon visual object for each SimBody orbit
                 '''
@@ -83,7 +84,7 @@ class StarSystemView:
                                    triangulate=False,
                                    parent=self._mainview.scene,
                                    )
-                    poly.transform = MT()   # np.eye(4, 4, dtype=np.float64)
+                    poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
                     self._sb_tracks.update({sb_name: poly})
 
             self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
@@ -107,8 +108,9 @@ class StarSystemView:
             sys.exit(1)
 
     def load_vizz(self):
-        for k, v in  self._subv.items():
+        for k, v in self._subv.items():
             if "_" in k:
+                print(k)
                 self._mainview.add(v)
             else:
                 [self._mainview.add(t) for t in v.values()]
@@ -126,9 +128,9 @@ class StarSystemView:
                 _bods_pos.append(sb_pos[0:3])
                 xform = self._sb_planets[sb_name].transform
                 xform.reset()
-                xform.rotate(sb.state[2, 2], sb.z_ax)
-                xform.rotate(np.pi * sb.state[2, 1] / 2, sb.y_ax)
-                xform.rotate(sb.state[2, 0], sb.z_ax)
+                xform.rotate(sb.state[2, 2] * np.pi / 180, sb.z_ax)
+                xform.rotate((90 - sb.state[2, 1]) * np.pi / 180, sb.y_ax)
+                xform.rotate(sb.state[2, 0] * np.pi / 180, sb.z_ax)
                 xform.translate(sb_pos)
                 self._sb_planets[sb_name].transform = xform
 
