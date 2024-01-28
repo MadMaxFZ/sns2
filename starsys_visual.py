@@ -38,7 +38,7 @@ DEF_MARKS_DATA = dict(pos=None,
                       )
 
 
-class StarSystemVisual(CompoundVisual):
+class StarSystemView:
     """
     """
     def __init__(self, system_model=None, system_view=None):
@@ -91,15 +91,13 @@ class StarSystemVisual(CompoundVisual):
                     poly.transform = MT()
                     self._sb_tracks.update({sb_name: poly})
 
-            subvisuals = [self._skymap,
-                          self._frame_viz,
-                          self._plnt_markers,
-                          self._cntr_markers,
-                          Compound(self._sb_tracks.values()),
-                          Compound(self._sb_planets.values()),
-                          ]
-            super(StarSystemVisual, self).__init__(subvisuals=subvisuals)
-
+            self.subv =dict(skymap=self._skymap,
+                            r_fram=self._frame_viz,
+                            p_mrks=self._plnt_markers,
+                            c_mrks=self._cntr_markers,
+                            tracks=self._sb_tracks,
+                            surfcs=self._sb_planets,
+                            )
         else:
             print("Must provide a dictionary of SimBody objects...")
             sys.exit(1)
@@ -229,7 +227,7 @@ class StarSystemVisual(CompoundVisual):
             print("Must provide a SkyMap object...")
 
 
-StarSystem = create_visual_node(StarSystemVisual)
+StarSystem = create_visual_node(StarSystemView)
 
 
 def main():

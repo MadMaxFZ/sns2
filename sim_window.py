@@ -31,8 +31,8 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_mod.t_warp = 9000
         self._sys_view = self.central_widget.add_view()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
-        self._sys_viz = StarSystem(system_model=self._sys_mod, system_view=self._sys_view)
-        self._sys_view.add(self._sys_viz)
+        self._sys_vizz = StarSystem(system_model=self._sys_mod, system_view=self._sys_view)
+        [self._sys_view.add(v) for v in self._sys_vizz.subv]
         self._sys_view.camera.set_range((-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
