@@ -162,9 +162,12 @@ class StarSystemVisual(CompoundVisual):
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 
-    def get_symb_sizes(self, camera=None):
-        if camera is None:
-            camera = self._cam
+    def get_symb_sizes(self, from_cam=None):
+        """ TODO: instead of only symbol sizes, include face and edge color, etc.
+                  Probably rename this method to 'get_mark_data(self, from_cam=None)'
+        """
+        if from_cam is None:
+            from_cam = self._cam
 
         pix_diams = []
         self._bods_pos = []
@@ -173,7 +176,7 @@ class StarSystemVisual(CompoundVisual):
             # if sb.type not in ['star', 'planet']:
             #     self._bods_pos[-1] += sb.sb_parent.pos
 
-            body_fov = sb.rel2pos(pos=camera.center)['fov']
+            body_fov = sb.rel2pos(pos=from_cam.center)['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
 
