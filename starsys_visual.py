@@ -49,7 +49,7 @@ class StarSystemView:
             self._cam           = self._mainview.camera
             self._cam_rel_pos   = np.zeros((len(self._simbods.keys()),), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
-            self._skymap        = SkyMap(color=(1, 1, ),
+            self._skymap        = SkyMap(color=(.3, .3, .3, 1),
                                          edge_color=(0, 0, 1, 0.4))
             self._bods_pos      = [sb.pos2primary for sb in self._simbods.values()]
             self._sb_symbols    = [sb.mark for sb in self._simbods.values()]

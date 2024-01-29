@@ -45,6 +45,9 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_mod.assign_timer(self._clock)
         self.freeze()
 
+        for k, v in self._sys_view.camera.get_state().items():
+            print(k, ":", v)
+
     def on_key_press(self, ev):
         try:
             if ev.key.name == "+":

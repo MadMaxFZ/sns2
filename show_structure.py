@@ -31,9 +31,9 @@ name_list = ['starsys_data.py',
              'sim_window.py',
              'starsys_model.py',
              'sysbody_model.py',
-             'sys_skymap.py',
-             'sysbody_visual.py',
              'starsys_visual.py',
+             'sysbody_visual.py',
+             'sys_skymap.py',
              ]
 for name in name_list:
     filename = path_name + name
