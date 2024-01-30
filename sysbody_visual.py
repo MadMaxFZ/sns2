@@ -4,6 +4,7 @@
 # Distributed under the (new) BSD License. See LICENSE.txt for more info.
 # -----------------------------------------------------------------------------
 # Modified by Max S. Whitten in order to address the "stripe" glitch
+# x
 import os
 import sys
 

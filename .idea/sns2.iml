@@ -14,7 +14,7 @@
       <excludeFolder url="file://$MODULE_DIR$/docs" />
       <excludePattern pattern="*.png" />
     </content>
-    <orderEntry type="jdk" jdkName="spacenav" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="spacenav (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
