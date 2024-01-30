@@ -217,3 +217,12 @@ class SkyMapVisual(CompoundVisual):
 
 
 SkyMap = create_visual_node(SkyMapVisual)
+
+
+def main():
+
+    pass
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # x
-import os, sys
+import os
 import logging
 from PIL import Image
 from astropy.time import Time
@@ -93,10 +93,9 @@ def _latitude(rows=4, cols=8, radius=1, offset=False):
 
 def _oblate_sphere(rows=4, cols=None, radius=(1200, 1200, 1200), offset=False):
     verts = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
-    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
-    tex_coords = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
-    norms = verts.copy()
-    colors = faces.copy()
+    tcrds = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
+    norms = np.linalg.norm(verts)
+
     # compute vertices
     phi = (np.arange(rows + 1) * np.pi / rows - np.pi / 2).reshape(rows+1, 1)
     s = radius[0] * np.cos(phi)
@@ -107,33 +106,40 @@ def _oblate_sphere(rows=4, cols=None, radius=(1200, 1200, 1200), offset=False):
     #     th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
     verts[..., 0] = s * np.cos(th)
     verts[..., 1] = s * np.sin(th)
-    tex_coords[..., 0] = (th / (2 * np.pi))
-    tex_coords[..., 1] = (phi + np.pi / 2) / np.pi
+    tcrds[..., 0] = (th / (2 * np.pi))
+    tcrds[..., 1] = (phi + np.pi / 2) / np.pi
     # remove redundant vertices from top and bottom
-    verts = verts.reshape((rows + 1) * (cols + 1), 3)
-    tex_coords = tex_coords.reshape((rows + 1) * (cols + 1), 2)
-    # compute faces
+    verts = verts.reshape((rows + 1) * (cols + 1), 3)[cols + 1, -cols - 1]
+    tcrds = tcrds.reshape((rows + 1) * (cols + 1), 2)[cols + 1, -cols - 1]
 
+    # compute faces
     rowtemplate1 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 0]])) % (cols + 2)) +
                     np.array([[0, 0, cols + 1]]))
     rowtemplate2 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 1]])) % (cols + 2)) +
                     np.array([[0, cols + 1, cols + 1]]))
-    # print(rowtemplate1.shape, "\n", rowtemplate2.shape)
+    print(rowtemplate1.shape, "\n", rowtemplate2.shape)
+    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
     for row in range(rows):
         start = row * cols * 2
         if row != 0:
-            faces[start:start+cols] = rowtemplate1 + row * (cols + 1)
+            faces[start:start + cols] = rowtemplate1 + row * (cols + 1)
         if row != rows - 1:
-            faces[start+cols:start + (2 * cols)] = rowtemplate2 + row * (cols + 1)
-
-    # cut off zero-area triangles at top and bottom
+            faces[start + cols:start + (2 * cols)] = rowtemplate2 + row * (cols + 1)
     faces = faces[cols:-cols]
+
+    edges = np.empty((len(faces) * 3, 2), dtype=np.uint32))
+    # edges[..., 0:2] = np.array([[faces[0], faces[1]],
+    #                             [faces[1], faces[2]],
+    #                             [faces[2], faces[3]],
+    #                             ])
+    eclrs = np.empty(len(edges))
 
     return dict(verts=verts,
                 norms=norms,
                 faces=faces,
-                ecolr=colors,
-                tcord=tex_coords,
+                edges=edges,
+                ecolr=eclrs,
+                tcord=tcrds,
                 )
 
 
@@ -413,8 +419,7 @@ if __name__ == "__main__":
         logging.debug("-------->> RUNNING SYSTEM_DATASTORE() STANDALONE <<---------------")
 
         dict_store = SystemDataStore()
-        [print(i) for i in dir(dict_store.body_names)]
-        print(dict_store.get_body_data("Earth"))
+        print("dict store:", dict_store)
         print(dict_store.body_data("Earth"))
         exit()
 
