@@ -23,7 +23,7 @@ class SimBody:
               a provided Body object.
     """
     epoch0 = J2000_TDB
-    simbod_set = {}
+    simbody_set = {}
 
     def __init__(self, body_name=None):
         self._is_primary    = False
@@ -273,7 +273,7 @@ class SimBody:
         if self.body.parent is None:
             return _pos
         else:
-            return _pos + SimBody.simbod_set[self.body.parent.name].pos2primary
+            return _pos + SimBody.simbody_set[self.body.parent.name].pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):
@@ -283,7 +283,7 @@ class SimBody:
         elif self.sb_parent.is_primary:
             return _pos
         else:
-            return _pos + SimBody.simbod_set[self.body.parent.name].pos2bary
+            return _pos + SimBody.simbody_set[self.body.parent.name].pos2bary
 
     @property
     def epoch(self):

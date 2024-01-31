@@ -93,6 +93,7 @@ class PlanetVisual(CompoundVisual):
             self._surface_data = _oblate_sphere(rows, cols, radius, offset)
             self._mesh_data = MeshData(vertices=self._surface_data['verts'],
                                        faces=self._surface_data['faces'])
+            self._surface_data['edges'] = self._mesh_data.get_edges()
 
         self._mesh = MeshVisual(vertices=self._mesh_data.get_vertices(),
                                 faces=self._mesh_data.get_faces(),

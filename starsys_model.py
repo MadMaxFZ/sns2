@@ -36,7 +36,7 @@ class StarSystemModel:
         solar_system_ephemeris.set("jpl")
         self._body_count  = 0
         self._body_names  = []
-        self._simbod_dict = {}
+        self._simbody_dict = {}
         if body_names is None:
             body_names = sys_data.body_names
         for _name in body_names:
@@ -45,12 +45,12 @@ class StarSystemModel:
                 self._body_names.append(_name)
                 self.add_simbody(body_name=_name)
 
-        for sb in self._simbod_dict.values():
+        for sb in self._simbody_dict.values():
             parent = sb.body.parent
             sb.plane = Planes.EARTH_ECLIPTIC
             if parent is not None:
                 if parent.name in self._body_names:
-                    sb.sb_parent = self._simbod_dict[sb.body.parent.name]
+                    sb.sb_parent = self._simbody_dict[sb.body.parent.name]
                     if sb.sb_parent.type == 'star':
                         sb.type = 'planet'
                     elif sb.sb_parent.type == 'planet':
@@ -62,7 +62,7 @@ class StarSystemModel:
                 sb.sb_parent  = None
                 sb.is_primary = True
 
-        SimBody.simbod_set = self._simbod_dict
+
 
         # self.set_ephems()
 
@@ -72,6 +72,7 @@ class StarSystemModel:
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
+        SimBody.simbody_set = self._simbody_dict
 
     def assign_timer(self, clock):
         self._w_clock = clock
@@ -80,7 +81,8 @@ class StarSystemModel:
     def add_simbody(self, body_name=None):
         if body_name is not None:
             if body_name in self._body_names:
-                self._simbod_dict.update({body_name: SimBody(body_name=body_name)})
+                self._simbody_dict.update({body_name: SimBody(body_name=body_name)})
+                self._simbody_dict[body_name].epoch = self._sys_epoch
             logging.info("\t>>> SimBody object %s created....\n", body_name)
 
     def set_ephems(self,
@@ -171,7 +173,7 @@ class StarSystemModel:
 
     @property
     def simbod_list(self):
-        return [self._simbod_dict[name] for name in self._body_names]
+        return [self._simbody_dict[name] for name in self._body_names]
 
     @property
     def body_accel(self):
@@ -191,7 +193,7 @@ class StarSystemModel:
 
     @property
     def simbodies(self):
-        return self._simbod_dict
+        return self._simbody_dict
 
 
 def main():
