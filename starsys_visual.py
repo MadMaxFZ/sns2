@@ -227,6 +227,10 @@ class StarSystemView:
         else:
             print("Must provide a SkyMap object...")
 
+    @property
+    def planet_meshdata(self):
+        return self._sb_planets["Sun"].mesh.mesh_data.get_edges()
+
 
 # StarSystem = create_visual_node(StarSystemView)
 

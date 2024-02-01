@@ -15,6 +15,7 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 
 
 class MainSimWindow(scene.SceneCanvas):
+    FIRST = True
     def __init__(self, body_names=None):
         super(MainSimWindow, self).__init__(keys="interactive",
                                             size=(1024, 512),
@@ -42,6 +43,9 @@ class MainSimWindow(scene.SceneCanvas):
         self._clock = Timer(interval='auto',
                             connect=self.on_timer,
                             iterations=-1)
+        self._report_timer = Timer(interval=1,
+                                   connect=self.on_report,
+                                   iterations=-1)
         self._sys_mod.assign_timer(self._clock)
         self.freeze()
 
@@ -75,6 +79,9 @@ class MainSimWindow(scene.SceneCanvas):
     def on_timer(self, event=None):
         self._sys_mod.update_epochs()
         self._sys_vizz.update_vizz()
+
+    def on_report(self, event=None):
+        print("MeshData:\n", self._sys_vizz.planet_meshdata)
 
     def run(self):
         self.show()
