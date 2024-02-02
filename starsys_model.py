@@ -76,7 +76,7 @@ class StarSystemModel:
 
     def assign_timer(self, clock):
         self._w_clock = clock
-        self.run()
+        self.toggle_timer()
 
     def add_simbody(self, body_name=None):
         if body_name is not None:
@@ -159,8 +159,11 @@ class StarSystemModel:
                       self._sys_rel_vel,
                       self.body_accel)
 
-    def run(self):
-        self._w_clock.start()
+    def toggle_timer(self):
+        if self._w_clock.running:
+            self._w_clock.stop()
+        else:
+            self._w_clock.start()
 
     @property
     def epoch(self):
@@ -198,7 +201,7 @@ class StarSystemModel:
 
 def main():
     my_starsys = StarSystemModel()
-    my_starsys.run()
+    my_starsys.toggle_timer()
 
 
 if __name__ == "__main__":

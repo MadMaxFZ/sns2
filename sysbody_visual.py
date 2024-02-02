@@ -102,15 +102,6 @@ class PlanetVisual(CompoundVisual):
                                 color=color,
                                 shading=shading)
 
-        # if self._texture_data is not None:
-        #     self._tex_coords = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
-        #     for row in np.arange(rows + 1):
-        #         for col in np.arange(cols + 1):
-        #             self._tex_coords[row, col] = [row / rows, col / cols]
-        #
-        #     self._tex_coords = self._tex_coords.reshape((rows + 1) * (cols + 1), 2)
-        #     logging.info("TEXTURE_COORDS: %s", self._tex_coords)
-
         if np.array(edge_color).any():
             self._border = MeshVisual(vertices=self._mesh_data.get_vertices(),
                                       faces=self._mesh_data.get_edges(),
@@ -118,11 +109,11 @@ class PlanetVisual(CompoundVisual):
         else:
             self._border = MeshVisual()
 
-        self.texture = self._texture_data
         self._mesh.set_gl_state(polygon_offset_fill=True,
                                 polygon_offset=(1, 1),
                                 depth_test=True)
         super(PlanetVisual, self).__init__([v for v in [self._mesh, self._border]])
+        self.texture = self._texture_data
 
     @property
     def mesh(self):
@@ -132,6 +123,10 @@ class PlanetVisual(CompoundVisual):
     @mesh.setter
     def mesh(self, new_mesh):
         self._mesh = new_mesh
+
+    @property
+    def mesh_data(self):
+        return self._mesh.mesh_data.save()
 
     @property
     def border(self):
@@ -231,7 +226,7 @@ def main():
                       )
     # on_timer()
     win.show()
-    win.app.run()
+    win.app.toggle_timer()
 
 
 if __name__ == "__main__":
@@ -239,5 +234,3 @@ if __name__ == "__main__":
     # for rot in range(3600):
     #     bod.transform.rotate(rot * np.pi / 1800, [0, 0, 1])
     main()
-
-

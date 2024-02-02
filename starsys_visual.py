@@ -227,8 +227,13 @@ class StarSystemView:
         else:
             print("Must provide a SkyMap object...")
 
-
-# StarSystem = create_visual_node(StarSystemView)
+    @property
+    def mesh_data(self, name=None):
+        if name is None:
+            res = {}
+            return [res.update({k: v.mesh_data}) for k, v in self._sb_planets.items()]
+        else:
+            return self._sb_planets[name].mesh_data
 
 
 def main():

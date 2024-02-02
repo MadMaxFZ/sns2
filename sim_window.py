@@ -57,10 +57,10 @@ class MainSimWindow(scene.SceneCanvas):
                 self._sys_view.camera.scale_factor *= 0.9
                 print("SCALE_FACTOR", self._sys_view.camera.scale_factor)
             elif ev.key.name == "*":
-                self._sys_view.camera.fov *= 1.1
+                self._sys_view.camera.fov *= 1.5
                 print("CAM_FOV", self._sys_view.camera.fov)
             elif ev.key.name == "/":
-                self._sys_view.camera.fov *= 0.9
+                self._sys_view.camera.fov *= 0.75
                 print("CAM_FOV", self._sys_view.camera.fov)
             elif ev.key.name == "]":
                 self.model.t_warp *= 1.1
@@ -68,6 +68,13 @@ class MainSimWindow(scene.SceneCanvas):
             elif ev.key.name == "[":
                 self.model.t_warp *= 0.9
                 print("TIME_WARP:", self.model.t_warp)
+            elif ev.key.name == "\\":
+                self._sys_mod.toggle_timer()
+            elif ev.key.name == "p":
+                print("MESH_DATA[\"Sun\"]", self._sys_vizz.mesh_data["Sun"].save())
+            elif ev.key.name == "'":
+                new_aplha = (self._sys_view.skymap.mesh.meshdata.color[3] + .1) % 1
+                self._sys_view.skymap.mesh.meshdata.color[3] = new_aplha
 
         except AttributeError:
             print("Key Error...")
@@ -78,7 +85,7 @@ class MainSimWindow(scene.SceneCanvas):
 
     def run(self):
         self.show()
-        self.model.run()
+        self._sys_mod.toggle_timer()
         app.run()
 
     # def stop(self):

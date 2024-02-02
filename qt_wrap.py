@@ -4,11 +4,18 @@
     This module contains classes to allow using Qt to control Vispy
 """
 
+import logging
+import logging.config
+import autologging
 import numpy as np
 from PyQt5 import QtWidgets
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_window import MainSimWindow
+from epoch_ctrl import Ui_wdg_epoch
+from starsys_data import log_config
+
+logging.config.dictConfig(log_config)
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -32,7 +39,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
 class Controls(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-        layout = QtWidgets.QVBoxLayout()
+        self.ui = Ui_wdg_epoch().setupUi(self)
+
         # define Qt controls here
 
 
@@ -41,6 +49,7 @@ class CanvasWrapper:
         self.canvas = MainSimWindow()
 
     def set_skymap_grid(self, color=(1, 1, 1, 1)):
+        self.canvas.view.skymap.mesh.meshdata.color = color
         pass
 
 

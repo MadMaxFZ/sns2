@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # x
-import os, sys
+import os
 import logging
+import logging.config
+import autologging
 from PIL import Image
 from astropy.time import Time
 from poliastro.constants import J2000_TDB
@@ -93,48 +95,87 @@ def _latitude(rows=4, cols=8, radius=1, offset=False):
 
 def _oblate_sphere(rows=4, cols=None, radius=(1200, 1200, 1200), offset=False):
     verts = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
-    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
-    tex_coords = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
-    norms = verts.copy()
-    colors = faces.copy()
+    tcrds = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
+    norms = np.linalg.norm(verts)
+
     # compute vertices
-    phi = (np.arange(rows + 1) * np.pi / rows - np.pi / 2).reshape(rows+1, 1)
-    s = radius[0] * np.cos(phi)
-    verts[..., 2] = radius[2] * np.sin(phi)
+    phi = (np.arange(rows + 1) * np.pi / rows).reshape(rows+1, 1)
+    s = radius[0] * np.sin(phi)
+    verts[..., 2] = radius[2] * np.cos(phi)
     th = ((np.arange(cols + 1) * 2 * np.pi / cols).reshape(1, cols + 1))
     # if offset:
     #     # rotate each row by 1/2 column
     #     th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
     verts[..., 0] = s * np.cos(th)
     verts[..., 1] = s * np.sin(th)
-    tex_coords[..., 0] = (th / (2 * np.pi))
-    tex_coords[..., 1] = (phi + np.pi / 2) / np.pi
+    tcrds[..., 0] = th / (2 * np.pi)
+    tcrds[..., 1] = 1 - phi / np.pi
     # remove redundant vertices from top and bottom
-    verts = verts.reshape((rows + 1) * (cols + 1), 3)
-    tex_coords = tex_coords.reshape((rows + 1) * (cols + 1), 2)
-    # compute faces
+    verts = verts.reshape((rows + 1) * (cols + 1), 3)  # [cols:-cols]
+    tcrds = tcrds.reshape((rows + 1) * (cols + 1), 2)  # [cols:-cols]
 
+    # compute faces
     rowtemplate1 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 0]])) % (cols + 2)) +
                     np.array([[0, 0, cols + 1]]))
     rowtemplate2 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 1]])) % (cols + 2)) +
                     np.array([[0, cols + 1, cols + 1]]))
-    # print(rowtemplate1.shape, "\n", rowtemplate2.shape)
+    print(rowtemplate1.shape, "\n", rowtemplate2.shape)
+    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
     for row in range(rows):
         start = row * cols * 2
         if row != 0:
-            faces[start:start+cols] = rowtemplate1 + row * (cols + 1)
+            faces[start:start + cols] = rowtemplate1 + row * (cols + 1)
         if row != rows - 1:
-            faces[start+cols:start + (2 * cols)] = rowtemplate2 + row * (cols + 1)
-
-    # cut off zero-area triangles at top and bottom
+            faces[start + cols:start + (2 * cols)] = rowtemplate2 + row * (cols + 1)
     faces = faces[cols:-cols]
+
+    edges = MeshData(vertices=verts, faces=faces).get_edges()
+    eclrs = np.zeros((len(edges), 4), dtype=np.float32)
+    eclrs[np.arange(len(edges)), :] = (1, 1, 1, 1)
 
     return dict(verts=verts,
                 norms=norms,
                 faces=faces,
-                ecolr=colors,
-                tcord=tex_coords,
+                edges=edges,
+                ecolr=eclrs,
+                tcord=tcrds,
                 )
+
+
+log_config = {
+    "version": 1,
+    "formatters": {
+        "logformatter": {
+            "format":
+                "%(asctime)s:%(levelname)s:%(name)s:%(funcName)s:%(message)s",
+        },
+        "traceformatter": {
+            "format":
+                "%(asctime)s:%(process)s:%(levelname)s:%(filename)s:"
+                    "%(lineno)s:%(name)s:%(funcName)s:%(message)s",
+        },
+    },
+    "handlers": {
+        "loghandler": {
+            "class": "logging.FileHandler",
+            "level": logging.DEBUG,
+            "formatter": "logformatter",
+            "filename": "app.log",
+        },
+        "tracehandler": {
+            "class": "logging.FileHandler",
+            "level": autologging.TRACE,
+            "formatter": "traceformatter",
+            "filename": "trace.log",
+        },
+    },
+    "loggers": {
+        "my_module.MyClass": {
+            "level": autologging.TRACE,
+            "handlers": ["tracehandler", "loghandler"],
+        },
+    },
+}
 
 
 class SystemDataStore:
@@ -413,8 +454,7 @@ if __name__ == "__main__":
         logging.debug("-------->> RUNNING SYSTEM_DATASTORE() STANDALONE <<---------------")
 
         dict_store = SystemDataStore()
-        [print(i) for i in dir(dict_store.body_names)]
-        print(dict_store.get_body_data("Earth"))
+        print("dict store:", dict_store)
         print(dict_store.body_data("Earth"))
         exit()
 

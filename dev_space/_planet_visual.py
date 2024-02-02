@@ -321,7 +321,7 @@ def main():
     # view.add(skymap)
     view.add(planet)
     canvas.show()
-    canvas.app.run()
+    canvas.app.toggle_timer()
 
 
 """---------------------------------------------------------------------------------------------------------"""
