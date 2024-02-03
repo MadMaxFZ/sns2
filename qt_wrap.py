@@ -12,7 +12,7 @@ from PyQt5 import QtWidgets
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_window import MainSimWindow
-from epoch_ctrl import Ui_wdg_epoch
+from sns2_gui import Ui_wdg_epoch
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
