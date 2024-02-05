@@ -162,7 +162,7 @@ class SimBody:
                       )
 
     def rel2pos(self, pos=vec_type([0, 0, 0])):
-        rel_pos = pos - self.pos2bary
+        rel_pos = pos - self.pos2primary
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             dist = 0.0
