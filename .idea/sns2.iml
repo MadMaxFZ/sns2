@@ -7,8 +7,6 @@
       <sourceFolder url="file://$MODULE_DIR$/rebound" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources/textures" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ui" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/ui/resources" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.spyproject" />
       <excludeFolder url="file://$MODULE_DIR$/ouputs" />
       <excludeFolder url="file://$MODULE_DIR$/logs" />
