@@ -12,7 +12,7 @@ from PyQt5 import QtWidgets
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_window import MainSimWindow
-from sns2_gui import Ui_wdg_epoch
+from sns2_gui import Ui_wid_BodyData
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
@@ -39,7 +39,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 class Controls(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-        self.ui = Ui_wdg_epoch().setupUi(self)
+        self.ui = Ui_wid_BodyData().setupUi(self)
 
         # define Qt controls here
 
