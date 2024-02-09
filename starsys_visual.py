@@ -129,9 +129,9 @@ class StarSystemView:
                 _bods_pos.append(sb_pos[0:3])
                 xform = self._sb_planets[sb_name].transform
                 xform.reset()
-                xform.rotate(sb.state[2, 2] * np.pi / 180, sb.z_ax)
-                xform.rotate((90 - sb.state[2, 1]) * np.pi / 180, sb.y_ax)
-                xform.rotate(sb.state[2, 0] * np.pi / 180, sb.z_ax)
+                xform.rotate(sb.state_matrix[2, 2] * np.pi / 180, sb.z_ax)
+                xform.rotate((90 - sb.state_matrix[2, 1]) * np.pi / 180, sb.y_ax)
+                xform.rotate(sb.state_matrix[2, 0] * np.pi / 180, sb.z_ax)
                 xform.translate(sb_pos)
                 self._sb_planets[sb_name].transform = xform
 
@@ -175,7 +175,7 @@ class StarSystemView:
             # if sb.type not in ['star', 'planet']:
             #     self._bods_pos[-1] += sb.sb_parent.pos
 
-            body_fov = sb.rel2pos(pos=from_cam.center)['fov']
+            body_fov = sb.rel2pos(pos=from_cam.center * sb._dist_unit)['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
 

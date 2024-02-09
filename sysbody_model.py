@@ -23,12 +23,13 @@ class SimBody:
               a provided Body object.
     """
     epoch0 = J2000_TDB
-    simbody_set = {}
+    system = {}
 
     def __init__(self, body_name=None):
         self._is_primary    = False
         self._RESAMPLE      = False
         self._sb_parent     = None
+        self._sys_primary   = None
         self._body_data     = sys_data.body_data(body_name)
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
@@ -56,10 +57,14 @@ class SimBody:
         self._track_alpha   = 0.6
         # self._mark = "o"
 
+        if self._body.parent is None:
+            self._is_primary = True
+
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.to(self._dist_unit).value
             Rm = Rp = R
+            self._is_primary = True
         else:
             R  = self._body.R.to(self._dist_unit).value
             Rm = self._body.R_mean.to(self._dist_unit).value
@@ -155,21 +160,21 @@ class SimBody:
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
                      self._name,
-                      self._epoch,
-                      np.linalg.norm(self._state[0]),
-                      np.linalg.norm(self._state[1]),
-                      self._state[2],
-                      )
+                     self._epoch,
+                     np.linalg.norm(self._state[0]),
+                     np.linalg.norm(self._state[1]),
+                     self._state[2],
+                     )
 
     def rel2pos(self, pos=vec_type([0, 0, 0])):
-        rel_pos = pos - self.pos2primary
+        rel_pos = pos.to(self._dist_unit) - self.pos2primary.to(self._dist_unit)
         dist = np.linalg.norm(rel_pos)
-        if dist < 1e-09:
-            dist = 0.0
+        if dist.value < 1e-09:
+            dist = 0.0 * self._dist_unit
             rel_pos = vec_type([0, 0, 0])
             fov = MIN_FOV
         else:
-            fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
+            fov = np.float64(1.0 * math.atan(self.body.R.to(self._dist_unit).value / dist.value))
 
         return {"rel_pos": rel_pos,
                 "dist": dist,
@@ -196,6 +201,14 @@ class SimBody:
     def sb_parent(self, new_sb_parent=None):
         if type(new_sb_parent) is SimBody:
             self._sb_parent = new_sb_parent
+
+    @property
+    def sys_primary(self):
+        return self._sys_primary
+
+    @sys_primary.setter
+    def sys_primary(self, new_primary):
+        self._sys_primary = new_primary
 
     @property
     def is_primary(self):
@@ -273,17 +286,15 @@ class SimBody:
         if self.body.parent is None:
             return _pos
         else:
-            return _pos + SimBody.simbody_set[self.body.parent.name].pos2primary
+            return _pos + SimBody.system[self.body.parent.name].pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):
-        _pos = self.pos
+        _pos = self._state[0] * self._dist_unit
         if self.is_primary:
             return _pos
-        elif self.sb_parent.is_primary:
-            return _pos
         else:
-            return _pos + SimBody.simbody_set[self.body.parent.name].pos2bary
+            return _pos + SimBody.system[self._sys_primary].pos
 
     @property
     def epoch(self):
@@ -382,16 +393,20 @@ class SimBody:
                          str(self._orbit))
 
     @property
-    def state(self):
+    def state_matrix(self):
         return self._state
 
     @property
     def pos(self):
-        return np.array(self.state[0])
+        return self._state[0] * self._dist_unit
+
+    @property
+    def dist2parent(self):
+        return np.linalg.norm(self.pos)
 
     @property
     def vel(self):
-        return self._state[1]
+        return self._state[1] * self._dist_unit
 
     @property
     def track(self):
@@ -421,14 +436,14 @@ class SimBody:
     # def spacing(self):
     #     return self._spacing
 
-    @state.setter
-    def state(self, new_state=None):
-        if (type(new_state)  == np.ndarray) and (new_state.shape == (3, 3)):
-            self._state = new_state
-        else:
-            logging.info("!!!\t>> Incorrect state format. Ignoring...:<%s\n>",
-                         new_state)
-            pass
+    # @state.setter
+    # def state(self, new_state=None):
+    #     if (type(new_state)  == np.ndarray) and (new_state.shape == (3, 3)):
+    #         self._state = new_state
+    #     else:
+    #         logging.info("!!!\t>> Incorrect state format. Ignoring...:<%s\n>",
+    #                      new_state)
+    #         pass
 
     # @periods.setter
     # def periods(self, p=None):

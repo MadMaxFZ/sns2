@@ -37,6 +37,7 @@ class StarSystemModel:
         self._body_count  = 0
         self._body_names  = []
         self._simbody_dict = {}
+        self._primary      = None
         if body_names is None:
             body_names = sys_data.body_names
         for _name in body_names:
@@ -56,13 +57,11 @@ class StarSystemModel:
                     elif sb.sb_parent.type == 'planet':
                         sb.type = 'moon'
                         if parent.name == "Earth":
+                            # TODO: Check if need to do rotation of Moon coords for plane change?
                             sb.plane = Planes.EARTH_EQUATOR
             else:
                 sb.type       = 'star'
                 sb.sb_parent  = None
-                sb.is_primary = True
-
-
 
         # self.set_ephems()
 
@@ -72,7 +71,7 @@ class StarSystemModel:
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        SimBody.simbody_set = self._simbody_dict
+        SimBody.system = self._simbody_dict
 
     def assign_timer(self, clock):
         self._w_clock = clock
@@ -82,7 +81,11 @@ class StarSystemModel:
         if body_name is not None:
             if body_name in self._body_names:
                 self._simbody_dict.update({body_name: SimBody(body_name=body_name)})
-                self._simbody_dict[body_name].epoch = self._sys_epoch
+                if self._simbody_dict[body_name].is_primary:
+                    if self._primary is not None:
+                        print("WARNING! Attempting to define more than one primary Body!")
+                    self._primary = body_name
+
             logging.info("\t>>> SimBody object %s created....\n", body_name)
 
     def set_ephems(self,
