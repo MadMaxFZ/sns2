@@ -16,6 +16,7 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 
 class MainSimWindow(scene.SceneCanvas):
     FIRST = True
+
     def __init__(self, body_names=None):
         super(MainSimWindow, self).__init__(keys="interactive",
                                             size=(1024, 512),
@@ -33,7 +34,6 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_view = self.central_widget.add_view()
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_vizz = StarSystemView(system_model=self._sys_mod, system_view=self._sys_view)
-        # nself._sys_vizz.load_vizz()
         self._sys_view.camera.set_range((-1e+09, 1e+09),
                                         (-1e+09, 1e+09),
                                         (-1e+09, 1e+09),

@@ -13,6 +13,10 @@ from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_window import MainSimWindow
 from sns2_gui import Ui_wid_BodyData
+from body_attribs import Ui_frm_BodyAttribs
+from orbit_classical import Ui_frm_COE
+from time_control import Ui_frm_TimeControl
+from composite import Ui_Form
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
@@ -20,13 +24,15 @@ logging.config.dictConfig(log_config)
 
 class MainQtWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
-        super(MainQtWindow, self).__init__(*args, **kwargs)
-        central_widget = QtWidgets.QWidget()
-        main_layout = QtWidgets.QHBoxLayout()
+        super(MainQtWindow, self).__init__(*args,
+                                           **kwargs)
         self._controls = Controls()
-        main_layout.addWidget(self._controls)
         self._canvas_wrapper = CanvasWrapper()
+        main_layout = QtWidgets.QHBoxLayout()
+        main_layout.addWidget(self._controls)
         main_layout.addWidget(self._canvas_wrapper.canvas.native)
+
+        central_widget = QtWidgets.QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
         self._connect_controls()
@@ -39,9 +45,17 @@ class MainQtWindow(QtWidgets.QMainWindow):
 class Controls(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-        self.ui = Ui_wid_BodyData().setupUi(self)
+        # self.time_ctl = Ui_frm_TimeControl().setupUi(self)
+        # self.bod_attrbs = Ui_frm_BodyAttribs().setupUi(self)
+        # self.orb_states = Ui_frm_COE().setupUi(self)
+        # vlo_main = QtWidgets.QVBoxLayout(self)
+        # vlo_main.addWidget(self.bod_attrbs)
+        # vlo_main.addWidget(self.orb_states)
+        # vlo_main.addWidget(self.time_ctl)
+        self.ui = Ui_Form().setupUi(self)
 
-        # define Qt controls here
+        # define functions of Qt controls here
+        # print(self.ui.__dir__)
 
 
 class CanvasWrapper:

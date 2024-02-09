@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>949</width>
-    <height>548</height>
+    <width>300</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,14 +16,26 @@
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>0</y>
-     <width>401</width>
+     <width>291</width>
      <height>441</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string notr="true"/>
+   </property>
+   <property name="statusTip">
+    <string notr="true"/>
+   </property>
+   <property name="accessibleName">
+    <string notr="true"/>
+   </property>
+   <property name="accessibleDescription">
+    <string notr="true"/>
+   </property>
    <property name="title">
-    <string>Body Data Viewer</string>
+    <string notr="true">Body Data Viewer</string>
    </property>
    <widget class="QComboBox" name="comboBox_BodyName">
     <property name="geometry">
@@ -75,11 +87,11 @@
     <property name="movable">
      <bool>true</bool>
     </property>
-    <widget class="QWidget" name="tab_Body">
+    <widget class="QWidget" name="tab_body">
      <attribute name="title">
       <string>Attributes</string>
      </attribute>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="grBx_BodyAttrib">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -88,8 +100,20 @@
         <height>321</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string notr="true"/>
+      </property>
+      <property name="statusTip">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleName">
+       <string notr="true"/>
+      </property>
+      <property name="accessibleDescription">
+       <string notr="true"/>
+      </property>
       <property name="title">
-       <string>Body Physical Attributes</string>
+       <string notr="true">Body Physical Attributes</string>
       </property>
       <property name="flat">
        <bool>true</bool>
@@ -98,7 +122,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>10</y>
+         <y>20</y>
          <width>231</width>
          <height>291</height>
         </rect>
@@ -312,11 +336,11 @@
        <property name="flat">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>10</y>
+          <y>20</y>
           <width>167</width>
           <height>152</height>
          </rect>
@@ -431,7 +455,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>10</y>
         <width>281</width>
         <height>391</height>
        </rect>
@@ -626,7 +650,7 @@
            <x>0</x>
            <y>20</y>
            <width>111</width>
-           <height>20</height>
+           <height>16</height>
           </rect>
          </property>
          <property name="alignment">
@@ -702,10 +726,10 @@
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>8</x>
+          <x>10</x>
           <y>180</y>
           <width>261</width>
           <height>25</height>
@@ -766,5 +790,22 @@
   <tabstop>lned_Body_J3</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>comboBox_BodyName</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>lned_Body_name</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>154</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -4,6 +4,9 @@
     <option name="sdkName" value="spacenav311" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="spacenav (2)" project-jdk-type="Python SDK" />
+  <component name="PyCharmProfessionalAdvertiser">
+    <option name="shown" value="true" />
+  </component>
   <component name="PythonCompatibilityInspectionAdvertiser">
     <option name="version" value="3" />
   </component>
