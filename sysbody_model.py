@@ -57,8 +57,11 @@ class SimBody:
         self._track_alpha   = 0.6
         # self._mark = "o"
 
-        if self._body.parent is None:
-            self._is_primary = True
+        #   FIX HERE
+        # if self._body.parent is None:
+        #     self._is_primary = True
+        #     self._sys_primary = self._name
+        # elif self._body.parent.name == self._sys_primary:
 
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
@@ -294,7 +297,7 @@ class SimBody:
         if self.is_primary:
             return _pos
         else:
-            return _pos + SimBody.system[self._sys_primary].pos
+            return _pos + self._sys_primary.pos
 
     @property
     def epoch(self):
