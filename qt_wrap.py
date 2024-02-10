@@ -4,6 +4,7 @@
     This module contains classes to allow using Qt to control Vispy
 """
 
+import gc
 import logging
 import logging.config
 import autologging
@@ -38,6 +39,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._connect_controls()
 
     def _connect_controls(self):
+        stuff = gc.get_objects()
+        print(stuff)
         # connect controls to appropriate functions
         pass
 
@@ -45,13 +48,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
 class Controls(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-        # self.time_ctl = Ui_frm_TimeControl().setupUi(self)
-        # self.bod_attrbs = Ui_frm_BodyAttribs().setupUi(self)
-        # self.orb_states = Ui_frm_COE().setupUi(self)
-        # vlo_main = QtWidgets.QVBoxLayout(self)
-        # vlo_main.addWidget(self.bod_attrbs)
-        # vlo_main.addWidget(self.orb_states)
-        # vlo_main.addWidget(self.time_ctl)
         self.ui = Ui_Form().setupUi(self)
 
         # define functions of Qt controls here
