@@ -39,8 +39,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._connect_controls()
 
     def _connect_controls(self):
-        stuff = gc.get_objects()
-        print(stuff)
+        # stuff = gc.get_objects()
+        # print(stuff)
         # connect controls to appropriate functions
         pass
 
