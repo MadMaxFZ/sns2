@@ -7,6 +7,7 @@ from starsys_data import *
 from sysbody_model import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
+from PyQt5.QtCore import pyqtSignal, QObject
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -14,10 +15,11 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     )
 
 
-class StarSystemModel:
+class StarSystemModel(QObject):
     """
     """
     # sim_params = SYS_DATA.system_params
+    initialized = pyqtSignal(list)
 
     def __init__(self, body_names=None):
         self._INIT        = False
@@ -108,8 +110,9 @@ class StarSystemModel:
         [sb.orbit(ephem=sb.ephem) for sb in self.simbod_list]
 
     def update_epochs(self, event=None):
+        # get duration since last update
         if self._INIT:
-            w_now = self._w_clock.elapsed     # not the first call
+            w_now = self._w_clock.elapsed   # not the first call
             dt = w_now - self._w_last
             self._w_last = w_now
         else:
@@ -117,9 +120,13 @@ class StarSystemModel:
             dt = 0
             self._w_last = w_now - dt
             self._INIT = True
+            self.initialized.emit(self._body_names)
 
+        # apply time factor, set new sys_epoch
         d_epoch = TimeDelta(dt * u.s * self._t_warp)
         self._sys_epoch += d_epoch
+
+        # update and ephems that are ended, flag for orbit resample
         for sb in self.simbod_list:
             if self._sys_epoch > sb.end_epoch:
                 sb.ephem = self._sys_epoch  # reset ephem range
@@ -128,10 +135,10 @@ class StarSystemModel:
 
         self.update_states(new_epoch=self._sys_epoch)
 
-        if self._avg_d_epoch.value == 0:
-            self._avg_d_epoch = d_epoch
+        # if self._avg_d_epoch.value == 0:
+        #     self._avg_d_epoch = d_epoch
+        # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
 
-        self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
         logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
                       self._avg_d_epoch,
                       self._sys_epoch.jd)

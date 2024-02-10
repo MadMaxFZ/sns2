@@ -13,9 +13,9 @@ from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_window import MainSimWindow
 from sns2_gui import Ui_wid_BodyData
-from body_attribs import Ui_frm_BodyAttribs
-from orbit_classical import Ui_frm_COE
-from time_control import Ui_frm_TimeControl
+# from body_attribs import Ui_frm_BodyAttribs
+# from orbit_classical import Ui_frm_COE
+# from time_control import Ui_frm_TimeControl
 from composite import Ui_Form
 from starsys_data import log_config
 

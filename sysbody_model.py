@@ -8,6 +8,7 @@ from astropy.time import Time, TimeDelta
 from vispy.geometry import MeshData
 from starsys_data import sys_data
 from poliastro.twobody.orbit.scalar import Orbit
+from PyQt5.QtCore import pyqtSignal, QObject
 
 logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
@@ -17,67 +18,74 @@ logging.basicConfig(filename="logs/sns_defs.log",
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
 
 
-class SimBody:
+class SimBody(QObject):
     """
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
     epoch0 = J2000_TDB
-    simbody_set = {}
+    system = {}
 
     def __init__(self, body_name=None):
         self._is_primary    = False
         self._RESAMPLE      = False
         self._sb_parent     = None
+        self._sys_primary   = None
         self._body_data     = sys_data.body_data(body_name)
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
-        self._tex_data      = self._body_data['tex_data']
-        self._mark          = self._body_data['body_mark']
-        self._base_color    = self._body_data['body_color']
-        self._dist_unit     = u.km
-        self._periods       = 365
-        self._spacing       = self._o_period.to(u.d) / self._periods
-        self._trajectory    = None
-        self._type          = None
-        self._ephem: Ephem  = None
-        self._orbit: Orbit  = None
-        self._t_range: time_range = None
-        self._end_epoch     = None
-        self._plane         = Planes.EARTH_ECLIPTIC
-        self._state         = np.zeros((3,), dtype=vec_type)
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
+        self._dist_unit     = u.km
+        self._plane         = Planes.EARTH_ECLIPTIC
         self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
+        self._state = np.zeros((3,), dtype=vec_type)
+        self._periods       = 365
+        self._spacing       = self._o_period.to(u.d) / self._periods
+        self._t_range       = None
+        self._end_epoch = self._epoch + self._periods * self._spacing
+        self._ephem: Ephem = None
+        self._orbit: Orbit = None
+        self._trajectory = None
+
+        # This group of variables could live in VizLand?
+        self._tex_data      = self._body_data['tex_data']
+        self._mark          = self._body_data['body_mark']
+        self._base_color    = self._body_data['body_color']
         self._body_alpha    = 1.0
         self._track_alpha   = 0.6
+        self._type = None
+
         # self._mark = "o"
+        #   FIX HERE
+        # if self._body.parent is None:
+        #     self._is_primary = True
+        #     self._sys_primary = self._name
+        # elif self._body.parent.name == self._sys_primary:
+        # self._t_range = time_range(self._epoch,
+        #                            periods=self._periods,
+        #                            spacing=self._spacing,
+        #                            format='jd',
+        #                            scale='tdb', )
 
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.to(self._dist_unit).value
             Rm = Rp = R
+            self._is_primary = True
         else:
             R  = self._body.R.to(self._dist_unit).value
             Rm = self._body.R_mean.to(self._dist_unit).value
             Rp = self._body.R_polar.to(self._dist_unit).value
 
         self._rad_set = [R, Rm, Rp,]
-        logging.info("RADIUS SET: %s", self._rad_set)
-        self._body_data.update({'rad_set' : self._rad_set})
-        # >>>
-
-        self._t_range = time_range(self._epoch,
-                                   periods=self._periods,
-                                   spacing=self._spacing,
-                                   format='jd',
-                                   scale='tdb', )
-        self._end_epoch = self._epoch + self._periods * self._spacing
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
+        self._body_data.update({'rad_set' : self._rad_set})
+        logging.info("RADIUS SET: %s", self._rad_set)
 
     def set_epoch(self, epoch=None):
         if epoch is None:
@@ -155,21 +163,21 @@ class SimBody:
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
                      self._name,
-                      self._epoch,
-                      np.linalg.norm(self._state[0]),
-                      np.linalg.norm(self._state[1]),
-                      self._state[2],
-                      )
+                     self._epoch,
+                     np.linalg.norm(self._state[0]),
+                     np.linalg.norm(self._state[1]),
+                     self._state[2],
+                     )
 
     def rel2pos(self, pos=vec_type([0, 0, 0])):
-        rel_pos = pos - self.pos2primary
+        rel_pos = pos.to(self._dist_unit) - self.pos2primary.to(self._dist_unit)
         dist = np.linalg.norm(rel_pos)
-        if dist < 1e-09:
-            dist = 0.0
+        if dist.value < 1e-09:
+            dist = 0.0 * self._dist_unit
             rel_pos = vec_type([0, 0, 0])
             fov = MIN_FOV
         else:
-            fov = np.float64(1.0 * math.atan(self.body.R.value / dist))
+            fov = np.float64(1.0 * math.atan(self.body.R.to(self._dist_unit).value / dist.value))
 
         return {"rel_pos": rel_pos,
                 "dist": dist,
@@ -196,6 +204,14 @@ class SimBody:
     def sb_parent(self, new_sb_parent=None):
         if type(new_sb_parent) is SimBody:
             self._sb_parent = new_sb_parent
+
+    @property
+    def sys_primary(self):
+        return self._sys_primary
+
+    @sys_primary.setter
+    def sys_primary(self, new_primary):
+        self._sys_primary = new_primary
 
     @property
     def is_primary(self):
@@ -273,17 +289,15 @@ class SimBody:
         if self.body.parent is None:
             return _pos
         else:
-            return _pos + SimBody.simbody_set[self.body.parent.name].pos2primary
+            return _pos + self.sb_parent.pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):
-        _pos = self.pos
+        _pos = self._state[0] * self._dist_unit
         if self.is_primary:
             return _pos
-        elif self.sb_parent.is_primary:
-            return _pos
         else:
-            return _pos + SimBody.simbody_set[self.body.parent.name].pos2bary
+            return _pos + self._sys_primary.pos
 
     @property
     def epoch(self):
@@ -382,16 +396,20 @@ class SimBody:
                          str(self._orbit))
 
     @property
-    def state(self):
+    def state_matrix(self):
         return self._state
 
     @property
     def pos(self):
-        return np.array(self.state[0])
+        return self._state[0] * self._dist_unit
+
+    @property
+    def dist2parent(self):
+        return np.linalg.norm(self.pos)
 
     @property
     def vel(self):
-        return self._state[1]
+        return self._state[1] * self._dist_unit
 
     @property
     def track(self):
@@ -421,14 +439,14 @@ class SimBody:
     # def spacing(self):
     #     return self._spacing
 
-    @state.setter
-    def state(self, new_state=None):
-        if (type(new_state)  == np.ndarray) and (new_state.shape == (3, 3)):
-            self._state = new_state
-        else:
-            logging.info("!!!\t>> Incorrect state format. Ignoring...:<%s\n>",
-                         new_state)
-            pass
+    # @state.setter
+    # def state(self, new_state=None):
+    #     if (type(new_state)  == np.ndarray) and (new_state.shape == (3, 3)):
+    #         self._state = new_state
+    #     else:
+    #         logging.info("!!!\t>> Incorrect state format. Ignoring...:<%s\n>",
+    #                      new_state)
+    #         pass
 
     # @periods.setter
     # def periods(self, p=None):

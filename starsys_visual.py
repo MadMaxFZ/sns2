@@ -125,7 +125,7 @@ class StarSystemView:
             # print(sb.pos2primary - sb.pos)
             if self._sb_planets[sb_name].visible:
                 sb_pos = np.zeros((4,))
-                sb_pos[0:3] = sb.pos2bary
+                sb_pos[0:3] = sb.primary
                 _bods_pos.append(sb_pos[0:3])
                 xform = self._sb_planets[sb_name].transform
                 xform.reset()
@@ -137,7 +137,7 @@ class StarSystemView:
 
             if sb.sb_parent is not None:
                 self._sb_tracks[sb_name].transform.reset()
-                self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2bary)
+                self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2primary)
 
         self._bods_pos = np.array(_bods_pos)
         # collect the body positions relative to the camera location
