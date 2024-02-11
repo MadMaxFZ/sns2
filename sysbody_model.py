@@ -52,6 +52,7 @@ class SimBody(QObject):
         self._ephem: Ephem  = None
         self._orbit: Orbit  = None
         self._trajectory    = None
+        self._type = None
 
         # self._mark = "o"
         #   FIX HERE
@@ -85,8 +86,8 @@ class SimBody(QObject):
         self._base_color    = self._body_data['body_color']
         self._body_alpha    = 1.0
         self._track_alpha   = 0.6
-        self._type = None
-        self.created.emit()
+
+        self.created.emit(self.name)
         logging.info("RADIUS SET: %s", self._rad_set)
 
     def set_epoch(self, epoch=None):

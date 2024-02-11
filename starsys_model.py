@@ -20,6 +20,8 @@ class StarSystemModel(QObject):
     """
     # sim_params = SYS_DATA.system_params
     initialized = pyqtSignal(list)
+    updating = pyqtSignal(Time)
+    ready = pyqtSignal()
 
     def __init__(self, body_names=None):
         super(StarSystemModel, self).__init__()
