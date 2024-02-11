@@ -125,13 +125,13 @@ class StarSystemView:
             # print(sb.pos2primary - sb.pos)
             if self._sb_planets[sb_name].visible:
                 sb_pos = np.zeros((4,))
-                sb_pos[0:3] = sb.primary
+                sb_pos[0:3] = sb.pos2primary
                 _bods_pos.append(sb_pos[0:3])
                 xform = self._sb_planets[sb_name].transform
                 xform.reset()
-                xform.rotate(sb.state[2, 2] * np.pi / 180, sb.z_ax)
-                xform.rotate((90 - sb.state[2, 1]) * np.pi / 180, sb.y_ax)
-                xform.rotate(sb.state[2, 0] * np.pi / 180, sb.z_ax)
+                xform.rotate(sb.W * np.pi / 180, sb.z_ax)
+                xform.rotate(sb.DEC * np.pi / 180, sb.y_ax)
+                xform.rotate(sb.RA * np.pi / 180, sb.z_ax)
                 xform.translate(sb_pos)
                 self._sb_planets[sb_name].transform = xform
 
@@ -141,7 +141,7 @@ class StarSystemView:
 
         self._bods_pos = np.array(_bods_pos)
         # collect the body positions relative to the camera location
-        self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center)['rel_pos']
+        self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center * sb.dist_unit)['rel_pos']
                              for sb in self._simbods.values()]
 
         self._plnt_markers.set_data(pos=self._bods_pos,
@@ -171,11 +171,11 @@ class StarSystemView:
         pix_diams = []
         self._bods_pos = []
         for sb_name, sb in self._simbods.items():
-            self._bods_pos.append(sb.pos2bary)
+            self._bods_pos.append(sb.pos2primary)
             # if sb.type not in ['star', 'planet']:
             #     self._bods_pos[-1] += sb.sb_parent.pos
 
-            body_fov = sb.rel2pos(pos=from_cam.center)['fov']
+            body_fov = sb.rel2pos(pos=from_cam.center * sb.dist_unit)['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
 

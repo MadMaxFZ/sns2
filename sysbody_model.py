@@ -27,6 +27,7 @@ class SimBody(QObject):
     system = {}
 
     def __init__(self, body_name=None):
+        super(SimBody, self).__init__()
         self._is_primary    = False
         self._RESAMPLE      = False
         self._sb_parent     = None
@@ -169,15 +170,17 @@ class SimBody(QObject):
                      self._state[2],
                      )
 
-    def rel2pos(self, pos=vec_type([0, 0, 0])):
-        rel_pos = pos.to(self._dist_unit) - self.pos2primary.to(self._dist_unit)
+    def rel2pos(self, pos=None):
+        if pos is None:
+            pos = np.zeros((3,), dtype=vec_type)
+        rel_pos = pos.value - self.pos2primary.value
         dist = np.linalg.norm(rel_pos)
-        if dist.value < 1e-09:
+        if dist < 1e-09:
             dist = 0.0 * self._dist_unit
-            rel_pos = vec_type([0, 0, 0])
+            rel_pos = np.zeros((3,), dtype=vec_type)
             fov = MIN_FOV
         else:
-            fov = np.float64(1.0 * math.atan(self.body.R.to(self._dist_unit).value / dist.value))
+            fov = np.float64(1.0 * math.atan(self.body.R.to(self._dist_unit).value / dist))
 
         return {"rel_pos": rel_pos,
                 "dist": dist,
@@ -195,6 +198,10 @@ class SimBody(QObject):
     @property
     def radius(self):
         return self._rad_set
+
+    @property
+    def dist_unit(self):
+        return self._dist_unit
 
     @property
     def sb_parent(self):
@@ -225,6 +232,18 @@ class SimBody(QObject):
     @property
     def type(self):
         return self._type
+
+    @property
+    def RA(self):
+        return self._state[2, 0]
+
+    @property
+    def DEC(self):
+        return 90 - self._state[2, 1]
+
+    @property
+    def W(self):
+        return self._state[2, 2]
 
     @type.setter
     def type(self, new_type=None):

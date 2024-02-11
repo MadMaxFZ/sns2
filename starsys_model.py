@@ -22,6 +22,7 @@ class StarSystemModel(QObject):
     initialized = pyqtSignal(list)
 
     def __init__(self, body_names=None):
+        super(StarSystemModel, self).__init__()
         self._INIT        = False
         self._w_last      = 0
         self._d_epoch     = None
@@ -152,7 +153,7 @@ class StarSystemModel(QObject):
             j = 0
             # collect the relative position and velocity to the other bodies
             for sb2 in self.simbod_list:
-                self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos2bary)['rel_pos']
+                self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos2primary)['rel_pos']
                 self._sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
                     # accumulate the acceleration from the other bodies
