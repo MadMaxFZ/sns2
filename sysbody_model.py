@@ -176,14 +176,17 @@ class SimBody(QObject):
 
     def rel2pos(self, pos=None):
         if pos is None:
-            pos = np.zeros((3,), dtype=vec_type)
+            pos = np.zeros((3,), dtype=vec_type) * self._dist_unit
+
         rel_pos = pos.value - self.pos2primary.value
         dist = np.linalg.norm(rel_pos)
         if dist < 1e-09:
             dist = 0.0 * self._dist_unit
-            rel_pos = np.zeros((3,), dtype=vec_type)
+            rel_pos = np.zeros((3,), dtype=vec_type) * self._dist_unit
             fov = MIN_FOV
         else:
+            dist = dist * self._dist_unit
+            rel_pos = rel_pos * self._dist_unit
             fov = np.float64(1.0 * math.atan(self.body.R.to(self._dist_unit).value / dist))
 
         return {"rel_pos": rel_pos,
