@@ -25,6 +25,7 @@ class SimBody(QObject):
     """
     epoch0 = J2000_TDB
     system = {}
+    created = pyqtSignal(str)
 
     def __init__(self, body_name=None):
         super(SimBody, self).__init__()
@@ -43,22 +44,14 @@ class SimBody(QObject):
         self._dist_unit     = u.km
         self._plane         = Planes.EARTH_ECLIPTIC
         self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
-        self._state = np.zeros((3,), dtype=vec_type)
+        self._state         = np.zeros((3,), dtype=vec_type)
         self._periods       = 365
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._t_range       = None
-        self._end_epoch = self._epoch + self._periods * self._spacing
-        self._ephem: Ephem = None
-        self._orbit: Orbit = None
-        self._trajectory = None
-
-        # This group of variables could live in VizLand?
-        self._tex_data      = self._body_data['tex_data']
-        self._mark          = self._body_data['body_mark']
-        self._base_color    = self._body_data['body_color']
-        self._body_alpha    = 1.0
-        self._track_alpha   = 0.6
-        self._type = None
+        self._end_epoch     = self._epoch + self._periods * self._spacing
+        self._ephem: Ephem  = None
+        self._orbit: Orbit  = None
+        self._trajectory    = None
 
         # self._mark = "o"
         #   FIX HERE
@@ -86,15 +79,26 @@ class SimBody(QObject):
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
         self._body_data.update({'rad_set' : self._rad_set})
+        # This group of variables could live in VizLand?
+        self._tex_data      = self._body_data['tex_data']
+        self._mark          = self._body_data['body_mark']
+        self._base_color    = self._body_data['body_color']
+        self._body_alpha    = 1.0
+        self._track_alpha   = 0.6
+        self._type = None
+        self.created.emit()
         logging.info("RADIUS SET: %s", self._rad_set)
 
     def set_epoch(self, epoch=None):
         if epoch is None:
             epoch = self._epoch
-        self._epoch = Time(epoch,
-                           format='jd',
-                           scale='tdb',
-                           )
+        elif type(epoch) == Time:
+            self._epoch = epoch
+        else:
+            self._epoch = Time(epoch,
+                               format='jd',
+                               scale='tdb',
+                               )
 
     def set_ephem(self, epoch=None, t_range=None):
         if epoch is None:
