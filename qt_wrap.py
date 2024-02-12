@@ -30,6 +30,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._canvas_wrapper = CanvasWrapper()
         main_layout = QtWidgets.QHBoxLayout()
         main_layout.addWidget(self._controls)
+        # main_layout.addStretch()
         main_layout.addWidget(self._canvas_wrapper.canvas.native)
 
         central_widget = QtWidgets.QWidget()

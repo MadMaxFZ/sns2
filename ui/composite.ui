@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>frm_sns_cpntrols</class>
+ <widget class="QWidget" name="frm_sns_cpntrols">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
-    <height>537</height>
+    <width>570</width>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QWidget" name="wid_sns_controls" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>0</y>
-     <width>531</width>
+     <width>551</width>
      <height>541</height>
     </rect>
    </property>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="lst_body_names">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>10</y>
-      <width>101</width>
+      <width>131</width>
       <height>381</height>
      </rect>
     </property>
@@ -43,22 +43,22 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>130</x>
       <y>10</y>
-      <width>181</width>
-      <height>16</height>
+      <width>208</width>
+      <height>19</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="hlo_curr_body">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="lf_curr_body">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CURRENT BODY&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="lv_curr_body">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;current_body&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -72,17 +72,17 @@
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>30</y>
-      <width>180</width>
-      <height>230</height>
+      <x>140</x>
+      <y>110</y>
+      <width>218</width>
+      <height>278</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="attrib_table">
+    <layout class="QVBoxLayout" name="vlo_attrib_table">
      <item>
-      <layout class="QHBoxLayout" name="attrib_headings">
+      <layout class="QHBoxLayout" name="hlo_attrib_head">
        <item>
-        <widget class="QLabel" name="quantity">
+        <widget class="QLabel" name="lf_attrib_quantity">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Quantity&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -92,7 +92,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="value">
+        <widget class="QLabel" name="lf_attrib_value">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Value&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -102,7 +102,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="unit">
+        <widget class="QLabel" name="lf_attrib_unit">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Unit&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -114,9 +114,9 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="attrib_data">
+      <layout class="QHBoxLayout" name="hlo_attrib_data">
        <item>
-        <layout class="QVBoxLayout" name="fields">
+        <layout class="QVBoxLayout" name="vlo_sttrib_fields">
          <item>
           <widget class="QLabel" name="lf_parent">
            <property name="text">
@@ -251,7 +251,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="values">
+        <layout class="QVBoxLayout" name="vlo_attrib_values">
          <item>
           <widget class="QLabel" name="lv_parent">
            <property name="text">
@@ -365,7 +365,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="units">
+        <layout class="QVBoxLayout" name="vlo_attrib_units">
          <item>
           <widget class="QLabel" name="lu_parent">
            <property name="text">
@@ -485,17 +485,17 @@
    <widget class="QWidget" name="layoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>260</y>
+      <x>360</x>
+      <y>230</y>
       <width>181</width>
-      <height>135</height>
+      <height>163</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="coe_table">
+    <layout class="QVBoxLayout" name="vlo_coe_table">
      <item>
-      <layout class="QHBoxLayout" name="coe_headings">
+      <layout class="QHBoxLayout" name="hlo_coe_headings">
        <item>
-        <widget class="QLabel" name="quantity_2">
+        <widget class="QLabel" name="lf_coe_quantity">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Quantity&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -505,7 +505,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="value_2">
+        <widget class="QLabel" name="lf_coe_value">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Value&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -515,7 +515,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="unit_2">
+        <widget class="QLabel" name="lf_coe_unit">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; text-decoration: underline;&quot;&gt;Unit&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -527,9 +527,9 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="coe_data">
+      <layout class="QHBoxLayout" name="hlo_coe_data">
        <item>
-        <layout class="QVBoxLayout" name="fields_2">
+        <layout class="QVBoxLayout" name="vlo_coe_fields">
          <item>
           <widget class="QLabel" name="lf_a">
            <property name="text">
@@ -593,7 +593,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="values_2">
+        <layout class="QVBoxLayout" name="vlo_coe_values">
          <item>
           <widget class="QLabel" name="lv_a">
            <property name="text">
@@ -657,7 +657,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="units_2">
+        <layout class="QVBoxLayout" name="vlo_coe_units">
          <item>
           <widget class="QLabel" name="lu_a">
            <property name="text">
@@ -729,7 +729,7 @@
      <rect>
       <x>0</x>
       <y>400</y>
-      <width>521</width>
+      <width>549</width>
       <height>131</height>
      </rect>
     </property>
@@ -764,7 +764,7 @@
        <item>
         <layout class="QVBoxLayout" name="vlo_twarp">
          <item>
-          <widget class="QFrame" name="fr_twarp">
+          <widget class="QFrame" name="fra_twarp">
            <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
@@ -975,6 +975,14 @@
     </layout>
    </widget>
   </widget>
+  <action name="actionPlayPauseTimer">
+   <property name="text">
+    <string>PlayPauseTimer</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pause / Resume Timer progress&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
