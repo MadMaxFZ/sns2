@@ -42,10 +42,12 @@ class MainSimWindow(scene.SceneCanvas):
         self._sys_view.camera.scale_factor = 14.5e+06
         self._clock = Timer(interval='auto',
                             connect=self.on_timer,
-                            iterations=-1)
+                            iterations=-1
+                            )
         self._report_timer = Timer(interval=1,
                                    connect=self.on_report,
-                                   iterations=-1)
+                                   iterations=-1
+                                   )
         self._sys_mod.assign_timer(self._clock)
         self.freeze()
 

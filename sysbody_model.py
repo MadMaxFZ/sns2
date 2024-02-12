@@ -484,7 +484,7 @@ class SimBody(QObject):
 
     @epoch.setter
     def epoch(self, e=None):
-        self._epoch = e
+        self.set_epoch(e)
 
     # @property
     # def base_color(self):

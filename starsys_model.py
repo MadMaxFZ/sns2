@@ -37,19 +37,39 @@ class StarSystemModel(QObject):
         self._ephem_span  = (sys_data.system_params['periods']
                              * sys_data.system_params['spacing'])
         self._end_epoch   = self._sys_epoch + self._ephem_span
-
         solar_system_ephemeris.set("jpl")
         self._body_count  = 0
         self._body_names  = []
         self._simbody_dict = {}
         if body_names is None:
             body_names = sys_data.body_names
+
         for _name in body_names:
             if _name in sys_data.body_names:
                 self._body_count += 1
                 self._body_names.append(_name)
                 self.add_simbody(body_name=_name)
 
+        self._set_parentage()
+        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._bod_tot_acc = np.zeros((self._body_count,),
+                                     dtype=vec_type)
+
+    def assign_timer(self, clock):
+        self._w_clock = clock
+        self.toggle_timer()
+
+    def add_simbody(self, body_name=None):
+        if body_name is not None:
+            if body_name in self._body_names:
+                self._simbody_dict.update({body_name: SimBody(body_name=body_name)})
+                self._simbody_dict[body_name].epoch = self._sys_epoch
+            logging.info("\t>>> SimBody object %s created....\n", body_name)
+
+    def _set_parentage(self):
         for sb in self._simbody_dict.values():
             parent = sb.body.parent
             sb.plane = Planes.EARTH_ECLIPTIC
@@ -67,28 +87,7 @@ class StarSystemModel(QObject):
                 sb.sb_parent  = None
                 sb.is_primary = True
 
-
-
-        # self.set_ephems()
-
-        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
-        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
-        self._bod_tot_acc = np.zeros((self._body_count,),
-                                     dtype=vec_type)
         SimBody.simbody_set = self._simbody_dict
-
-    def assign_timer(self, clock):
-        self._w_clock = clock
-        self.toggle_timer()
-
-    def add_simbody(self, body_name=None):
-        if body_name is not None:
-            if body_name in self._body_names:
-                self._simbody_dict.update({body_name: SimBody(body_name=body_name)})
-                self._simbody_dict[body_name].epoch = self._sys_epoch
-            logging.info("\t>>> SimBody object %s created....\n", body_name)
 
     def set_ephems(self,
                    epoch=None,
