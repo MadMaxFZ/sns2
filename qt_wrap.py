@@ -16,7 +16,7 @@ from sns2_gui import Ui_wid_BodyData
 # from body_attribs import Ui_frm_BodyAttribs
 # from orbit_classical import Ui_frm_COE
 # from time_control import Ui_frm_TimeControl
-from composite import Ui_Form
+from composite import Ui_frm_sns_controls
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
@@ -46,15 +46,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
 class Controls(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-        # self.time_ctl = Ui_frm_TimeControl().setupUi(self)
-        # self.bod_attrbs = Ui_frm_BodyAttribs().setupUi(self)
-        # self.orb_states = Ui_frm_COE().setupUi(self)
-        # vlo_main = QtWidgets.QVBoxLayout(self)
-        # vlo_main.addWidget(self.bod_attrbs)
-        # vlo_main.addWidget(self.orb_states)
-        # vlo_main.addWidget(self.time_ctl)
-        self.ui = Ui_Form().setupUi(self)
 
+        self.ui = Ui_frm_sns_controls()
+        self.ui.setupUi(self)
+        # self.ui.lv_curr_body.
         # define functions of Qt controls here
         # print(self.ui.__dir__)
 

@@ -11,11 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_frm_sns_cpntrols(object):
-    def setupUi(self, frm_sns_cpntrols):
-        frm_sns_cpntrols.setObjectName("frm_sns_cpntrols")
-        frm_sns_cpntrols.resize(570, 556)
-        self.wid_sns_controls = QtWidgets.QWidget(frm_sns_cpntrols)
+class Ui_frm_sns_controls(object):
+    def setupUi(self, frm_sns_controls):
+        frm_sns_controls.setObjectName("frm_sns_cpntrols")
+        frm_sns_controls.resize(570, 556)
+        self.wid_sns_controls = QtWidgets.QWidget(frm_sns_controls)
         self.wid_sns_controls.setGeometry(QtCore.QRect(10, 0, 551, 541))
         self.wid_sns_controls.setObjectName("wid_sns_controls")
         self.lst_body_names = QtWidgets.QListWidget(self.wid_sns_controls)
@@ -408,7 +408,7 @@ class Ui_frm_sns_cpntrols(object):
         self.vlo_ref_elapsed.addLayout(self.hlo_elapsed)
         self.vlo_epochs.addLayout(self.vlo_ref_elapsed)
         self.hlo_time_ctrl.addLayout(self.vlo_epochs)
-        self.actionPlayPauseTimer = QtWidgets.QAction(frm_sns_cpntrols)
+        self.actionPlayPauseTimer = QtWidgets.QAction(frm_sns_controls)
         self.actionPlayPauseTimer.setObjectName("actionPlayPauseTimer")
         # self.lf_parent.setBuddy(frm_sns_cpntrols.parent Body)
         # self.lf_k.setBuddy(frm_sns_cpntrols.gravitational parameter)
@@ -418,8 +418,8 @@ class Ui_frm_sns_cpntrols(object):
         # self.lf_R_mean.setBuddy(frm_sns_cpntrols.mean radius)
         # self.lf_R_polar.setBuddy(frm_sns_cpntrols.polar radius)
 
-        self.retranslateUi(frm_sns_cpntrols)
-        QtCore.QMetaObject.connectSlotsByName(frm_sns_cpntrols)
+        self.retranslateUi(frm_sns_controls)
+        QtCore.QMetaObject.connectSlotsByName(frm_sns_controls)
 
     def retranslateUi(self, frm_sns_cpntrols):
         _translate = QtCore.QCoreApplication.translate
@@ -507,8 +507,8 @@ class Ui_frm_sns_cpntrols(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    frm_sns_cpntrols = QtWidgets.QWidget()
-    ui = Ui_frm_sns_cpntrols()
-    ui.setupUi(frm_sns_cpntrols)
-    frm_sns_cpntrols.show()
+    frm_sns_controls = QtWidgets.QWidget()
+    ui = Ui_frm_sns_controls()
+    ui.setupUi(frm_sns_controls)
+    frm_sns_controls.show()
     sys.exit(app.exec_())
