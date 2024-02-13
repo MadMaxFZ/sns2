@@ -49,7 +49,8 @@ class Controls(QtWidgets.QWidget):
 
         self.ui = Ui_frm_sns_controls()
         self.ui.setupUi(self)
-        # self.ui.lv_curr_body.
+        self.ui_obj_dir = self.ui.__dir__()
+        [print(i) for i in self.ui_obj_dir if (i.startswith("lv") or "warp" in i)]
         # define functions of Qt controls here
         # print(self.ui.__dir__)
 
