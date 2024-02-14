@@ -19,7 +19,7 @@ class MainSimWindow(scene.SceneCanvas):
 
     def __init__(self, body_names=None):
         super(MainSimWindow, self).__init__(keys="interactive",
-                                            size=(1024, 512),
+                                            size=(850, 600),
                                             show=False,
                                             bgcolor=Color("black"),
                                             )
