@@ -52,14 +52,15 @@ class Controls(QtWidgets.QWidget):
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
         self._panel_names = ['attr', 'coe', 'qkw', 'rv', 'axis', 'cam', 'twarp']
-        self._panel_widgs = self._get_panel_items(names=self._panel_names)
+        self._panel_widgs = self._get_panel_items(patterns=self._panel_names)
 
         # define functions of Qt controls here
 
-    def _get_panel_items(self, names):
+    def _get_panel_items(self, patterns):
         panels = {}
-        for n in names:
-            panels.update({n: [self.ui.i for i in self.ui if n in i.__dir__()]})
+        for p in patterns:
+            panels.update({p: [(name, widget) for name, widget in
+                           self.ui_obj_dict.items() if p in name]})
 
         return panels
 
