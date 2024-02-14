@@ -49,7 +49,7 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <widget class="QSplitter" name="spl_twarp">
+    <widget class="QSplitter" name="spl_time_warp">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -76,12 +76,12 @@
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
           </property>
           <property name="buddy">
-           <cstring>dtEdit_ref_epoch</cstring>
+           <cstring>twarp_ref_epoch</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QDateTimeEdit" name="dtEdit_ref_epoch">
+         <widget class="QDateTimeEdit" name="twarp_ref_epoch">
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -108,7 +108,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lv_elapsed">
+         <widget class="QLabel" name="lv_twarp_elapsed">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;w_clock.elapsed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -120,7 +120,7 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QFrame" name="fra_twarp">
+     <widget class="QFrame" name="fra_time_warp">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -170,7 +170,7 @@
         <number>20</number>
        </property>
       </widget>
-      <widget class="QLabel" name="lf_twarp_min">
+      <widget class="QLabel" name="lv_twarp_mid">
        <property name="geometry">
         <rect>
          <x>170</x>
@@ -186,7 +186,7 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="lv_twarp_mid">
+      <widget class="QLabel" name="lv_twarp_min">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -218,7 +218,7 @@
         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lEd_twarp">
+      <widget class="QLineEdit" name="led_twarp">
        <property name="geometry">
         <rect>
          <x>180</x>
@@ -240,7 +240,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QPushButton" name="btn_stop">
+       <widget class="QPushButton" name="btn_twarp_stop">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -251,17 +251,17 @@
          <string>RESET</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_reverse">
+       <widget class="QPushButton" name="btn_twarp_reverse">
         <property name="text">
          <string>&lt;--&gt;</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_play_pause">
+       <widget class="QPushButton" name="btn_twarp_play_pause">
         <property name="text">
          <string>&gt; / ||</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_real_twarp">
+       <widget class="QPushButton" name="btn_twarp_realtime">
         <property name="text">
          <string>--&gt; 1</string>
         </property>
@@ -274,16 +274,16 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
-         <cstring>sp_exp</cstring>
+         <cstring>sp_twarp_exp</cstring>
         </property>
        </widget>
-       <widget class="QSpinBox" name="sp_exp">
+       <widget class="QSpinBox" name="sp_twarp_exp">
         <property name="buttonSymbols">
          <enum>QAbstractSpinBox::PlusMinus</enum>
         </property>
        </widget>
       </widget>
-      <widget class="QLabel" name="lf_twarp">
+      <widget class="QLabel" name="lf_time_warp">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -296,7 +296,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TIME WARP FACTOR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="buddy">
-        <cstring>lEd_twarp</cstring>
+        <cstring>led_twarp</cstring>
        </property>
       </widget>
      </widget>
@@ -316,7 +316,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="lv_sys_epoch">
+        <widget class="QLabel" name="lv_twarp_sys_epoch">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;sys_epoch&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -365,7 +365,7 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>160</width>
+       <width>16777215</width>
        <height>16777215</height>
       </size>
      </property>
@@ -384,7 +384,7 @@
       </property>
      </widget>
      <widget class="QComboBox" name="cbx_currBody"/>
-     <widget class="QListWidget" name="lst_body_names">
+     <widget class="QListWidget" name="lst_currBody_names">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
         <horstretch>1</horstretch>
@@ -421,9 +421,9 @@
          <height>311</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="hlo_attrib_data">
+       <layout class="QHBoxLayout" name="hlo_ATTR_data">
         <item>
-         <layout class="QVBoxLayout" name="vlo_sttrib_fields">
+         <layout class="QVBoxLayout" name="vlo_ATTR_fields">
           <item>
            <widget class="QLabel" name="lf_parent">
             <property name="text">
@@ -558,7 +558,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="vlo_attrib_values">
+         <layout class="QVBoxLayout" name="vlo_ATTR_values">
           <item>
            <widget class="QLabel" name="attr_parent">
             <property name="text">
@@ -687,9 +687,9 @@
          <height>151</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="hlo_coe_data">
+       <layout class="QHBoxLayout" name="hlo_COE_data">
         <item>
-         <layout class="QVBoxLayout" name="vlo_coe_fields">
+         <layout class="QVBoxLayout" name="vlo_COE_fields">
           <item>
            <widget class="QLabel" name="lf_a">
             <property name="text">
@@ -753,7 +753,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="vlo_coe_values">
+         <layout class="QVBoxLayout" name="vlo_COE_values">
           <item>
            <widget class="QLabel" name="coe_a">
             <property name="text">
@@ -819,11 +819,11 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="tab_cams">
+     <widget class="QWidget" name="tab_CAMS">
       <attribute name="title">
        <string>Cameras</string>
       </attribute>
-      <widget class="QSplitter" name="cam_table">
+      <widget class="QSplitter" name="CAM_table">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -835,7 +835,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QSplitter" name="cam_fields">
+       <widget class="QSplitter" name="CAM_fields">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -932,7 +932,7 @@
          </property>
         </widget>
        </widget>
-       <widget class="QSplitter" name="cam_values">
+       <widget class="QSplitter" name="CAM_values">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
