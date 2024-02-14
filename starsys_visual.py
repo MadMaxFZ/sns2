@@ -62,31 +62,7 @@ class StarSystemView:
             self._sb_symbols = [sb.mark for sb in self._simbods.values()]
             ''' Generate Planet visual object for each SimBody
             '''
-            for sb_name, sb in self._simbods.items():
-                plnt = Planet(body_name=sb_name,
-                              rows=18,
-                              sim_body=sb,
-                              color=(1, 1, 1, 1),
-                              edge_color=(0, 0, 0, .2),       # sb.base_color,
-                              # texture=sb.texture,
-                              parent=self._mainview.scene,
-                              visible=True,
-                              method='oblate',
-                              )
-                plnt.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
-                self._sb_planets.update({sb_name: plnt})
-                ''' Generate Polygon visual object for each SimBody orbit
-                '''
-                if sb.sb_parent is not None:
-                    # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-                    poly = Polygon(pos=sb.track,  # + sb.sb_parent.pos,
-                                   border_color=np.array(list(sb.base_color) + [0, ]) +
-                                                np.array([0, 0, 0, sb.track_alpha]),
-                                   triangulate=False,
-                                   parent=self._mainview.scene,
-                                   )
-                    poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
-                    self._sb_tracks.update({sb_name: poly})
+            [self._generate_vizz4body(sb) for sb in self._simbods.values()]
 
             self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._cntr_markers = Markers(parent=self._skymap,
@@ -107,6 +83,32 @@ class StarSystemView:
         else:
             print("Must provide a dictionary of SimBody objects...")
             sys.exit(1)
+
+    def _generate_vizz4body(self, sb):
+        plnt = Planet(body_name=sb.name,
+                              rows=18,
+                              sim_body=sb,
+                              color=(1, 1, 1, 1),
+                              edge_color=(0, 0, 0, .2),       # sb.base_color,
+                              # texture=sb.texture,
+                              parent=self._mainview.scene,
+                              visible=True,
+                              method='oblate',
+                              )
+        plnt.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
+        self._sb_planets.update({sb.name: plnt})
+        ''' Generate Polygon visual object for each SimBody orbit
+        '''
+        if not sb.is_primary:
+            # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
+            poly = Polygon(pos=sb.track,  # + sb.sb_parent.pos,
+                           border_color=np.array(list(sb.base_color) + [0, ]) +
+                                        np.array([0, 0, 0, sb.track_alpha]),
+                           triangulate=False,
+                           parent=self._mainview.scene,
+                           )
+            poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
+            self._sb_tracks.update({sb.name: poly})
 
     def load_vizz(self):
         for k, v in self._subv.items():
