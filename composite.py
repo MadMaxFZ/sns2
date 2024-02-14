@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_frm_sns_controls(object):
     def setupUi(self, frm_sns_controls):
-        frm_sns_controls.setObjectName("frm_sns_controls")
+        # frm_sns_controls.setObjectName("frm_sns_controls")
         frm_sns_controls.resize(465, 544)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -434,16 +434,6 @@ class Ui_frm_sns_controls(object):
         self.cam_fov.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.cam_fov.setObjectName("cam_fov")
         self.tabWidget_Body.addTab(self.tab_CAMS, "")
-        self.lf_ref_epoch.setBuddy(self.twarp_ref_epoch)
-        self.lf_exp.setBuddy(self.sp_twarp_exp)
-        self.lf_time_warp.setBuddy(self.led_twarp)
-        self.lf_parent.setBuddy(frm_sns_controls.parent Body)
-        self.lf_k.setBuddy(frm_sns_controls.gravitational parameter)
-        self.lf_name.setBuddy(frm_sns_controls.name of Body)
-        self.lf_symbol.setBuddy(frm_sns_controls.symbol for Body)
-        self.lf_R.setBuddy(frm_sns_controls.equatorial radius)
-        self.lf_R_mean.setBuddy(frm_sns_controls.mean radius)
-        self.lf_R_polar.setBuddy(frm_sns_controls.polar radius)
 
         self.retranslateUi(frm_sns_controls)
         self.tabWidget_Body.setCurrentIndex(1)
