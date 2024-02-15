@@ -14,11 +14,11 @@ logging.basicConfig(filename="logs/mainsimwin.log",
                     )
 
 
-class MainSimWindow(scene.SceneCanvas):
+class MainSimCanvas(scene.SceneCanvas):
     FIRST = True
 
     def __init__(self, body_names=None):
-        super(MainSimWindow, self).__init__(keys="interactive",
+        super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(850, 600),
                                             show=False,
                                             bgcolor=Color("black"),
@@ -32,6 +32,8 @@ class MainSimWindow(scene.SceneCanvas):
         # or these sub-views could be within sys_viz?
         self._sys_mod.t_warp = 9000
         self._sys_view = self.central_widget.add_view()
+
+        # TODO: implement a collection of cameras to use in various views
         self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
         self._sys_vizz = StarSystemView(system_model=self._sys_mod, system_view=self._sys_view)
         self._sys_view.camera.set_range((-1e+09, 1e+09),
@@ -107,6 +109,10 @@ class MainSimWindow(scene.SceneCanvas):
     def view(self):
         return self._sys_view
 
+    @property
+    def vizz(self):
+        return self._sys_vizz
+
 
 def main():
     _body_include_set = ['Sun',
@@ -130,7 +136,7 @@ def main():
                          # 'Triton',
                          # 'Charon',
                          ]
-    my_simwin = MainSimWindow(body_names=_body_include_set)
+    my_simwin = MainSimCanvas(body_names=_body_include_set)
     my_simwin.run()
 
 

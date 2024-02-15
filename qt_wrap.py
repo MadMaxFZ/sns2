@@ -11,7 +11,7 @@ import numpy as np
 from PyQt5 import QtWidgets
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
-from sim_window import MainSimWindow
+from sim_window import MainSimCanvas
 from sns2_gui import Ui_wid_BodyData
 # from body_attribs import Ui_frm_BodyAttribs
 # from orbit_classical import Ui_frm_COE
@@ -27,11 +27,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self._controls = Controls()
-        self._canvas_wrapper = CanvasWrapper()
+        self._canvas = CanvasWrapper()
         main_layout = QtWidgets.QHBoxLayout()
         main_layout.addWidget(self._controls)
         # main_layout.addStretch()
-        main_layout.addWidget(self._canvas_wrapper.canvas.native)
+        main_layout.addWidget(self._canvas.native)
 
         central_widget = QtWidgets.QWidget()
         central_widget.setLayout(main_layout)
@@ -39,7 +39,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._connect_controls()
 
     def _connect_controls(self):
-        # connect controls to appropriate functions
+        # connect control slots to appropriate functions in response to signals
+
         pass
 
 
@@ -52,11 +53,11 @@ class Controls(QtWidgets.QWidget):
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
         self._panel_names = ['attr', 'coe', 'qkw', 'rv', 'axis', 'cam', 'twarp']
-        self._panel_widgs = self._scan4_panelsets(patterns=self._panel_names)
+        self._control_groups = self._scanUi_4panels(patterns=self._panel_names)
 
         # define functions of Qt controls here
 
-    def _scan4_panelsets(self, patterns):
+    def _scanUi_4panels(self, patterns):
         panels = {}
         for p in patterns:
             panels.update({p: [(name, widget) for name, widget in
@@ -64,13 +65,28 @@ class Controls(QtWidgets.QWidget):
 
         return panels
 
+    @property
+    def panels(self, name=None):
+        if name is None:
+            return self._control_groups
+        elif name in self._control_groups.keys():
+            return self._control_groups[name]
+        else:
+            return None
 
-class CanvasWrapper:
+
+class CanvasWrapper(MainSimCanvas):
+    """     This class simply encapsulates the simulation, which resides within
+        the vispy SceneCanvas object. This SceneCanvas has three main properties:
+        - model :   contains and manages the properties of the model
+        - view  :   contains the rendering of the simulation scene
+        - vizz  :   contains the vispy visual nodes rendered in the view
+    """
     def __init__(self):
-        self.canvas = MainSimWindow()
+        super(CanvasWrapper, self).__init__()
 
     def set_skymap_grid(self, color=(1, 1, 1, 1)):
-        self.canvas.view.skymap.mesh.meshdata.color = color
+        self.view.skymap.mesh.meshdata.color = color
         pass
 
 
