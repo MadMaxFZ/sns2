@@ -42,6 +42,16 @@ class StarSystemView:
     """
     """
     def __init__(self, system_model=None, system_view=None):
+        """
+        Constructs a collection of Visuals that represent entities in the system model,
+        updating periodically based upon the quantities propagating in the model.
+        TODO:   Remove the model from this module. The data required here must now
+            be obtained using Signals to the QThread that the model will be running within.
+        Parameters
+        ----------
+        system_model :  TODO: Only require the SimBody pbject...
+        system_view :   TODO: minimize the use of this. Only need scene for parents...?
+        """
         if self._check_simbods(model=system_model):
             self._simbods       = system_model.simbodies
             self._init_state    = 0
@@ -59,7 +69,6 @@ class StarSystemView:
             self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
             self._frame_viz.transform = MT()
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
-            self._sb_symbols = [sb.mark for sb in self._simbods.values()]
             ''' Generate Planet visual object for each SimBody
             '''
             [self._generate_vizz4body(sb) for sb in self._simbods.values()]
@@ -164,6 +173,19 @@ class StarSystemView:
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
 
     def get_symb_sizes(self, from_cam=None):
+        """
+        Calculates the size in pixels at which a SimBody will appear in the view from
+        the perspective of a specified camera.
+        TODO:   Check the math in here since the marker symbols seem too big.
+                Maybe the perspective transform isn't being figured in properly?
+        Parameters
+        ----------
+        from_cam :  A Camera object from which the apparent sizes are measured from
+
+        Returns
+        -------
+        An np.array containing a pixel width for each SimBody
+        """
         """ TODO: instead of only symbol sizes, include face and edge color, etc.
                   Probably rename this method to 'get_mark_data(self, from_cam=None)'
         """
