@@ -406,7 +406,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_ATTR">
       <attribute name="title">
@@ -687,9 +687,9 @@
          <height>151</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="hlo_COE_data">
+       <layout class="QHBoxLayout" name="hlo_celem_data">
         <item>
-         <layout class="QVBoxLayout" name="vlo_COE_fields">
+         <layout class="QVBoxLayout" name="vlo_celem_fields">
           <item>
            <widget class="QLabel" name="lf_a">
             <property name="text">
@@ -753,7 +753,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="vlo_COE_values">
+         <layout class="QVBoxLayout" name="vlo_celem_values">
           <item>
            <widget class="QLabel" name="coe_a">
             <property name="text">
@@ -819,11 +819,11 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QWidget" name="tab_CAMS">
+     <widget class="QWidget" name="tab_views">
       <attribute name="title">
        <string>Cameras</string>
       </attribute>
-      <widget class="QSplitter" name="CAM_table">
+      <widget class="QSplitter" name="views_table">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -835,7 +835,10 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QSplitter" name="CAM_fields">
+       <widget class="QSplitter" name="views_fields">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -932,7 +935,7 @@
          </property>
         </widget>
        </widget>
-       <widget class="QSplitter" name="CAM_values">
+       <widget class="QSplitter" name="CAMS_values">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
