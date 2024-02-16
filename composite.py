@@ -9,9 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QLabel, QWidget, QSplitter
 
 
 class Ui_frm_sns_controls(object):
+    spl_time_warp: QSplitter
+    widget: QWidget
+    cam_fov: QLabel
+
     def setupUi(self, frm_sns_controls):
         frm_sns_controls.setObjectName("frm_sns_controls")
         frm_sns_controls.resize(465, 544)
