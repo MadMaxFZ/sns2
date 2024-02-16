@@ -226,7 +226,7 @@ def main():
                       )
     # on_timer()
     win.show()
-    win.app.toggle_timer()
+    win.app.cmd_timer()
 
 
 if __name__ == "__main__":

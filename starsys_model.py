@@ -58,9 +58,11 @@ class StarSystemModel(QObject):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
 
+
+
     def assign_timer(self, clock):
         self._w_clock = clock
-        self.toggle_timer()
+        self.cmd_timer()
 
     def add_simbody(self, body_name=None):
         if body_name is not None:
@@ -168,11 +170,22 @@ class StarSystemModel(QObject):
                       self._sys_rel_vel,
                       self.body_accel)
 
-    def toggle_timer(self):
-        if self._w_clock.running:
-            self._w_clock.stop()
+    def cmd_timer(self, cmd=None):
+        if not cmd:
+            if self._w_clock.running:
+                self._w_clock.stop()
+            else:
+                self._INIT = False
+                self._w_clock.start()
         else:
-            self._w_clock.start()
+            if cmd == "start":
+                self._INIT = False
+                self._w_clock.start()
+            elif cmd == "stop":
+                self._w_clock.stop()
+        print(f"clock running: {self._w_clock.running} at {self._w_clock.elapsed}\n"
+              f"with sys_epoch: {self._sys_epoch}")
+
 
     @property
     def epoch(self):
@@ -210,7 +223,7 @@ class StarSystemModel(QObject):
 
 def main():
     my_starsys = StarSystemModel()
-    my_starsys.toggle_timer()
+    my_starsys.cmd_timer()
 
 
 if __name__ == "__main__":

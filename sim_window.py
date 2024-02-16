@@ -77,7 +77,7 @@ class MainSimCanvas(scene.SceneCanvas):
                 self.model.t_warp *= 0.9
                 print("TIME_WARP:", self.model.t_warp)
             elif ev.key.name == "\\":
-                self._sys_mod.toggle_timer()
+                self._sys_mod.cmd_timer()
             elif ev.key.name == "p":
                 print("MESH_DATA[\"Sun\"]", self._sys_vizz.mesh_data["Sun"].save())
             elif ev.key.name == "'":
@@ -96,7 +96,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
     def run(self):
         self.show()
-        self._sys_mod.toggle_timer()
+        self._sys_mod.cmd_timer()
         app.run()
 
     # def stop(self):
