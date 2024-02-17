@@ -7,6 +7,7 @@ from vispy.color import Color
 from starsys_data import *
 from starsys_model import StarSystemModel
 from starsys_visual import StarSystemView
+from camera_set import CameraSet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -34,7 +35,8 @@ class MainSimCanvas(scene.SceneCanvas):
         self._sys_view = self.central_widget.add_view()
 
         # TODO: implement a collection of cameras to use in various views
-        self._sys_view.camera = scene.cameras.FlyCamera(fov=60)
+        self.cameras = CameraSet()
+        self._sys_view.camera = self.cameras.curr_cam
         self._sys_vizz = StarSystemView(system_model=self._sys_mod, system_view=self._sys_view)
         self._sys_view.camera.set_range((-1e+09, 1e+09),
                                         (-1e+09, 1e+09),

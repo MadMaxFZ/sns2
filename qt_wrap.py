@@ -39,6 +39,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._connect_controls()
 
     def _connect_controls(self):
+       #
+
         # connect control slots to appropriate functions in response to signals
 
         pass
@@ -90,9 +92,15 @@ class CanvasWrapper(MainSimCanvas):
         pass
 
 
+def load_simulation():
+    res = MainQtWindow()
+
+    return res
+
+
 if __name__ == "__main__":
     app = use_app("pyqt5")
     app.create()
-    win = MainQtWindow()
-    win.show()
+    sim = load_simulation()
+    sim.show()
     app.run()
