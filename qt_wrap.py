@@ -6,9 +6,12 @@
 
 import logging
 import logging.config
+from typing import List
+
 import autologging
 import numpy as np
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import QThread
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_window import MainSimCanvas
@@ -37,9 +40,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
         self._connect_controls()
+        self.thread = QThread()
+        self._canvas.model.moveToThread(self.thread)
 
     def _connect_controls(self):
-       #
 
         # connect control slots to appropriate functions in response to signals
 
@@ -59,7 +63,20 @@ class Controls(QtWidgets.QWidget):
 
         # define functions of Qt controls here
 
-    def _scanUi_4panels(self, patterns):
+    def _scanUi_4panels(self, patterns: List[str]) -> dict:
+        """ This method identifies objects that contain one of the strings in the patterns list.
+            The objects containing each pattern are collected into a dict with the pattern
+            as the key
+
+        Parameters
+        ----------
+        patterns :  a list of strings that the object names are matched to
+
+        Returns
+        -------
+        dict     :  a dict with the pattern string as a key and the value is a list of
+                    the objects whose name contains that string.
+        """
         panels = {}
         for p in patterns:
             panels.update({p: [(name, widget) for name, widget in

@@ -433,6 +433,11 @@ class SimBody(QObject):
 
     @property
     def vel(self):
+        """
+        Returns
+        -------
+        velocity of biody rewlative to its parent body
+        """
         return self._state[1] * self._dist_unit
 
     @property

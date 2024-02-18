@@ -560,7 +560,7 @@
         <item>
          <layout class="QVBoxLayout" name="vlo_ATTR_values">
           <item>
-           <widget class="QLabel" name="attr_parent">
+           <widget class="QLabel" name="attr_0">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;parent&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -570,7 +570,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_k">
+           <widget class="QLabel" name="attr_1">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;k&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -580,7 +580,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_name">
+           <widget class="QLabel" name="attr_2">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -590,7 +590,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_symbol">
+           <widget class="QLabel" name="attr_3">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;symbol&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -600,7 +600,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_R">
+           <widget class="QLabel" name="attr_4">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;R&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -610,7 +610,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_R_mean">
+           <widget class="QLabel" name="attr_5">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;R_mean&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -620,7 +620,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_R_polar">
+           <widget class="QLabel" name="attr_6">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;R_polar&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -630,7 +630,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_rot_per">
+           <widget class="QLabel" name="attr_7">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;rot_period&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -640,7 +640,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_mass">
+           <widget class="QLabel" name="attr_8">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;mass&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -650,7 +650,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_J2">
+           <widget class="QLabel" name="attr_9">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;J2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -660,7 +660,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="attr_J3">
+           <widget class="QLabel" name="attr_A">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;J3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -755,7 +755,7 @@
         <item>
          <layout class="QVBoxLayout" name="vlo_celem_values">
           <item>
-           <widget class="QLabel" name="coe_a">
+           <widget class="QLabel" name="coe_0">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;a&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -765,7 +765,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="coe_argp">
+           <widget class="QLabel" name="coe_1">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;argp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -775,7 +775,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="coe_ecc">
+           <widget class="QLabel" name="coe_2">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ecc&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -785,7 +785,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="coe_inc">
+           <widget class="QLabel" name="coe_3">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;inc&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -795,7 +795,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="coe_nu">
+           <widget class="QLabel" name="coe_4">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;nu&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -805,7 +805,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="coe_raan">
+           <widget class="QLabel" name="coe_5">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;raan&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -823,179 +823,301 @@
       <attribute name="title">
        <string>Cameras</string>
       </attribute>
-      <widget class="QSplitter" name="views_table">
+      <widget class="QComboBox" name="cam_curr">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>0</y>
+         <width>69</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lf_name_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CAMERA NAME&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QWidget" name="">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>20</y>
          <width>191</width>
-         <height>171</height>
+         <height>281</height>
         </rect>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <widget class="QSplitter" name="views_fields">
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <widget class="QLabel" name="lf_name_3">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CAMERA NAME&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lf_center">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>CENTER</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lf_rot1">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>ROT1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lf_rot2">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>ROT2</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lf_zoom">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>ZOOM</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lf_scale">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>SCALE</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lf_fov">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>FOV</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QSplitter" name="CAMS_values">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <widget class="QComboBox" name="cbx_cam_name">
-         <property name="baseSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QLabel" name="cam_center">
-         <property name="text">
-          <string>CENTER</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="cam_rot1">
-         <property name="text">
-          <string>ROT1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="cam_rot2">
-         <property name="text">
-          <string>ROT2</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="cam_zoom">
-         <property name="text">
-          <string>ZOOM</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="cam_scale">
-         <property name="text">
-          <string>SCALE</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="cam_fov">
-         <property name="text">
-          <string>FOV</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="2,0,0,2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3">
+          <item>
+           <widget class="QLabel" name="lf_center">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>CENTER</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QLabel" name="cam_ctrx">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_0y">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_ctrz">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3">
+          <item>
+           <widget class="QLabel" name="lf_center_2">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>ROT 1</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QLabel" name="cam_rot1_i">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_rot1_j">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_rot1_k">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,3">
+          <item>
+           <widget class="QLabel" name="lf_center_3">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>ROT 2</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QLabel" name="cam_rot2_i">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_rot12_j">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_ro21_k">
+              <property name="text">
+               <string>CENTER</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,3">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QLabel" name="lf_zoom">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>ZOOM</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lf_scale">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>SCALE</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lf_fov">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>FOV</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QLabel" name="cam_zoom">
+              <property name="text">
+               <string>ZOOM</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_scale">
+              <property name="text">
+               <string>SCALE</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cam_fov">
+              <property name="text">
+               <string>FOV</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>
