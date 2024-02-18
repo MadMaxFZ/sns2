@@ -58,7 +58,7 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
-        self._panel_names = ['attr', 'coe', 'qkw', 'rv', 'axis', 'cam', 'twarp']
+        self._panel_names = ['attr', 'coe', 'pqw', 'rv', 'axis', 'cam', 'twarp']
         self._control_groups = self._scanUi_4panels(patterns=self._panel_names)
 
         # define functions of Qt controls here
@@ -66,16 +66,16 @@ class Controls(QtWidgets.QWidget):
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
             The objects containing each pattern are collected into a dict with the pattern
-            as the key
+            as the key with the value being a list of objects containing that pattern.
 
         Parameters
         ----------
-        patterns :  a list of strings that the object names are matched to
+            patterns :  a list of strings that the object names are matched to
 
         Returns
         -------
-        dict     :  a dict with the pattern string as a key and the value is a list of
-                    the objects whose name contains that string.
+            dict     : a dict with the pattern string as a key and the value is a list of
+                       the objects whose name contains that string.
         """
         panels = {}
         for p in patterns:
