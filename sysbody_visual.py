@@ -76,7 +76,7 @@ class PlanetVisual(CompoundVisual):
             self._body_alpha = 1.0
             self._track_alpha = 0.6
             if texture is None:
-                self._texture_data = self._sb_ref.texture
+                self._texture_data = self._tex_data
             else:
                 self._texture_data = texture
 
@@ -133,6 +133,22 @@ class PlanetVisual(CompoundVisual):
     @property
     def mesh_data(self):
         return self._mesh.mesh_data.save()
+
+    @property
+    def base_color(self):
+        return self._base_color
+
+    @base_color.setter
+    def base_color(self, new_color):
+        self._base_color = new_color
+
+    @property
+    def track_alpha(self):
+        return self._track_alpha
+
+    @track_alpha.setter
+    def track_alpha(self, new_alpha=1):
+        self._track_alpha = 0.6
 
     @property
     def border(self):

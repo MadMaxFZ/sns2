@@ -62,41 +62,40 @@ class StarSystemView:
             self._skymap        = SkyMap(color=(.3, .3, .3, 1),
                                          edge_color=(0, 0, 1, 0.4))
             self._bods_pos      = [sb.pos2primary for sb in self._simbods.values()]
-            self._sb_symbols    = [sb.mark for sb in self._simbods.values()]
             self._symbol_sizes  = []
-            self._sb_planets    = {}       # a dict of Planet visuals
-            self._sb_tracks     = {}       # a dict of Polygon visuals
+            self._planets    = {}       # a dict of Planet visuals
+            self._tracks     = {}       # a dict of Polygon visuals
             self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
             self._frame_viz.transform = MT()
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
             ''' Generate Planet visual object for each SimBody
             '''
-            [self._generate_vizz4body(sb) for sb in self._simbods.values()]
-
+            [self._generate_vizz4body(name) for name in self._simbods.keys()]
+            self._sb_symbols = [pl.mark for pl in self._planets.values()]
             self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._cntr_markers = Markers(parent=self._skymap,
                                          symbol='+',
                                          size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
                                          **DEF_MARKS_INIT)  # another instance of Markers
             self._plnt_markers.parent = self._mainview.scene
-            self._cntr_markers.set_data(symbol=['+' for sb in self._simbods.values()])
+            self._cntr_markers.set_data(symbol=['+' for _ in range(len(self._simbods))])
 
-            self._subv = dict(sk_map=self._skymap,
-                              r_fram=self._frame_viz,
-                              p_mrks=self._plnt_markers,
-                              c_mrks=self._cntr_markers,
-                              tracks=self._sb_tracks,
-                              surfcs=self._sb_planets,
-                              )
+            self._subvizz = dict(sk_map=self._skymap,
+                                 r_fram=self._frame_viz,
+                                 p_mrks=self._plnt_markers,
+                                 c_mrks=self._cntr_markers,
+                                 tracks=self._tracks,
+                                 surfcs=self._planets,
+                                 )
             self.load_vizz()
         else:
             print("Must provide a dictionary of SimBody objects...")
             sys.exit(1)
 
-    def _generate_vizz4body(self, sb):
-        plnt = Planet(body_name=sb.name,
+    def _generate_vizz4body(self, name):
+        plnt = Planet(body_name=name,
                               rows=18,
-                              sim_body=sb,
+                              # sim_body=sb,
                               color=(1, 1, 1, 1),
                               edge_color=(0, 0, 0, .2),       # sb.base_color,
                               # texture=sb.texture,
@@ -105,22 +104,22 @@ class StarSystemView:
                               method='oblate',
                               )
         plnt.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
-        self._sb_planets.update({sb.name: plnt})
+        self._planets.update({name: plnt})
         ''' Generate Polygon visual object for each SimBody orbit
         '''
-        if not sb.is_primary:
+        if not self._simbods[name].is_primary:
             # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-            poly = Polygon(pos=sb.track,  # + sb.sb_parent.pos,
-                           border_color=np.array(list(sb.base_color) + [0, ]) +
-                                        np.array([0, 0, 0, sb.track_alpha]),
+            poly = Polygon(pos=plnt.track,  # + sb.sb_parent.pos,
+                           border_color=np.array(list(plnt.base_color) + [0, ]) +
+                                        np.array([0, 0, 0, plnt.track_alpha]),
                            triangulate=False,
                            parent=self._mainview.scene,
                            )
             poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
-            self._sb_tracks.update({sb.name: poly})
+            self._tracks.update({name: poly})
 
     def load_vizz(self):
-        for k, v in self._subv.items():
+        for k, v in self._subvizz.items():
             if "_" in k:
                 print(k)
                 self._mainview.add(v)
@@ -134,21 +133,21 @@ class StarSystemView:
         _bods_pos = []
         for sb_name, sb in self._simbods.items():
             # print(sb.pos2primary - sb.pos)
-            if self._sb_planets[sb_name].visible:
+            if self._planets[sb_name].visible:
                 sb_pos = np.zeros((4,))
                 sb_pos[0:3] = sb.pos2primary
                 _bods_pos.append(sb_pos[0:3])
-                xform = self._sb_planets[sb_name].transform
+                xform = self._planets[sb_name].transform
                 xform.reset()
                 xform.rotate(sb.W * np.pi / 180, sb.z_ax)
                 xform.rotate(sb.DEC * np.pi / 180, sb.y_ax)
                 xform.rotate(sb.RA * np.pi / 180, sb.z_ax)
                 xform.translate(sb_pos)
-                self._sb_planets[sb_name].transform = xform
+                self._planets[sb_name].transform = xform
 
             if sb.sb_parent is not None:
-                self._sb_tracks[sb_name].transform.reset()
-                self._sb_tracks[sb_name].transform.translate(sb.sb_parent.pos2primary)
+                self._tracks[sb_name].transform.reset()
+                self._tracks[sb_name].transform.translate(sb.sb_parent.pos2primary)
 
         self._bods_pos = np.array(_bods_pos)
         # collect the body positions relative to the camera location
@@ -209,9 +208,9 @@ class StarSystemView:
                 pix_diam = raw_diam
             elif raw_diam >= MAX_SYMB_SIZE:
                 pix_diam = 0
-                self._sb_planets[sb_name].visible = True
+                self._planets[sb_name].visible = True
             else:
-                self._sb_planets[sb_name].visible = False
+                self._planets[sb_name].visible = False
 
             pix_diams.append(pix_diam)
 
@@ -255,9 +254,9 @@ class StarSystemView:
     def mesh_data(self, name=None):
         if name is None:
             res = {}
-            return [res.update({k: v.mesh_data}) for k, v in self._sb_planets.items()]
+            return [res.update({k: v.mesh_data}) for k, v in self._planets.items()]
         else:
-            return self._sb_planets[name].mesh_data
+            return self._planets[name].mesh_data
 
 
 def main():

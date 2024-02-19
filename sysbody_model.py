@@ -252,7 +252,7 @@ class SimBody(QObject):
 
     @property
     def base_color(self):
-        return self._body_data['body_color']
+        return self._vizz_data['body_color']
 
     @base_color.setter
     def base_color(self, new_color=(1, 1, 1, 1)):
@@ -260,19 +260,11 @@ class SimBody(QObject):
 
     @property
     def mark(self):
-        return self._body_data['body_mark']
+        return self._vizz_data['body_mark']
 
     @mark.setter
     def mark(self, new_symbol='o'):
         self._mark = new_symbol
-
-    @property
-    def track_alpha(self):
-        return self._track_alpha
-
-    @track_alpha.setter
-    def track_alpha(self, new_alpha=1):
-        self._track_alpha = 0.6
 
     @property
     def plane(self):

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
-    <height>544</height>
+    <width>468</width>
+    <height>566</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,7 @@
      <x>10</x>
      <y>10</y>
      <width>451</width>
-     <height>531</height>
+     <height>561</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -38,9 +38,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>380</y>
+      <y>390</y>
       <width>461</width>
-      <height>151</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -55,7 +55,7 @@
        <x>0</x>
        <y>0</y>
        <width>451</width>
-       <height>151</height>
+       <height>161</height>
       </rect>
      </property>
      <property name="orientation">
@@ -285,13 +285,13 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>70</y>
          <width>431</width>
-         <height>22</height>
+         <height>24</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -350,7 +350,7 @@
       <x>0</x>
       <y>0</y>
       <width>451</width>
-      <height>371</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -693,7 +693,7 @@
       <attribute name="title">
        <string>Elements</string>
       </attribute>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -866,13 +866,13 @@
            <property name="flat">
             <bool>true</bool>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>20</y>
               <width>191</width>
-              <height>61</height>
+              <height>66</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,3">
@@ -953,13 +953,13 @@
            <property name="flat">
             <bool>true</bool>
            </property>
-           <widget class="QWidget" name="">
+           <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>0</x>
               <y>20</y>
               <width>191</width>
-              <height>41</height>
+              <height>43</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,3">
@@ -1017,16 +1017,16 @@
       <attribute name="title">
        <string>Cameras</string>
       </attribute>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>20</y>
          <width>191</width>
-         <height>331</height>
+         <height>333</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="2,0,0,2">
+       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="1,2,2,1">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3">
           <item>
@@ -1313,13 +1313,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
          <width>191</width>
-         <height>22</height>
+         <height>24</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_7">
