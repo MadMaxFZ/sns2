@@ -220,6 +220,10 @@ class StarSystemModel(QObject):
     def simbodies(self):
         return self._simbody_dict
 
+    @property
+    def body_count(self):
+        return self._body_count
+
 
 def main():
     my_starsys = StarSystemModel()

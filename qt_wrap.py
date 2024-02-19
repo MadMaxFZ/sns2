@@ -14,7 +14,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QThread
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
-from sim_window import MainSimCanvas
+from sim_canvas import MainSimCanvas
 from sns2_gui import Ui_wid_BodyData
 # from body_attribs import Ui_frm_BodyAttribs
 # from orbit_classical import Ui_frm_COE

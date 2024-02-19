@@ -41,7 +41,7 @@ DEF_MARKS_DATA = dict(pos=None,
 class StarSystemView:
     """
     """
-    def __init__(self, system_model=None, system_view=None):
+    def __init__(self, sys_model=None, system_view=None):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -49,16 +49,17 @@ class StarSystemView:
             be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        system_model :  TODO: Only require the SimBody object...
+        sys_model :  TODO: Only require the SimBody object...
         system_view :   TODO: minimize the use of this. Only need scene for parents...?
         """
-        if self._check_simbods(model=system_model):
-            self._simbods       = system_model.simbodies
+        if self._check_simbods(model=sys_model):
+            self._simbods       = sys_model.simbodies
+            body_count          = sys_model.body_count
             body_names = self._simbods.keys()
             self._init_state    = 0
             self._mainview      = system_view
             self._cam           = self._mainview.camera
-            self._cam_rel_pos   = np.zeros((len(body_names),), dtype=vec_type)
+            self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap(color=(.3, .3, .3, 1),
                                          edge_color=(0, 0, 1, 0.4))
@@ -73,14 +74,14 @@ class StarSystemView:
             ''' Generate Planet visual object for each SimBody
             '''
             [self._generate_vizz4body(name) for name in body_names]
-            self._sb_symbols = [pl.mark for pl in self._planets.values()]
+            self._symbols = [pl.mark for pl in self._planets.values()]
             self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._cntr_markers = Markers(parent=self._skymap,
                                          symbol='+',
-                                         size=[MIN_SYMB_SIZE - 2 for _ in range(len(body_names))],
+                                         size=[(MIN_SYMB_SIZE - 2) for n in range(body_count)],
                                          **DEF_MARKS_INIT)  # another instance of Markers
             self._plnt_markers.parent = self._mainview.scene
-            self._cntr_markers.set_data(symbol=['+' for _ in range(len(body_names))])
+            self._cntr_markers.set_data(symbol=['+' for n in range(body_count)])
 
             self._subvizz = dict(sk_map=self._skymap,
                                  r_fram=self._frame_viz,
@@ -96,15 +97,13 @@ class StarSystemView:
 
     def _generate_vizz4body(self, name):
         plnt = Planet(body_name=name,
-                              rows=18,
-                              # sim_body=sb,
-                              color=(1, 1, 1, 1),
-                              edge_color=(0, 0, 0, .2),       # sb.base_color,
-                              # texture=sb.texture,
-                              parent=self._mainview.scene,
-                              visible=True,
-                              method='oblate',
-                              )
+                      rows=18,
+                      color=(1, 1, 1, 1),
+                      edge_color=(0, 0, 0, .2),       # sb.base_color,
+                      parent=self._mainview.scene,
+                      visible=True,
+                      method='oblate',
+                      )
         plnt.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
         self._planets.update({name: plnt})
         ''' Generate Polygon visual object for each SimBody orbit
@@ -132,13 +131,15 @@ class StarSystemView:
 
     def update_vizz(self):
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
-        _bods_pos = []
+        _bods_pos = {}
         for sb_name, sb in self._simbods.items():
             # print(sb.pos2primary - sb.pos)
+            sb_pos = np.zeros((4,))
+            # here the data is acquired from the SimBody:
+            sb_pos[0:3] = sb.pos2primary
+
+            _bods_pos.update({sb_name: sb_pos[0:3]})
             if self._planets[sb_name].visible:
-                sb_pos = np.zeros((4,))
-                sb_pos[0:3] = sb.pos2primary
-                _bods_pos.append(sb_pos[0:3])
                 xform = self._planets[sb_name].transform
                 xform.reset()
                 xform.rotate(sb.W * np.pi / 180, sb.z_ax)
@@ -151,19 +152,18 @@ class StarSystemView:
                 self._tracks[sb_name].transform.reset()
                 self._tracks[sb_name].transform.translate(sb.sb_parent.pos2primary)
 
-        self._bods_pos = np.array(_bods_pos)
         # collect the body positions relative to the camera location
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center * sb.dist_unit)['rel_pos']
                              for sb in self._simbods.values()]
 
-        self._plnt_markers.set_data(pos=self._bods_pos,
+        self._plnt_markers.set_data(pos=self._bods_pos.values(),
                                     face_color=[np.array(list(sb.base_color) + [0,]) +
                                                 np.array([0, 0, 0, sb.track_alpha])
                                                 for sb in self._simbods.values()
                                                 ],
                                     edge_color=[1, 0, 0, .6],
                                     size=self._symbol_sizes,
-                                    symbol=self._sb_symbols,
+                                    symbol=self._symbols,
                                     )
         self._cntr_markers.set_data(pos=self._bods_pos,
                                     edge_color=[0, 1, 0, .6],

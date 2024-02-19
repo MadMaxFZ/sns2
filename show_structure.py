@@ -30,7 +30,7 @@ path_name = "C:\\_Projects\\sns2\\"
 name_list = ['starsys_data.py',
              # 'viz_functs.py',
              'qt_wrap.py',
-             'sim_window.py',
+             'sim_canvas.py',
              'starsys_model.py',
              'sysbody_model.py',
              'starsys_visual.py',
