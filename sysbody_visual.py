@@ -18,7 +18,7 @@ from vispy.visuals.filters.mesh import TextureFilter
 from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
 from starsys_model import SimBody
-from starsys_data import DEF_TEX_FNAME, SystemDataStore, _latitude, _oblate_sphere, get_texture_data
+from starsys_data import DEF_TEX_FNAME, sys_data, _latitude, _oblate_sphere, get_texture_data
 
 logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
@@ -69,10 +69,10 @@ class PlanetVisual(CompoundVisual):
         self._pos = np.zeros((3,), dtype=np.float64)
         self._sb_ref = sim_body
         if self._sb_ref is not None and type(self._sb_ref) == SimBody:
-            # This group of variables could live in VizLand?
-            self._tex_data = self._body_data['tex_data']
-            self._mark = self._body_data['body_mark']
-            self._base_color = self._body_data['body_color']
+            self._vizz_data = sys_data.vizz_data(body_name)
+            self._tex_data = self._vizz_data['tex_data']
+            self._mark = self._vizz_data['body_mark']
+            self._base_color = self._vizz_data['body_color']
             self._body_alpha = 1.0
             self._track_alpha = 0.6
             if texture is None:

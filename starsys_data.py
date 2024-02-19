@@ -196,6 +196,7 @@ class SystemDataStore:
         _tex_fnames    = []  # list of texture filenames (will be sorted)
         _tex_dat_set   = {}  # dist of body name and the texture data associated with it
         _body_params   = {}  # dict of body name and the static parameters of each
+        _vizz_params   = {}
         _body_count    = 0   # number of available bodies
         _type_count    = {}  # dict of body types and the count of each typE
         _viz_assign    = {}  # dict of visual names to use for each body
@@ -350,14 +351,17 @@ class SystemDataStore:
                               rot_func=_rot_set[idx],
                               o_period=_o_per_set[idx].to(u.s),
                               body_type=_body_types[_type_set[idx]],
-                              body_color=_colorset_rgb[idx],
+                              )
+            _body_params.update({_bod_name: _body_data})
+            # a dict of the initial visual parameters
+            _vizz_data = dict(body_color=_colorset_rgb[idx],
                               fname_idx=_tex_idx[idx],
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
                               body_mark=_body_tmark[_type_set[idx]],
                               viz_names=_viz_assign[_bod_name],
                               )
-            _body_params.update({_bod_name: _body_data})
+            _vizz_params.update({_bod_name: _vizz_data})
 
             if _body_data["body_type"] not in _type_count.keys():  # identify types of bodies
                 _type_count[_body_data["body_type"]] = 0
@@ -391,6 +395,7 @@ class SystemDataStore:
                                COLOR_SET=_colorset_rgb,
                                TYPE_COUNT=_type_count,
                                BODY_DATA=_body_params,
+                               VIZZ_DATA=_vizz_params,
                                )
         logging.debug("ALL data for the system have been collected...!")
 
@@ -411,12 +416,23 @@ class SystemDataStore:
         # list of body names available in sim, cast to a tuple to preserve order
         return tuple([name for name in self._body_names])
 
+    @property
     def body_data(self, name=None):
         res = None
-        if name is None:
+        if not name:
             res = self._datastore['BODY_DATA']
         elif name in self.body_names:
             res = self._datastore['BODY_DATA'][name]
+
+        return res
+
+    @property
+    def vizz_data(self, name=None):
+        res = None
+        if not name:
+            res = self._datastore['VIZZ_DATA']
+        elif name in self.body_names:
+            res = self._datastore['VIZZ_DATA'][name]
 
         return res
 
