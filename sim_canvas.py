@@ -7,7 +7,6 @@ from vispy.color import Color
 from starsys_data import sys_data
 from starsys_model import StarSystemModel
 from starsys_visual import StarSystemView
-from camera_set import CameraSet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -34,15 +33,8 @@ class MainSimCanvas(scene.SceneCanvas):
         self._sys_viewbox = self.central_widget.add_view()
         self._sys_vizz = StarSystemView(sys_model=self._system_model, system_view=self._sys_viewbox)
 
-        self.cameras = CameraSet()
-        self._sys_viewbox.camera = self.cameras.curr_cam
-        print(self._sys_viewbox.camera)
-        self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
-                                           (-1e+09, 1e+09),
-                                           (-1e+09, 1e+09),
-                                           )       # this initial range gets bulk of system
-        self._sys_viewbox.camera.zoom_factor = 1.0
-        self._sys_viewbox.camera.scale_factor = 14.5e+06
+
+
 
         self._system_model.t_warp = 9000
         self._model_timer = Timer(interval='auto',
@@ -58,6 +50,16 @@ class MainSimCanvas(scene.SceneCanvas):
 
         for k, v in self._sys_viewbox.camera.get_state().items():
             print(k, ":", v)
+
+    def assign_cam(self, cams):
+        self._sys_viewbox.camera = cams.curr_cam
+        print(self._sys_viewbox.camera)
+        self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
+                                           (-1e+09, 1e+09),
+                                           (-1e+09, 1e+09),
+                                           )  # this initial range gets bulk of system
+        self._sys_viewbox.camera.zoom_factor = 1.0
+        self._sys_viewbox.camera.scale_factor = 14.5e+06
 
     def on_key_press(self, ev):
         try:

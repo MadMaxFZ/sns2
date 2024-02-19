@@ -21,6 +21,8 @@ from sns2_gui import Ui_wid_BodyData
 # from time_control import Ui_frm_TimeControl
 from composite import Ui_frm_sns_controls
 from starsys_data import log_config
+from camera_set import CameraSet
+
 
 logging.config.dictConfig(log_config)
 
@@ -31,6 +33,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self._controls = Controls()
         self._canvas = CanvasWrapper()
+        self._canvas.assign_cam(cams=self._canvas.cameras)
         main_layout = QtWidgets.QHBoxLayout()
         main_layout.addWidget(self._controls)
         # main_layout.addStretch()
@@ -103,6 +106,11 @@ class CanvasWrapper(MainSimCanvas):
     """
     def __init__(self):
         super(CanvasWrapper, self).__init__()
+        self._cameras = CameraSet()
+
+    @property
+    def cameras(self):
+        return self._cameras
 
     def set_skymap_grid(self, color=(1, 1, 1, 1)):
         self.view.skymap.mesh.meshdata.color = color
