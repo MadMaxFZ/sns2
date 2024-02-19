@@ -41,7 +41,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(central_widget)
         self._connect_controls()
         self.thread = QThread()
-        self._canvas.model.moveToThread(self.thread)
+        # self._canvas.model.moveToThread(self.thread)
 
     def _connect_controls(self):
 

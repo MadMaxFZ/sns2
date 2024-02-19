@@ -12,6 +12,7 @@ from vispy.scene.visuals import (create_visual_node,
 from starsys_data import vec_type
 from sysbody_visual import Planet
 from sys_skymap import SkyMap
+from camera_set import CameraSet
 from sysbody_model import SimBody
 
 # these quantities can be served from DATASTORE class
@@ -57,8 +58,9 @@ class StarSystemView:
             body_count          = sys_model.body_count
             body_names = self._simbods.keys()
             self._init_state    = 0
+            self._cams          = CameraSet()
             self._mainview      = system_view
-            self._cam           = self._mainview.camera
+            self._mainview.camera = self._cams.curr_cam
             self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap(color=(.3, .3, .3, 1),

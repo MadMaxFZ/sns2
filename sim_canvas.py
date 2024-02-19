@@ -36,6 +36,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
         self.cameras = CameraSet()
         self._sys_viewbox.camera = self.cameras.curr_cam
+        print(self._sys_viewbox.camera)
         self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
                                            (-1e+09, 1e+09),

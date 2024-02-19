@@ -12,7 +12,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_frm_sns_controls(object):
-    def setupUi(self, frm_sns_controls):
+    def setupUi(self, frm_sns_controls: QtWidgets):
+        """
+
+        Parameters
+        ----------
+        frm_sns_controls : QtWidget
+        """
         frm_sns_controls.setObjectName("frm_sns_controls")
         frm_sns_controls.resize(468, 566)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
