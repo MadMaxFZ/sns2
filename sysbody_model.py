@@ -30,6 +30,7 @@ class SimBody(QObject):
     def __init__(self, body_name=None):
         super(SimBody, self).__init__()
         self._is_primary    = False
+        self._prev_update   = None
         self._RESAMPLE      = False
         self._sb_parent     = None
         self._sys_primary   = None
@@ -80,12 +81,7 @@ class SimBody(QObject):
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
         self._body_data.update({'rad_set' : self._rad_set})
-        # This group of variables could live in VizLand?
-        self._tex_data      = self._body_data['tex_data']
-        self._mark          = self._body_data['body_mark']
-        self._base_color    = self._body_data['body_color']
-        self._body_alpha    = 1.0
-        self._track_alpha   = 0.6
+
 
         self.created.emit(self.name)
         logging.info("RADIUS SET: %s", self._rad_set)

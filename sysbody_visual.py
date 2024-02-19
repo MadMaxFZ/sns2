@@ -69,6 +69,12 @@ class PlanetVisual(CompoundVisual):
         self._pos = np.zeros((3,), dtype=np.float64)
         self._sb_ref = sim_body
         if self._sb_ref is not None and type(self._sb_ref) == SimBody:
+            # This group of variables could live in VizLand?
+            self._tex_data = self._body_data['tex_data']
+            self._mark = self._body_data['body_mark']
+            self._base_color = self._body_data['body_color']
+            self._body_alpha = 1.0
+            self._track_alpha = 0.6
             if texture is None:
                 self._texture_data = self._sb_ref.texture
             else:
