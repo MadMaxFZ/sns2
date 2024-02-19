@@ -59,7 +59,7 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, body_name='Earth', sim_body=None,
+    def __init__(self, body_name='Earth', # sim_body=None,
                  radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
@@ -67,8 +67,8 @@ class PlanetVisual(CompoundVisual):
 
         self._radii = np.zeros((3,),dtype=np.float64)
         self._pos = np.zeros((3,), dtype=np.float64)
-        self._sb_ref = sim_body
-        if self._sb_ref is not None and type(self._sb_ref) == SimBody:
+        # self._sb_ref = sim_body
+        if body_name in sys_data.body_names:
             self._vizz_data = sys_data.vizz_data(body_name)
             self._tex_data = self._vizz_data['tex_data']
             self._mark = self._vizz_data['body_mark']
@@ -80,7 +80,7 @@ class PlanetVisual(CompoundVisual):
             else:
                 self._texture_data = texture
 
-            self._radii = self._sb_ref.radius
+            self._radii = sys_data.body_data(body_name)['rad_set']
 
         else:           # no SimBody provided
             self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0
@@ -136,11 +136,11 @@ class PlanetVisual(CompoundVisual):
 
     @property
     def base_color(self):
-        return self._base_color
+        return self._vizz_data['body_color']
 
     @base_color.setter
-    def base_color(self, new_color):
-        self._base_color = new_color
+    def base_color(self, new_color=(1, 1, 1, 1)):
+        self._base_color = np.array(new_color)
 
     @property
     def track_alpha(self):
@@ -170,6 +170,14 @@ class PlanetVisual(CompoundVisual):
                                 )
         self._mesh.attach(_filter)
         # self.update()
+
+    @property
+    def mark(self):
+        return self._vizz_data['body_mark']
+
+    @mark.setter
+    def mark(self, new_symbol='o'):
+        self._mark = new_symbol
 
     # @property
     # def pos(self):

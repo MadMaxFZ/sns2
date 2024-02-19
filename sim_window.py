@@ -4,7 +4,7 @@ import logging
 from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
-from starsys_data import *
+from starsys_data import sys_data
 from starsys_model import StarSystemModel
 from starsys_visual import StarSystemView
 from camera_set import CameraSet
@@ -18,7 +18,7 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 class MainSimCanvas(scene.SceneCanvas):
     FIRST = True
 
-    def __init__(self, body_names=None):
+    def __init__(self, body_names=sys_data.body_names):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(850, 600),
                                             show=False,

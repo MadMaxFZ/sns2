@@ -49,19 +49,21 @@ class StarSystemView:
             be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        system_model :  TODO: Only require the SimBody pbject...
+        system_model :  TODO: Only require the SimBody object...
         system_view :   TODO: minimize the use of this. Only need scene for parents...?
         """
         if self._check_simbods(model=system_model):
             self._simbods       = system_model.simbodies
+            body_names = self._simbods.keys()
             self._init_state    = 0
             self._mainview      = system_view
             self._cam           = self._mainview.camera
-            self._cam_rel_pos   = np.zeros((len(self._simbods.keys()),), dtype=vec_type)
+            self._cam_rel_pos   = np.zeros((len(body_names),), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap(color=(.3, .3, .3, 1),
                                          edge_color=(0, 0, 1, 0.4))
-            self._bods_pos      = [sb.pos2primary for sb in self._simbods.values()]
+            self._bods_pos      = {}
+            [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
             self._symbol_sizes  = []
             self._planets    = {}       # a dict of Planet visuals
             self._tracks     = {}       # a dict of Polygon visuals
@@ -70,15 +72,15 @@ class StarSystemView:
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
             ''' Generate Planet visual object for each SimBody
             '''
-            [self._generate_vizz4body(name) for name in self._simbods.keys()]
+            [self._generate_vizz4body(name) for name in body_names]
             self._sb_symbols = [pl.mark for pl in self._planets.values()]
             self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
             self._cntr_markers = Markers(parent=self._skymap,
                                          symbol='+',
-                                         size=[MIN_SYMB_SIZE - 2 for sb in self._simbods.values()],
+                                         size=[MIN_SYMB_SIZE - 2 for _ in range(len(body_names))],
                                          **DEF_MARKS_INIT)  # another instance of Markers
             self._plnt_markers.parent = self._mainview.scene
-            self._cntr_markers.set_data(symbol=['+' for _ in range(len(self._simbods))])
+            self._cntr_markers.set_data(symbol=['+' for _ in range(len(body_names))])
 
             self._subvizz = dict(sk_map=self._skymap,
                                  r_fram=self._frame_viz,
@@ -109,7 +111,7 @@ class StarSystemView:
         '''
         if not self._simbods[name].is_primary:
             # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-            poly = Polygon(pos=plnt.track,  # + sb.sb_parent.pos,
+            poly = Polygon(pos=self._simbods[name].track,  # + sb.sb_parent.pos,
                            border_color=np.array(list(plnt.base_color) + [0, ]) +
                                         np.array([0, 0, 0, plnt.track_alpha]),
                            triangulate=False,

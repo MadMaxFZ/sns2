@@ -250,21 +250,21 @@ class SimBody(QObject):
     def type(self, new_type=None):
         self._type = new_type
 
-    @property
-    def base_color(self):
-        return self._vizz_data['body_color']
+    # @property
+    # def base_color(self):
+    #     return self._vizz_data['body_color']
+    #
+    # @base_color.setter
+    # def base_color(self, new_color=(1, 1, 1, 1)):
+    #     self._base_color = np.array(new_color)
 
-    @base_color.setter
-    def base_color(self, new_color=(1, 1, 1, 1)):
-        self._base_color = np.array(new_color)
-
-    @property
-    def mark(self):
-        return self._vizz_data['body_mark']
-
-    @mark.setter
-    def mark(self, new_symbol='o'):
-        self._mark = new_symbol
+    # @property
+    # def mark(self):
+    #     return self._vizz_data['body_mark']
+    #
+    # @mark.setter
+    # def mark(self, new_symbol='o'):
+    #     self._mark = new_symbol
 
     @property
     def plane(self):
@@ -416,6 +416,10 @@ class SimBody(QObject):
         return self._state[0] * self._dist_unit
 
     @property
+    def track(self):
+        return self._trajectory
+
+    @property
     def dist2parent(self):
         return np.linalg.norm(self.pos)
 
@@ -428,9 +432,7 @@ class SimBody(QObject):
         """
         return self._state[1] * self._dist_unit
 
-    @property
-    def track(self):
-        return self._trajectory
+
 
     @property
     def texture(self):
