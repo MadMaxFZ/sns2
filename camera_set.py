@@ -9,23 +9,23 @@ class CameraSet(dict):
         can be used in various views within an application.
     """
     def __init__(self):
-        super(CameraSet, self).__init__()
+        self._cam_dict = super(CameraSet, self).__init__()
         self._curr_key = "def_cam"
         self.add_cam(self._curr_key, FlyCamera(fov=60))
-        self._curr_cam = self[self._curr_key]
+        self._curr_cam = self._cam_dict[self._curr_key]
 
     def add_cam(self, cam_label=None, new_cam=FlyCamera(fov=60)):
-        if issubclass(new_cam, BaseCamera):
+        if issubclass(type(new_cam), BaseCamera):
             if not cam_label:
-                cam_label = "cam_" + str(len(self))
-            self.update({cam_label: new_cam})
+                cam_label = "cam_" + str(len(self.cam_count))
+            self._cam_dict.update({cam_label: new_cam})
         self._curr_key = cam_label
-        self._curr_cam = self[self._curr_key]
+        self._curr_cam = self._cam_dict[self._curr_key]
 
     def cam_state(self, cam_key=None):
         if not cam_key:
             cam_key = self._curr_key
-        cam_states = self[cam_key].get_state()
+        cam_states = sel._cam_dict[cam_key].get_state()
         for k, v in cam_states.items():
             print(f"{cam_key}.{k} : {v}")
 
@@ -33,11 +33,11 @@ class CameraSet(dict):
 
     @property
     def cam_count(self):
-        return len(self.keys())
+        return len(self._cam_dict.keys())
 
     @property
     def curr_cam(self):
-        return self[self._curr_key]
+        return self._cam_dict[self._curr_key]
 
     @property
     def curr_key(self):
