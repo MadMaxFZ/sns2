@@ -3,13 +3,13 @@ from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
 
-class CameraSet(dict):
+class CameraSet:
     """     This class contains and manages a set of camera objects.
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
     """
     def __init__(self):
-        self._cam_dict = super(CameraSet, self).__init__()
+        self._cam_dict = {}     # super(CameraSet, self).__init__()
         self._curr_key = "def_cam"
         self.add_cam(self._curr_key, FlyCamera(fov=60))
         self._curr_cam = self._cam_dict[self._curr_key]
