@@ -101,6 +101,7 @@ class CanvasWrapper(MainSimCanvas):
         - view  :   contains the rendering of the simulation scene
         - vizz  :   contains the vispy visual nodes rendered in the view
     """
+    # TODO: create the CameraSet instance here, then pass the curr_cam to the Canvas...?
     def __init__(self):
         super(CanvasWrapper, self).__init__()
 
