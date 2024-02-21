@@ -106,11 +106,11 @@ class CanvasWrapper(MainSimCanvas):
     """
     def __init__(self):
         super(CanvasWrapper, self).__init__()
-        self._cameras = CameraSet()
+        self.assign_cam(CameraSet())
 
     @property
     def cameras(self):
-        return self._cameras
+        return self.cameras
 
     def set_skymap_grid(self, color=(1, 1, 1, 1)):
         self.view.skymap.mesh.meshdata.color = color

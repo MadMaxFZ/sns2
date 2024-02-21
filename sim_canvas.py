@@ -31,11 +31,8 @@ class MainSimCanvas(scene.SceneCanvas):
         #       25(75/25V)/75H
         # or these sub-views could be within sys_viz?
         self._sys_viewbox = self.central_widget.add_view()
+        self._camset = None
         self._sys_vizz = StarSystemView(sys_model=self._system_model, system_view=self._sys_viewbox)
-
-
-
-
         self._system_model.t_warp = 9000
         self._model_timer = Timer(interval='auto',
                                   connect=self.on_mod_timer,
@@ -52,8 +49,9 @@ class MainSimCanvas(scene.SceneCanvas):
             print(k, ":", v)
 
     def assign_cam(self, cams):
-        self._sys_viewbox.camera = cams.curr_cam
-        print(self._sys_viewbox.camera)
+        self._camset = cams
+        self._sys_viewbox.camera = self._camset.curr_cam
+        print(self._sys_viewbox.camera.get_state)
         self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
@@ -97,7 +95,7 @@ class MainSimCanvas(scene.SceneCanvas):
         self._sys_vizz.update_vizz()
 
     def on_rpt_timer(self, event=None):
-        print("MeshData:\n", self._sys_vizz.planet_meshdata)
+        print("SystemEpoch:\n", self.model.epoch)
 
     def run(self):
         self.show()
@@ -118,6 +116,9 @@ class MainSimCanvas(scene.SceneCanvas):
     def vizz(self):
         return self._sys_vizz
 
+    @property
+    def cameras(self):
+        return self._camset
 
 def main():
     _body_include_set = ['Sun',
