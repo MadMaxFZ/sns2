@@ -33,7 +33,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self._controls = Controls()
         self._canvas = CanvasWrapper()
-        self._canvas.assign_cam(cams=self._canvas.cameras)
+        self._canvas.assign_cams(cams=self._canvas.cameras)
         main_layout = QtWidgets.QHBoxLayout()
         main_layout.addWidget(self._controls)
         # main_layout.addStretch()
@@ -106,7 +106,7 @@ class CanvasWrapper(MainSimCanvas):
     """
     def __init__(self):
         super(CanvasWrapper, self).__init__()
-        self.assign_cam(CameraSet())
+        self.assign_cams(CameraSet())
 
     @property
     def cameras(self):

@@ -48,7 +48,7 @@ class MainSimCanvas(scene.SceneCanvas):
         for k, v in self._sys_viewbox.camera.get_state().items():
             print(k, ":", v)
 
-    def assign_cam(self, cams):
+    def assign_cams(self, cams):
         self._camset = cams
         self._sys_viewbox.camera = self._camset.curr_cam
         print(self._sys_viewbox.camera.get_state)
