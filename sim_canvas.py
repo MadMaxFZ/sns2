@@ -31,7 +31,7 @@ class MainSimCanvas(scene.SceneCanvas):
         #       25(75/25V)/75H
         # or these sub-views could be within sys_viz?
         self._sys_viewbox = self.central_widget.add_view()
-        self._camset = None
+        self._camset = CameraSet()
         self._sys_vizz = StarSystemView(sys_model=self._system_model, system_view=self._sys_viewbox)
         self._system_model.t_warp = 9000
         self._model_timer = Timer(interval='auto',
@@ -90,11 +90,11 @@ class MainSimCanvas(scene.SceneCanvas):
         except AttributeError:
             print("Key Error...")
 
-    def on_mod_timer(self, event=None):
+    def on_mod_timer(self, ev=None):
         self._system_model.update_epochs()
         self._sys_vizz.update_vizz()
 
-    def on_rpt_timer(self, event=None):
+    def on_rpt_timer(self, ev=None):
         print("SystemEpoch:\n", self.model.epoch)
 
     def run(self):
@@ -119,6 +119,7 @@ class MainSimCanvas(scene.SceneCanvas):
     @property
     def cameras(self):
         return self._camset
+
 
 def main():
     _body_include_set = ['Sun',
