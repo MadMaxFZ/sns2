@@ -91,6 +91,7 @@ class StarSystemView:
                                  surfcs=self._planets,
                                  )
             self.load_vizz()
+            # self.update_vizz()
         else:
             print("Must provide a dictionary of SimBody objects...")
             sys.exit(1)
