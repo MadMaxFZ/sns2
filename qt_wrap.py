@@ -40,8 +40,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
         self._body_list = self._controls.ui.lst_currBody_names
-        self._body_combo = self._controls.ui.cbx_currBody
+        self._curr_body = self._controls.ui.cbx_currBody
         self._body_tabs = self._controls.ui.tabWidget_Body
+        self._curr_cam = self._controls.ui.cam_curr
         self._connect_controls()
         self.thread = QThread()
         self._canvas.model.moveToThread(self.thread)
@@ -50,9 +51,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def _connect_controls(self):
         self._body_list.clear()
         self._body_list.addItems(self._canvas.model.simbodies.keys())
-        self._body_combo.addItems(self._canvas.model.simbodies.keys())
+        self._curr_body.addItems(self._canvas.model.simbodies.keys())
         self._body_tabs.setCurrentIndex(0)
-        self._body_combo.currentIndexChanged.connect()
+        self._curr_body.currentIndexChanged.connect()
         # connect control slots to appropriate functions in response to signals
 
         pass
@@ -91,6 +92,10 @@ class Controls(QtWidgets.QWidget):
                            self.ui_obj_dict.items() if p in name]})
 
         return panels
+
+    def update_panel(self, pattern=None):
+
+        pass
 
     @property
     def panels(self, name=None):
