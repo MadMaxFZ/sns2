@@ -39,12 +39,20 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget = QtWidgets.QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
+        self._body_list = self._controls.ui.lst_currBody_names
+        self._body_combo = self._controls.ui.cbx_currBody
+        self._body_tabs = self._controls.ui.tabWidget_Body
         self._connect_controls()
         self.thread = QThread()
         self._canvas.model.moveToThread(self.thread)
+        self.thread.start()
 
     def _connect_controls(self):
-
+        self._body_list.clear()
+        self._body_list.addItems(self._canvas.model.simbodies.keys())
+        self._body_combo.addItems(self._canvas.model.simbodies.keys())
+        self._body_tabs.setCurrentIndex(0)
+        self._body_combo.currentIndexChanged.connect()
         # connect control slots to appropriate functions in response to signals
 
         pass
@@ -101,7 +109,6 @@ class CanvasWrapper(MainSimCanvas):
         - view  :   contains the rendering of the simulation scene
         - vizz  :   contains the vispy visual nodes rendered in the view
     """
-    # TODO: create the CameraSet instance here, then pass the curr_cam to the Canvas...?
     def __init__(self):
         super(CanvasWrapper, self).__init__()
 
