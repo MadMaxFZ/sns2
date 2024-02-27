@@ -53,7 +53,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._body_list.addItems(self._canvas.model.simbodies.keys())
         self._curr_body.addItems(self._canvas.model.simbodies.keys())
         self._body_tabs.setCurrentIndex(0)
-        self._curr_body.currentIndexChanged.connect()
+        self._curr_body.setCurrentIndex(0)
         # connect control slots to appropriate functions in response to signals
 
         pass

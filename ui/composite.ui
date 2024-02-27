@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>566</height>
+    <width>463</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,7 @@
      <x>10</x>
      <y>10</y>
      <width>451</width>
-     <height>561</height>
+     <height>531</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -38,9 +38,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>390</y>
+      <y>380</y>
       <width>461</width>
-      <height>161</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -55,7 +55,7 @@
        <x>0</x>
        <y>0</y>
        <width>451</width>
-       <height>161</height>
+       <height>151</height>
       </rect>
      </property>
      <property name="orientation">
@@ -133,7 +133,7 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
-      <widget class="QSlider" name="twarp_mant">
+      <widget class="QSlider" name="tw_mant">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -208,7 +208,7 @@
         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
        </property>
       </widget>
-      <widget class="QLabel" name="twarp_max">
+      <widget class="QLabel" name="tw_max">
        <property name="geometry">
         <rect>
          <x>385</x>
@@ -236,7 +236,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QPushButton" name="btn_twarp_stop">
+       <widget class="QPushButton" name="twb_stop">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -247,17 +247,17 @@
          <string>RESET</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_twarp_reverse">
+       <widget class="QPushButton" name="twb_reverse">
         <property name="text">
          <string>&lt;--&gt;</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_twarp_play_pause">
+       <widget class="QPushButton" name="twb_play_pause">
         <property name="text">
          <string>&gt; / ||</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_twarp_realtime">
+       <widget class="QPushButton" name="twb_realtime">
         <property name="text">
          <string>--&gt; 1</string>
         </property>
@@ -291,7 +291,7 @@
          <x>10</x>
          <y>70</y>
          <width>431</width>
-         <height>24</height>
+         <height>25</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -350,7 +350,7 @@
       <x>0</x>
       <y>0</y>
       <width>451</width>
-      <height>381</height>
+      <height>371</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -872,7 +872,7 @@
               <x>0</x>
               <y>20</y>
               <width>191</width>
-              <height>66</height>
+              <height>67</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,3">
@@ -959,7 +959,7 @@
               <x>0</x>
               <y>20</y>
               <width>191</width>
-              <height>43</height>
+              <height>44</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,3">
@@ -1023,10 +1023,10 @@
          <x>0</x>
          <y>20</y>
          <width>191</width>
-         <height>333</height>
+         <height>334</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="1,2,2,1">
+       <layout class="QVBoxLayout" name="verticalLayout_6" stretch="2,0,0,2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3">
           <item>
@@ -1319,7 +1319,7 @@
          <x>0</x>
          <y>0</y>
          <width>191</width>
-         <height>24</height>
+         <height>25</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_7">

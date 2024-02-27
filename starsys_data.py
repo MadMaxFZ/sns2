@@ -119,7 +119,7 @@ def _oblate_sphere(rows=4, cols=None, radius=(1200, 1200, 1200), offset=False):
                     np.array([[0, 0, cols + 1]]))
     rowtemplate2 = (((np.arange(cols).reshape(cols, 1) + np.array([[1, 0, 1]])) % (cols + 2)) +
                     np.array([[0, cols + 1, cols + 1]]))
-    print(rowtemplate1.shape, "\n", rowtemplate2.shape)
+    # print(rowtemplate1.shape, "\n", rowtemplate2.shape)
     faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
     for row in range(rows):
         start = row * cols * 2
