@@ -23,6 +23,7 @@ class MainSimCanvas(scene.SceneCanvas):
                                             size=(850, 600),
                                             show=False,
                                             bgcolor=Color("black"),
+                                            title="SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten",
                                             )
         self.unfreeze()
         self._system_model = StarSystemModel(body_names=body_names)
@@ -32,8 +33,8 @@ class MainSimCanvas(scene.SceneCanvas):
         #       25(75/25V)/75H
         # or these sub-views could be within sys_viz?
         self._sys_viewbox = self.central_widget.add_view()
-        self.cameras = CameraSet(canvas=self)
-        self._sys_viewbox.camera = self.cameras.curr_cam
+        self._cameras = CameraSet(canvas=self)
+        self._sys_viewbox.camera = self._cameras.curr_cam
         self._sys_vizz = StarSystemView(sys_model=self._system_model, system_view=self._sys_viewbox)
         self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
@@ -102,6 +103,11 @@ class MainSimCanvas(scene.SceneCanvas):
 
     # def stop(self):
     #     app.quit()
+
+    @property
+    def curr_cam(self):
+        return self._cameras.curr_cam
+
     @property
     def model(self):
         return self._system_model

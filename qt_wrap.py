@@ -29,34 +29,30 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
+        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self._controls = Controls()
         self._canvas = CanvasWrapper()
         main_layout = QtWidgets.QHBoxLayout()
-        main_layout.addWidget(self._controls)
-        # main_layout.addStretch()
-        main_layout.addWidget(self._canvas.native)
+        splitter = QtWidgets.QSplitter()
+        splitter.addWidget(self._controls)
+        splitter.addWidget(self._canvas.native)
+        main_layout.addWidget(splitter)
 
         central_widget = QtWidgets.QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
-        self._body_list = self._controls.ui.lst_currBody_names
-        self._curr_body = self._controls.ui.cbx_currBody
-        self._body_tabs = self._controls.ui.tabWidget_Body
-        self._curr_cam = self._controls.ui.cam_curr
-        self._connect_controls()
+        self.init_controls()
+        self._controls.connect_controls()
         self.thread = QThread()
         self._canvas.model.moveToThread(self.thread)
         self.thread.start()
 
-    def _connect_controls(self):
-        self._body_list.clear()
-        self._body_list.addItems(self._canvas.model.simbodies.keys())
-        self._curr_body.addItems(self._canvas.model.simbodies.keys())
-        self._body_tabs.setCurrentIndex(0)
-        self._curr_body.setCurrentIndex(0)
-        # connect control slots to appropriate functions in response to signals
-
-        pass
+    def init_controls(self):
+        self._controls.body_list.clear()
+        self._controls.body_list.addItems(self._canvas.model.simbodies.keys())
+        self._controls.curr_body.addItems(self._canvas.model.simbodies.keys())
+        self._controls.body_tabs.setCurrentIndex(0)
+        self._controls.curr_body.setCurrentIndex(0)
 
 
 class Controls(QtWidgets.QWidget):
@@ -69,8 +65,21 @@ class Controls(QtWidgets.QWidget):
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
         self._panel_names = ['attr', 'coe', 'pqw', 'rv', 'axis', 'cam', 'twarp']
         self._control_groups = self._scanUi_4panels(patterns=self._panel_names)
-
+        self._body_list = self.ui.lst_currBody_names
+        self._curr_body = self.ui.cbx_currBody
+        self._body_tabs = self.ui.tabWidget_Body
+        self._curr_cam = self.ui.cam_curr
+        self._time_warp = self.ui.twarp_val
+        self._tw_base = self.ui.tw_mant
+        self._tw_exp = self.ui.twarp_exp
+        self._selected_body = self._curr_body.currentText()
+        self._selected_cam = self._curr_cam.currentText()
         # define functions of Qt controls here
+
+    def connect_controls(self):
+        # connect control slots to appropriate functions in response to signals
+        self._curr_body.currentIndexChanged.connect(self._body_list.setCurrentRow)
+        self._body_list.currentRowChanged.connect(self._curr_body.setCurrentIndex)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -105,6 +114,18 @@ class Controls(QtWidgets.QWidget):
             return self._control_groups[name]
         else:
             return None
+
+    @property
+    def body_list(self):
+        return self._body_list
+
+    @property
+    def curr_body(self):
+        return self._curr_body
+
+    @property
+    def body_tabs(self):
+        return self._body_tabs
 
 
 class CanvasWrapper(MainSimCanvas):

@@ -157,7 +157,7 @@ class StarSystemView:
         self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center * sb.dist_unit)['rel_pos']
                              for sb in self._simbods.values()]
 
-        self._plnt_markers.set_data(pos=self._bods_pos.values(),
+        self._plnt_markers.set_data(pos=_bods_pos.values(),
                                     face_color=[np.array(list(sb.base_color) + [0,]) +
                                                 np.array([0, 0, 0, sb.track_alpha])
                                                 for sb in self._simbods.values()
@@ -166,7 +166,7 @@ class StarSystemView:
                                     size=self._symbol_sizes,
                                     symbol=self._symbols,
                                     )
-        self._cntr_markers.set_data(pos=self._bods_pos,
+        self._cntr_markers.set_data(pos=_bods_pos,
                                     edge_color=[0, 1, 0, .6],
                                     size=MIN_SYMB_SIZE,
                                     symbol=['diamond' for sb in self._simbods.values()],

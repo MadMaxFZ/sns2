@@ -58,8 +58,6 @@ class StarSystemModel(QObject):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
 
-
-
     def assign_timer(self, clock):
         self._w_clock = clock
         self.cmd_timer()
@@ -112,6 +110,7 @@ class StarSystemModel(QObject):
 
     def set_orbits(self):
         [sb.orbit(ephem=sb.ephem) for sb in self.simbod_list]
+        self.initialized.emit(self._body_names)
 
     def update_epochs(self, event=None):
         # get duration since last update
@@ -136,7 +135,7 @@ class StarSystemModel(QObject):
                 sb.ephem = self._sys_epoch  # reset ephem range
                 sb.RESAMPLE = True
                 logging.debug("RELOAD EPOCHS/EPHEM SETS...")
-
+        self.updating.emit(self._sys_epoch)
         self.update_states(new_epoch=self._sys_epoch)
 
         # if self._avg_d_epoch.value == 0:
@@ -165,6 +164,7 @@ class StarSystemModel(QObject):
                 j += 1
             i += 1
 
+        self.ready.emit()
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self._sys_rel_pos,
                       self._sys_rel_vel,
@@ -185,7 +185,6 @@ class StarSystemModel(QObject):
                 self._w_clock.stop()
         print(f"clock running: {self._w_clock.running} at {self._w_clock.elapsed}\n"
               f"with sys_epoch: {self._sys_epoch}")
-
 
     @property
     def epoch(self):
