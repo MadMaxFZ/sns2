@@ -37,12 +37,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
         splitter.addWidget(self._controls)
         splitter.addWidget(self._canvas.native)
         main_layout.addWidget(splitter)
-
         central_widget = QtWidgets.QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
+
         self.init_controls()
         self._controls.connect_controls()
+
         self.thread = QThread()
         self._canvas.model.moveToThread(self.thread)
         self.thread.start()
