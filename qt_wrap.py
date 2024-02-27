@@ -64,8 +64,9 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
-        self._panel_names = ['attr', 'coe', 'pqw', 'rv', 'axis', 'cam', 'twarp']
+        self._panel_names = ['attr', 'coe', 'pqw', 'rv', 'cam', 'twarp', 'axis']
         self._control_groups = self._scanUi_4panels(patterns=self._panel_names)
+        self._tab_names = ['attr', 'elem', 'cams']
         self._body_list = self.ui.lst_currBody_names
         self._curr_body = self.ui.cbx_currBody
         self._body_tabs = self.ui.tabWidget_Body
@@ -74,12 +75,14 @@ class Controls(QtWidgets.QWidget):
         self._tw_base = self.ui.tw_mant
         self._tw_exp = self.ui.twarp_exp
         self._selected_body = self._curr_body.currentText()
-        self._selected_cam = self._curr_cam.currentText()
+        self._active_cam = self._curr_cam.currentText()
+        self._active_panel = self._tab_names[self._body_tabs.currentIndex()]
         # define functions of Qt controls here
 
     def connect_controls(self):
         # connect control slots to appropriate functions in response to signals
         self._curr_body.currentIndexChanged.connect(self._body_list.setCurrentRow)
+        self._curr_body.currentIndexChanged.connect(self._update_attribs)
         self._body_list.currentRowChanged.connect(self._curr_body.setCurrentIndex)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
@@ -99,11 +102,12 @@ class Controls(QtWidgets.QWidget):
         panels = {}
         for p in patterns:
             panels.update({p: [(name, widget) for name, widget in
-                           self.ui_obj_dict.items() if p in name]})
+                               self.ui_obj_dict.items() if p in name]})
 
         return panels
 
-    def update_panel(self, pattern=None):
+    def _update_attribs(self, i):
+        body_name = self._body_list
 
         pass
 
@@ -136,6 +140,7 @@ class CanvasWrapper(MainSimCanvas):
         - view  :   contains the rendering of the simulation scene
         - vizz  :   contains the vispy visual nodes rendered in the view
     """
+
     def __init__(self):
         super(CanvasWrapper, self).__init__()
 
