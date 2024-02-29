@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>463</width>
-    <height>545</height>
+    <height>544</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -108,7 +108,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lv_twarp_elapsed">
+         <widget class="QLabel" name="tw_elapsed">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;w_clock.elapsed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -350,7 +350,7 @@
       <x>0</x>
       <y>0</y>
       <width>451</width>
-      <height>381</height>
+      <height>371</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -421,7 +421,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_ATTR">
       <attribute name="title">
@@ -433,7 +433,7 @@
          <x>0</x>
          <y>0</y>
          <width>191</width>
-         <height>311</height>
+         <height>341</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="hlo_ATTR_data">
@@ -706,7 +706,7 @@
         <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
-           <string>Classical</string>
+           <string>Classical Elements</string>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -720,9 +720,9 @@
              <height>151</height>
             </rect>
            </property>
-           <layout class="QHBoxLayout" name="hlo_celem_data" stretch="1,3">
+           <layout class="QHBoxLayout" name="hlo_elem_data" stretch="1,3">
             <item>
-             <layout class="QVBoxLayout" name="vlo_celem_fields">
+             <layout class="QVBoxLayout" name="vlo_elem_fields">
               <item>
                <widget class="QLabel" name="lf_a">
                 <property name="text">
@@ -786,7 +786,7 @@
              </layout>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="vlo_celem_values">
+             <layout class="QVBoxLayout" name="vlo_elem_values">
               <item>
                <widget class="QLabel" name="coe_0">
                 <property name="text">
@@ -872,7 +872,7 @@
               <x>0</x>
               <y>20</y>
               <width>191</width>
-              <height>67</height>
+              <height>61</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,3">
@@ -944,7 +944,7 @@
              <x>0</x>
              <y>270</y>
              <width>189</width>
-             <height>61</height>
+             <height>71</height>
             </rect>
            </property>
            <property name="title">
@@ -959,7 +959,7 @@
               <x>0</x>
               <y>20</y>
               <width>191</width>
-              <height>44</height>
+              <height>51</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,3">
