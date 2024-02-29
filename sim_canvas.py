@@ -16,7 +16,7 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 
 
 class MainSimCanvas(scene.SceneCanvas):
-    FIRST = True
+    FIRST_RUN = True
 
     def __init__(self, body_names=sys_data.body_names):
         super(MainSimCanvas, self).__init__(keys="interactive",
@@ -33,8 +33,8 @@ class MainSimCanvas(scene.SceneCanvas):
         #       25(75/25V)/75H
         # or these sub-views could be within sys_viz?
         self._sys_viewbox = self.central_widget.add_view()
-        self._cameras = CameraSet(canvas=self)
-        self._sys_viewbox.camera = self._cameras.curr_cam
+        self._cam_set = CameraSet(canvas=self)
+        self._sys_viewbox.camera = self._cam_set.curr_cam
         self._sys_vizz = StarSystemView(sys_model=self._system_model, system_view=self._sys_viewbox)
         self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
@@ -106,7 +106,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
     @property
     def curr_cam(self):
-        return self._cameras.curr_cam
+        return self._cam_set.curr_cam
 
     @property
     def model(self):
