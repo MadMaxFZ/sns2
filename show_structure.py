@@ -2,11 +2,13 @@ import ast
 
 
 def show_info(functionNode):
-    print("\n\tFunction name:", functionNode.name)
-    print("\t\tArgs:")
-    for arg in functionNode.args.args:
-        #import pdb; pdb.set_trace()
-        print("\t\t\tParameter name:", arg.arg)
+    if len(functionNode.args.args) > 1:
+        print("\n\tFunction name:", functionNode.name)
+        for arg in functionNode.args.args:
+            #import pdb; pdb.set_trace()
+            print("\t\tParameter:", arg.arg)
+    else:
+        print("\n\tProperty name:", functionNode.name)
 
 
 def scan_fname(filename=None):
@@ -20,6 +22,7 @@ def scan_fname(filename=None):
         show_info(function)
 
     for class_ in classes:
+        print("--------------------------------------")
         print("Class name:", class_.name)
         methods = [n for n in class_.body if isinstance(n, ast.FunctionDef)]
         for method in methods:
@@ -27,22 +30,25 @@ def scan_fname(filename=None):
 
 
 path_name = "C:\\_Projects\\sns2\\"
-name_list = ['starsys_data.py',
-             # 'viz_functs.py',
-             'qt_wrap.py',
-             'sim_canvas.py',
-             'starsys_model.py',
-             'sysbody_model.py',
-             'starsys_visual.py',
-             'sysbody_visual.py',
-             'sys_skymap.py',
-             ]
-for name in name_list:
-    filename = path_name + name
-    print(filename,
-          "\n--------------------------------------")
+trgt_dict = dict(g="starsys_data.py",
+                 # i="viz_functs.py",
+                 f="qt_wrap.py",
+                 e="sim_canvas.py",
+                 a="starsys_model.py",
+                 b="sysbody_model.py",
+                 c="starsys_visual.py",
+                 d="sysbody_visual.py",
+                 h="sys_skymap.py",
+                 j="camera_set.py",
+                 k="composite.py",
+                 )
+for i in sorted(trgt_dict.keys()):
+    filename = path_name + trgt_dict[i]
+    print("======================================")
+    print(filename)
+    print("======================================")
     scan_fname(filename=filename)
-    print("======================================\n")
+    print("**************************************")
 
 """
 import ast
