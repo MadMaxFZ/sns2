@@ -7,7 +7,7 @@ from starsys_data import *
 from sysbody_model import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -21,7 +21,8 @@ class StarSystemModel(QObject):
     # sim_params = SYS_DATA.system_params
     initialized = pyqtSignal(list)
     updating = pyqtSignal(Time)
-    ready = pyqtSignal()
+    ready = pyqtSignal(Time)
+    data = pyqtSignal(dict)
 
     def __init__(self, body_names=None):
         super(StarSystemModel, self).__init__()
@@ -97,7 +98,7 @@ class StarSystemModel(QObject):
         if epoch is None:
             epoch = self._sys_epoch
 
-        for sb in self.simbod_list:
+        for sb in self.simbody_list:
             _t_range = time_range(epoch,
                                   periods=periods,
                                   spacing=sb.spacing,
@@ -109,7 +110,7 @@ class StarSystemModel(QObject):
             logging.info("END_EPOCH:\n%s\n", self._end_epoch)
 
     def set_orbits(self):
-        [sb.orbit(ephem=sb.ephem) for sb in self.simbod_list]
+        [sb.set_orbit(ephem=sb.ephem) for sb in self.simbody_list]
         self.initialized.emit(self._body_names)
 
     def _check_ephem_range(self, sb):
@@ -118,7 +119,7 @@ class StarSystemModel(QObject):
             sb.RESAMPLE = True
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
-    def update_epochs(self, event=None):
+    def update_epoch(self, event=None):
         # get duration since last update
         if self._INIT:
             w_now = self._w_clock.elapsed   # not the first call
@@ -134,28 +135,28 @@ class StarSystemModel(QObject):
         # apply time factor, set new sys_epoch
         d_epoch = TimeDelta(dt * u.s * self._t_warp)
         self._sys_epoch += d_epoch
-
-        # update and ephems that are ended, flag for orbit resample
-        [self._check_ephem_range(sb) for sb in self.simbod_list]
-
-        self.updating.emit(self._w_clock.elapsed)
-        [sb.update_state(epoch=self._sys_epoch) for sb in self.simbod_list]
-        self._update_rel_data()
-
         # if self._avg_d_epoch.value == 0:
         #     self._avg_d_epoch = d_epoch
         # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
-
+        self.update_state()
         logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
                       self._avg_d_epoch,
                       self._sys_epoch.jd)
 
+    def update_state(self):
+        self.updating.emit(self._sys_epoch)
+        # update and ephems that are ended, flag for orbit resample
+        [self._check_ephem_range(sb) for sb in self.simbody_list]
+        [sb.update_state(epoch=self._sys_epoch) for sb in self.simbody_list]
+        self._update_rel_data()
+        self.ready.emit(self._sys_epoch)
+
     def _update_rel_data(self):
         i = 0
-        for sb1 in self.simbod_list:
+        for sb1 in self.simbody_list:
             j = 0
             # collect the relative position and velocity to the other bodies
-            for sb2 in self.simbod_list:
+            for sb2 in self.simbody_list:
                 self._sys_rel_pos[i][j] = sb2.rel2pos(pos=sb1.pos2primary)['rel_pos']
                 self._sys_rel_vel[i][j] = sb2.vel - sb1.vel
                 if i != j:
@@ -187,6 +188,12 @@ class StarSystemModel(QObject):
         print(f"clock running: {self._w_clock.running} at {self._w_clock.elapsed}\n"
               f"with sys_epoch: {self._sys_epoch}")
 
+    @pyqtSlot
+    def emit_data(self):
+        #   This method will receive the selected body name and
+        #   the data block requested from Controls
+        pass
+
     @property
     def epoch(self):
         return self._sys_epoch
@@ -194,10 +201,10 @@ class StarSystemModel(QObject):
     @epoch.setter
     def epoch(self, new_epoch=None):
         self._sys_epoch = new_epoch
-        self.update_epochs()
+        self.update_state()
 
     @property
-    def simbod_list(self):
+    def simbody_list(self):
         return [self._simbody_dict[name] for name in self._body_names]
 
     @property

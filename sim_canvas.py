@@ -90,7 +90,7 @@ class MainSimCanvas(scene.SceneCanvas):
             print("Key Error...")
 
     def on_mod_timer(self, event=None):
-        self._system_model.update_epochs()
+        self._system_model.update_epoch()
         self._sys_vizz.update_vizz()
 
     def on_rpt_timer(self, event=None):
