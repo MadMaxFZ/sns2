@@ -188,7 +188,7 @@ class StarSystemModel(QObject):
         print(f"clock running: {self._w_clock.running} at {self._w_clock.elapsed}\n"
               f"with sys_epoch: {self._sys_epoch}")
 
-    @pyqtSlot
+    @pyqtSlot(dict)
     def emit_data(self):
         #   This method will receive the selected body name and
         #   the data block requested from Controls
