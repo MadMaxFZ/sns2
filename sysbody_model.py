@@ -53,20 +53,14 @@ class SimBody(QObject):
         self._ephem: Ephem  = None
         self._orbit: Orbit  = None
         self._trajectory    = None
-        self._type = None
+        self._rad_set       = None
+        self._type          = None
+        self.set_radius()
+        self.set_ephem(epoch=self._epoch, t_range=self._t_range)
+        self.set_orbit(ephem=self._ephem)
+        self.created.emit(self.name)
 
-        # self._mark = "o"
-        #   FIX HERE
-        # if self._body.parent is None:
-        #     self._is_primary = True
-        #     self._sys_primary = self._name
-        # elif self._body.parent.name == self._sys_primary:
-        # self._t_range = time_range(self._epoch,
-        #                            periods=self._periods,
-        #                            spacing=self._spacing,
-        #                            format='jd',
-        #                            scale='tdb', )
-
+    def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.to(self._dist_unit).value
@@ -78,12 +72,7 @@ class SimBody(QObject):
             Rp = self._body.R_polar.to(self._dist_unit).value
 
         self._rad_set = [R, Rm, Rp,]
-        self.set_ephem(epoch=self._epoch, t_range=self._t_range)
-        self.set_orbit(ephem=self._ephem)
-        self._body_data.update({'rad_set' : self._rad_set})
-
-
-        self.created.emit(self.name)
+        self._body_data.update({'rad_set': self._rad_set})
         logging.info("RADIUS SET: %s", self._rad_set)
 
     def set_epoch(self, epoch=None):
