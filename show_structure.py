@@ -5,8 +5,8 @@ def show_info(functionNode):
     if len(functionNode.args.args) > 1:
         print("\n\tFunction name:", functionNode.name)
         for arg in functionNode.args.args:
-            #import pdb; pdb.set_trace()
-            print("\t\tParameter:", arg.arg)
+            # import pdb; pdb.set_trace()
+            print("\t\tParameter:\t", arg.arg)
     else:
         print("\n\tProperty name:", functionNode.name)
 
