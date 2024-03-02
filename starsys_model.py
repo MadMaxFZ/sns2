@@ -112,6 +112,12 @@ class StarSystemModel(QObject):
         [sb.orbit(ephem=sb.ephem) for sb in self.simbod_list]
         self.initialized.emit(self._body_names)
 
+    def check_ephem_range(self, sb):
+        if self._sys_epoch > sb.end_epoch:
+            sb.ephem = self._sys_epoch  # reset ephem range
+            sb.RESAMPLE = True
+            logging.debug("RELOAD EPOCHS/EPHEM SETS...")
+
     def update_epochs(self, event=None):
         # get duration since last update
         if self._INIT:
@@ -130,13 +136,11 @@ class StarSystemModel(QObject):
         self._sys_epoch += d_epoch
 
         # update and ephems that are ended, flag for orbit resample
-        for sb in self.simbod_list:
-            if self._sys_epoch > sb.end_epoch:
-                sb.ephem = self._sys_epoch  # reset ephem range
-                sb.RESAMPLE = True
-                logging.debug("RELOAD EPOCHS/EPHEM SETS...")
-        self.updating.emit(self._sys_epoch)
-        self.update_states(new_epoch=self._sys_epoch)
+        [self.check_ephem_range(sb) for sb in self.simbod_list]
+
+        self.updating.emit(self._w_clock.elapsed)
+        [sb.update_state(epoch=self._sys_epoch) for sb in self.simbod_list]
+        self.update_rel_data()
 
         # if self._avg_d_epoch.value == 0:
         #     self._avg_d_epoch = d_epoch
@@ -146,10 +150,7 @@ class StarSystemModel(QObject):
                       self._avg_d_epoch,
                       self._sys_epoch.jd)
 
-    def update_states(self, new_epoch=None):
-        for sb in self.simbod_list:
-            sb.update_state(epoch=new_epoch)
-
+    def update_rel_data(self):
         i = 0
         for sb1 in self.simbod_list:
             j = 0

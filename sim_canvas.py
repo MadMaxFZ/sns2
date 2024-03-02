@@ -101,8 +101,11 @@ class MainSimCanvas(scene.SceneCanvas):
         self._system_model.cmd_timer()
         app.run()
 
-    # def stop(self):
-    #     app.quit()
+    def toggle_timer(self):
+        self._system_model.cmd_timer()
+
+    def quit(self):
+        app.quit()
 
     @property
     def curr_cam(self):
