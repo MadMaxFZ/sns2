@@ -188,7 +188,7 @@ class StarSystemModel(QObject):
         print(f"clock running: {self._w_clock.running} at {self._w_clock.elapsed}\n"
               f"with sys_epoch: {self._sys_epoch}")
 
-    @pyqtSlot
+    @pyqtSlot(dict)
     def emit_data(self):
         #   This method will receive the selected body name and
         #   the data block requested from Controls
@@ -205,7 +205,7 @@ class StarSystemModel(QObject):
 
     @property
     def simbody_list(self):
-        return [self._simbody_dict[name] for name in self._body_names]
+        return [self._simbody_dict[name] for name in sorted(self._body_names)]
 
     @property
     def body_accel(self):
