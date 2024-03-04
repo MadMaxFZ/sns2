@@ -205,7 +205,7 @@ class StarSystemModel(QObject):
 
     @property
     def simbody_list(self):
-        return [self._simbody_dict[name] for name in self._body_names]
+        return [self._simbody_dict[name] for name in sorted(self._body_names)]
 
     @property
     def body_accel(self):

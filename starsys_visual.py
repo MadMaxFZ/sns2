@@ -61,8 +61,7 @@ class StarSystemView:
             self._cam           = self._mainview.camera
             self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
-            self._skymap        = SkyMap(color=(.3, .3, .3, 1),
-                                         edge_color=(0, 0, 1, 0.4))
+            self._skymap        = SkyMap( )
             self._bods_pos      = {}
             [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
             self._symbol_sizes  = []
@@ -75,12 +74,12 @@ class StarSystemView:
             '''
             [self._generate_vizz4body(name) for name in body_names]
             self._symbols = [pl.mark for pl in self._planets.values()]
-            self._plnt_markers = Markers(parent=self._skymap, **DEF_MARKS_INIT)  # a single instance of Markers
-            self._cntr_markers = Markers(parent=self._skymap,
+            self._plnt_markers = Markers(parent=self._mainview.scene, **DEF_MARKS_INIT)  # a single instance of Markers
+            self._cntr_markers = Markers(parent=self._mainview.scene,
                                          symbol='+',
                                          size=[(MIN_SYMB_SIZE - 2) for n in range(body_count)],
                                          **DEF_MARKS_INIT)  # another instance of Markers
-            self._plnt_markers.parent = self._mainview.scene
+            # self._plnt_markers.parent = self._mainview.scene
             self._cntr_markers.set_data(symbol=['+' for n in range(body_count)])
 
             self._subvizz = dict(sk_map=self._skymap,
