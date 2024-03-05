@@ -77,16 +77,16 @@ class Controls(QtWidgets.QWidget):
         self._tw_base = self.ui.tw_mant
         self._tw_exp = self.ui.twarp_exp
 
-        self._selected_body = self._curr_body.currentText()
-        self._active_cam = self._curr_cam.currentText()
-        self._active_panel = self._tab_names[self._body_tabs.currentIndex()]
+        self._selected_body = self.ui.bodyBox.currentText()
+        self._active_cam = self.ui.camBox.currentText()
+        self._active_panel = self._tab_names[self.ui.tabWidget_Body.currentIndex()]
         # define functions of Qt controls here
 
     def connect_controls(self):
         # connect control slots to appropriate functions in response to signals
-        self._curr_body.currentIndexChanged.connect(self._body_list.setCurrentRow)
-        self._curr_body.currentIndexChanged.connect(self._update_attribs)
-        self._body_list.currentRowChanged.connect(self._curr_body.setCurrentIndex)
+        self.ui.bodyBox.currentIndexChanged.connect(self.bodyList.setCurrentRow)
+        self.ui.bodyBox.currentIndexChanged.connect(self._update_attribs)
+        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.

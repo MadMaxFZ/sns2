@@ -27,6 +27,7 @@ class StarSystemModel(QObject):
     def __init__(self, body_names=None):
         super(StarSystemModel, self).__init__()
         self._INIT        = False
+        self._UPDATING    = False
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
@@ -58,6 +59,11 @@ class StarSystemModel(QObject):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
+        self.updating.connect(self._flip_update_flag)
+        self.ready.connect(self._flip.update_flag)
+
+    def _flip_update_flag(self):
+        self._UPDATING = not self._UPDATING
 
     def assign_timer(self, clock):
         self._w_clock = clock
@@ -189,7 +195,7 @@ class StarSystemModel(QObject):
               f"with sys_epoch: {self._sys_epoch}")
 
     @pyqtSlot(dict)
-    def emit_data(self):
+    def hereyago(self):
         #   This method will receive the selected body name and
         #   the data block requested from Controls
         pass
