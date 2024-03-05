@@ -64,13 +64,13 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
-        self._panel_names = ['attr', 'coe', 'pqw', 'rv', 'cam', 'twarp', 'axis']
-        self._control_groups = self._scanUi_4panels(patterns=self._panel_names)
+        self._wgtgrp_names = ['attr', 'elem', 'elem_coe', 'elem_pqw', 'elem_rv', 'cam', 'tw', 'twb', 'axis']
+        self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
         self._tab_names = ['attr', 'elem', 'cams']
-        self._body_list = self.ui.lst_currBody_names
-        self._curr_body = self.ui.cbx_currBody
+        self._body_list = self.ui.bodyList
+        self._curr_body = self.ui.bodyBox
         self._body_tabs = self.ui.tabWidget_Body
-        self._curr_cam = self.ui.cam_curr
+        self._curr_cam = self.ui.camBox
         self._time_warp = self.ui.twarp_val
         self._tw_base = self.ui.tw_mant
         self._tw_exp = self.ui.twarp_exp
