@@ -10,7 +10,7 @@ from typing import List
 
 import autologging
 import numpy as np
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
@@ -144,7 +144,7 @@ class CanvasWrapper(MainSimCanvas):
     def __init__(self):
         super(CanvasWrapper, self).__init__()
 
-    def set_skymap_grid(self, color=(1, 1, 1, 1)):
+    def set_skymap_grid(self, color=(0, 0, 1, .3)):
         self.view.skymap.mesh.meshdata.color = color
         pass
 
@@ -156,6 +156,7 @@ def load_simulation():
 
 
 if __name__ == "__main__":
+    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = use_app("pyqt5")
     app.create()
     sim = load_simulation()

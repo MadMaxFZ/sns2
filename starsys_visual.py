@@ -38,7 +38,7 @@ DEF_MARKS_DATA = dict(pos=None,
                       )
 
 
-class StarSystemView:
+class StarSystemViewer:
     """
     """
     def __init__(self, sys_model=None, system_view=None):
@@ -61,9 +61,7 @@ class StarSystemView:
             self._cam           = self._mainview.camera
             self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
-            self._skymap        = SkyMap( )
-            self._bods_pos      = {}
-            [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
+            self._skymap        = SkyMap()
             self._symbol_sizes  = []
             self._planets    = {}       # a dict of Planet visuals
             self._tracks     = {}       # a dict of Polygon visuals
@@ -72,6 +70,8 @@ class StarSystemView:
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
             ''' Generate Planet visual object for each SimBody
             '''
+            self._bods_pos = {}
+            [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
             [self._generate_vizz4body(name) for name in body_names]
             self._symbols = [pl.mark for pl in self._planets.values()]
             self._plnt_markers = Markers(parent=self._mainview.scene, **DEF_MARKS_INIT)  # a single instance of Markers
@@ -89,7 +89,7 @@ class StarSystemView:
                                  tracks=self._tracks,
                                  surfcs=self._planets,
                                  )
-            self.load_vizz()
+            self._pack_vizz()
             # self.update_vizz()
         else:
             print("Must provide a dictionary of SimBody objects...")
@@ -119,15 +119,13 @@ class StarSystemView:
             poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
             self._tracks.update({name: poly})
 
-    def load_vizz(self):
+    def _pack_vizz(self):
         for k, v in self._subvizz.items():
             if "_" in k:
                 print(k)
                 self._mainview.add(v)
             else:
                 [self._mainview.add(t) for t in v.values()]
-
-        pass
 
     def update_vizz(self):
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body

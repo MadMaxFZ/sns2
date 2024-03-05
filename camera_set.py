@@ -17,9 +17,6 @@ class CameraSet:
         self._curr_cam = None
         self.add_cam("def_cam", FlyCamera(fov=60))
 
-    def update_panel(self, labels):
-        labels[0].set
-
     def add_cam(self, cam_label=None, new_cam=FlyCamera(fov=60)):
         """
 
