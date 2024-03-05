@@ -11,7 +11,7 @@ from typing import List
 import autologging
 import numpy as np
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_canvas import MainSimCanvas
@@ -57,6 +57,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
 
 class Controls(QtWidgets.QWidget):
+    gimmedat = pyqtSignal(List)
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
 
@@ -67,6 +68,7 @@ class Controls(QtWidgets.QWidget):
         self._wgtgrp_names = ['attr', 'elem', 'elem_coe', 'elem_pqw', 'elem_rv', 'cam', 'tw', 'twb', 'axis']
         self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
         self._tab_names = ['attr', 'elem', 'cams']
+
         self._body_list = self.ui.bodyList
         self._curr_body = self.ui.bodyBox
         self._body_tabs = self.ui.tabWidget_Body
@@ -74,6 +76,7 @@ class Controls(QtWidgets.QWidget):
         self._time_warp = self.ui.twarp_val
         self._tw_base = self.ui.tw_mant
         self._tw_exp = self.ui.twarp_exp
+
         self._selected_body = self._curr_body.currentText()
         self._active_cam = self._curr_cam.currentText()
         self._active_panel = self._tab_names[self._body_tabs.currentIndex()]
