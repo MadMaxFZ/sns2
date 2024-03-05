@@ -237,6 +237,10 @@ class StarSystemViewer:
         return check
 
     @property
+    def bods_pos(self):
+        return self._bods_pos.values()
+
+    @property
     def skymap(self):
         if self._skymap is None:
             print("No SkyMap defined...")

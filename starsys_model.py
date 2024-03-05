@@ -60,7 +60,7 @@ class StarSystemModel(QObject):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
         self.updating.connect(self._flip_update_flag)
-        self.ready.connect(self._flip.update_flag)
+        self.ready.connect(self._flip_update_flag)
 
     def _flip_update_flag(self):
         self._UPDATING = not self._UPDATING

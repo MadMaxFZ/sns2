@@ -49,15 +49,16 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.thread.start()
 
     def init_controls(self):
-        self._controls.body_list.clear()
-        self._controls.body_list.addItems(self._canvas.model.simbodies.keys())
-        self._controls.curr_body.addItems(self._canvas.model.simbodies.keys())
-        self._controls.body_tabs.setCurrentIndex(0)
-        self._controls.curr_body.setCurrentIndex(0)
-
+        self._controls.ui.bodyList.clear()
+        self._controls.ui.bodyList.addItems(self._canvas.model.simbodies.keys())
+        self._controls.ui.bodyBox.addItems(self._canvas.model.simbodies.keys())
+        self._controls.ui.tabWidget_Body.setCurrentIndex(0)
+        self._controls.ui.bodyBox.setCurrentIndex(0)
+        pass
 
 class Controls(QtWidgets.QWidget):
-    gimmedat = pyqtSignal(List)
+    gimmedat = pyqtSignal(list)
+
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
 
@@ -67,15 +68,15 @@ class Controls(QtWidgets.QWidget):
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
         self._wgtgrp_names = ['attr', 'elem', 'elem_coe', 'elem_pqw', 'elem_rv', 'cam', 'tw', 'twb', 'axis']
         self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
-        self._tab_names = ['attr', 'elem', 'cams']
+        self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
 
-        self._body_list = self.ui.bodyList
-        self._curr_body = self.ui.bodyBox
-        self._body_tabs = self.ui.tabWidget_Body
-        self._curr_cam = self.ui.camBox
-        self._time_warp = self.ui.twarp_val
-        self._tw_base = self.ui.tw_mant
-        self._tw_exp = self.ui.twarp_exp
+        # self._body_list = self.ui.bodyList
+        # self._curr_body = self.ui.bodyBox
+        # self._body_tabs = self.ui.tabWidget_Body
+        # self._curr_cam = self.ui.camBox
+        # self._time_warp = self.ui.twarp_val
+        # self._tw_base = self.ui.tw_mant
+        # self._tw_exp = self.ui.twarp_exp
 
         self._selected_body = self.ui.bodyBox.currentText()
         self._active_cam = self.ui.camBox.currentText()
@@ -84,8 +85,8 @@ class Controls(QtWidgets.QWidget):
 
     def connect_controls(self):
         # connect control slots to appropriate functions in response to signals
-        self.ui.bodyBox.currentIndexChanged.connect(self.bodyList.setCurrentRow)
-        self.ui.bodyBox.currentIndexChanged.connect(self._update_attribs)
+        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
+        self.ui.bodyBox.currentIndexChanged.connect(self._refresh)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
@@ -109,9 +110,11 @@ class Controls(QtWidgets.QWidget):
 
         return panels
 
-    def _update_attribs(self, i):
-        body_name = self._body_list
-
+    def _refresh(self):
+        self.gimmedat.emit([self.ui.bodyBox.currentText(),
+                            self._tab_names[self.ui.tabWidget_Body.currentIndex()],
+                            self.ui.camBox.currentText()],
+                           )
         pass
 
     @property
@@ -125,15 +128,19 @@ class Controls(QtWidgets.QWidget):
 
     @property
     def body_list(self):
-        return self._body_list
+        return self.ui.bodyList.items()
 
     @property
     def curr_body(self):
-        return self._curr_body
+        return self.ui.bodyBox.currentText()
 
     @property
-    def body_tabs(self):
-        return self._body_tabs
+    def curr_tab(self):
+        return self.ui.tabWidget_Body.rrentWidget()
+
+    @property
+    def curr_cam(self):
+        return self.ui.camBox.currentText()
 
 
 class CanvasWrapper(MainSimCanvas):
