@@ -194,10 +194,11 @@ class StarSystemModel(QObject):
         print(f"clock running: {self._w_clock.running} at {self._w_clock.elapsed}\n"
               f"with sys_epoch: {self._sys_epoch}")
 
-    @pyqtSlot(dict)
-    def hereyago(self):
+    @pyqtSlot(list)
+    def here_yago(self, target):
         #   This method will receive the selected body name and
         #   the data block requested from Controls
+        priht(target)
         pass
 
     @property

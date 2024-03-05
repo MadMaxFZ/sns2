@@ -54,7 +54,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._controls.ui.bodyBox.addItems(self._canvas.model.simbodies.keys())
         self._controls.ui.tabWidget_Body.setCurrentIndex(0)
         self._controls.ui.bodyBox.setCurrentIndex(0)
+        self._controls.gimmedat.connect(self._canvas.model.here_yago)
         pass
+
 
 class Controls(QtWidgets.QWidget):
     gimmedat = pyqtSignal(list)
@@ -84,9 +86,13 @@ class Controls(QtWidgets.QWidget):
         # define functions of Qt controls here
 
     def connect_controls(self):
+        # TODO:: Must figure out how to implement signal/slot from Controls to Model and back
+        #        Controls send three strings to Model indicating which data sets requested
+        #        Models needs a slot which will signal back with the indicated data sets,
+        #        then Controls needs a slot which updates its widgets...
         # connect control slots to appropriate functions in response to signals
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
-        self.ui.bodyBox.currentIndexChanged.connect(self._refresh)
+        # self.ui.bodyBox.currentIndexChanged.connect(self._refresh)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
