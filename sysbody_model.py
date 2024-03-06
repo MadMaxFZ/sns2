@@ -75,17 +75,6 @@ class SimBody(QObject):
         self._body_data.update({'rad_set': self._rad_set})
         logging.info("RADIUS SET: %s", self._rad_set)
 
-    def set_epoch(self, epoch=None):
-        if epoch is None:
-            epoch = self._epoch
-        elif type(epoch) == Time:
-            self._epoch = epoch
-        else:
-            self._epoch = Time(epoch,
-                               format='jd',
-                               scale='tdb',
-                               )
-
     def set_ephem(self, epoch=None, t_range=None):
         if epoch is None:
             epoch = self._epoch
@@ -136,7 +125,8 @@ class SimBody(QObject):
 
     def update_state(self, epoch=None):
         if epoch is not None:
-            self.set_epoch(epoch)
+            if type(epoch) == Time:
+                self._epoch = epoch
 
         if type(self._orbit) == Orbit:
             new_orbit = self._orbit.propagate(self._epoch)
@@ -223,6 +213,10 @@ class SimBody(QObject):
     def type(self):
         return self._type
 
+    @type.setter
+    def type(self, new_type=None):
+        self._type = new_type
+
     @property
     def RA(self):
         return self._state[2, 0]
@@ -235,26 +229,6 @@ class SimBody(QObject):
     def W(self):
         return self._state[2, 2]
 
-    @type.setter
-    def type(self, new_type=None):
-        self._type = new_type
-
-    # @property
-    # def base_color(self):
-    #     return self._vizz_data['body_color']
-    #
-    # @base_color.setter
-    # def base_color(self, new_color=(1, 1, 1, 1)):
-    #     self._base_color = np.array(new_color)
-
-    # @property
-    # def mark(self):
-    #     return self._vizz_data['body_mark']
-    #
-    # @mark.setter
-    # def mark(self, new_symbol='o'):
-    #     self._mark = new_symbol
-
     @property
     def plane(self):
         return self._plane
@@ -266,15 +240,6 @@ class SimBody(QObject):
     @property
     def spacing(self):
         return self._spacing
-
-    # @property
-    # def trk_poly(self):
-    #     return self._trk_poly
-    #
-    # @trk_poly.setter
-    # def trk_poly(self, new_trk=None):
-    #     assert type(new_trk) is Polygon
-    #     self._trk_poly = new_trk
 
     @property
     def RESAMPLE(self):
@@ -306,6 +271,8 @@ class SimBody(QObject):
 
     @epoch.setter
     def epoch(self, new_epoch=None):
+        if new_epoch is None:
+            new_epoch = SimBody.epoch0
         if type(new_epoch) == Time:
             self._epoch = Time(new_epoch,
                                format='jd',
@@ -342,59 +309,9 @@ class SimBody(QObject):
     def ephem(self):
         return self._ephem
 
-    @ephem.setter
-    def ephem(self, epoch=None, t_range=None):
-        if epoch is None:
-            epoch = self._epoch
-        if t_range is None:
-            self._t_range = time_range(epoch,
-                                       periods=self._periods,
-                                       spacing=self._spacing,
-                                       format='jd',
-                                       scale='tdb',
-                                       )
-            self._end_epoch += self._periods * self._spacing
-
-        if self._orbit is None:
-            self._ephem = Ephem.from_body(self._body,
-                                          epochs=self._t_range,
-                                          attractor=self.body.parent,
-                                          plane=self._plane,
-                                          )
-        elif self._orbit != 0:
-            self._ephem = Ephem.from_orbit(orbit=self._orbit,
-                                           epochs=self._t_range,
-                                           plane=self._plane,
-                                           )
-
-        logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
-        print("EPHEM for", self.name, ": ", self._ephem)
-
     @property
     def orbit(self):
         return self._orbit
-
-    @orbit.setter
-    def orbit(self, ephem=None):
-        if ephem is None:
-            ephem = self._ephem
-
-        if self.body.parent is not None:
-            self._orbit = Orbit.from_ephem(self.body.parent,
-                                           ephem,
-                                           self._epoch,
-                                           )
-            # print(self._orbit)
-            logging.info(">>> COMPUTING ORBIT: %s",
-                         str(self._orbit))
-            if (self._trajectory is None) or (self.RESAMPLE is True):
-                self._trajectory = self.orbit.sample(360).xyz.transpose().value
-                self._RESAMPLE = False
-
-        elif self._body.parent is None:
-            self._orbit = 0
-            logging.info(">>> NO PARENT BODY, Orbit set to: %s",
-                         str(self._orbit))
 
     @property
     def state_matrix(self):
@@ -421,15 +338,18 @@ class SimBody(QObject):
         """
         return self._state[1] * self._dist_unit
 
+    @epoch.setter
+    def epoch(self, e=None):
+        if type(e) == Time:
+            self._epoch = e
 
-
-    @property
-    def texture(self):
-        return self._tex_data
-
-    @texture.setter
-    def texture(self, new_tex_data=None):
-        self._tex_data = new_tex_data
+    # @property
+    # def texture(self):
+    #     return self._tex_data
+    #
+    # @texture.setter
+    # def texture(self, new_tex_data=None):
+    #     self._tex_data = new_tex_data
 
     # @property
     # def colormap(self):
@@ -465,11 +385,6 @@ class SimBody(QObject):
     # def spacing(self, s=None):
     #     if s is not None:
     #         self._spacing = s
-
-    @epoch.setter
-    def epoch(self, e=None):
-        self.set_epoch(epoch=e)
-
     # @property
     # def base_color(self):
     #     return self._base_color

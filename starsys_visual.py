@@ -72,7 +72,7 @@ class StarSystemViewer:
             '''
             self._bods_pos = {}
             [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
-            [self._generate_vizz4body(name) for name in body_names]
+            [self.generate_bodyvizz(name) for name in body_names]
             self._symbols = [pl.mark for pl in self._planets.values()]
             self._plnt_markers = Markers(parent=self._mainview.scene, **DEF_MARKS_INIT)  # a single instance of Markers
             self._cntr_markers = Markers(parent=self._mainview.scene,
@@ -95,7 +95,7 @@ class StarSystemViewer:
             print("Must provide a dictionary of SimBody objects...")
             sys.exit(1)
 
-    def _generate_vizz4body(self, name):
+    def generate_bodyvizz(self, name):
         plnt = Planet(body_name=name,
                       rows=18,
                       color=(1, 1, 1, 1),
