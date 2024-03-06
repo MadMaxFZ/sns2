@@ -22,7 +22,7 @@ class StarSystemModel(QObject):
     initialized = pyqtSignal(list)
     updating = pyqtSignal(Time)
     ready = pyqtSignal(Time)
-    data = pyqtSignal(dict)
+    here_yago = pyqtSignal(list, list)
 
     def __init__(self, body_names=None):
         super(StarSystemModel, self).__init__()
@@ -195,10 +195,19 @@ class StarSystemModel(QObject):
               f"with sys_epoch: {self._sys_epoch}")
 
     @pyqtSlot(list)
-    def here_yago(self, target):
+    def send_panel(self, target):
         #   This method will receive the selected body name and
         #   the data block requested from Controls
-        priht(target)
+        data_set = []
+        body = target[0]
+        panel = target[1]
+        if panel == "CAMS":
+            pass
+        elif panel == "ATTR":
+            body_obj: Body = self.simbodies[body].body
+            data_set = [body_obj[i] for i in range(len(body_obj._fields))]
+
+        self.here_yago.emit(target, data_set)
         pass
 
     @property

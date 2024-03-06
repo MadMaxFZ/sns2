@@ -44,7 +44,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
-        self.controls.connect_controls()
+        self.connect_controls()
         self.thread = QThread()
         self.model.moveToThread(self.thread)
         self.thread.start()
@@ -63,6 +63,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                      ])
         pass
 
+    def connect_controls(self):
+        # TODO:: From here the scope should allow access sufficient to define all
+        #       slots necessary to communicate with model thread
+        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
+        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
+        self.controls.gimmedat.connect(self.model.send_panel)
+        self.model.here_yago.connect(self.controls.refresh)
+
 
 class Controls(QtWidgets.QWidget):
     gimmedat = pyqtSignal(list)
@@ -78,28 +86,10 @@ class Controls(QtWidgets.QWidget):
         self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
         self.tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
 
-        # self._body_list = self.ui.bodyList
-        # self._curr_body = self.ui.bodyBox
-        # self._body_tabs = self.ui.tabWidget_Body
-        # self._curr_cam = self.ui.camBox
-        # self._time_warp = self.ui.twarp_val
-        # self._tw_base = self.ui.tw_mant
-        # self._tw_exp = self.ui.twarp_exp
-
+        # create some hooks to notable widget values...
         self.active_body = self.ui.bodyBox.currentText()
         self.active_cam = self.ui.camBox.currentText()
         self.active_panel = self.tab_names[self.ui.tabWidget_Body.currentIndex()]
-        # define functions of Qt controls here
-
-    def connect_controls(self):
-        # TODO:: Must figure out how to implement signal/slot from Controls to Model and back
-        #        Controls send three strings to Model indicating which data sets requested
-        #        Models needs a slot which will signal back with the indicated data sets,
-        #        then Controls needs a slot which updates its widgets...
-        # connect control slots to appropriate functions in response to signals
-        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
-        # self.ui.bodyBox.currentIndexChanged.connect(self._refresh)
-        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -122,11 +112,12 @@ class Controls(QtWidgets.QWidget):
 
         return panels
 
-    def _refresh(self):
-        self.gimmedat.emit([self.ui.bodyBox.currentText(),
-                            self.tab_names[self.ui.tabWidget_Body.currentIndex()],
-                            self.ui.camBox.currentText()],
-                           )
+    @pyqtSlot(list, list)
+    def refresh(self, target, data_set):
+        if target[1] == "ATTR":
+            for i in range(len(data_set)):
+                self._control_groups['attr'].values()[i].setCurrentText(data_set[i])
+
         pass
 
     @property
