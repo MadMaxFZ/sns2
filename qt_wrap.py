@@ -30,31 +30,37 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self._controls = Controls()
-        self._canvas = CanvasWrapper()
+        self.controls = Controls()
+        self.ui       = self.controls.ui
+        self.canvas   = CanvasWrapper()
+        self.model    = self.canvas.model
+
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
-        splitter.addWidget(self._controls)
-        splitter.addWidget(self._canvas.native)
+        splitter.addWidget(self.controls)
+        splitter.addWidget(self.canvas.native)
         main_layout.addWidget(splitter)
         central_widget = QtWidgets.QWidget()
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
-        self.init_controls()
-        self._controls.connect_controls()
-
+        self.controls.connect_controls()
         self.thread = QThread()
-        self._canvas.model.moveToThread(self.thread)
+        self.model.moveToThread(self.thread)
         self.thread.start()
+        self.init_controls()
 
     def init_controls(self):
-        self._controls.ui.bodyList.clear()
-        self._controls.ui.bodyList.addItems(self._canvas.model.simbodies.keys())
-        self._controls.ui.bodyBox.addItems(self._canvas.model.simbodies.keys())
-        self._controls.ui.tabWidget_Body.setCurrentIndex(0)
-        self._controls.ui.bodyBox.setCurrentIndex(0)
-        self._controls.gimmedat.connect(self._canvas.model.here_yago)
+        self.ui.bodyList.clear()
+        self.ui.bodyList.addItems(self.model.simbodies.keys())
+        self.ui.bodyBox.addItems(self.model.simbodies.keys())
+        # add items to camera combobox
+        self.ui.tabWidget_Body.setCurrentIndex(0)
+        self.ui.bodyBox.setCurrentIndex(0)
+        self.controls.gimmedat.emit([self.controls.active_body,
+                                     self.controls.active_panel,
+                                     self.controls.active_cam,
+                                     ])
         pass
 
 
@@ -70,7 +76,7 @@ class Controls(QtWidgets.QWidget):
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
         self._wgtgrp_names = ['attr', 'elem', 'elem_coe', 'elem_pqw', 'elem_rv', 'cam', 'tw', 'twb', 'axis']
         self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
-        self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
+        self.tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
 
         # self._body_list = self.ui.bodyList
         # self._curr_body = self.ui.bodyBox
@@ -80,9 +86,9 @@ class Controls(QtWidgets.QWidget):
         # self._tw_base = self.ui.tw_mant
         # self._tw_exp = self.ui.twarp_exp
 
-        self._selected_body = self.ui.bodyBox.currentText()
-        self._active_cam = self.ui.camBox.currentText()
-        self._active_panel = self._tab_names[self.ui.tabWidget_Body.currentIndex()]
+        self.active_body = self.ui.bodyBox.currentText()
+        self.active_cam = self.ui.camBox.currentText()
+        self.active_panel = self.tab_names[self.ui.tabWidget_Body.currentIndex()]
         # define functions of Qt controls here
 
     def connect_controls(self):
@@ -118,7 +124,7 @@ class Controls(QtWidgets.QWidget):
 
     def _refresh(self):
         self.gimmedat.emit([self.ui.bodyBox.currentText(),
-                            self._tab_names[self.ui.tabWidget_Body.currentIndex()],
+                            self.tab_names[self.ui.tabWidget_Body.currentIndex()],
                             self.ui.camBox.currentText()],
                            )
         pass
@@ -149,7 +155,7 @@ class Controls(QtWidgets.QWidget):
         return self.ui.camBox.currentText()
 
 
-class CanvasWrapper(MainSimCanvas):
+class CanvasWrapper:
     """     This class simply encapsulates the simulation, which resides within
         the vispy SceneCanvas object. This SceneCanvas has three main properties:
         - model :   contains and manages the properties of the model
@@ -158,11 +164,19 @@ class CanvasWrapper(MainSimCanvas):
     """
 
     def __init__(self):
-        super(CanvasWrapper, self).__init__()
+        self._canvas = MainSimCanvas()
 
     def set_skymap_grid(self, color=(0, 0, 1, .3)):
-        self.view.skymap.mesh.meshdata.color = color
+        self._canvas.view.skymap.mesh.meshdata.color = color
         pass
+
+    @property
+    def native(self):
+        return self._canvas.native
+
+    @property
+    def model(self):
+        return self._canvas.model
 
 
 def load_simulation():

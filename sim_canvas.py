@@ -20,7 +20,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
     def __init__(self, body_names=sys_data.body_names):
         super(MainSimCanvas, self).__init__(keys="interactive",
-                                            size=(850, 600),
+                                            size=(800, 600),
                                             show=False,
                                             bgcolor=Color("black"),
                                             title="SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten",
@@ -32,16 +32,16 @@ class MainSimCanvas(scene.SceneCanvas):
         #       with a view of a selected Body.
         #       25(75/25V)/75H
         # or these sub-views could be within sys_viz?
-        self._sys_viewbox = self.central_widget.add_view()
+        self._fpv_viewbox = self.central_widget.add_view()
         self._cam_set = CameraSet(canvas=self)
-        self._sys_viewbox.camera = self._cam_set.curr_cam
-        self._sys_vizz = StarSystemViewer(sys_model=self._system_model, system_view=self._sys_viewbox)
-        self._sys_viewbox.camera.set_range((-1e+09, 1e+09),
+        self._fpv_viewbox.camera = self._cam_set.curr_cam
+        self._sys_vizz = StarSystemViewer(sys_model=self._system_model, system_view=self._fpv_viewbox)
+        self._fpv_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
                                            )       # this initial range gets bulk of system
-        self._sys_viewbox.camera.zoom_factor = 1.0
-        self._sys_viewbox.camera.scale_factor = 14.5e+06
+        self._fpv_viewbox.camera.zoom_factor = 1.0
+        self._fpv_viewbox.camera.scale_factor = 14.5e+06
 
         self._system_model.t_warp = 9000
         self._model_timer = Timer(interval='auto',
@@ -55,23 +55,23 @@ class MainSimCanvas(scene.SceneCanvas):
         self._system_model.assign_timer(self._model_timer)
         self.freeze()
 
-        for k, v in self._sys_viewbox.camera.get_state().items():
+        for k, v in self._fpv_viewbox.camera.get_state().items():
             print(k, ":", v)
 
     def on_key_press(self, ev):
         try:
             if ev.key.name == "+":
-                self._sys_viewbox.camera.scale_factor *= 1.1
-                print("SCALE_FACTOR", self._sys_viewbox.camera.scale_factor)
+                self._fpv_viewbox.camera.scale_factor *= 1.1
+                print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
             elif ev.key.name == "-":
-                self._sys_viewbox.camera.scale_factor *= 0.9
-                print("SCALE_FACTOR", self._sys_viewbox.camera.scale_factor)
+                self._fpv_viewbox.camera.scale_factor *= 0.9
+                print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
             elif ev.key.name == "*":
-                self._sys_viewbox.camera.fov *= 1.5
-                print("CAM_FOV", self._sys_viewbox.camera.fov)
+                self._fpv_viewbox.camera.fov *= 1.5
+                print("CAM_FOV", self._fpv_viewbox.camera.fov)
             elif ev.key.name == "/":
-                self._sys_viewbox.camera.fov *= 0.75
-                print("CAM_FOV", self._sys_viewbox.camera.fov)
+                self._fpv_viewbox.camera.fov *= 0.75
+                print("CAM_FOV", self._fpv_viewbox.camera.fov)
             elif ev.key.name == "]":
                 self.model.t_warp *= 1.1
                 print("TIME_WARP:", self.model.t_warp)
@@ -83,8 +83,8 @@ class MainSimCanvas(scene.SceneCanvas):
             elif ev.key.name == "p":
                 print("MESH_DATA[\"Sun\"]", self._sys_vizz.mesh_data["Sun"].save())
             elif ev.key.name == "'":
-                new_aplha = (self._sys_viewbox.skymap.mesh.meshdata.color[3] + .1) % 1
-                self._sys_viewbox.skymap.mesh.meshdata.color[3] = new_aplha
+                new_aplha = (self._fpv_viewbox.skymap.mesh.meshdata.color[3] + .1) % 1
+                self._fpv_viewbox.skymap.mesh.meshdata.color[3] = new_aplha
 
         except AttributeError:
             print("Key Error...")
@@ -117,7 +117,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
     @property
     def view(self):
-        return self._sys_viewbox
+        return self._fpv_viewbox
 
     @property
     def vizz(self):
