@@ -32,6 +32,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self._controls = Controls()
         self._canvas = CanvasWrapper()
+        self._model  = self._canvas.model
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
         splitter.addWidget(self._controls)
@@ -45,7 +46,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._controls.connect_controls()
 
         self.thread = QThread()
-        self._canvas.model.moveToThread(self.thread)
+        self._model.moveToThread(self.thread)
         self.thread.start()
 
     def init_controls(self):
@@ -54,7 +55,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._controls.ui.bodyBox.addItems(self._canvas.model.simbodies.keys())
         self._controls.ui.tabWidget_Body.setCurrentIndex(0)
         self._controls.ui.bodyBox.setCurrentIndex(0)
-        self._controls.gimmedat.connect(self._canvas.model.here_yago)
+        self._controls.gimmedat.connect(self._model.here_yago)
         pass
 
 
