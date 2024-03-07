@@ -8,13 +8,15 @@ import logging
 import logging.config
 from typing import List
 
+import sys
 import autologging
 import numpy as np
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_canvas import MainSimCanvas
+from starsys_model import StarSystemModel
 from sns2_gui import Ui_wid_BodyData
 # from body_attribs import Ui_frm_BodyAttribs
 # from orbit_classical import Ui_frm_COE
@@ -32,8 +34,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.controls = Controls()
         self.ui       = self.controls.ui
-        self.canvas   = CanvasWrapper()
-        self.model    = self.canvas.model
+        self.model    = StarSystemModel()
+        self.canvas   = CanvasWrapper(self.model)
 
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
@@ -57,10 +59,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # add items to camera combobox
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
-        self.controls.gimmedat.emit([self.controls.active_body,
-                                     self.controls.active_panel,
-                                     self.controls.active_cam,
-                                     ])
+        self.controls.data_request.emit([self.controls.active_body,
+                                         self.controls.active_panel,
+                                         self.controls.active_cam,
+                                         ])
         pass
 
     def connect_controls(self):
@@ -68,12 +70,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #       slots necessary to communicate with model thread
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.controls.gimmedat.connect(self.model.send_panel)
-        self.model.here_yago.connect(self.controls.refresh)
+        self.controls.data_request.connect(self.model.send_panel)
+        self.model.data_return.connect(self.controls.refresh)
 
 
 class Controls(QtWidgets.QWidget):
-    gimmedat = pyqtSignal(list)
+    data_request = pyqtSignal(list)
 
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
@@ -82,7 +84,8 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
-        self._wgtgrp_names = ['attr', 'elem', 'elem_coe', 'elem_pqw', 'elem_rv', 'cam', 'tw', 'twb', 'axis']
+        self._wgtgrp_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
+                              'cam_', 'tw_', 'twb_', 'axis_']
         self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
         self.tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
 
@@ -90,6 +93,7 @@ class Controls(QtWidgets.QWidget):
         self.active_body = self.ui.bodyBox.currentText()
         self.active_cam = self.ui.camBox.currentText()
         self.active_panel = self.tab_names[self.ui.tabWidget_Body.currentIndex()]
+        pass
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -108,15 +112,15 @@ class Controls(QtWidgets.QWidget):
         panels = {}
         for p in patterns:
             panels.update({p: [(name, widget) for name, widget in
-                               self.ui_obj_dict.items() if p in name]})
+                               self.ui_obj_dict.items() if name.startswith(p)]})
 
         return panels
 
     @pyqtSlot(list, list)
     def refresh(self, target, data_set):
-        if target[1] == "ATTR":
+        if target[1] == "tab_ATTR":
             for i in range(len(data_set)):
-                self._control_groups['attr'].values()[i].setCurrentText(data_set[i])
+                self._control_groups['attr_'].values()[i].setCurrentText(data_set[i])
 
         pass
 
@@ -154,8 +158,8 @@ class CanvasWrapper:
         - vizz  :   contains the vispy visual nodes rendered in the view
     """
 
-    def __init__(self):
-        self._canvas = MainSimCanvas()
+    def __init__(self, model):
+        self._canvas = MainSimCanvas(system_model=model)
 
     def set_skymap_grid(self, color=(0, 0, 1, .3)):
         self._canvas.view.skymap.mesh.meshdata.color = color
@@ -170,16 +174,13 @@ class CanvasWrapper:
         return self._canvas.model
 
 
-def load_simulation():
-    res = MainQtWindow()
-
-    return res
-
-
 if __name__ == "__main__":
-    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    # app = QCoreApplication(sys.argv)
+    # app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = use_app("pyqt5")
     app.create()
-    sim = load_simulation()
+    sim = MainQtWindow()
     sim.show()
     app.run()
+    # app.exec_()
+

@@ -18,7 +18,7 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 class MainSimCanvas(scene.SceneCanvas):
     FIRST_RUN = True
 
-    def __init__(self, body_names=sys_data.body_names):
+    def __init__(self, system_model):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
                                             show=False,
@@ -26,7 +26,10 @@ class MainSimCanvas(scene.SceneCanvas):
                                             title="SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten",
                                             )
         self.unfreeze()
-        self._system_model = StarSystemModel(body_names=body_names)
+        if type(system_model) == StarSystemModel:
+            self._system_model = system_model
+        else:
+            exit("MainSimCanvas.__init__: BAD MODEL")
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
@@ -35,7 +38,8 @@ class MainSimCanvas(scene.SceneCanvas):
         self._fpv_viewbox = self.central_widget.add_view()
         self._cam_set = CameraSet(canvas=self)
         self._fpv_viewbox.camera = self._cam_set.curr_cam
-        self._sys_vizz = StarSystemViewer(sys_model=self._system_model, system_view=self._fpv_viewbox)
+        self._sys_vizz = StarSystemViewer(sim_bods=self._system_model.simbodies,
+                                          system_view=self._fpv_viewbox)
         self._fpv_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
                                            (-1e+09, 1e+09),

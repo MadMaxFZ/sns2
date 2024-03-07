@@ -34,7 +34,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>1</x>
@@ -112,7 +112,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_19">
               <item>
-               <widget class="QLabel" name="tw_max_2">
+               <widget class="QLabel" name="tw_max">
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -215,7 +215,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_21">
                 <item>
-                 <widget class="QPushButton" name="twb_stop_2">
+                 <widget class="QPushButton" name="twb_stop">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -228,21 +228,21 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="twb_reverse_2">
+                 <widget class="QPushButton" name="twb_reverse">
                   <property name="text">
                    <string>&lt;--&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="twb_play_pause_2">
+                 <widget class="QPushButton" name="twb_play_pause">
                   <property name="text">
                    <string>&gt; / ||</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="twb_realtime_2">
+                 <widget class="QPushButton" name="twb_realtime">
                   <property name="text">
                    <string>--&gt; 1</string>
                   </property>
@@ -306,7 +306,7 @@
             <item row="0" column="1">
              <layout class="QVBoxLayout" name="verticalLayout_23">
               <item>
-               <widget class="QLineEdit" name="twarp_val_2">
+               <widget class="QLineEdit" name="twarp_val">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -316,7 +316,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QDateTimeEdit" name="tw_ref_epoch_2">
+               <widget class="QDateTimeEdit" name="tw_ref_epoch">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -329,7 +329,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="tw_elapsed_2">
+               <widget class="QLabel" name="tw_elapsed">
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;w_clock.elapsed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -339,7 +339,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="tw_sys_epoch_2">
+               <widget class="QLabel" name="tw_sys_epoch">
                 <property name="text">
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;sys_epoch&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
@@ -801,7 +801,7 @@
                 <x>0</x>
                 <y>20</y>
                 <width>191</width>
-                <height>61</height>
+                <height>66</height>
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,3">

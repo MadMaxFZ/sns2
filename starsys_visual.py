@@ -41,7 +41,7 @@ DEF_MARKS_DATA = dict(pos=None,
 class StarSystemViewer:
     """
     """
-    def __init__(self, sys_model=None, system_view=None):
+    def __init__(self, sim_bods, system_view=None):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -49,23 +49,23 @@ class StarSystemViewer:
             be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        sys_model :  TODO: Only require the SimBody object...
+        sim_bods    :  TODO: Only require the SimBody object...
         system_view :   TODO: minimize the use of this. Only need scene for parents...?
         """
-        if self._check_simbods(model=sys_model):
-            self._simbods       = sys_model.simbodies
-            body_count          = sys_model.body_count
-            body_names = self._simbods.keys()
+        if self._check_simbods(simbods=sim_bods):
+            self._simbods       = sim_bods
+            body_count          = len(self._simbods)
+            body_names          = self._simbods.keys()
             self._init_state    = 0
-            self._mainview      = system_view
-            self._cam           = self._mainview.camera
+            self._scene         = system_view.scene
+            self._cam           = system_view.camera
             self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap()
             self._symbol_sizes  = []
-            self._planets    = {}       # a dict of Planet visuals
-            self._tracks     = {}       # a dict of Polygon visuals
-            self._frame_viz = XYZAxis(parent=self._mainview.scene)  # set parent in MainSimWindow ???
+            self._planets       = {}       # a dict of Planet visuals
+            self._tracks        = {}       # a dict of Polygon visuals
+            self._frame_viz     = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
             self._frame_viz.transform = MT()
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
             ''' Generate Planet visual object for each SimBody
@@ -74,8 +74,8 @@ class StarSystemViewer:
             [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
             [self.generate_bodyvizz(name) for name in body_names]
             self._symbols = [pl.mark for pl in self._planets.values()]
-            self._plnt_markers = Markers(parent=self._mainview.scene, **DEF_MARKS_INIT)  # a single instance of Markers
-            self._cntr_markers = Markers(parent=self._mainview.scene,
+            self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
+            self._cntr_markers = Markers(parent=self._scene,
                                          symbol='+',
                                          size=[(MIN_SYMB_SIZE - 2) for n in range(body_count)],
                                          **DEF_MARKS_INIT)  # another instance of Markers
@@ -100,7 +100,7 @@ class StarSystemViewer:
                       rows=18,
                       color=(1, 1, 1, 1),
                       edge_color=(0, 0, 0, .2),       # sb.base_color,
-                      parent=self._mainview.scene,
+                      parent=self._scene,
                       visible=True,
                       method='oblate',
                       )
@@ -114,7 +114,7 @@ class StarSystemViewer:
                            border_color=np.array(list(plnt.base_color) + [0, ]) +
                                         np.array([0, 0, 0, plnt.track_alpha]),
                            triangulate=False,
-                           parent=self._mainview.scene,
+                           parent=self._scene,
                            )
             poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
             self._tracks.update({name: poly})
@@ -123,9 +123,9 @@ class StarSystemViewer:
         for k, v in self._subvizz.items():
             if "_" in k:
                 print(k)
-                self._mainview.add(v)
+                self._scene.parent.add(v)
             else:
-                [self._mainview.add(t) for t in v.values()]
+                [self._scene.parent.add(t) for t in v.values()]
 
     def update_vizz(self):
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
@@ -151,7 +151,7 @@ class StarSystemViewer:
                 self._tracks[sb_name].transform.translate(sb.sb_parent.pos2primary)
 
         # collect the body positions relative to the camera location
-        self._cam_rel_pos = [sb.rel2pos(pos=self._mainview.camera.center * sb.dist_unit)['rel_pos']
+        self._cam_rel_pos = [sb.rel2pos(pos=self._cam.center * sb.dist_unit)['rel_pos']
                              for sb in self._simbods.values()]
 
         self._plnt_markers.set_data(pos=self.bods_pos,
@@ -163,7 +163,7 @@ class StarSystemViewer:
                                     size=self._symbol_sizes,
                                     symbol=self._symbols,
                                     )
-        self._cntr_markers.set_data(pos=self.bods_po,
+        self._cntr_markers.set_data(pos=self.bods_pos,
                                     edge_color=[0, 1, 0, .6],
                                     size=MIN_SYMB_SIZE,
                                     symbol=['diamond' for sb in self._simbods.values()],
@@ -200,7 +200,7 @@ class StarSystemViewer:
 
             body_fov = sb.rel2pos(pos=from_cam.center * sb.dist_unit)['fov']
             pix_diam = 0
-            raw_diam = math.ceil(self._mainview.size[0] * body_fov / self._cam.fov)
+            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / self._cam.fov)
 
             if raw_diam < MIN_SYMB_SIZE:
                 pix_diam = MIN_SYMB_SIZE
@@ -217,19 +217,19 @@ class StarSystemViewer:
         return np.array(pix_diams)
 
     @staticmethod
-    def _check_simbods(model=None):
+    def _check_simbods(simbods=None):
         """ Make sure that the simbods argument actually consists of
             a dictionary of SimBody objects.
         """
         check = True
-        if model is None:
-            print("Must provide a model... FAILED")
+        if simbods is None:
+            print("Must provide a SimBody dict... FAILED")
             check = False
-        elif type(model.simbodies) is not dict:
-            print("Model must provide a SimBody dictionary... FAILED")
+        elif type(simbods) is not dict:
+            print("must provide a dictionary of SimBody objects... FAILED")
             check = False
         else:
-            for key, val in model.simbodies.items():
+            for key, val in simbods.items():
                 if type(val) is not SimBody:
                     print(key, "is NOT a SimBody... FAILED.")
                     check = False

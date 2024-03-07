@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # x
+import numpy as np
 from astropy.time import TimeDelta
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
@@ -8,6 +9,7 @@ from sysbody_model import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
+from vispy.app.timer import Timer
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -21,8 +23,8 @@ class StarSystemModel(QObject):
     # sim_params = SYS_DATA.system_params
     initialized = pyqtSignal(list)
     updating = pyqtSignal(Time)
-    ready = pyqtSignal(Time)
-    here_yago = pyqtSignal(list, list)
+    ready = pyqtSignal(np.float32)
+    data_return = pyqtSignal(list, list)
 
     def __init__(self, body_names=None):
         super(StarSystemModel, self).__init__()
@@ -31,7 +33,7 @@ class StarSystemModel(QObject):
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = None
+        self._w_clock     = Timer(interval=0.1, iterations=-1)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
@@ -59,15 +61,20 @@ class StarSystemModel(QObject):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        self.updating.connect(self._flip_update_flag)
-        self.ready.connect(self._flip_update_flag)
+        # self.updating.connect(self._flip_update_flag)
+        # self.ready.connect(self._show_epoch)
+        # self.ready.connect(self._flip_update_flag)
+        self.assign_timer(self._w_clock)
 
     def _flip_update_flag(self):
         self._UPDATING = not self._UPDATING
 
+    def _show_epoch(self):
+        print(">> SYS_EPOCH:", self._sys_epoch)
+
     def assign_timer(self, clock):
         self._w_clock = clock
-        self.cmd_timer()
+        self._w_clock.connect(self.update_epoch)
 
     def add_simbody(self, body_name=None):
         if body_name is not None:
@@ -141,11 +148,13 @@ class StarSystemModel(QObject):
         # apply time factor, set new sys_epoch
         d_epoch = TimeDelta(dt * u.s * self._t_warp)
         self._sys_epoch += d_epoch
+        self.updating.emit(self._sys_epoch)
         # if self._avg_d_epoch.value == 0:
         #     self._avg_d_epoch = d_epoch
         # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
         self.update_state()
-        logging.debug("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
+        self.ready.emit(dt)
+        logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
                       self._avg_d_epoch,
                       self._sys_epoch.jd)
 
@@ -172,7 +181,7 @@ class StarSystemModel(QObject):
                 j += 1
             i += 1
 
-        self.ready.emit()
+        self.ready.emit(self._sys_epoch)
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self._sys_rel_pos,
                       self._sys_rel_vel,
@@ -203,11 +212,11 @@ class StarSystemModel(QObject):
         panel = target[1]
         if panel == "CAMS":
             pass
-        elif panel == "ATTR":
+        elif panel == "tab_ATTR":
             body_obj: Body = self.simbodies[body].body
             data_set = [body_obj[i] for i in range(len(body_obj._fields))]
 
-        self.here_yago.emit(target, data_set)
+        self.data_return.emit(target, data_set)
         pass
 
     @property
@@ -218,6 +227,10 @@ class StarSystemModel(QObject):
     def epoch(self, new_epoch=None):
         self._sys_epoch = new_epoch
         self.update_state()
+
+    @property
+    def body_names(self):
+        return self._body_names
 
     @property
     def simbody_list(self):
@@ -250,7 +263,11 @@ class StarSystemModel(QObject):
 
 def main():
     my_starsys = StarSystemModel()
+    my_starsys.t_warp = 1
+    my_starsys.assign_timer(Timer(interval=0.1, iterations=100))
     my_starsys.cmd_timer()
+    while my_starsys.model_clock.running:
+        pass    # my_starsys.update_epoch()
 
 
 if __name__ == "__main__":
