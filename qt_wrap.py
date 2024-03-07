@@ -33,9 +33,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.controls = Controls()
-        self.ui       = self.controls.ui
         self.model    = StarSystemModel()
         self.canvas   = CanvasWrapper(self.model)
+        self.ui = self.controls.ui
 
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
