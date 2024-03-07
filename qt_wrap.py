@@ -11,6 +11,8 @@ from typing import List
 import sys
 import autologging
 import numpy as np
+from multiprocessing import Pipe, Process
+from asyncio import Queue
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from vispy.scene import SceneCanvas, visuals
@@ -18,19 +20,33 @@ from vispy.app import use_app
 from sim_canvas import MainSimCanvas
 from starsys_model import StarSystemModel
 from sns2_gui import Ui_wid_BodyData
-# from body_attribs import Ui_frm_BodyAttribs
-# from orbit_classical import Ui_frm_COE
-# from time_control import Ui_frm_TimeControl
 from composite import Ui_frm_sns_controls
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
 
 
+class ModelProc(Process):
+    def __init__(self, model, to_emitter: Pipe, from_model, daemon=True):
+        super(ModelProc, self).__init__()
+        self.daemon = daemon
+        self.to_emitter = to_emitter
+        self.data_from_model = from_model
+        self.model = model
+
+    def run(self):
+        while True:
+            req = self.data_from_model.get()
+            self.to_emitter.send(req)
+
+
 class MainQtWindow(QtWidgets.QMainWindow):
     data_request = pyqtSignal(list)
 
-    def __init__(self, ctr=None, ssm=None, msc=None, *args, **kwargs):
+    def __init__(self, ctr=None, ssm=None, msc=None,
+                 modproc_q=None, emitter=None,
+                 *args, **kwargs
+                 ):
         super(MainQtWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.controls = ctr
@@ -47,11 +63,30 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
+        self.proc_q = modproc_q
+        self.emitter = emitter
+        self.emitter.daemon = True
+        self.emitter.start()
         self.connect_controls()
-        # self.thread = QThread()
-        # self.model.moveToThread(self.thread)
-        # self.thread.start()
         self.init_controls()
+
+    @pyqtSlot(list)
+    def to_model(self, target):
+        self.proc_q.put(target)
+
+    @pyqtSlot(list, list)
+    def updateUI(self, target, data):
+        """ This slot method accepts a list
+
+        Parameters
+        ----------
+        target  :   a list indicating the widget set affected (same as list in data_request signal)
+        data    :   a list of the data to be placed into the indicated target widgets
+
+        Returns
+        -------
+
+        """
 
     def init_controls(self):
         self.ui.bodyList.clear()
@@ -71,8 +106,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #       slots necessary to communicate with model thread
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.data_request.connect(self.model.send_panel)
-        self.model.data_return.connect(self.controls.refresh)
+        self.data_request.connect(self.to_model)
+        self.emitter.data_return.connect(self.updateUI)
 
 
 class Controls(QtWidgets.QWidget):
@@ -151,15 +186,40 @@ class Controls(QtWidgets.QWidget):
         return self.ui.camBox.currentText()
 
 
+class Emitter(QThread):
+    data_return = pyqtSignal(list, list)
+
+    def __init__(self, from_model: Pipe):
+        super(Emitter, self).__init__()
+        self.data_from_model = from_model
+
+    def run(self):
+        while True:
+            try:
+                mod_data = self.data_from_model.recv()
+            except EOFError:
+                break
+            else:
+                self.data_return.emit(mod_data)
+
+
 if __name__ == "__main__":
     # app = QCoreApplication(sys.argv)
     # app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = use_app("pyqt5")
     app.create()
+
+    in_pipe, out_pipe = Pipe()
+    request_q = Queue()
+    emitter = Emitter(in_pipe)
+
+
     ctrl = Controls()
-    modl = StarSystemModel()
+    modl = ModelProc(out_pipe, request_q)
     canv = MainSimCanvas(system_model=modl)
-    simu = MainQtWindow(ctr=ctrl, ssm=modl, msc=canv)
+
+    simu = MainQtWindow(ctr=ctrl, ssm=modl, msc=canv, req=request_q, emt=emitter)
+    modl.start()
     simu.show()
     app.run()
     # app.exec_()
