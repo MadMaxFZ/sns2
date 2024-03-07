@@ -27,11 +27,15 @@ logging.config.dictConfig(log_config)
 
 
 class ModelProc(Process):
-    def __init__(self, to_emitter: Pipe, from_model, daemon=True):
-        self.model = super(ModelProc, self).__init__()
+    def __init__(self, to_emitter: Pipe, from_model: Queue, daemon=True):
+        super(ModelProc, self).__init__()
+        self.model = None
         self.daemon = daemon
         self.to_emitter = to_emitter
         self.data_from_model = from_model
+
+    def load_model(self, model):
+        self.model = model
 
     def run(self):
         while True:
@@ -42,17 +46,17 @@ class ModelProc(Process):
 class MainQtWindow(QtWidgets.QMainWindow):
     data_request = pyqtSignal(list)
 
-    def __init__(self, ctr=None, ssm=None, msc=None,
-                 req=None, emt=None,
+    def __init__(self, controls=None, model=None, vispy_canvas=None,
+                 q2_proc=None, emitter=None,
                  *args, **kwargs
                  ):
         super(MainQtWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.controls = ctr
-        self.model    = ssm
-        self.canvas   = msc
-
+        self.controls = controls
+        self.model    = model
+        self.canvas   = vispy_canvas
         self.ui = self.controls.ui
+
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
         splitter.addWidget(self.controls)
@@ -62,8 +66,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
-        self.proc_q = req
-        self.emitter = emt
+        self.proc_q = q2_proc
+        self.emitter = emitter
         self.emitter.daemon = True
         self.emitter.start()
         self.connect_controls()
@@ -188,18 +192,18 @@ class Controls(QtWidgets.QWidget):
 class Emitter(QThread):
     data_return = pyqtSignal(list, list)
 
-    def __init__(self, from_model: Pipe):
+    def __init__(self, from_source: Pipe):
         super(Emitter, self).__init__()
-        self.data_from_model = from_model
+        self.data_from_source = from_source
 
     def run(self):
         while True:
             try:
-                mod_data = self.data_from_model.recv()
+                source_data = self.data_from_source.recv()
             except EOFError:
                 break
             else:
-                self.data_return.emit(mod_data)
+                self.data_return.emit(source_data)
 
 
 if __name__ == "__main__":
@@ -211,13 +215,13 @@ if __name__ == "__main__":
     in_pipe, out_pipe = Pipe()
     request_q = Queue()
     emitter = Emitter(in_pipe)
-
+    modl = StarSystemModel()
     ctrl = Controls()
-    modl = ModelProc(out_pipe, request_q, daemon=True)
-    model = modl.model
-    canv = MainSimCanvas(system_model=model)
-    simu = MainQtWindow(ctr=ctrl, ssm=model, msc=canv, req=request_q, emt=emitter)
-    modl.start()
+    canv = MainSimCanvas(system_model=modl)
+    simu = MainQtWindow(controls=ctrl, model=modl, vispy_canvas=canv, q2_proc=request_q, emitter=emitter)
+    proc = ModelProc(out_pipe, request_q, daemon=True)
+    proc.load_model(modl)
+    proc.start()
     simu.show()
     app.run()
     # app.exec_()

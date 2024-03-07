@@ -8,7 +8,7 @@ from starsys_data import *
 from sysbody_model import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject, QRunnable
 from multiprocessing import Pipe, Process
 from vispy.app.timer import Timer
 
@@ -18,7 +18,7 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     )
 
 
-class StarSystemModel(QObject):
+class StarSystemModel(QRunnable):
     """
     """
     # sim_params = SYS_DATA.system_params
