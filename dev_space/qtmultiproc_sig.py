@@ -16,7 +16,6 @@ the UI can be updated. I tried this but ran into the error
 
 import sys
 from multiprocessing import Process, Queue, Pipe
-
 from PyQt5.QtCore import pyqtSignal, QThread
 from PyQt5.QtWidgets import QApplication, QLineEdit, QTextBrowser, QVBoxLayout, QDialog
 

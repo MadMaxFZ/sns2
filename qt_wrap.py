@@ -30,15 +30,14 @@ logging.config.dictConfig(log_config)
 class MainQtWindow(QtWidgets.QMainWindow):
     data_request = pyqtSignal(list)
 
-    def __init__(self, *args, **kwargs):
-        super(MainQtWindow, self).__init__(*args,
-                                           **kwargs)
+    def __init__(self, ctr=None, ssm=None, msc=None, *args, **kwargs):
+        super(MainQtWindow, self).__init__(*args, **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.controls = Controls()
-        self.model    = StarSystemModel()
-        self.canvas   = MainSimCanvas(self.model)
-        self.ui = self.controls.ui
+        self.controls = ctr
+        self.model    = ssm
+        self.canvas   = msc
 
+        self.ui = self.controls.ui
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
         splitter.addWidget(self.controls)
@@ -49,9 +48,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(central_widget)
 
         self.connect_controls()
-        self.thread = QThread()
-        self.model.moveToThread(self.thread)
-        self.thread.start()
+        # self.thread = QThread()
+        # self.model.moveToThread(self.thread)
+        # self.thread.start()
         self.init_controls()
 
     def init_controls(self):
@@ -62,9 +61,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
         self.data_request.emit([self.controls.active_body,
-                                         self.controls.active_panel,
-                                         self.controls.active_cam,
-                                         ])
+                                self.controls.active_panel,
+                                self.controls.active_cam,
+                                ])
         pass
 
     def connect_controls(self):
@@ -145,35 +144,11 @@ class Controls(QtWidgets.QWidget):
 
     @property
     def curr_tab(self):
-        return self.ui.tabWidget_Body.rrentWidget()
+        return self.ui.tabWidget_Body.currentWidget()
 
     @property
     def curr_cam(self):
         return self.ui.camBox.currentText()
-
-
-class CanvasWrapper:
-    """     This class simply encapsulates the simulation, which resides within
-        the vispy SceneCanvas object. This SceneCanvas has three main properties:
-        - model :   contains and manages the properties of the model
-        - view  :   contains the rendering of the simulation scene
-        - vizz  :   contains the vispy visual nodes rendered in the view
-    """
-
-    def __init__(self, model):
-        self._canvas = MainSimCanvas(system_model=model)
-
-    def set_skymap_grid(self, color=(0, 0, 1, .3)):
-        self._canvas.view.skymap.mesh.meshdata.color = color
-        pass
-
-    @property
-    def native(self):
-        return self._canvas.native
-
-    @property
-    def model(self):
-        return self._canvas.model
 
 
 if __name__ == "__main__":
@@ -181,8 +156,11 @@ if __name__ == "__main__":
     # app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = use_app("pyqt5")
     app.create()
-    sim = MainQtWindow()
-    sim.show()
+    ctrl = Controls()
+    modl = StarSystemModel()
+    canv = MainSimCanvas(system_model=modl)
+    simu = MainQtWindow(ctr=ctrl, ssm=modl, msc=canv)
+    simu.show()
     app.run()
     # app.exec_()
 
