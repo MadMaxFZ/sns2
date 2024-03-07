@@ -28,13 +28,15 @@ logging.config.dictConfig(log_config)
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
+    data_request = pyqtSignal(list)
+
     def __init__(self, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.controls = Controls()
         self.model    = StarSystemModel()
-        self.canvas   = CanvasWrapper(self.model)
+        self.canvas   = MainSimCanvas(self.model)
         self.ui = self.controls.ui
 
         main_layout = QtWidgets.QHBoxLayout()
@@ -59,7 +61,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # add items to camera combobox
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
-        self.controls.data_request.emit([self.controls.active_body,
+        self.data_request.emit([self.controls.active_body,
                                          self.controls.active_panel,
                                          self.controls.active_cam,
                                          ])
@@ -70,7 +72,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #       slots necessary to communicate with model thread
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.controls.data_request.connect(self.model.send_panel)
+        self.data_request.connect(self.model.send_panel)
         self.model.data_return.connect(self.controls.refresh)
 
 
