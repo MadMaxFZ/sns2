@@ -27,12 +27,11 @@ logging.config.dictConfig(log_config)
 
 
 class ModelProc(Process):
-    def __init__(self, model, to_emitter: Pipe, from_model, daemon=True):
-        super(ModelProc, self).__init__()
+    def __init__(self, to_emitter: Pipe, from_model, daemon=True):
+        self.model = super(ModelProc, self).__init__()
         self.daemon = daemon
         self.to_emitter = to_emitter
         self.data_from_model = from_model
-        self.model = model
 
     def run(self):
         while True:
@@ -44,7 +43,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     data_request = pyqtSignal(list)
 
     def __init__(self, ctr=None, ssm=None, msc=None,
-                 modproc_q=None, emitter=None,
+                 req=None, emt=None,
                  *args, **kwargs
                  ):
         super(MainQtWindow, self).__init__(*args, **kwargs)
@@ -63,8 +62,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
-        self.proc_q = modproc_q
-        self.emitter = emitter
+        self.proc_q = req
+        self.emitter = emt
         self.emitter.daemon = True
         self.emitter.start()
         self.connect_controls()
@@ -213,12 +212,11 @@ if __name__ == "__main__":
     request_q = Queue()
     emitter = Emitter(in_pipe)
 
-
     ctrl = Controls()
-    modl = ModelProc(out_pipe, request_q)
-    canv = MainSimCanvas(system_model=modl)
-
-    simu = MainQtWindow(ctr=ctrl, ssm=modl, msc=canv, req=request_q, emt=emitter)
+    modl = ModelProc(out_pipe, request_q, daemon=True)
+    model = modl.model
+    canv = MainSimCanvas(system_model=model)
+    simu = MainQtWindow(ctr=ctrl, ssm=model, msc=canv, req=request_q, emt=emitter)
     modl.start()
     simu.show()
     app.run()
