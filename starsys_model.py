@@ -33,7 +33,7 @@ class StarSystemModel(QObject):
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = Timer(interval=0.1, iterations=-1)
+        self._w_clock     = Timer(interval='auto', iterations=-1)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
