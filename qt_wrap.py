@@ -85,17 +85,24 @@ class Controls(QtWidgets.QWidget):
         self.ui = Ui_frm_sns_controls()
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
-        logging.info([i for i in self.ui_obj_dict.keys() if (i.startswith("lv") or "warp" in i)])
-        self._wgtgrp_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
-                              'cam_', 'tw_', 'twb_', 'axis_']
-        self._control_groups = self._scanUi_4panels(patterns=self._wgtgrp_names)
+        logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
+        self._group_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
+                             'cam_', 'tw_', 'twb_', 'axis_']
+        self._widget_groups = self._scanUi_4panels(patterns=self._group_names)
         self.tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
-
-        # create some hooks to notable widget values...
-        self.active_body = self.ui.bodyBox.currentText()
-        self.active_cam = self.ui.camBox.currentText()
-        self.active_panel = self.tab_names[self.ui.tabWidget_Body.currentIndex()]
         pass
+
+    @property
+    def active_body(self):
+        return self.ui.bodyBox.currentText()
+
+    @property
+    def active_cam(self):
+        return self.ui.camBox.currentText()
+
+    @property
+    def active_panel(self):
+        return self.tab_names[self.ui.tabWidget_Body.currentIndex()]
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -122,16 +129,16 @@ class Controls(QtWidgets.QWidget):
     def refresh(self, target, data_set):
         if target[1] == "tab_ATTR":
             for i in range(len(data_set)):
-                self._control_groups['attr_'].values()[i].setCurrentText(data_set[i])
+                self._widget_groups['attr_'].values()[i].setCurrentText(data_set[i])
 
         pass
 
     @property
     def panels(self, name=None):
         if name is None:
-            return self._control_groups
-        elif name in self._control_groups.keys():
-            return self._control_groups[name]
+            return self._widget_groups
+        elif name in self._widget_groups.keys():
+            return self._widget_groups[name]
         else:
             return None
 
