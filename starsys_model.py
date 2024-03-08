@@ -9,8 +9,9 @@ from sysbody_model import SimBody
 from astropy import units as u
 from astropy.constants.codata2014 import G
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject, QRunnable
-from multiprocessing import Pipe, Process
+from multiprocessing import Pipe, Queue, Process
 from vispy.app.timer import Timer
+from qt_wrap import Emitter
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -18,17 +19,23 @@ logging.basicConfig(filename="logs/sb_viewer.log",
                     )
 
 
-class StarSystemModel(QRunnable):
+class StarSystemModel(Process):
     """
     """
     # sim_params = SYS_DATA.system_params
-    initialized = pyqtSignal(list)
-    updating = pyqtSignal(Time)
-    ready = pyqtSignal(np.float32)
-    data_return = pyqtSignal(list, list)
+    # initialized = pyqtSignal(list)
+    # updating = pyqtSignal(Time)
+    # ready = pyqtSignal(np.float32)
+    # data_return = pyqtSignal(list, list)
 
-    def __init__(self, body_names=None):
+    def __init__(self, to_emitter: Pipe, from_model: Queue, daemon=True,
+                 body_names=None):
         super(StarSystemModel, self).__init__()
+        # added for Process functionality
+        self.daemon = daemon
+        self.to_emitter = to_emitter
+        self.data_from_model = from_model
+
         self._INIT        = False
         self._UPDATING    = False
         self._w_last      = 0
@@ -66,6 +73,13 @@ class StarSystemModel(QRunnable):
         # self.ready.connect(self._show_epoch)
         # self.ready.connect(self._flip_update_flag)
         self.assign_timer(self._w_clock)
+
+    def run(self):
+        """ Added for Process functionality
+        """
+        while True:
+            req = self.data_from_model.get()
+            self.to_emitter.send(req)
 
     def _flip_update_flag(self):
         self._UPDATING = not self._UPDATING
@@ -260,6 +274,10 @@ class StarSystemModel(QRunnable):
     @property
     def body_count(self):
         return self._body_count
+
+    @property
+    def model(self):
+        return self
 
 
 def main():

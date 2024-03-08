@@ -18,7 +18,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_canvas import MainSimCanvas
-from starsys_model import StarSystemModel
+# from starsys_model import StarSystemModel
 from sns2_gui import Ui_wid_BodyData
 from composite import Ui_frm_sns_controls
 from starsys_data import log_config
@@ -29,13 +29,13 @@ logging.config.dictConfig(log_config)
 class ModelProc(Process):
     def __init__(self, to_emitter: Pipe, from_model: Queue, daemon=True):
         super(ModelProc, self).__init__()
-        self.model = None
+        self.model = StarSystemModel()
         self.daemon = daemon
         self.to_emitter = to_emitter
         self.data_from_model = from_model
 
-    def load_model(self, model):
-        self.model = model
+    def get_model(self, model):
+        return self.model
 
     def run(self):
         while True:
@@ -46,7 +46,7 @@ class ModelProc(Process):
 class MainQtWindow(QtWidgets.QMainWindow):
     data_request = pyqtSignal(list)
 
-    def __init__(self, controls=None, model=None, vispy_canvas=None,
+    def __init__(self, controls=None, model=None,
                  q2_proc=None, emitter=None,
                  *args, **kwargs
                  ):
@@ -54,7 +54,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.controls = controls
         self.model    = model
-        self.canvas   = vispy_canvas
+        self.canvas   = MainSimCanvas(system_model=self.model)
         self.ui = self.controls.ui
 
         main_layout = QtWidgets.QHBoxLayout()
@@ -215,12 +215,14 @@ if __name__ == "__main__":
     in_pipe, out_pipe = Pipe()
     request_q = Queue()
     emitter = Emitter(in_pipe)
-    modl = StarSystemModel()
+    # modl = StarSystemModel()
+    proc = ModelProc(out_pipe, request_q, daemon=True)
+    modl = proc.get_model()
     ctrl = Controls()
     canv = MainSimCanvas(system_model=modl)
     simu = MainQtWindow(controls=ctrl, model=modl, vispy_canvas=canv, q2_proc=request_q, emitter=emitter)
-    proc = ModelProc(out_pipe, request_q, daemon=True)
-    proc.load_model(modl)
+
+    # proc.get_model(modl)
     proc.start()
     simu.show()
     app.run()

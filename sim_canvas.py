@@ -5,7 +5,7 @@ from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
 from starsys_data import sys_data
-from starsys_model import StarSystemModel
+#rom starsys_model import StarSystemModel
 from starsys_visual import StarSystemViewer
 from camera_set import CameraSet
 
@@ -26,10 +26,10 @@ class MainSimCanvas(scene.SceneCanvas):
                                             title="SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten",
                                             )
         self.unfreeze()
-        if type(system_model) == StarSystemModel:
-            self._system_model = system_model
-        else:
-            exit("MainSimCanvas.__init__: BAD MODEL")
+        # if type(system_model) == StarSystemModel:
+        #     self._system_model = system_model
+        # else:
+        #     exit("MainSimCanvas.__init__: BAD MODEL")
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
