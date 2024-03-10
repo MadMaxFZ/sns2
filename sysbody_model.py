@@ -25,13 +25,16 @@ class SimBody(QObject):
     """
     epoch0 = J2000_TDB
     system = {}
-    created = pyqtSignal(str)
+    created = pyqtSignal(str)               # emits AimBody name
+    epoch_changed = pyqtSignal(Time)        # emits epoch set to
+    state_changed = pyqtSignal(TimeDelta)   # emits time since last update
 
     def __init__(self, body_name=None):
         super(SimBody, self).__init__()
         self._is_primary    = False
-        self._prev_update   = None
+        self._prev_update   = Time.now()
         self._RESAMPLE      = False
+        self._STATUS        = "NEW"
         self._sb_parent     = None
         self._sys_primary   = None
         self._body_data     = sys_data.body_data(body_name)
@@ -59,6 +62,7 @@ class SimBody(QObject):
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
         self.created.emit(self.name)
+        self._STATUS = "INITIALIZED"
 
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
@@ -141,6 +145,10 @@ class SimBody(QObject):
                                     self._rot_func(**toTD(self._epoch)),
                                     ])
 
+        _now = Time.now()
+        self.state_changed.emit(_now - self._prev_update)
+        self._prev_update = _now
+
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
                      self._name,
@@ -166,6 +174,22 @@ class SimBody(QObject):
                 "dist": dist,
                 "fov": fov,
                 }
+
+    @property
+    def epoch(self):
+        return self._epoch
+
+    @epoch.setter
+    def epoch(self, new_epoch=None):
+        if new_epoch is None:
+            new_epoch = SimBody.epoch0
+        if type(new_epoch) == Time:
+            self._epoch = Time(new_epoch,
+                               format='jd',
+                               scale='tdb',)
+            self.epoch_changed.emit(new_epoch)
+
+        #   TODO:: Decide whether or not to automatically call self.update_state()
 
     @property
     def name(self):
@@ -264,20 +288,6 @@ class SimBody(QObject):
             return _pos
         else:
             return _pos + self._sys_primary.pos
-
-    @property
-    def epoch(self):
-        return self._epoch
-
-    @epoch.setter
-    def epoch(self, new_epoch=None):
-        if new_epoch is None:
-            new_epoch = SimBody.epoch0
-        if type(new_epoch) == Time:
-            self._epoch = Time(new_epoch,
-                               format='jd',
-                               scale='tdb',
-                               )
 
     @property
     def end_epoch(self):
