@@ -59,9 +59,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
         self.data_request.emit([self.controls.active_body,
-                                         self.controls.active_panel,
-                                         self.controls.active_cam,
-                                         ])
+                                self.controls.active_panel,
+                                self.controls.active_cam,
+                                ])
         pass
 
     def connect_controls(self):

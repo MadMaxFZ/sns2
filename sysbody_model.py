@@ -184,9 +184,7 @@ class SimBody(QObject):
         if new_epoch is None:
             new_epoch = SimBody.epoch0
         if type(new_epoch) == Time:
-            self._epoch = Time(new_epoch,
-                               format='jd',
-                               scale='tdb',)
+            self._epoch = Time(new_epoch, format='jd', scale='tdb')
             self.epoch_changed.emit(new_epoch)
 
         #   TODO:: Decide whether or not to automatically call self.update_state()
