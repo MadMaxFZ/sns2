@@ -18,6 +18,8 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 class MainSimCanvas(scene.SceneCanvas):
     FIRST_RUN = True
 
+    #   TODO::  Refactor to remove all references to the StarSystemModel instance.
+    #           This class only needs to handle the CameraSet and key/mouse events.
     def __init__(self, system_model):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
@@ -62,6 +64,10 @@ class MainSimCanvas(scene.SceneCanvas):
         for k, v in self._fpv_viewbox.camera.get_state().items():
             print(k, ":", v)
 
+    #   TODO::  Implement a class that accepts a keystroke value then calls a
+    #           function associated with that value. These associations will be
+    #           represented with a dict that can be stored, modified or loaded
+    #           from a file.
     def on_key_press(self, ev):
         try:
             if ev.key.name == "+":
