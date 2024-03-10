@@ -36,7 +36,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.controls = Controls()
         self.model    = StarSystemModel()
-        self.canvas   = MainSimCanvas(self.model)
+        self.canvas   = CanvasWrapper(self.model)
         self.ui = self.controls.ui
 
         main_layout = QtWidgets.QHBoxLayout()
@@ -178,9 +178,9 @@ class CanvasWrapper:
     def native(self):
         return self._canvas.native
 
-    @property
-    def model(self):
-        return self._canvas.model
+    # @property
+    # def model(self):
+    #     return self._canvas.model
 
 
 if __name__ == "__main__":
