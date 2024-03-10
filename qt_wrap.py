@@ -152,7 +152,7 @@ class Controls(QtWidgets.QWidget):
 
     @property
     def curr_tab(self):
-        return self.ui.tabWidget_Body.rrentWidget()
+        return self.ui.tabWidget_Body.currentWidget()
 
     @property
     def curr_cam(self):
