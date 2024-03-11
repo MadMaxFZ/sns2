@@ -53,6 +53,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.model.moveToThread(self.thread)
         self.thread.start()
         self.init_controls()
+        self.show()
 
     def init_controls(self):
         self.ui.bodyList.clear()
@@ -161,7 +162,7 @@ class Controls(QtWidgets.QWidget):
 
 class CanvasWrapper:
     """     This class simply encapsulates the simulation, which resides within
-        the vispy SceneCanvas object. This SceneCanvas has three main properties:
+e        the vispy SceneCanvas object. This SceneCanvas has three main properties:
         - model :   contains and manages the properties of the model
         - view  :   contains the rendering of the simulation scene
         - vizz  :   contains the vispy visual nodes rendered in the view
@@ -184,12 +185,20 @@ class CanvasWrapper:
 
 
 if __name__ == "__main__":
-    # app = QCoreApplication(sys.argv)
-    # app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-    app = use_app("pyqt5")
-    app.create()
+    QT_NATIVE = False
+    if QT_NATIVE:
+        app = QCoreApplication(sys.argv)
+        app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    else:
+        app = use_app("pyqt5")
+        app.create()
+
     sim = MainQtWindow()
     sim.show()
-    app.run()
-    # app.exec_()
+
+    if QT_NATIVE:
+        app.exec()
+    else:
+        app.run()
+
 
