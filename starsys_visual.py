@@ -13,6 +13,7 @@ from starsys_data import vec_type
 from sysbody_visual import Planet
 from sys_skymap import SkyMap
 from sysbody_model import SimBody
+from camera_set import CameraSet
 
 # these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5

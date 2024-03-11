@@ -16,6 +16,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from vispy.app.timer import Timer
+from camera_set import CameraSet
 from sim_canvas import MainSimCanvas
 from starsys_model import StarSystemModel
 from starsys_visual import StarSystemVisuals
@@ -119,9 +120,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-
+        self.cameras  = CameraSet()
         self.model    = StarSystemModel()
-        self.canvas   = CanvasWrapper()
+        self.canvas   = CanvasWrapper(self.cameras)
         self.visuals  = StarSystemVisuals()
         self.controls = Controls()
         self.ui = self.controls.ui
@@ -165,44 +166,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
 class CanvasWrapper:
     """     This class simply encapsulates the simulation, which resides within
-        the vispy SceneCanvas object. This SceneCanvas has three main properties:
-        - model :   contains and manages the properties of the model
-        - view  :   contains the rendering of the simulation scene
-        - vizz  :   contains the vispy visual nodes rendered in the view
+        the vispy SceneCanvas object.
     """
-
-    def __init__(self):
-        self._canvas = MainSimCanvas()
-        self._system_model = None
-        self._system_model.t_warp = 9000
-        self._model_timer = Timer(interval='auto',
-                                  connect=self.on_mod_timer,
-                                  iterations=-1
-                                  )
-        self._report_timer = Timer(interval=1,
-                                   connect=self.on_rpt_timer,
-                                   iterations=-1
-                                   )
-        self._system_model.assign_timer(self._model_timer)
-
-    def on_mod_timer(self, event=None):
-        self._system_model.update_epoch()
-        self._sys_vizz.update_vizz()
-
-    def on_rpt_timer(self, event=None):
-        print("MeshData:\n", self._sys_vizz.planet_meshdata)
-
-    def set_skymap_grid(self, color=(0, 0, 1, .3)):
-        self._canvas.view.skymap.mesh.meshdata.color = color
-        pass
+    #   TODO:: Be prepared to add some methods to this class
+    def __init__(self, cam_set):
+        self._canvas = MainSimCanvas(cam_set)
 
     @property
     def native(self):
         return self._canvas.native
-
-    # @property
-    # def model(self):
-    #     return self._canvas.model
 
 
 if __name__ == "__main__":
@@ -215,3 +187,21 @@ if __name__ == "__main__":
     app.run()
     # app.exec_()
 
+    #     self._system_model = None
+    #     self._system_model.t_warp = 9000
+    #     self._model_timer = Timer(interval='auto',
+    #                               connect=self.on_mod_timer,
+    #                               iterations=-1
+    #                               )
+    #     self._report_timer = Timer(interval=1,
+    #                                connect=self.on_rpt_timer,
+    #                                iterations=-1
+    #                                )
+    #     self._system_model.assign_timer(self._model_timer)
+    #
+    # def on_mod_timer(self, event=None):
+    #     self._system_model.update_epoch()
+    #     self._sys_vizz.update_vizz()
+    #
+    # def on_rpt_timer(self, event=None):
+    #     print("MeshData:\n", self._sys_vizz.planet_meshdata)

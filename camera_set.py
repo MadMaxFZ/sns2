@@ -9,8 +9,7 @@ class CameraSet:
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
     """
-    def __init__(self, canvas):
-        self._canvas = canvas
+    def __init__(self):
         self._cam_dict = {}     # super(CameraSet, self).__init__()
         self._cam_count = 0
         self._curr_key = ""
