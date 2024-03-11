@@ -38,7 +38,7 @@ DEF_MARKS_DATA = dict(pos=None,
                       )
 
 
-class StarSystemViewer:
+class StarSystemVisuals:
     """
     """
     def __init__(self, sim_bods, system_view=None):
@@ -46,19 +46,19 @@ class StarSystemViewer:
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
         TODO:   Remove the model from this module. The data required here must now
-            be obtained using Signals to the QThread that the model will be running within.
+                be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        sim_bods    :  TODO: Only require the SimBody object...
+        sim_bods    :  TODO: Only require the SimBody object... as an argument to generate_bodyvizz() method
         system_view :   TODO: minimize the use of this. Only need scene for parents...?
         """
         if self._check_simbods(simbods=sim_bods):
-            self._simbods       = sim_bods
-            body_count          = len(self._simbods)
-            body_names          = self._simbods.keys()
+            self._simbods       = None                      # will import them one by one
+            body_count          = len(self._simbods)        #
+            body_names          = self._simbods.keys()      #
             self._init_state    = 0
-            self._scene         = system_view.scene
-            self._cam           = system_view.camera
+            self._scene         = system_view.scene         # test if parent can be set after init
+            self._cam           = system_view.camera        # cams can be assigned elsewhere
             self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
             self._cam_rel_vel   = None  # there is no readily available velocity for camera
             self._skymap        = SkyMap()
@@ -70,9 +70,11 @@ class StarSystemViewer:
             self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
             ''' Generate Planet visual object for each SimBody
             '''
-            self._bods_pos = {}
+            self._bods_pos = {}                             # this should probably be property of system
             [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
-            [self.generate_bodyvizz(name) for name in body_names]
+            [self.generate_bodyvizz(name) for name in body_names]   # should do these individually
+
+            # put init of markers into a method
             self._symbols = [pl.mark for pl in self._planets.values()]
             self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
             self._cntr_markers = Markers(parent=self._scene,

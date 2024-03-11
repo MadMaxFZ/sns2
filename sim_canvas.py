@@ -6,7 +6,6 @@ from vispy import app, scene
 from vispy.color import Color
 from starsys_data import sys_data
 from starsys_model import StarSystemModel
-from starsys_visual import StarSystemViewer
 from camera_set import CameraSet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
@@ -20,7 +19,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
     #   TODO::  Refactor to remove all references to the StarSystemModel instance.
     #           This class only needs to handle the CameraSet and key/mouse events.
-    def __init__(self, system_model):
+    def __init__(self):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
                                             show=False,
@@ -28,10 +27,10 @@ class MainSimCanvas(scene.SceneCanvas):
                                             title="SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten",
                                             )
         self.unfreeze()
-        if type(system_model) == StarSystemModel:
-            self._system_model = system_model
-        else:
-            exit("MainSimCanvas.__init__: BAD MODEL")
+        # if type(system_model) == StarSystemModel:
+        #     self._system_model = system_model
+        # else:
+        #     exit("MainSimCanvas.__init__: BAD MODEL")
         # TODO: Set up a system view with a FlyCamera,
         #       a secondary box with a Body list along
         #       with a view of a selected Body.
@@ -40,8 +39,8 @@ class MainSimCanvas(scene.SceneCanvas):
         self._fpv_viewbox = self.central_widget.add_view()
         self._cam_set = CameraSet(canvas=self)
         self._fpv_viewbox.camera = self._cam_set.curr_cam
-        self._sys_vizz = StarSystemViewer(sim_bods=self._system_model.simbodies,
-                                          system_view=self._fpv_viewbox)
+        self._sys_vizz = None
+
         self._fpv_viewbox.camera.set_range((-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
                                            (-1e+09, 1e+09),
@@ -49,16 +48,16 @@ class MainSimCanvas(scene.SceneCanvas):
         self._fpv_viewbox.camera.zoom_factor = 1.0
         self._fpv_viewbox.camera.scale_factor = 14.5e+06
 
-        self._system_model.t_warp = 9000
-        self._model_timer = Timer(interval='auto',
-                                  connect=self.on_mod_timer,
-                                  iterations=-1
-                                  )
-        self._report_timer = Timer(interval=1,
-                                   connect=self.on_rpt_timer,
-                                   iterations=-1
-                                   )
-        self._system_model.assign_timer(self._model_timer)
+        # self._system_model.t_warp = 9000
+        # self._model_timer = Timer(interval='auto',
+        #                           connect=self.on_mod_timer,
+        #                           iterations=-1
+        #                           )
+        # self._report_timer = Timer(interval=1,
+        #                            connect=self.on_rpt_timer,
+        #                            iterations=-1
+        #                            )
+        # self._system_model.assign_timer(self._model_timer)
         self.freeze()
 
         for k, v in self._fpv_viewbox.camera.get_state().items():
@@ -99,12 +98,12 @@ class MainSimCanvas(scene.SceneCanvas):
         except AttributeError:
             print("Key Error...")
 
-    def on_mod_timer(self, event=None):
-        self._system_model.update_epoch()
-        self._sys_vizz.update_vizz()
-
-    def on_rpt_timer(self, event=None):
-        print("MeshData:\n", self._sys_vizz.planet_meshdata)
+    # def on_mod_timer(self, event=None):
+    #     self._system_model.update_epoch()
+    #     self._sys_vizz.update_vizz()
+    #
+    # def on_rpt_timer(self, event=None):
+    #     print("MeshData:\n", self._sys_vizz.planet_meshdata)
 
     def run(self):
         self.show()

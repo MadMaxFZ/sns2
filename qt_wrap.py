@@ -15,8 +15,10 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
+from vispy.app.timer import Timer
 from sim_canvas import MainSimCanvas
 from starsys_model import StarSystemModel
+from starsys_visual import StarSystemVisuals
 from sns2_gui import Ui_wid_BodyData
 # from body_attribs import Ui_frm_BodyAttribs
 # from orbit_classical import Ui_frm_COE
@@ -25,55 +27,6 @@ from composite import Ui_frm_sns_controls
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
-
-
-class MainQtWindow(QtWidgets.QMainWindow):
-    data_request = pyqtSignal(list)
-
-    def __init__(self, *args, **kwargs):
-        super(MainQtWindow, self).__init__(*args,
-                                           **kwargs)
-        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.controls = Controls()
-        self.model    = StarSystemModel()
-        self.canvas   = CanvasWrapper(self.model)
-        self.ui = self.controls.ui
-
-        main_layout = QtWidgets.QHBoxLayout()
-        splitter = QtWidgets.QSplitter()
-        splitter.addWidget(self.controls)
-        splitter.addWidget(self.canvas.native)
-        main_layout.addWidget(splitter)
-        central_widget = QtWidgets.QWidget()
-        central_widget.setLayout(main_layout)
-        self.setCentralWidget(central_widget)
-
-        self.connect_controls()
-        self.thread = QThread()
-        self.model.moveToThread(self.thread)
-        self.thread.start()
-        self.init_controls()
-
-    def init_controls(self):
-        self.ui.bodyList.clear()
-        self.ui.bodyList.addItems(self.model.simbodies.keys())
-        self.ui.bodyBox.addItems(self.model.simbodies.keys())
-        # add items to camera combobox
-        self.ui.tabWidget_Body.setCurrentIndex(0)
-        self.ui.bodyBox.setCurrentIndex(0)
-        self.data_request.emit([self.controls.active_body,
-                                         self.controls.active_panel,
-                                         self.controls.active_cam,
-                                         ])
-        pass
-
-    def connect_controls(self):
-        # TODO:: From here the scope should allow access sufficient to define all
-        #       slots necessary to communicate with model thread
-        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
-        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.data_request.connect(self.model.send_panel)
-        self.model.data_return.connect(self.controls.refresh)
 
 
 class Controls(QtWidgets.QWidget):
@@ -159,6 +112,57 @@ class Controls(QtWidgets.QWidget):
         return self.ui.camBox.currentText()
 
 
+class MainQtWindow(QtWidgets.QMainWindow):
+    data_request = pyqtSignal(list)
+
+    def __init__(self, *args, **kwargs):
+        super(MainQtWindow, self).__init__(*args,
+                                           **kwargs)
+        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
+
+        self.model    = StarSystemModel()
+        self.canvas   = CanvasWrapper()
+        self.visuals  = StarSystemVisuals()
+        self.controls = Controls()
+        self.ui = self.controls.ui
+
+        main_layout = QtWidgets.QHBoxLayout()
+        splitter = QtWidgets.QSplitter()
+        splitter.addWidget(self.controls)
+        splitter.addWidget(self.canvas.native)
+        main_layout.addWidget(splitter)
+        central_widget = QtWidgets.QWidget()
+        central_widget.setLayout(main_layout)
+        self.setCentralWidget(central_widget)
+
+        self.connect_controls()
+        self.thread = QThread()
+        self.model.moveToThread(self.thread)
+        self.thread.start()
+        self.init_controls()
+
+    def init_controls(self):
+        self.ui.bodyList.clear()
+        self.ui.bodyList.addItems(self.model.simbodies.keys())
+        self.ui.bodyBox.addItems(self.model.simbodies.keys())
+        # add items to camera combobox
+        self.ui.tabWidget_Body.setCurrentIndex(0)
+        self.ui.bodyBox.setCurrentIndex(0)
+        self.data_request.emit([self.controls.active_body,
+                                         self.controls.active_panel,
+                                         self.controls.active_cam,
+                                         ])
+        pass
+
+    def connect_controls(self):
+        # TODO:: From here the scope should allow access sufficient to define all
+        #       slots necessary to communicate with model thread
+        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
+        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
+        self.data_request.connect(self.model.send_panel)
+        self.model.data_return.connect(self.controls.refresh)
+
+
 class CanvasWrapper:
     """     This class simply encapsulates the simulation, which resides within
         the vispy SceneCanvas object. This SceneCanvas has three main properties:
@@ -167,8 +171,26 @@ class CanvasWrapper:
         - vizz  :   contains the vispy visual nodes rendered in the view
     """
 
-    def __init__(self, model):
-        self._canvas = MainSimCanvas(system_model=model)
+    def __init__(self):
+        self._canvas = MainSimCanvas()
+        self._system_model = None
+        self._system_model.t_warp = 9000
+        self._model_timer = Timer(interval='auto',
+                                  connect=self.on_mod_timer,
+                                  iterations=-1
+                                  )
+        self._report_timer = Timer(interval=1,
+                                   connect=self.on_rpt_timer,
+                                   iterations=-1
+                                   )
+        self._system_model.assign_timer(self._model_timer)
+
+    def on_mod_timer(self, event=None):
+        self._system_model.update_epoch()
+        self._sys_vizz.update_vizz()
+
+    def on_rpt_timer(self, event=None):
+        print("MeshData:\n", self._sys_vizz.planet_meshdata)
 
     def set_skymap_grid(self, color=(0, 0, 1, .3)):
         self._canvas.view.skymap.mesh.meshdata.color = color
