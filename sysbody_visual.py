@@ -17,7 +17,6 @@ from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
-from starsys_model import SimBody
 from starsys_data import DEF_TEX_FNAME, sys_data, _latitude, _oblate_sphere, get_texture_data
 
 logging.basicConfig(filename="logs/sns_defs.log",

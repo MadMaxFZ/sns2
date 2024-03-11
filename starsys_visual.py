@@ -42,6 +42,7 @@ DEF_MARKS_DATA = dict(pos=None,
 class StarSystemVisuals:
     """
     """
+
     def __init__(self, sim_bods, system_view=None):
         """
         Constructs a collection of Visuals that represent entities in the system model,
@@ -53,76 +54,75 @@ class StarSystemVisuals:
         sim_bods    :  TODO: Only require the SimBody object... as an argument to generate_bodyvizz() method
         system_view :   TODO: minimize the use of this. Only need scene for parents...?
         """
-        if self._check_simbods(simbods=sim_bods):
-            self._simbods       = None                      # will import them one by one
-            body_count          = len(self._simbods)        #
-            body_names          = self._simbods.keys()      #
-            self._init_state    = 0
-            self._scene         = system_view.scene         # test if parent can be set after init
-            self._cam           = system_view.camera        # cams can be assigned elsewhere
-            self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
-            self._cam_rel_vel   = None  # there is no readily available velocity for camera
-            self._skymap        = SkyMap()
-            self._symbol_sizes  = []
-            self._planets       = {}       # a dict of Planet visuals
-            self._tracks        = {}       # a dict of Polygon visuals
-            self._frame_viz     = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
-            self._frame_viz.transform = MT()
-            self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
-            ''' Generate Planet visual object for each SimBody
-            '''
-            self._bods_pos = {}                             # this should probably be property of system
-            [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
-            [self.generate_bodyvizz(name) for name in body_names]   # should do these individually
+        self._simbods = sim_bods  # will import them one by one
+        body_count = len(self._simbods)  #
+        body_names = self._simbods.keys()  #
+        self._status = "NEW"
+        self._scene = system_view.scene  # test if parent can be set after init
+        # self._cam           = system_view.camera        # cams can be assigned elsewhere
+        # self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
+        # self._cam_rel_vel   = None  # there is no readily available velocity for camera
+        self._skymap = SkyMap()
+        self._symbol_sizes = []
+        self._planets = {}  # a dict of Planet visuals
+        self._tracks = {}  # a dict of Polygon visuals
+        self._frame_viz = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
+        self._frame_viz.transform = MT()
+        self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
+        self._symbols = []
+        self._plnt_markers = None
+        self._cntr_markers = None
+        self._subvizz = None
+        ''' Generate Planet visual object for each SimBody
+        '''
+        # self._bods_pos = {}                             # this should probably be property of system
+        # [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
+        [self.generate_bodyvizz(name) for name in body_names]  # should do these individually
 
-            # put init of markers into a method
-            self._symbols = [pl.mark for pl in self._planets.values()]
-            self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
-            self._cntr_markers = Markers(parent=self._scene,
-                                         symbol='+',
-                                         size=[(MIN_SYMB_SIZE - 2) for n in range(body_count)],
-                                         **DEF_MARKS_INIT)  # another instance of Markers
-            # self._plnt_markers.parent = self._mainview.scene
-            self._cntr_markers.set_data(symbol=['+' for n in range(body_count)])
+        # put init of markers into a method
+        self._symbols = [pl.mark for pl in self._planets.values()]
+        self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
+        self._cntr_markers = Markers(parent=self._scene,
+                                     symbol='+',
+                                     size=[(MIN_SYMB_SIZE - 2) for n in range(body_count)],
+                                     **DEF_MARKS_INIT)  # another instance of Markers
+        # self._plnt_markers.parent = self._mainview.scene
+        self._cntr_markers.set_data(symbol=['+' for n in range(body_count)])
 
-            self._subvizz = dict(sk_map=self._skymap,
-                                 r_fram=self._frame_viz,
-                                 p_mrks=self._plnt_markers,
-                                 c_mrks=self._cntr_markers,
-                                 tracks=self._tracks,
-                                 surfcs=self._planets,
-                                 )
-            self._pack_vizz()
-            # self.update_vizz()
-        else:
-            print("Must provide a dictionary of SimBody objects...")
-            sys.exit(1)
+        self._subvizz = dict(sk_map=self._skymap,
+                             r_fram=self._frame_viz,
+                             p_mrks=self._plnt_markers,
+                             c_mrks=self._cntr_markers,
+                             tracks=self._tracks,
+                             surfcs=self._planets,
+                             )
+        self._upload2view()
 
-    def generate_bodyvizz(self, name):
-        plnt = Planet(body_name=name,
+    def generate_bodyvizz(self, sim_body):
+        plnt = Planet(body_name=sim_body.name,
                       rows=18,
                       color=(1, 1, 1, 1),
-                      edge_color=(0, 0, 0, .2),       # sb.base_color,
+                      edge_color=(0, 0, 0, .2),  # sb.base_color,
                       parent=self._scene,
                       visible=True,
                       method='oblate',
                       )
-        plnt.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
-        self._planets.update({name: plnt})
+        plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
+        self._planets.update({sim_body.name: plnt})
         ''' Generate Polygon visual object for each SimBody orbit
         '''
-        if not self._simbods[name].is_primary:
+        if not sim_body.is_primary:
             # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-            poly = Polygon(pos=self._simbods[name].track,  # + sb.sb_parent.pos,
+            poly = Polygon(pos=sim_body.track,  # + sb.sb_parent.pos,
                            border_color=np.array(list(plnt.base_color) + [0, ]) +
                                         np.array([0, 0, 0, plnt.track_alpha]),
                            triangulate=False,
                            parent=self._scene,
                            )
-            poly.transform = trx.MatrixTransform()   # np.eye(4, 4, dtype=np.float64)
-            self._tracks.update({name: poly})
+            poly.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
+            self._tracks.update({sim_body.name: poly})
 
-    def _pack_vizz(self):
+    def _upload2view(self):
         for k, v in self._subvizz.items():
             if "_" in k:
                 print(k)
@@ -158,7 +158,7 @@ class StarSystemVisuals:
                              for sb in self._simbods.values()]
 
         self._plnt_markers.set_data(pos=self.bods_pos,
-                                    face_color=[np.array(list(sb.base_color) + [0,]) +
+                                    face_color=[np.array(list(sb.base_color) + [0, ]) +
                                                 np.array([0, 0, 0, sb.track_alpha])
                                                 for sb in self._simbods.values()
                                                 ],

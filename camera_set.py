@@ -18,7 +18,6 @@ class CameraSet:
 
     def add_cam(self, cam_label=None, new_cam=FlyCamera(fov=60)):
         """
-
         Parameters
         ----------
         cam_label : str
@@ -26,7 +25,6 @@ class CameraSet:
 
         Returns
         -------
-
         """
         if issubclass(type(new_cam), BaseCamera):
             # new_cam.canvas = self._canvas
