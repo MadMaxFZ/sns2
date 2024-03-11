@@ -33,7 +33,7 @@ class StarSystemModel(QObject):
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = Timer(interval='auto', iterations=-1)
+        self._w_clock     = Timer(interval='auto', iterations=-1, connect=self.update_epoch)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
@@ -61,10 +61,7 @@ class StarSystemModel(QObject):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        # self.updating.connect(self._flip_update_flag)
-        # self.ready.connect(self._show_epoch)
-        # self.ready.connect(self._flip_update_flag)
-        self.assign_timer(self._w_clock)
+        # self.assign_timer(self._w_clock)
 
     def _flip_update_flag(self):
         self._UPDATING = not self._UPDATING
@@ -72,8 +69,11 @@ class StarSystemModel(QObject):
     def _show_epoch(self):
         print(">> SYS_EPOCH:", self._sys_epoch)
 
-    def assign_timer(self, clock):
-        self._w_clock = clock
+    def assign_timer(self, clock=None):
+        self._w_clock.disconnect(self.update_epoch)
+        if clock:
+            self._w_clock = clock
+
         self._w_clock.connect(self.update_epoch)
 
     def add_simbody(self, body_name=None):

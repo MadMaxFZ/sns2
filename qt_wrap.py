@@ -11,16 +11,13 @@ from typing import List
 import sys
 import autologging
 import numpy as np
+from vispy.app.timer import Timer
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from sim_canvas import MainSimCanvas
 from starsys_model import StarSystemModel
-from sns2_gui import Ui_wid_BodyData
-# from body_attribs import Ui_frm_BodyAttribs
-# from orbit_classical import Ui_frm_COE
-# from time_control import Ui_frm_TimeControl
 from composite import Ui_frm_sns_controls
 from starsys_data import log_config
 
@@ -63,9 +60,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
         self.data_request.emit([self.controls.active_body,
-                                         self.controls.active_panel,
-                                         self.controls.active_cam,
-                                         ])
+                                self.controls.active_panel,
+                                self.controls.active_cam,
+                                ])
         pass
 
     def connect_controls(self):
@@ -170,6 +167,24 @@ e        the vispy SceneCanvas object. This SceneCanvas has three main propertie
 
     def __init__(self, model):
         self._canvas = MainSimCanvas(system_model=model)
+        self._model = model
+        self._model.t_warp = 9000
+        self._model_timer = Timer(interval='auto',
+                                  connect=self.on_mod_timer,
+                                  iterations=-1
+                                  )
+        self._report_timer = Timer(interval=1,
+                                   connect=self.on_rpt_timer,
+                                   iterations=-1
+                                   )
+        model.assign_timer(self._model_timer)
+
+    def on_mod_timer(self, event=None):
+        self._model.update_epoch()
+        self._sys_vizz.update_vizz()
+
+    def on_rpt_timer(self, event=None):
+        print("MeshData:\n", self._sys_vizz.planet_meshdata)
 
     def set_skymap_grid(self, color=(0, 0, 1, .3)):
         self._canvas.view.skymap.mesh.meshdata.color = color

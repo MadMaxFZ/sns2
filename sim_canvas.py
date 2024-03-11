@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # x
 import logging
-from vispy.app.timer import Timer
+# from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
 from starsys_data import sys_data
@@ -49,16 +49,16 @@ class MainSimCanvas(scene.SceneCanvas):
         self._fpv_viewbox.camera.zoom_factor = 1.0
         self._fpv_viewbox.camera.scale_factor = 14.5e+06
 
-        self._system_model.t_warp = 9000
-        self._model_timer = Timer(interval='auto',
-                                  connect=self.on_mod_timer,
-                                  iterations=-1
-                                  )
-        self._report_timer = Timer(interval=1,
-                                   connect=self.on_rpt_timer,
-                                   iterations=-1
-                                   )
-        self._system_model.assign_timer(self._model_timer)
+        # self._system_model.t_warp = 9000
+        # self._model_timer = Timer(interval='auto',
+        #                           connect=self.on_mod_timer,
+        #                           iterations=-1
+        #                           )
+        # self._report_timer = Timer(interval=1,
+        #                            connect=self.on_rpt_timer,
+        #                            iterations=-1
+        #                            )
+        # self._system_model.assign_timer(self._model_timer)
         self.freeze()
 
         for k, v in self._fpv_viewbox.camera.get_state().items():
@@ -99,12 +99,12 @@ class MainSimCanvas(scene.SceneCanvas):
         except AttributeError:
             print("Key Error...")
 
-    def on_mod_timer(self, event=None):
-        self._system_model.update_epoch()
-        self._sys_vizz.update_vizz()
-
-    def on_rpt_timer(self, event=None):
-        print("MeshData:\n", self._sys_vizz.planet_meshdata)
+    # def on_mod_timer(self, event=None):
+    #     self._system_model.update_epoch()
+    #     self._sys_vizz.update_vizz()
+    #
+    # def on_rpt_timer(self, event=None):
+    #     print("MeshData:\n", self._sys_vizz.planet_meshdata)
 
     def run(self):
         self.show()
