@@ -181,7 +181,7 @@ class StarSystemModel(QObject):
                 j += 1
             i += 1
 
-        self.ready.emit(self._sys_epoch)
+        # self.ready.emit(self._sys_epoch)
         logging.debug("\nREL_POS :\n%s\nREL_VEL :\n%s\nACCEL :\n%s",
                       self._sys_rel_pos,
                       self._sys_rel_vel,

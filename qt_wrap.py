@@ -20,14 +20,12 @@ from camera_set import CameraSet
 from sim_canvas import MainSimCanvas
 from starsys_model import StarSystemModel
 from starsys_visual import StarSystemVisuals
-from sns2_gui import Ui_wid_BodyData
-# from body_attribs import Ui_frm_BodyAttribs
-# from orbit_classical import Ui_frm_COE
-# from time_control import Ui_frm_TimeControl
 from composite import Ui_frm_sns_controls
 from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
+
+QT_NATIVE = False
 
 
 class Controls(QtWidgets.QWidget):
@@ -185,14 +183,21 @@ class CanvasWrapper:
 
 
 if __name__ == "__main__":
-    # app = QCoreApplication(sys.argv)
-    # app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
-    app = use_app("pyqt5")
-    app.create()
+    if QT_NATIVE:
+        app = QCoreApplication(sys.argv)
+        app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    else:
+        app = use_app("pyqt5")
+        app.create()
+
     sim = MainQtWindow()
     sim.show()
-    app.run()
-    # app.exec_()
+
+    if QT_NATIVE:
+        sys.exit(app.exec_())
+    else:
+        app.run()
+
 
     #     self._system_model = None
     #     self._system_model.t_warp = 9000
