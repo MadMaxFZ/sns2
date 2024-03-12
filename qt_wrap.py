@@ -114,7 +114,10 @@ class Controls(QtWidgets.QWidget):
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
-    data_request = pyqtSignal(list)
+    update_panel = pyqtSignal(list)
+    newActiveBody = pyqtSignal(str)
+    newActiveTab = pyqtSignal(str)
+    newActiveCam = pyqtSignal(str)
 
     def __init__(self, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
@@ -149,10 +152,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # add items to camera combobox
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
-        self.data_request.emit([self.controls.active_body,
-                                         self.controls.active_panel,
-                                         self.controls.active_cam,
-                                         ])
+        self.ui.camBox.setCurrentIndex(0)
+        self.update_panel.emit([self.controls.active_body,
+                                self.controls.active_panel,
+                                self.controls.active_cam,
+                                ])
         pass
 
     def connect_controls(self):
@@ -160,7 +164,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #       slots necessary to communicate with model thread
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.data_request.connect(self.model.send_panel)
+        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
+        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
+        self.update_panel.connect(self.model.send_panel)
         self.model.data_return.connect(self.controls.refresh)
 
 

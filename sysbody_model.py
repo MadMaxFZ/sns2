@@ -278,6 +278,7 @@ class SimBody(QObject):
                                format='jd',
                                scale='tdb',
                                )
+            # self.update_state()
 
     @property
     def end_epoch(self):
