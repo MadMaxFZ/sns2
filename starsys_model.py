@@ -33,7 +33,7 @@ class StarSystemModel(QObject):
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = Timer(interval='auto', iterations=-1, connect=self.update_epoch)
+        self._w_clock     = Timer(interval='auto', iterations=-1, connect=self.update_timer_epoch)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
@@ -70,11 +70,11 @@ class StarSystemModel(QObject):
         print(">> SYS_EPOCH:", self._sys_epoch)
 
     def assign_timer(self, clock=None):
-        self._w_clock.disconnect(self.update_epoch)
+        self._w_clock.disconnect(self.update_timer_epoch)
         if clock:
             self._w_clock = clock
 
-        self._w_clock.connect(self.update_epoch)
+        self._w_clock.connect(self.update_timer_epoch)
 
     def add_simbody(self, body_name=None):
         if body_name is not None:
@@ -132,7 +132,7 @@ class StarSystemModel(QObject):
             sb.RESAMPLE = True
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
-    def update_epoch(self, event=None):
+    def update_timer_epoch(self, event=None):
         # get duration since last update
         if self._INIT:
             w_now = self._w_clock.elapsed   # not the first call
