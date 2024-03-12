@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # x
 from astropy import units as u
+import time
 from astropy.constants.codata2014 import G
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import TimeDelta
@@ -33,7 +34,7 @@ class StarSystemModel(QObject):
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = Timer(interval='auto', iterations=-1)
+        self._w_clock     = Timer(interval='auto', iterations=-1, start=False)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
@@ -61,10 +62,7 @@ class StarSystemModel(QObject):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        # self.updating.connect(self._flip_update_flag)
-        # self.ready.connect(self._show_epoch)
-        # self.ready.connect(self._flip_update_flag)
-        self.assign_timer(self._w_clock)
+        # self.assign_timer(self._w_clock)
 
     def _flip_update_flag(self):
         self._UPDATING = not self._UPDATING
@@ -74,7 +72,7 @@ class StarSystemModel(QObject):
 
     def assign_timer(self, clock):
         self._w_clock = clock
-        self._w_clock.connect(self.update_epoch)
+        # self._w_clock.connect(self.update_timer_epoch)
 
     def add_simbody(self, body_name=None):
         if body_name is not None:
@@ -132,31 +130,41 @@ class StarSystemModel(QObject):
             sb.RESAMPLE = True
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
-    def update_epoch(self, event=None):
-        # get duration since last update
-        if self._INIT:
-            w_now = self._w_clock.elapsed   # not the first call
-            dt = w_now - self._w_last
-            self._w_last = w_now
-        else:
-            w_now = 0                       # the first call sets up self.w_last
-            dt = 0
-            self._w_last = w_now - dt
-            self._INIT = True
-            self.initialized.emit(self._body_names)
+    # def update_timer_epoch(self, event=None):
+    #     # get duration since last update
+    #     if self._INIT:
+    #         w_now = self._w_clock.elapsed   # not the first call
+    #         if w_now is None:
+    #             w_now = 0
+    #         dt = w_now - self._w_last
+    #         self._w_last = w_now
+    #     else:
+    #         w_now = 0                       # the first call sets up self.w_last
+    #         dt = 0
+    #         self._w_last = w_now - dt
+    #         self._INIT = True
+    #         self.initialized.emit(self._body_names)
+    #
+    #     # apply time factor, set new sys_epoch
+    #     d_epoch = TimeDelta(dt * u.s * self._t_warp)
+    #     self._sys_epoch += d_epoch
+    #     self.updating.emit(self._sys_epoch)
+    #     # if self._avg_d_epoch.value == 0:
+    #     #     self._avg_d_epoch = d_epoch
+    #     # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
+    #     self.update_state()
+    #     self.ready.emit(dt)
+    #     logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
+    #                  self._avg_d_epoch,
+    #                  self._sys_epoch.jd)
 
-        # apply time factor, set new sys_epoch
-        d_epoch = TimeDelta(dt * u.s * self._t_warp)
-        self._sys_epoch += d_epoch
+    def update_epoch(self, new_epoch):
         self.updating.emit(self._sys_epoch)
-        # if self._avg_d_epoch.value == 0:
-        #     self._avg_d_epoch = d_epoch
-        # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
+        self._sys_epoch = new_epoch
+        start = time.perf_counter()
         self.update_state()
-        self.ready.emit(dt)
-        logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
-                      self._avg_d_epoch,
-                      self._sys_epoch.jd)
+        end = time.perf_counter()
+        self.ready.emit(end - start)
 
     def update_state(self):
         self.updating.emit(self._sys_epoch)
@@ -264,10 +272,10 @@ class StarSystemModel(QObject):
 def main():
     my_starsys = StarSystemModel()
     my_starsys.t_warp = 1
-    my_starsys.assign_timer(Timer(interval=0.1, iterations=100))
-    my_starsys.cmd_timer()
-    while my_starsys.model_clock.running:
-        pass    # my_starsys.update_epoch()
+    # my_starsys.assign_timer(Timer(interval=0.1, iterations=100))
+    # my_starsys.cmd_timer()
+    # while my_starsys.model_clock.running:
+    #    pass    # my_starsys.update_epoch()
 
 
 if __name__ == "__main__":
