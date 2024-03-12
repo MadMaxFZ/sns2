@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 # x
-import numpy as np
-from astropy.time import TimeDelta
+from astropy import units as u
+from astropy.constants.codata2014 import G
 from astropy.coordinates import solar_system_ephemeris
+from astropy.time import TimeDelta
 from poliastro.util import time_range
 from starsys_data import *
 from sysbody_model import SimBody
-from astropy import units as u
-from astropy.constants.codata2014 import G
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
 from vispy.app.timer import Timer
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
+
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
