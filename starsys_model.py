@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # x
-from astropy import units as u
 import time
+import astropy.units as u
 from astropy.constants.codata2014 import G
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import TimeDelta
@@ -27,7 +27,7 @@ class StarSystemModel(QObject):
     ready = pyqtSignal(float)
     data_return = pyqtSignal(list, list)
 
-    def __init__(self, body_names=None):
+    def __init__(self, body_names=None, has_timer=False):
         super(StarSystemModel, self).__init__()
         self._INIT        = False
         self._UPDATING    = False
