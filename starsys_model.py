@@ -24,7 +24,7 @@ class StarSystemModel(QObject):
     # sim_params = SYS_DATA.system_params
     initialized = pyqtSignal(list)
     updating = pyqtSignal(Time)
-    ready = pyqtSignal(np.float32)
+    ready = pyqtSignal(float)
     data_return = pyqtSignal(list, list)
 
     def __init__(self, body_names=None):
@@ -34,7 +34,7 @@ class StarSystemModel(QObject):
         self._w_last      = 0
         self._d_epoch     = None
         self._avg_d_epoch = 0 * u.s
-        self._w_clock     = Timer(interval='auto', iterations=-1, start=False)
+        self._w_clock     = None    # Timer(interval='auto', iterations=-1, start=False)
         self._t_warp      = 1.0             # multiple to apply to real time in simulation
         self._sys_epoch   = Time(sys_data.default_epoch,
                                  format='jd',
@@ -126,7 +126,7 @@ class StarSystemModel(QObject):
 
     def _check_ephem_range(self, sb):
         if self._sys_epoch > sb.end_epoch:
-            sb.ephem = self._sys_epoch  # reset ephem range
+            self.epoch = sb.end_epoch  # reset ephem range
             sb.RESAMPLE = True
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
@@ -172,7 +172,7 @@ class StarSystemModel(QObject):
         [self._check_ephem_range(sb) for sb in self.simbody_list]
         [sb.update_state(epoch=self._sys_epoch) for sb in self.simbody_list]
         self._update_rel_data()
-        self.ready.emit(self._sys_epoch)
+        # self.ready.emit(self._sys_epoch)
 
     def _update_rel_data(self):
         i = 0
