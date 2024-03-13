@@ -130,34 +130,6 @@ class StarSystemModel(QObject):
             sb.RESAMPLE = True
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
-    # def update_timer_epoch(self, event=None):
-    #     # get duration since last update
-    #     if self._INIT:
-    #         w_now = self._w_clock.elapsed   # not the first call
-    #         if w_now is None:
-    #             w_now = 0
-    #         dt = w_now - self._w_last
-    #         self._w_last = w_now
-    #     else:
-    #         w_now = 0                       # the first call sets up self.w_last
-    #         dt = 0
-    #         self._w_last = w_now - dt
-    #         self._INIT = True
-    #         self.initialized.emit(self._body_names)
-    #
-    #     # apply time factor, set new sys_epoch
-    #     d_epoch = TimeDelta(dt * u.s * self._t_warp)
-    #     self._sys_epoch += d_epoch
-    #     self.updating.emit(self._sys_epoch)
-    #     # if self._avg_d_epoch.value == 0:
-    #     #     self._avg_d_epoch = d_epoch
-    #     # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
-    #     self.update_state()
-    #     self.ready.emit(dt)
-    #     logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
-    #                  self._avg_d_epoch,
-    #                  self._sys_epoch.jd)
-
     def update_epoch(self, new_epoch):
         self.updating.emit(self._sys_epoch)
         self._sys_epoch = new_epoch
@@ -280,3 +252,32 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+    # def update_timer_epoch(self, event=None):
+    #     # get duration since last update
+    #     if self._INIT:
+    #         w_now = self._w_clock.elapsed   # not the first call
+    #         if w_now is None:
+    #             w_now = 0
+    #         dt = w_now - self._w_last
+    #         self._w_last = w_now
+    #     else:
+    #         w_now = 0                       # the first call sets up self.w_last
+    #         dt = 0
+    #         self._w_last = w_now - dt
+    #         self._INIT = True
+    #         self.initialized.emit(self._body_names)
+    #
+    #     # apply time factor, set new sys_epoch
+    #     d_epoch = TimeDelta(dt * u.s * self._t_warp)
+    #     self._sys_epoch += d_epoch
+    #     self.updating.emit(self._sys_epoch)
+    #     # if self._avg_d_epoch.value == 0:
+    #     #     self._avg_d_epoch = d_epoch
+    #     # self._avg_d_epoch = (self._avg_d_epoch + d_epoch) / 2
+    #     self.update_state()
+    #     self.ready.emit(dt)
+    #     logging.info("AVG_dt: %s\n\t>>> NEW EPOCH: %s\n",
+    #                  self._avg_d_epoch,
+    #                  self._sys_epoch.jd)
