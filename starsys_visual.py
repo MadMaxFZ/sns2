@@ -70,6 +70,7 @@ class StarSystemVisuals:
         self._frame_viz.transform = MT()
         self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
         self._symbols = []
+        self._cam_rel_pos = None
         self._plnt_markers = None
         self._cntr_markers = None
         self._subvizz = None
@@ -134,12 +135,13 @@ class StarSystemVisuals:
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
         self._bods_pos = {}
         for sb_name, sb in self._simbods.items():
+
             # print(sb.pos2primary - sb.pos)
             sb_pos = np.zeros((4,))
             # here the data is acquired from the SimBody:
             sb_pos[0:3] = sb.pos2primary
-
             self._bods_pos.update({sb_name: sb_pos[0:3]})
+
             if self._planets[sb_name].visible:
                 xform = self._planets[sb_name].transform
                 xform.reset()

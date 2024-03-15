@@ -1,6 +1,7 @@
 
 # x
 import numpy as np
+import multiprocessing
 from starsys_data import *
 from poliastro.ephem import *
 from astropy import units as u
@@ -18,14 +19,24 @@ logging.basicConfig(filename="logs/sns_defs.log",
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
 
 
-class SimBody(QObject):
+class SimBodyUpdateProcess(multiprocessing.Process):
+    def __init__(self, simbody, epoch):
+        super().__init__()
+        self.simbody = simbody
+        self.epoch = epoch
+
+    def run(self):
+        self.simbody.update_state(self.epoch)
+
+
+class SimBody():
     """
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
     epoch0 = J2000_TDB
     system = {}
-    created = pyqtSignal(str)
+    # created = pyqtSignal(str)
 
     def __init__(self, body_name=None):
         super(SimBody, self).__init__()
@@ -58,7 +69,7 @@ class SimBody(QObject):
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
-        self.created.emit(self.name)
+        # self.created.emit(self.name)
 
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
@@ -123,32 +134,35 @@ class SimBody(QObject):
             logging.info(">>> NO PARENT BODY, Orbit set to: %s",
                          str(self._orbit))
 
-    def update_state(self, epoch=None):
-        if epoch is not None:
+    @classmethod
+    def update_state(cls, _simbody, epoch=None):
+        simbody = _simbody
+        if epoch:
             if type(epoch) == Time:
-                self._epoch = epoch
+                simbody._epoch = epoch
 
-        if type(self._orbit) == Orbit:
-            new_orbit = self._orbit.propagate(self._epoch)
-            self._state = np.array([new_orbit.r.to(self._dist_unit).value,
-                                    new_orbit.v.to(self._dist_unit / u.s).value,
-                                    self._rot_func(**toTD(self._epoch)),
-                                    ])
-            self._orbit = new_orbit
+        if type(simbody._orbit) == Orbit:
+            new_orbit = simbody._orbit.propagate(simbody._epoch)
+            simbody._state = np.array([new_orbit.r.to(simbody._dist_unit).value,
+                                       new_orbit.v.to(simbody._dist_unit / u.s).value,
+                                       simbody._rot_func(**toTD(simbody._epoch)),
+                                       ])
+            simbody._orbit = new_orbit
         else:
-            self._state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit).value,
-                                    self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s).value,
-                                    self._rot_func(**toTD(self._epoch)),
+            simbody._state = np.array([simbody._ephem.rv(simbody._epoch)[0].to(simbody._dist_unit).value,
+                                    simbody._ephem.rv(simbody._epoch)[1].to(simbody._dist_unit / u.s).value,
+                                    simbody._rot_func(**toTD(simbody._epoch)),
                                     ])
 
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
-                     self._name,
-                     self._epoch,
-                     np.linalg.norm(self._state[0]),
-                     np.linalg.norm(self._state[1]),
-                     self._state[2],
+                     simbody._name,
+                     simbody._epoch,
+                     np.linalg.norm(simbody._state[0]),
+                     np.linalg.norm(simbody._state[1]),
+                     simbody._state[2],
                      )
+        return simbody._state
 
     def rel2pos(self, pos=None):
         if pos is None:
