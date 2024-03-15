@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 # x
+import concurrent.futures
+import os
 import time
 import cProfile, pstats
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
 from astropy.constants.codata2014 import G
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
-
+from concurrent.futures import ProcessPoolExecutor
 from starsys_data import *
 from sysbody_model import SimBody
 
@@ -30,6 +32,9 @@ class StarSystemModel(QObject):
         self._HAS_INIT        = False
         self._IS_UPDATING     = False
         self._USE_LOCAL_TIMER = False
+        self._USE_MULTIPROC   = False
+        self._USE_AUTO_UPDATE_STATE = False
+
         solar_system_ephemeris.set("jpl")
         self._sys_epoch   = Time(sys_data.default_epoch, format='jd', scale='tdb')
         # TODO::  Add a method to allow the user to provide a list of Body names
@@ -50,6 +55,9 @@ class StarSystemModel(QObject):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
+        self.update_epoch(new_epoch=self._sys_epoch)
+        if self._USE_MULTIPROC:
+            self._pool = ProcessPoolExecutor(max_workers=os.cpu_count())
 
         # TODO:: Move all this stuff into an EpochEmitter class, which would emit a simulation epoch based upon
         #        the real time elapsed multiplied by a warp factor for the simulation time.
@@ -134,20 +142,39 @@ class StarSystemModel(QObject):
             logging.debug("RELOAD EPOCHS/EPHEM SETS...")
 
     def update_epoch(self, new_epoch):
-        self.updating.emit(self._sys_epoch)
+        # self.updating.emit(self._sys_epoch)
         self._sys_epoch = new_epoch
-        start = time.perf_counter()
-        self.update_state()
-        end = time.perf_counter()
-        self.ready.emit(end - start)
+        if self._USE_AUTO_UPDATE_STATE:
+            self.update_state()
+        # start = time.perf_counter()
+        # self.update_state()
+        # end = time.perf_counter()
+        # self.ready.emit(end - start)
 
-    def update_state(self):
+    def update_state(self, epoch=None):
+        if epoch:
+            if type(epoch) == Time:
+                self._sys_epoch = epoch
+
         self.updating.emit(self._sys_epoch)
         # update and ephems that are ended, flag for orbit resample
+        # TODO:: the Ephem check should like within the SimBody class when its epoch is updated
         [self._check_ephem_range(sb) for sb in self.simbody_list]
-        [sb.update_state(epoch=self._sys_epoch) for sb in self.simbody_list]
+        if self._USE_MULTIPROC:
+            self.update_state_multi(epoch=self._sys_epoch)
+        else:
+            [sb.update_state(epoch=self._sys_epoch) for sb in self.simbody_list]
+
         self._update_rel_data()
         # self.ready.emit(self._sys_epoch)
+
+    def update_state_multi(self, epoch=None):
+        # TODO:: implement multiprocessing        [sb.update_state(epoch=epoch) for sb in self.simbody_list]
+        if epoch:
+            self._sys_epoch = epoch
+        results = [self._pool.submit(sb.update_state) for sb in self.simbody_list]
+        concurrent.futures.wait(results)
+        pass
 
     def _update_rel_data(self):
         i = 0
