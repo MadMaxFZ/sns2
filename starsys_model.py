@@ -33,7 +33,7 @@ class StarSystemModel(QObject):
         self._HAS_INIT        = False
         self._IS_UPDATING     = False
         self._USE_LOCAL_TIMER = False
-        self._USE_MULTIPROC   = True
+        self._USE_MULTIPROC   = False
         self._USE_AUTO_UPDATE_STATE = False
 
         solar_system_ephemeris.set("jpl")
