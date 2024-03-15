@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 # x
 import time
-import astropy.units as u
+import cProfile, pstats
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
 from astropy.constants.codata2014 import G
 from astropy.coordinates import solar_system_ephemeris
-from astropy.time import TimeDelta
 from poliastro.util import time_range
+
 from starsys_data import *
 from sysbody_model import SimBody
-from vispy.app.timer import Timer
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
-
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -29,32 +27,22 @@ class StarSystemModel(QObject):
 
     def __init__(self, body_names=None, has_timer=False):
         super(StarSystemModel, self).__init__()
-        self._INIT        = False
-        self._UPDATING    = False
-        self._w_last      = 0
-        self._d_epoch     = None
-        self._avg_d_epoch = 0 * u.s
-        self._w_clock     = None    # Timer(interval='auto', iterations=-1, start=False)
-        self._t_warp      = 1.0             # multiple to apply to real time in simulation
-        self._sys_epoch   = Time(sys_data.default_epoch,
-                                 format='jd',
-                                 scale='tdb')
-        self._ephem_span  = (sys_data.system_params['periods']
-                             * sys_data.system_params['spacing'])
-        self._end_epoch   = self._sys_epoch + self._ephem_span
+        self._HAS_INIT        = False
+        self._IS_UPDATING     = False
+        self._USE_LOCAL_TIMER = False
         solar_system_ephemeris.set("jpl")
-        self._body_count  = 0
-        self._body_names  = []
-        self._simbody_dict = {}
+        self._sys_epoch   = Time(sys_data.default_epoch, format='jd', scale='tdb')
+        # TODO::  Add a method to allow the user to provide a list of Body names
+        _body_names = sys_data.body_names
         if body_names is None:
-            body_names = sys_data.body_names
+            body_names = _body_names
 
-        for _name in body_names:
-            if _name in sys_data.body_names:
-                self._body_count += 1
-                self._body_names.append(_name)
-                self.add_simbody(body_name=_name)
-
+        self._simbody_list = [self.add_simbody(body_name=_name) for _name in body_names
+                              if _name in _body_names]
+        self._simbody_dict = {}
+        [self._simbody_dict.update({_sb.name: _sb}) for _sb in self._simbody_list]
+        self._body_names = tuple(self._simbody_dict.keys())
+        self._body_count = len(self._simbody_dict)
         self._set_parentage()
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
@@ -62,10 +50,23 @@ class StarSystemModel(QObject):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        # self.assign_timer(self._w_clock)
+
+        # TODO:: Move all this stuff into an EpochEmitter class, which would emit a simulation epoch based upon
+        #        the real time elapsed multiplied by a warp factor for the simulation time.
+        self._w_last      = 0
+        self._d_epoch     = None
+        self._avg_d_epoch = 0 * u.s
+        self._t_warp      = 1.0             # multiple to apply to real time in simulation
+        self._ephem_span  = (sys_data.system_params['periods']
+                             * sys_data.system_params['spacing'])
+        self._end_epoch   = self._sys_epoch + self._ephem_span
+        if self._USE_LOCAL_TIMER:
+            from vispy.app.timer import Timer
+            self._w_clock = Timer(interval='auto', iterations=-1, start=False)
+            self.assign_timer(self._w_clock)
 
     def _flip_update_flag(self):
-        self._UPDATING = not self._UPDATING
+        self._IS_UPDATING = not self._IS_UPDATING
 
     def _show_epoch(self):
         print(">> SYS_EPOCH:", self._sys_epoch)
@@ -74,12 +75,14 @@ class StarSystemModel(QObject):
         self._w_clock = clock
         # self._w_clock.connect(self.update_timer_epoch)
 
-    def add_simbody(self, body_name=None):
-        if body_name is not None:
-            if body_name in self._body_names:
-                self._simbody_dict.update({body_name: SimBody(body_name=body_name)})
-                self._simbody_dict[body_name].epoch = self._sys_epoch
+    def add_simbody(self, body_name):
+        if body_name:
+            new_simbody = SimBody(body_name=body_name)
+            new_simbody.epoch = self._sys_epoch
             logging.info("\t>>> SimBody object %s created....\n", body_name)
+            return new_simbody
+        else:
+            print(self.__class__, self.__name__, "No Body name provided...")
 
     def _set_parentage(self):
         for sb in self._simbody_dict.values():
@@ -172,11 +175,11 @@ class StarSystemModel(QObject):
             if self._w_clock.running:
                 self._w_clock.stop()
             else:
-                self._INIT = False
+                self._HAS_INIT = False
                 self._w_clock.start()
         else:
             if cmd == "start":
-                self._INIT = False
+                self._HAS_INIT = False
                 self._w_clock.start()
             elif cmd == "stop":
                 self._w_clock.stop()
@@ -255,7 +258,6 @@ def main():
 
 
 if __name__ == "__main__":
-    import cProfile, pstats
 
     my_starsys = StarSystemModel()
     e0 = my_starsys.epoch
