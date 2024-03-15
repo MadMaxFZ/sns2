@@ -242,8 +242,12 @@ class StarSystemModel(QObject):
 
 
 def main():
+    import cProfile, pstats
     my_starsys = StarSystemModel()
-    my_starsys.t_warp = 1
+    cpro = cProfile.run('[my_starsys.update_epoch(e0 + n * u.d) for n in range(365)]', sort='cumtime')
+    p = pstats.Stats(cpro)
+    p.sort_stats('cumtime')('cumtime').print_callers()
+    # my_starsys.t_warp = 1
     # my_starsys.assign_timer(Timer(interval=0.1, iterations=100))
     # my_starsys.cmd_timer()
     # while my_starsys.model_clock.running:
@@ -251,7 +255,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import cProfile, pstats
+
+    my_starsys = StarSystemModel()
+    e0 = my_starsys.epoch
+    cProfile.run('[my_starsys.update_epoch(e0 + n * u.d) for n in range(365)]', sort='cumtime', filename='profile.prof')
+    p = pstats.Stats('profile.prof')
+    p.sort_stats('cumtime').print_callers()
 
 
     # def update_timer_epoch(self, event=None):
