@@ -18,7 +18,7 @@ from vispy.app import use_app
 from vispy.app.timer import Timer
 from camera_set import CameraSet
 from sim_canvas import MainSimCanvas
-from starsys_model import StarSystemModel
+from src.system_model import SimSystem
 from starsys_visual import StarSystemVisuals
 from composite import Ui_frm_sns_controls
 from starsys_data import log_config
@@ -122,9 +122,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.cameras  = CameraSet()
-        self.model    = StarSystemModel()
+        self.model    = SimSystem()
         self.canvas   = CanvasWrapper(self.cameras)
-        self.visuals  = StarSystemVisuals()
+        self.visuals  = StarSystemVisuals(body_names=self.model.body_names,
+                                          trajectories=self.model.trajects,
+                                          scene=self.canvas)
         self.controls = Controls()
         self.ui = self.controls.ui
 
@@ -145,8 +147,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     def init_controls(self):
         self.ui.bodyList.clear()
-        self.ui.bodyList.addItems(self.model.simbodies.keys())
-        self.ui.bodyBox.addItems(self.model.simbodies.keys())
+        item_names = [self.model.data[n].name for n in range(len(self.model.data))]
+        self.ui.bodyList.addItems(item_names)
+        self.ui.bodyBox.addItems(item_names)
         # add items to camera combobox
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)

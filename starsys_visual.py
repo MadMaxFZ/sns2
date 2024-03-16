@@ -43,7 +43,7 @@ class StarSystemVisuals:
     """
     """
 
-    def __init__(self, sim_bods, system_view=None):
+    def __init__(self, body_names, trajectories, scene):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -51,14 +51,12 @@ class StarSystemVisuals:
                 be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        sim_bods    :  TODO: Only require the SimBody object... as an argument to generate_bodyvizz() method
-        system_view :   TODO: minimize the use of this. Only need scene for parents...?
+        body_names   :  TODO: Only require the SimBody name... as an argument to generate_bodyvizz() method
+        scene :   TODO: minimize the use of this. Only need scene for parents...?
         """
-        self._simbods = sim_bods  # will import them one by one
-        body_count = len(self._simbods)  #
-        body_names = self._simbods.keys()  #
+        self._body_count = len(body_names)
         self._status = "NEW"
-        self._scene = system_view.scene  # test if parent can be set after init
+        self._scene = scene                       # test if parent can be set after init
         # self._cam           = system_view.camera        # cams can be assigned elsewhere
         # self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
         # self._cam_rel_vel   = None  # there is no readily available velocity for camera
@@ -74,21 +72,18 @@ class StarSystemVisuals:
         self._plnt_markers = None
         self._cntr_markers = None
         self._subvizz = None
-        ''' Generate Planet visual object for each SimBody
-        '''
+
         # self._bods_pos = {}                             # this should probably be property of system
         # [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
-        [self.generate_bodyvizz(name) for name in body_names]  # should do these individually
+        for name in body_names:
+            self._generate_planet_viz(body_name=name)
+            self._generate_trajct_viz(body_name=name,
+                                      trajectory=trajectories[name],
+                                      color=self._planets[name].base_color,
+                                      alpha=self._planets[name].track_alpha,
+                                      )
 
-        # put init of markers into a method
-        self._symbols = [pl.mark for pl in self._planets.values()]
-        self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
-        self._cntr_markers = Markers(parent=self._scene,
-                                     symbol='+',
-                                     size=[(MIN_SYMB_SIZE - 2) for n in range(body_count)],
-                                     **DEF_MARKS_INIT)  # another instance of Markers
-        # self._plnt_markers.parent = self._mainview.scene
-        self._cntr_markers.set_data(symbol=['+' for n in range(body_count)])
+        self._generate_marker_viz()
 
         self._subvizz = dict(sk_map=self._skymap,
                              r_fram=self._frame_viz,
@@ -98,9 +93,12 @@ class StarSystemVisuals:
                              surfcs=self._planets,
                              )
         self._upload2view()
+    '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
 
-    def generate_bodyvizz(self, sim_body):
-        plnt = Planet(body_name=sim_body.name,
+    def _generate_planet_viz(self, body_name):
+        """ Generate Planet visual object for each SimBody
+        """
+        plnt = Planet(body_name=body_name,
                       rows=18,
                       color=(1, 1, 1, 1),
                       edge_color=(0, 0, 0, .2),  # sb.base_color,
@@ -109,19 +107,32 @@ class StarSystemVisuals:
                       method='oblate',
                       )
         plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
-        self._planets.update({sim_body.name: plnt})
-        ''' Generate Polygon visual object for each SimBody orbit
-        '''
-        if not sim_body.is_primary:
+        self._planets.update({body_name: plnt})
+
+    def _generate_trajct_viz(self, body_name, trajectory, color, alpha):
+        """ Generate Polygon visual object for each SimBody orbit
+        """
+        if not body_name.is_primary:
             # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-            poly = Polygon(pos=sim_body.track,  # + sb.sb_parent.pos,
-                           border_color=np.array(list(plnt.base_color) + [0, ]) +
-                                        np.array([0, 0, 0, plnt.track_alpha]),
+            poly = Polygon(pos=body_name.track,  # + sb.sb_parent.pos,
+                           border_color=np.array(list(color) + [0, ]) +
+                                        np.array([0, 0, 0, alpha]),
                            triangulate=False,
                            parent=self._scene,
                            )
             poly.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
-            self._tracks.update({sim_body.name: poly})
+            self._tracks.update({body_name.name: poly})
+
+    def _generate_marker_viz(self):
+        # put init of markers into a method
+        self._symbols = [pl.mark for pl in self._planets.values()]
+        self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
+        self._cntr_markers = Markers(parent=self._scene,
+                                     symbol='+',
+                                     size=[(MIN_SYMB_SIZE - 2) for n in range(self._body_count)],
+                                     **DEF_MARKS_INIT)  # another instance of Markers
+        # self._plnt_markers.parent = self._mainview.scene
+        self._cntr_markers.set_data(symbol=['+' for n in range(self._body_count)])
 
     def _upload2view(self):
         for k, v in self._subvizz.items():

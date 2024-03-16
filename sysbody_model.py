@@ -140,8 +140,8 @@ class SimBody:
         return cls.system[_name]
 
     @classmethod
-    def update_state(cls, _name, epoch=None):
-        simbody = _name
+    def update_state(cls, _simbody, epoch=None):
+        simbody = _simbody
         if epoch:
             if type(epoch) == Time:
                 simbody._epoch = epoch
@@ -161,7 +161,7 @@ class SimBody:
 
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
-                     _name,
+                     _simbody,
                      simbody._epoch,
                      np.linalg.norm(simbody._state[0]),
                      np.linalg.norm(simbody._state[1]),
