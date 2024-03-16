@@ -29,12 +29,12 @@ class StarSystemModel(QObject):
     ready = pyqtSignal(float)
     data_return = pyqtSignal(list, list)
 
-    def __init__(self, body_names=None, has_timer=False):
+    def __init__(self, body_names=None, has_timer=False, multi=False):
         super(StarSystemModel, self).__init__()
         self._HAS_INIT        = False
         self._IS_UPDATING     = False
         self._USE_LOCAL_TIMER = False
-        self._USE_MULTIPROC   = True
+        self._USE_MULTIPROC   = multi
         self._USE_AUTO_UPDATE_STATE = False
 
         solar_system_ephemeris.set("jpl")
@@ -68,6 +68,17 @@ class StarSystemModel(QObject):
         self._end_epoch   = self._sys_epoch + self._ephem_span
         if self._USE_LOCAL_TIMER:
             from vispy.app.timer import Timer
+            if type(self._USE_LOCAL_TIMER) == Timer:
+                timer = self._USE_LOCAL_TIMER
+            else:
+                timer = Timer(interval='auto', iterations=-1, start=False)
+                
+            self._w_clock = timer
+            self._w_last = 0
+            self._d_epoch = None
+            self._avg_d_epoch = 0 * u.s
+            self._t_warp = 1.0  # multiple to apply to real time in simulation
+            self.assign_timer(self._w_clock)
             self._w_clock = Timer(interval='auto', iterations=-1, start=False)
             self._w_last = 0
             self._d_epoch = None
