@@ -28,7 +28,7 @@ class SimBodyList(UserList):
     def _validate_simbody(self, value):
         if isinstance(value, obj_type):
             return value
-        raise TypeError(f"numeric value expected, got {type(value).__name__}")
+        raise TypeError(f"SimBody object expected, got {type(value).__name__}")
 
     def for_each(self, func):
         for item in self:
