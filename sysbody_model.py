@@ -211,6 +211,9 @@ class SimBody:
         if type(new_sb_parent) is SimBody:
             self._sb_parent = new_sb_parent
 
+    def set_parent(self, new_sb_parent=None):
+        self.sb_parent = new_sb_parent
+
     @property
     def sys_primary(self):
         return self._sys_primary

@@ -35,7 +35,7 @@ class SimSystem(SimBodyList, QObject):
         self._body_count = None
         self.load_from_names(body_names)
 
-    def load_from_names(self, body_names):
+    def load_from_names(self, body_names=None):
         """
 
         Parameters
@@ -53,7 +53,12 @@ class SimSystem(SimBodyList, QObject):
         # populate the list with SimBody objects
         [self.append(SimBody(body_data=sys_data.body_data(body_name)))
          for body_name in body_names if body_name in _body_names]
+
         self._body_names = tuple([sb.name for sb in self])
-        [for sb in self]
+        self._body_count = len(self._body_names)
+
+        [sb.set_parent(new_sb_parent=self[self._body_names.index(sb.body.parent.name)])
+         for sb in self if sb.body.parent]
+
         self._IS_POPULATED = True
 
