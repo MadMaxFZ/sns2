@@ -24,10 +24,15 @@ class SimBodyList(UserList):
             self.data.extend(self._validate_simbody(item) for item in other)
 
     def _validate_simbody(self, value):
-        if isinstance(value, (int, float, complex)):
+        if isinstance(value, SimBody):
             return value
         raise TypeError(f"numeric value expected, got {type(value).__name__}")
 
     def for_each(self, func):
         for item in self:
             func(item)
+
+
+if __name__ == "__main__":
+    sb_list = SimBodyList([])
+    print(sb_list)

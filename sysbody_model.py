@@ -1,8 +1,11 @@
 
 # x
+import math
+import logging
 import numpy as np
 import multiprocessing
-from starsys_data import *
+# from starsys_data import *
+from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time, TimeDelta
@@ -17,6 +20,13 @@ logging.basicConfig(filename="logs/sns_defs.log",
                     )
 
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
+vec_type = type(np.zeros((3,), dtype=np.float64))
+
+
+def toTD(epoch=None):
+    d = (epoch - J2000_TDB).jd
+    T = d / 36525
+    return dict(T=T, d=d)
 
 
 class SimBody:
@@ -131,7 +141,7 @@ class SimBody:
 
     @classmethod
     def update_state(cls, _name, epoch=None):
-        simbody = cls._system(_name)
+        simbody = _name
         if epoch:
             if type(epoch) == Time:
                 simbody._epoch = epoch

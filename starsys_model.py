@@ -178,7 +178,7 @@ class StarSystemModel(QObject):
         if self._USE_MULTIPROC:
             self.update_state_multi(epoch=epoch)
         else:
-            [sb.update_state(sb, epoch=epoch) for sb in self.simbody_list]
+            [SimBody.update_state(sb, epoch=epoch) for sb in self.simbody_list]
 
         self._update_rel_data()
         # self.ready.emit(self._sys_epoch)
