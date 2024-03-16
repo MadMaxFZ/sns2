@@ -3,6 +3,7 @@
 import concurrent.futures
 import os
 import time
+import multiprocessing
 import cProfile, pstats
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
 from astropy.constants.codata2014 import G
@@ -11,7 +12,7 @@ from poliastro.util import time_range
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import Pool
 from starsys_data import *
-from sysbody_model import SimBody, SimBodyUpdateProcess
+from sysbody_model import SimBody
 
 logging.basicConfig(filename="logs/sb_viewer.log",
                     level=logging.DEBUG,
@@ -86,7 +87,7 @@ class StarSystemModel(QObject):
 
     def add_simbody(self, body_name):
         if body_name:
-            new_simbody = SimBody(body_name=body_name)
+            new_simbody = SimBody(body_data=sys_data.body_data(body_name))
             new_simbody.epoch = self._sys_epoch
             logging.info("\t>>> SimBody object %s created....\n", body_name)
             return new_simbody
@@ -111,7 +112,7 @@ class StarSystemModel(QObject):
                 sb.sb_parent  = None
                 sb.is_primary = True
 
-        SimBody.simbody_set = self._simbody_dict
+        SimBody.simbody = self._simbody_dict
 
     def set_ephems(self,
                    epoch=None,
@@ -177,8 +178,8 @@ class StarSystemModel(QObject):
             self._sys_epoch = epoch
 
         procs = []
-        for sb in self._simbody_dict.values():
-            p = SimBodyUpdateProcess(sb, epoch)
+        for name in self._simbody_dict.keys():
+            p = SimBodyUpdateProcess(name, epoch)
             p.start()
             procs.append(p)
 
@@ -294,6 +295,16 @@ def main():
     # my_starsys.cmd_timer()
     # while my_starsys.model_clock.running:
     #    pass    # my_starsys.update_epoch()
+
+
+class SimBodyUpdateProcess(multiprocessing.Process):
+    def __init__(self, name, epoch):
+        super().__init__()
+        self.simbody = SimBody._system(name)
+        self.epoch = epoch
+
+    def run(self):
+        SimBody.update_state(self.simbody.name, self.epoch)
 
 
 if __name__ == "__main__":

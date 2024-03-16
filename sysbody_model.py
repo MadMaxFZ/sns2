@@ -19,17 +19,7 @@ logging.basicConfig(filename="logs/sns_defs.log",
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
 
 
-class SimBodyUpdateProcess(multiprocessing.Process):
-    def __init__(self, simbody, epoch):
-        super().__init__()
-        self.simbody = simbody
-        self.epoch = epoch
-
-    def run(self):
-        self.simbody.update_state(self.epoch)
-
-
-class SimBody():
+class SimBody:
     """
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
@@ -38,14 +28,14 @@ class SimBody():
     system = {}
     # created = pyqtSignal(str)
 
-    def __init__(self, body_name=None):
-        super(SimBody, self).__init__()
+    def __init__(self, body_data=None):
+        # super(SimBody, self).__init__()
         self._is_primary    = False
         self._prev_update   = None
         self._RESAMPLE      = False
         self._sb_parent     = None
         self._sys_primary   = None
-        self._body_data     = sys_data.body_data(body_name)
+        self._body_data     = body_data
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
@@ -69,6 +59,7 @@ class SimBody():
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
+        # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
     def set_radius(self):
@@ -135,8 +126,12 @@ class SimBody():
                          str(self._orbit))
 
     @classmethod
-    def update_state(cls, _simbody, epoch=None):
-        simbody = _simbody
+    def _system(cls, _name):
+        return cls.system[_name]
+
+    @classmethod
+    def update_state(cls, _name, epoch=None):
+        simbody = cls._system(_name)
         if epoch:
             if type(epoch) == Time:
                 simbody._epoch = epoch
@@ -156,7 +151,7 @@ class SimBody():
 
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
-                     simbody._name,
+                     _name,
                      simbody._epoch,
                      np.linalg.norm(simbody._state[0]),
                      np.linalg.norm(simbody._state[1]),
