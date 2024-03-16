@@ -3,10 +3,12 @@
 from collections import UserList
 from sysbody_model import SimBody
 
+obj_type = SimBody
+
 
 class SimBodyList(UserList):
     def __init__(self, iterable):
-        super().__init__(self._validate_simbody(item) for item in iterable)
+        super(SimBodyList, self).__init__(self._validate_simbody(item) for item in iterable)
 
     def __setitem__(self, index, item):
         self.data[index] = self._validate_simbody(item)
@@ -24,7 +26,7 @@ class SimBodyList(UserList):
             self.data.extend(self._validate_simbody(item) for item in other)
 
     def _validate_simbody(self, value):
-        if isinstance(value, SimBody):
+        if isinstance(value, obj_type):
             return value
         raise TypeError(f"numeric value expected, got {type(value).__name__}")
 
