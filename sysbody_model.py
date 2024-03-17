@@ -112,7 +112,7 @@ class SimBody:
                                            )
 
         logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
-        print("EPHEM for", self.name, ": ", self._ephem)
+        print(f'EPHEM for {self.name:^9}: {self._ephem}')
 
     def set_orbit(self, ephem=None):
         if ephem is None:
