@@ -3034,3 +3034,58 @@ set_orbit:	INFO:2024-03-16 11:38:40,060:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 d
 set_radius:	INFO:2024-03-16 11:38:40,352:	RADIUS SET: [1188.3, 1188.0, 1188.3]
 set_ephem:	INFO:2024-03-16 11:38:40,361:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
 set_orbit:	INFO:2024-03-16 11:38:40,366:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 19:49:25,510:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 19:49:25,516:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:25,517:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-03-16 19:49:25,517:		>>> SimBody object Sun created....
+
+set_radius:	INFO:2024-03-16 19:49:25,518:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 19:49:25,527:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:30,065:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:42,665:		>>> SimBody object Mercury created....
+
+set_radius:	INFO:2024-03-16 19:49:42,665:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 19:49:42,678:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:42,683:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:42,993:		>>> SimBody object Venus created....
+
+set_radius:	INFO:2024-03-16 19:49:42,994:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 19:49:43,003:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:43,008:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:43,382:		>>> SimBody object Earth created....
+
+set_radius:	INFO:2024-03-16 19:49:43,383:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 19:49:43,445:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:43,450:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:43,718:		>>> SimBody object Moon created....
+
+set_radius:	INFO:2024-03-16 19:49:43,719:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 19:49:43,727:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:43,732:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:43,990:		>>> SimBody object Mars created....
+
+set_radius:	INFO:2024-03-16 19:49:43,991:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 19:49:43,998:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:44,004:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:44,314:		>>> SimBody object Jupiter created....
+
+set_radius:	INFO:2024-03-16 19:49:44,315:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 19:49:44,324:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:44,329:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:44,599:		>>> SimBody object Saturn created....
+
+set_radius:	INFO:2024-03-16 19:49:44,600:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 19:49:44,613:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:44,620:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:44,921:		>>> SimBody object Uranus created....
+
+set_radius:	INFO:2024-03-16 19:49:44,922:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 19:49:44,931:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:44,938:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:45,379:		>>> SimBody object Neptune created....
+
+set_radius:	INFO:2024-03-16 19:49:45,380:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 19:49:45,389:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 19:49:45,395:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 19:49:45,679:		>>> SimBody object Pluto created....
+
