@@ -111,6 +111,12 @@ class SimSystem(SimBodyList):
     def body_names(self):
         return self._current_body_names
 
+    @property
+    def trajects(self):
+        traj_dict = {}
+        [traj_dict.update({sb.name: sb.track}) for sb in self.data]
+        return traj_dict
+
 
 if __name__ == "__main__":
     model = SimSystem()

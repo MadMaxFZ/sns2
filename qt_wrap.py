@@ -126,7 +126,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.canvas   = CanvasWrapper(self.cameras)
         self.visuals  = StarSystemVisuals(body_names=self.model.body_names,
                                           trajectories=self.model.trajects,
-                                          scene=self.canvas)
+                                          scene=self.canvas.scene,
+                                          primary_name=self.model.primary_name,
+                                          )
         self.controls = Controls()
         self.ui = self.controls.ui
 
@@ -179,10 +181,15 @@ class CanvasWrapper:
     #   TODO:: Be prepared to add some methods to this class
     def __init__(self, cam_set):
         self._canvas = MainSimCanvas(cam_set)
+        self._scene = self._canvas.view.scene
 
     @property
     def native(self):
         return self._canvas.native
+
+    @property
+    def scene(self):
+        return self._scene
 
 
 if __name__ == "__main__":

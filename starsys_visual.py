@@ -43,7 +43,7 @@ class StarSystemVisuals:
     """
     """
 
-    def __init__(self, body_names, trajectories, scene):
+    def __init__(self, body_names, trajectories, scene, primary_name):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -56,7 +56,7 @@ class StarSystemVisuals:
         """
         self._body_count = len(body_names)
         self._status = "NEW"
-        self._scene = scene                       # test if parent can be set after init
+        self._scene = scene  # test if parent can be set after init
         # self._cam           = system_view.camera        # cams can be assigned elsewhere
         # self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
         # self._cam_rel_vel   = None  # there is no readily available velocity for camera
@@ -72,16 +72,14 @@ class StarSystemVisuals:
         self._plnt_markers = None
         self._cntr_markers = None
         self._subvizz = None
-
-        # self._bods_pos = {}                             # this should probably be property of system
-        # [self._bods_pos.update({name: sb.pos2primary}) for name, sb in self._simbods.items()]
         for name in body_names:
             self._generate_planet_viz(body_name=name)
-            self._generate_trajct_viz(body_name=name,
-                                      trajectory=trajectories[name],
-                                      color=self._planets[name].base_color,
-                                      alpha=self._planets[name].track_alpha,
-                                      )
+            if name != primary_name:
+                self._generate_trajct_viz(body_name=name,
+                                          trajs=trajectories[name],
+                                          color=self._planets[name].base_color,
+                                          alpha=self._planets[name].track_alpha,
+                                          )
 
         self._generate_marker_viz()
 
@@ -93,6 +91,7 @@ class StarSystemVisuals:
                              surfcs=self._planets,
                              )
         self._upload2view()
+
     '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
 
     def _generate_planet_viz(self, body_name):
@@ -109,14 +108,13 @@ class StarSystemVisuals:
         plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
         self._planets.update({body_name: plnt})
 
-    def _generate_trajct_viz(self, body_name, trajectory, color, alpha):
+    def _generate_trajct_viz(self, body_name, trajs, color, alpha):
         """ Generate Polygon visual object for each SimBody orbit
         """
         if not body_name.is_primary:
             # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-            poly = Polygon(pos=body_name.track,  # + sb.sb_parent.pos,
-                           border_color=np.array(list(color) + [0, ]) +
-                                        np.array([0, 0, 0, alpha]),
+            poly = Polygon(pos=trajs[body_name],  # + sb.sb_parent.pos,
+                           border_color=np.array(list(color) + [0, ]) + np.array([0, 0, 0, alpha]),
                            triangulate=False,
                            parent=self._scene,
                            )
