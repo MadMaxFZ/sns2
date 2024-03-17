@@ -1,3 +1,828 @@
+set_radius:	INFO:2024-03-16 06:53:50,406:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 06:53:50,490:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 06:53:50,490:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-03-16 06:53:50,491:		>>> SimBody object Sun created....
+
+set_radius:	INFO:2024-03-16 06:53:50,492:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 06:53:50,534:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 06:53:56,934:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:04,799:		>>> SimBody object Mercury created....
+
+set_radius:	INFO:2024-03-16 06:54:04,800:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 06:54:04,850:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:04,861:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:05,024:		>>> SimBody object Venus created....
+
+set_radius:	INFO:2024-03-16 06:54:05,025:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 06:54:05,069:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:05,073:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:05,249:		>>> SimBody object Earth created....
+
+set_radius:	INFO:2024-03-16 06:54:05,250:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 06:54:05,342:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:05,346:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:05,505:		>>> SimBody object Moon created....
+
+set_radius:	INFO:2024-03-16 06:54:05,505:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 06:54:05,546:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:05,551:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:05,710:		>>> SimBody object Mars created....
+
+set_radius:	INFO:2024-03-16 06:54:05,710:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 06:54:05,732:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:05,737:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:05,898:		>>> SimBody object Jupiter created....
+
+set_radius:	INFO:2024-03-16 06:54:05,898:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 06:54:05,929:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:05,933:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:06,094:		>>> SimBody object Saturn created....
+
+set_radius:	INFO:2024-03-16 06:54:06,094:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 06:54:06,148:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:06,158:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:06,317:		>>> SimBody object Uranus created....
+
+set_radius:	INFO:2024-03-16 06:54:06,318:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 06:54:06,361:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:06,367:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:06,552:		>>> SimBody object Neptune created....
+
+set_radius:	INFO:2024-03-16 06:54:06,553:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 06:54:06,586:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 06:54:06,591:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 06:54:06,747:		>>> SimBody object Pluto created....
+
+update_state:	INFO:2024-03-16 06:54:08,751:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:08,983:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:09,331:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:09,481:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:09,940:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,029:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,032:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,094:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,152:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,206:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,262:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,324:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,326:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,327:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,329:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,330:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,331:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,332:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,335:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,338:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,339:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,341:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,386:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,387:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,388:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,389:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,392:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,393:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,394:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,395:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,399:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,400:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,402:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,445:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,448:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,449:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,450:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,451:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,452:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,454:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,455:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,458:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,461:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,462:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,506:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,507:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,508:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,510:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,511:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,512:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,513:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,514:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,519:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,520:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,521:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,568:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,569:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,571:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,575:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,578:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,580:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,583:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,584:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,589:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,591:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,592:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,640:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,641:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,642:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,643:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,645:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,646:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,647:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,648:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,653:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,654:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,655:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,699:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,701:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,702:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,703:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,704:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,705:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,707:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,709:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,712:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,714:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,715:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,759:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,760:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,761:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,762:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,764:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,766:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,767:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,768:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,772:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,774:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,775:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 06:54:10,828:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C433EC3A0>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 06:54:10,830:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81FF0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 06:54:10,832:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82110>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 06:54:10,833:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F760>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 06:54:10,835:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F81000>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,837:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F82740>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 06:54:10,839:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F80BB0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 06:54:10,840:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F83AF0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 06:54:10,845:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C38A3F6A0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 06:54:10,846:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44F832B0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 06:54:10,848:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000023C44A34D30>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
 set_radius:	INFO:2024-03-16 08:48:26,117:	RADIUS SET: [695700.0, 695700.0, 695700.0]
 set_ephem:	INFO:2024-03-16 08:48:26,125:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
 set_orbit:	INFO:2024-03-16 08:48:26,126:	>>> NO PARENT BODY, Orbit set to: 0
@@ -3034,58 +3859,2822 @@ set_orbit:	INFO:2024-03-16 11:38:40,060:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 d
 set_radius:	INFO:2024-03-16 11:38:40,352:	RADIUS SET: [1188.3, 1188.0, 1188.3]
 set_ephem:	INFO:2024-03-16 11:38:40,361:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
 set_orbit:	INFO:2024-03-16 11:38:40,366:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-set_radius:	INFO:2024-03-16 19:49:25,510:	RADIUS SET: [695700.0, 695700.0, 695700.0]
-set_ephem:	INFO:2024-03-16 19:49:25,516:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:25,517:	>>> NO PARENT BODY, Orbit set to: 0
-add_simbody:	INFO:2024-03-16 19:49:25,517:		>>> SimBody object Sun created....
+set_radius:	INFO:2024-03-16 12:19:13,071:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 12:19:13,077:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:13,077:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-03-16 12:19:13,077:		>>> SimBody object Sun created....
 
-set_radius:	INFO:2024-03-16 19:49:25,518:	RADIUS SET: [2440.53, 2439.4, 2438.26]
-set_ephem:	INFO:2024-03-16 19:49:25,527:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:30,065:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:42,665:		>>> SimBody object Mercury created....
+set_radius:	INFO:2024-03-16 12:19:13,078:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 12:19:13,085:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:18,070:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:26,964:		>>> SimBody object Mercury created....
 
-set_radius:	INFO:2024-03-16 19:49:42,665:	RADIUS SET: [6051.8, 6051.8, 6051.8]
-set_ephem:	INFO:2024-03-16 19:49:42,678:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:42,683:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:42,993:		>>> SimBody object Venus created....
+set_radius:	INFO:2024-03-16 12:19:26,965:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 12:19:26,971:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:26,975:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:27,132:		>>> SimBody object Venus created....
 
-set_radius:	INFO:2024-03-16 19:49:42,994:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
-set_ephem:	INFO:2024-03-16 19:49:43,003:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:43,008:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:43,382:		>>> SimBody object Earth created....
+set_radius:	INFO:2024-03-16 12:19:27,133:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 12:19:27,139:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:27,143:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:27,306:		>>> SimBody object Earth created....
 
-set_radius:	INFO:2024-03-16 19:49:43,383:	RADIUS SET: [1737.4, 1737.4, 1737.4]
-set_ephem:	INFO:2024-03-16 19:49:43,445:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:43,450:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:43,718:		>>> SimBody object Moon created....
+set_radius:	INFO:2024-03-16 12:19:27,307:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 12:19:27,357:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:27,361:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:27,534:		>>> SimBody object Moon created....
 
-set_radius:	INFO:2024-03-16 19:49:43,719:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
-set_ephem:	INFO:2024-03-16 19:49:43,727:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:43,732:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:43,990:		>>> SimBody object Mars created....
+set_radius:	INFO:2024-03-16 12:19:27,535:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 12:19:27,542:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:27,547:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:27,733:		>>> SimBody object Mars created....
 
-set_radius:	INFO:2024-03-16 19:49:43,991:	RADIUS SET: [71492.0, 69911.0, 66854.0]
-set_ephem:	INFO:2024-03-16 19:49:43,998:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:44,004:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:44,314:		>>> SimBody object Jupiter created....
+set_radius:	INFO:2024-03-16 12:19:27,733:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 12:19:27,740:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:27,745:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:27,910:		>>> SimBody object Jupiter created....
 
-set_radius:	INFO:2024-03-16 19:49:44,315:	RADIUS SET: [60268.0, 58232.0, 54364.0]
-set_ephem:	INFO:2024-03-16 19:49:44,324:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:44,329:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:44,599:		>>> SimBody object Saturn created....
+set_radius:	INFO:2024-03-16 12:19:27,910:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 12:19:27,916:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:27,920:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:28,101:		>>> SimBody object Saturn created....
 
-set_radius:	INFO:2024-03-16 19:49:44,600:	RADIUS SET: [25559.0, 25362.0, 24973.0]
-set_ephem:	INFO:2024-03-16 19:49:44,613:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:44,620:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:44,921:		>>> SimBody object Uranus created....
+set_radius:	INFO:2024-03-16 12:19:28,102:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 12:19:28,108:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:28,114:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:28,277:		>>> SimBody object Uranus created....
 
-set_radius:	INFO:2024-03-16 19:49:44,922:	RADIUS SET: [24764.0, 24622.0, 24341.0]
-set_ephem:	INFO:2024-03-16 19:49:44,931:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:44,938:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:45,379:		>>> SimBody object Neptune created....
+set_radius:	INFO:2024-03-16 12:19:28,278:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 12:19:28,284:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:28,288:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:28,461:		>>> SimBody object Neptune created....
 
-set_radius:	INFO:2024-03-16 19:49:45,380:	RADIUS SET: [1188.3, 1188.0, 1188.3]
-set_ephem:	INFO:2024-03-16 19:49:45,389:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
-set_orbit:	INFO:2024-03-16 19:49:45,395:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
-add_simbody:	INFO:2024-03-16 19:49:45,679:		>>> SimBody object Pluto created....
+set_radius:	INFO:2024-03-16 12:19:28,462:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 12:19:28,467:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 12:19:28,472:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:19:28,633:		>>> SimBody object Pluto created....
+
+update_state:	INFO:2024-03-16 12:19:30,636:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:30,882:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:31,271:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:31,437:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:31,902:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:31,995:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:31,996:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,071:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,130:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,189:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,245:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,291:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,292:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,293:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,294:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,296:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,297:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,298:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,300:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,304:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,306:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,307:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,353:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,354:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,356:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,357:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,358:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,360:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,361:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,362:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,366:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,368:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,369:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,414:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,416:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,417:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,418:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,420:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,421:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,422:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,424:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,427:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,429:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,430:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,474:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,476:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,477:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,478:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,480:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,482:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,483:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,484:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,488:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,490:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,491:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,545:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,547:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,550:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,553:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,555:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,558:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,560:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,562:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,567:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,570:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,573:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,619:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,621:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,622:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,624:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,625:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,627:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,628:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,630:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,635:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,636:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,638:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,684:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,685:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,687:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,688:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,690:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,692:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,693:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,694:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,699:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,700:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,702:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,747:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,749:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,751:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,753:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,755:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,757:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,759:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,762:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,767:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,770:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,772:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:19:32,823:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578D00250>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:19:32,826:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791565F0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:19:32,827:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156650>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:19:32,829:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FD00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:19:32,830:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579155600>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,832:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C5791564D0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:19:32,833:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579180EE0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:19:32,835:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156440>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:19:32,839:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C56F45FCA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:19:32,841:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C579156410>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:19:32,843:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001C578BF4C40>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+set_radius:	INFO:2024-03-16 12:27:18,847:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 12:27:18,852:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:18,853:	>>> NO PARENT BODY, Orbit set to: 0
+add_simbody:	INFO:2024-03-16 12:27:18,853:		>>> SimBody object Sun created....
+
+set_radius:	INFO:2024-03-16 12:27:18,853:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 12:27:18,860:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:21,590:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:29,096:		>>> SimBody object Mercury created....
+
+set_radius:	INFO:2024-03-16 12:27:29,096:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 12:27:29,104:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:29,108:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:29,269:		>>> SimBody object Venus created....
+
+set_radius:	INFO:2024-03-16 12:27:29,270:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 12:27:29,276:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:29,280:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:29,446:		>>> SimBody object Earth created....
+
+set_radius:	INFO:2024-03-16 12:27:29,447:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 12:27:29,489:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:29,494:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:29,653:		>>> SimBody object Moon created....
+
+set_radius:	INFO:2024-03-16 12:27:29,653:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 12:27:29,659:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:29,663:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:29,828:		>>> SimBody object Mars created....
+
+set_radius:	INFO:2024-03-16 12:27:29,829:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 12:27:29,834:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:29,839:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:29,999:		>>> SimBody object Jupiter created....
+
+set_radius:	INFO:2024-03-16 12:27:30,000:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 12:27:30,005:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:30,008:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:30,174:		>>> SimBody object Saturn created....
+
+set_radius:	INFO:2024-03-16 12:27:30,176:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 12:27:30,181:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:30,185:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:30,345:		>>> SimBody object Uranus created....
+
+set_radius:	INFO:2024-03-16 12:27:30,345:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 12:27:30,351:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:30,355:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:30,519:		>>> SimBody object Neptune created....
+
+set_radius:	INFO:2024-03-16 12:27:30,519:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 12:27:30,524:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:30,529:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+add_simbody:	INFO:2024-03-16 12:27:30,689:		>>> SimBody object Pluto created....
+
+update_state:	INFO:2024-03-16 12:27:32,569:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:32,767:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:33,117:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:33,267:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:33,713:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:33,804:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:33,806:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:33,871:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:33,928:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:33,981:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,035:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,080:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,082:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,083:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,084:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,086:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,087:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,089:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,090:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,093:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,095:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,097:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,140:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,142:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,144:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,145:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,146:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,148:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,149:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,150:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,155:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,156:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,157:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,200:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,202:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,203:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,204:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,205:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,207:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,209:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,210:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,214:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,215:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,217:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,261:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,262:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,263:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,265:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,266:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,267:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,268:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,270:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,274:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,275:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,277:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,324:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,325:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,327:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,329:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,331:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,333:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,335:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,336:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,341:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,343:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,344:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,391:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,393:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,394:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,395:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,396:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,399:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,400:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,401:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,405:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,407:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,408:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,452:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,454:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,455:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,456:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,457:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,460:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,461:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,462:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,466:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,467:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,468:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,514:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,515:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,516:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,518:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,519:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,521:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,522:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,523:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,527:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,528:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,530:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 12:27:34,575:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD586290>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 12:27:34,576:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD1E0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 12:27:34,578:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AF610>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 12:27:34,579:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6DE40>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 12:27:34,580:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA60>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,582:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DD660>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 12:27:34,583:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DFCD0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 12:27:34,586:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9DE590>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 12:27:34,589:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6D3D6FC40>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 12:27:34,591:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DD9AFA30>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 12:27:34,593:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002A6DBC90EE0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+set_radius:	INFO:2024-03-16 12:27:34,638:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 12:27:34,642:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:34,642:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 12:27:34,643:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 12:27:34,648:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:34,653:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:34,828:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 12:27:34,834:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:34,839:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:35,006:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 12:27:35,012:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:35,016:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:35,185:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 12:27:35,227:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:35,231:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:35,391:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 12:27:35,397:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:35,401:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:35,568:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 12:27:35,573:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:35,578:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:35,740:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 12:27:35,745:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:35,749:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:35,921:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 12:27:35,926:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:35,930:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:36,089:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 12:27:36,094:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:36,098:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 12:27:36,264:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 12:27:36,268:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 12:27:36,273:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:34,380:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:05:34,386:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:34,386:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:05:34,387:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:05:34,392:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:37,084:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:44,801:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:05:44,807:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:44,813:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:44,977:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:05:44,983:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:44,988:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:45,147:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:05:45,190:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:45,195:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:45,350:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:05:45,355:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:45,361:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:45,521:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:05:45,526:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:45,530:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:45,688:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:05:45,694:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:45,698:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:45,860:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:05:45,865:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:45,870:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:46,024:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:05:46,030:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:46,034:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:05:46,200:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:05:46,205:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:05:46,209:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:27,584:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:07:27,594:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:27,595:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:07:27,596:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:07:27,609:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:34,159:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:47,752:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:07:47,765:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:47,774:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:48,115:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:07:48,127:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:48,137:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:48,475:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:07:48,553:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:48,561:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:48,900:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:07:48,912:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:48,921:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:49,259:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:07:49,271:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:49,280:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:49,619:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:07:49,632:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:49,640:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:49,978:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:07:49,990:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:50,000:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:50,338:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:07:50,350:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:50,360:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:07:50,695:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:07:50,708:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:07:50,716:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:48,743:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:12:48,747:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:48,748:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:12:48,748:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:12:48,754:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:51,332:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:58,621:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:12:58,627:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:58,632:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:58,795:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:12:58,801:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:58,805:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:58,962:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:12:59,007:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:59,012:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:59,177:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:12:59,183:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:59,187:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:59,345:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:12:59,350:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:59,355:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:59,508:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:12:59,513:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:59,517:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:59,676:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:12:59,682:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:59,686:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:12:59,839:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:12:59,844:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:12:59,848:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:00,007:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:13:00,015:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:00,020:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:23,089:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:13:23,098:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:23,099:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:13:23,100:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:13:23,115:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:29,389:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:43,094:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:13:43,109:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:43,118:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:43,459:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:13:43,472:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:43,481:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:43,823:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:13:43,901:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:43,910:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:44,258:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:13:44,270:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:44,279:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:44,622:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:13:44,633:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:44,642:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:45,001:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:13:45,014:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:45,024:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:45,387:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:13:45,401:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:45,411:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:45,762:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:13:45,774:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:45,784:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:13:46,132:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:13:46,146:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:13:46,155:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:37,469:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:24:37,473:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:37,474:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:24:37,474:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:24:37,480:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:40,135:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:47,339:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:24:47,345:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:47,349:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:47,505:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:24:47,511:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:47,515:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:47,681:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:24:47,724:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:47,728:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:47,885:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:24:47,890:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:47,894:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:48,054:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:24:48,060:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:48,064:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:48,220:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:24:48,225:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:48,230:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:48,394:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:24:48,400:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:48,404:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:48,559:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:24:48,565:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:48,569:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:24:48,734:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:24:48,740:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:24:48,744:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:25:54,120:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:25:54,125:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:25:54,126:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:25:54,126:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:25:54,132:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:25:56,787:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:04,072:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:26:04,078:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:04,082:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:04,239:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:26:04,245:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:04,250:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:04,408:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:26:04,450:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:04,454:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:04,608:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:26:04,614:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:04,618:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:04,776:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:26:04,781:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:04,785:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:04,942:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:26:04,948:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:04,952:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:05,115:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:26:05,120:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:05,124:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:05,278:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:26:05,284:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:05,288:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:26:05,451:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:26:05,456:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:26:05,460:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:14,527:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:28:14,532:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:14,532:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:28:14,532:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:28:14,538:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:17,115:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:24,505:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:28:24,510:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:24,515:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:24,671:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:28:24,677:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:24,681:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:24,840:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:28:24,884:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:24,888:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:25,040:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:28:25,045:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:25,050:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:25,216:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:28:25,221:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:25,225:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:25,380:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:28:25,386:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:25,391:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:25,559:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:28:25,564:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:25,569:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:25,726:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:28:25,731:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:25,736:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:28:25,899:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:28:25,904:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:28:25,908:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+update_state:	INFO:2024-03-16 13:28:26,122:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9268ED70>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 13:28:28,089:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9268EE60>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 13:28:28,142:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9B37F7F0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 13:28:28,144:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9BE39E10>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 13:28:28,574:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9BE49750>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 13:28:28,916:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9D02F460>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 13:28:29,104:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CFD8A30>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 13:28:29,170:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CFD8E50>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 13:28:29,225:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9BE4A680>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 13:28:29,317:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CFDB760>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 13:28:29,319:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CF96290>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 13:28:29,323:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9268ED70>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 13:28:29,325:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9268EE60>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 13:28:29,326:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9B37F7F0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 13:28:29,328:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9BE39E10>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 13:28:29,329:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9BE49750>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 13:28:29,330:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9D02F460>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 13:28:29,332:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CFD8A30>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 13:28:29,333:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CFD8E50>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 13:28:29,335:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9BE4A680>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 13:28:29,336:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CFDB760>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 13:28:29,337:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002CE9CF96290>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+set_radius:	INFO:2024-03-16 13:45:14,691:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 13:45:14,696:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:14,696:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 13:45:14,697:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 13:45:14,702:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:17,342:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:24,562:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 13:45:24,568:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:24,572:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:24,728:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 13:45:24,734:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:24,738:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:24,899:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 13:45:24,941:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:24,945:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:25,099:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 13:45:25,104:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:25,108:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:25,266:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 13:45:25,271:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:25,276:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:25,429:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 13:45:25,434:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:25,438:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:25,598:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 13:45:25,604:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:25,609:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:25,762:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 13:45:25,768:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:25,772:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 13:45:25,930:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 13:45:25,936:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 13:45:25,940:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+update_state:	INFO:2024-03-16 13:45:26,156:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000018671532BC0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 13:45:28,093:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000018671532AD0>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 13:45:28,147:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867A9D2CB0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 13:45:28,148:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEB7670>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 13:45:28,572:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867ADFD420>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 13:45:28,911:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867AD250C0>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 13:45:29,102:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867AD25A50>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 13:45:29,166:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEE7430>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 13:45:29,219:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867AD25120>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 13:45:29,305:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEE7B80>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 13:45:29,307:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEE64D0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 13:45:29,311:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000018671532BC0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 13:45:29,312:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000018671532AD0>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 13:45:29,314:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867A9D2CB0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 13:45:29,315:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEB7670>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 13:45:29,316:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867ADFD420>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 13:45:29,318:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867AD250C0>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 13:45:29,319:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867AD25A50>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 13:45:29,320:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEE7430>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 13:45:29,322:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867AD25120>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 13:45:29,323:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEE7B80>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 13:45:29,324:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000001867BEE64D0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+__init__:	INFO:2024-03-16 13:45:29,586:		Initializing SkyMap object...
+__init__:	INFO:2024-03-16 13:45:29,662:		SkyMap initialization has been completed...
+
+set_radius:	INFO:2024-03-16 14:13:38,784:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 14:13:38,789:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:38,789:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 14:13:38,790:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 14:13:38,795:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:41,422:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:48,781:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 14:13:48,786:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:48,791:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:48,948:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 14:13:48,954:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:48,959:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:49,119:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 14:13:49,161:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:49,166:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:49,320:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 14:13:49,325:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:49,329:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:49,490:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 14:13:49,496:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:49,500:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:49,655:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 14:13:49,660:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:49,665:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:49,823:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 14:13:49,829:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:49,833:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:49,988:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 14:13:49,993:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:49,998:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:13:50,168:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 14:13:50,174:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 14:13:50,178:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+update_state:	INFO:2024-03-16 14:13:50,403:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E77F072BF0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 14:13:52,356:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E77F072B00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 14:13:52,408:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E707DF5030>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 14:13:52,410:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7087DA200>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 14:13:52,839:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7088179D0>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:13:53,186:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E707E87B50>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 14:13:53,380:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E70892D150>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 14:13:53,444:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E70892D780>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 14:13:53,496:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7089063E0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 14:13:53,583:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E70892FCD0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 14:13:53,585:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7089908E0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:13:53,589:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E77F072BF0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 14:13:53,590:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E77F072B00>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 14:13:53,591:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E707DF5030>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 14:13:53,593:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7087DA200>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 14:13:53,594:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7088179D0>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:13:53,595:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E707E87B50>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 14:13:53,597:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E70892D150>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 14:13:53,598:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E70892D780>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 14:13:53,599:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7089063E0>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 14:13:53,601:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E70892FCD0>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 14:13:53,602:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x000002E7089908E0>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+set_radius:	INFO:2024-03-16 14:38:11,728:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 14:38:11,733:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:11,734:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 14:38:11,734:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 14:38:11,740:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:14,419:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:21,714:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 14:38:21,720:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:21,724:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:21,883:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 14:38:21,889:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:21,893:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:22,054:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 14:38:22,097:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:22,102:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:22,259:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 14:38:22,264:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:22,269:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:22,431:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 14:38:22,436:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:22,440:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:22,595:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 14:38:22,601:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:22,606:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:22,780:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 14:38:22,787:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:22,792:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:22,953:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 14:38:22,958:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:22,962:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:38:23,133:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 14:38:23,138:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 14:38:23,143:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+update_state:	INFO:2024-03-16 14:38:23,359:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1102A860>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 14:38:25,326:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1102A770>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 14:38:25,381:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C19BBFF70>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 14:38:25,383:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A6E1180>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 14:38:25,812:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1B9FFE50>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:38:26,157:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A8156F0>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 14:38:26,344:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A587910>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 14:38:26,408:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A586AD0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 14:38:26,460:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A585A20>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 14:38:26,548:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C19D59570>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 14:38:26,550:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C19D59A20>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:38:26,554:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1102A860>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 14:38:26,556:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1102A770>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 14:38:26,557:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C19BBFF70>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 14:38:26,558:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A6E1180>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 14:38:26,560:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1B9FFE50>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:38:26,561:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A8156F0>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 14:38:26,562:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A587910>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 14:38:26,564:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A586AD0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 14:38:26,565:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C1A585A20>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 14:38:26,566:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C19D59570>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 14:38:26,567:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x0000019C19D59A20>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+set_radius:	INFO:2024-03-16 14:45:40,172:	RADIUS SET: [695700.0, 695700.0, 695700.0]
+set_ephem:	INFO:2024-03-16 14:45:40,177:	EPHEM for Sun: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:40,177:	>>> NO PARENT BODY, Orbit set to: 0
+set_radius:	INFO:2024-03-16 14:45:40,178:	RADIUS SET: [2440.53, 2439.4, 2438.26]
+set_ephem:	INFO:2024-03-16 14:45:40,183:	EPHEM for Mercury: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451632.7289863015 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:42,778:	>>> COMPUTING ORBIT: 0 x 0 AU x 7.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:50,156:	RADIUS SET: [6051.8, 6051.8, 6051.8]
+set_ephem:	INFO:2024-03-16 14:45:50,161:	EPHEM for Venus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451769.0843835617 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:50,166:	>>> COMPUTING ORBIT: 1 x 1 AU x 3.4 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:50,329:	RADIUS SET: [6378.1366, 6371.008400000001, 6356.7519]
+set_ephem:	INFO:2024-03-16 14:45:50,335:	EPHEM for Earth: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451909.259287671 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:50,339:	>>> COMPUTING ORBIT: 1 x 1 AU x 0.0 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:50,503:	RADIUS SET: [1737.4, 1737.4, 1737.4]
+set_ephem:	INFO:2024-03-16 14:45:50,547:	EPHEM for Moon: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2451572.2252054797 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:50,551:	>>> COMPUTING ORBIT: 365358 x 406814 km x 5.2 deg (GeocentricMeanEcliptic) orbit around Earth (\u2641) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:50,711:	RADIUS SET: [3396.19, 3389.5, 3376.2200000000003]
+set_ephem:	INFO:2024-03-16 14:45:50,717:	EPHEM for Mars: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2452230.097863014 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:50,721:	>>> COMPUTING ORBIT: 1 x 2 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:50,881:	RADIUS SET: [71492.0, 69911.0, 66854.0]
+set_ephem:	INFO:2024-03-16 14:45:50,886:	EPHEM for Jupiter: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2455864.9968767124 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:50,890:	>>> COMPUTING ORBIT: 5 x 5 AU x 1.3 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:51,051:	RADIUS SET: [60268.0, 58232.0, 54364.0]
+set_ephem:	INFO:2024-03-16 14:45:51,056:	EPHEM for Saturn: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2462275.784821918 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:51,060:	>>> COMPUTING ORBIT: 9 x 10 AU x 2.5 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:51,219:	RADIUS SET: [25559.0, 25362.0, 24973.0]
+set_ephem:	INFO:2024-03-16 14:45:51,225:	EPHEM for Uranus: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2482145.584958904 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:51,229:	>>> COMPUTING ORBIT: 18 x 20 AU x 0.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:51,383:	RADIUS SET: [24764.0, 24622.0, 24341.0]
+set_ephem:	INFO:2024-03-16 14:45:51,389:	EPHEM for Neptune: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2511569.644630137 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:51,393:	>>> COMPUTING ORBIT: 30 x 30 AU x 1.8 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+set_radius:	INFO:2024-03-16 14:45:51,551:	RADIUS SET: [1188.3, 1188.0, 1188.3]
+set_ephem:	INFO:2024-03-16 14:45:51,556:	EPHEM for Pluto: Ephemerides at 365 epochs from 2451545.0 (TDB) to 2541878.8301369864 (TDB)
+set_orbit:	INFO:2024-03-16 14:45:51,560:	>>> COMPUTING ORBIT: 30 x 49 AU x 17.2 deg (HeliocentricEclipticIAU76) orbit around Sun (\u2609) at epoch 2451545.0 (TDB)
+update_state:	INFO:2024-03-16 14:45:51,771:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224A2DAEDA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 14:45:53,714:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224A2DAEE90>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 14:45:53,771:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC2A61A0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 14:45:53,773:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224ABFCA920>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 14:45:54,203:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC098220>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:45:54,541:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224ABFCAA40>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 14:45:54,733:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC0992A0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 14:45:54,796:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC1E30A0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 14:45:54,848:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC09BB50>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 14:45:54,936:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC1E3A90>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 14:45:54,938:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC1E1630>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:45:54,942:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224A2DAEDA0>
+EPOCH:2451545.0
+||POS||:1147012.43604652
+||VEL||:0.015850073877364004
+ROT:[286.13   63.87   84.176]
+
+update_state:	INFO:2024-03-16 14:45:54,943:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224A2DAEE90>
+EPOCH:2451545.0
+||POS||:69783139.2540795
+||VEL||:38.88224873508914
+ROT:[281.0103     61.45      329.5999488]
+
+update_state:	INFO:2024-03-16 14:45:54,944:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC2A61A0>
+EPOCH:2451545.0
+||POS||:107742319.88202949
+||VEL||:35.1719157395128
+ROT:[272.76  67.16 160.2 ]
+
+update_state:	INFO:2024-03-16 14:45:54,946:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224ABFCA920>
+EPOCH:2451545.0
+||POS||:147103726.96041068
+||VEL||:30.292096663997228
+ROT:[ 0.  66.5  0. ]
+
+update_state:	INFO:2024-03-16 14:45:54,947:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC098220>
+EPOCH:2451545.0
+||POS||:402448.6398310057
+||VEL||:0.9738901702534706
+ROT:[266.85773344  65.64110275  41.19526398]
+
+update_state:	INFO:2024-03-16 14:45:54,948:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224ABFCAA40>
+EPOCH:2451545.0
+||POS||:208121705.74090308
+||VEL||:26.32693699693736
+ROT:[317.68085441  52.88643928 176.63205973]
+
+update_state:	INFO:2024-03-16 14:45:54,950:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC0992A0>
+EPOCH:2451545.0
+||POS||:742810424.9926717
+||VEL||:13.676328551990462
+ROT:[268.05720404  64.49580995 284.95      ]
+
+update_state:	INFO:2024-03-16 14:45:54,951:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC1E30A0>
+EPOCH:2451545.0
+||POS||:1373884035.3881373
+||VEL||:10.031911958072989
+ROT:[40.589 83.537 38.9  ]
+
+update_state:	INFO:2024-03-16 14:45:54,952:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC09BB50>
+EPOCH:2451545.0
+||POS||:2980591813.013357
+||VEL||:6.551262843306755
+ROT:[257.311 -15.175 203.81 ]
+
+update_state:	INFO:2024-03-16 14:45:54,953:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC1E3A90>
+EPOCH:2451545.0
+||POS||:4505974506.9450245
+||VEL||:5.425632558877422
+ROT:[299.33373896  42.95035902 249.99600757]
+
+update_state:	INFO:2024-03-16 14:45:54,955:	Outputting state for
+BODY:<sysbody_model.SimBody object at 0x00000224AC1E1630>
+EPOCH:2451545.0
+||POS||:4521333511.562238
+||VEL||:6.009266042539017
+ROT:[266.85773344  65.64110275  41.19526398]
 
