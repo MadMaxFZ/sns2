@@ -113,9 +113,9 @@ class Controls(QtWidgets.QWidget):
 
 class MainQtWindow(QtWidgets.QMainWindow):
     update_panel = pyqtSignal(list)
-    newActiveBody = pyqtSignal(str)
-    newActiveTab = pyqtSignal(str)
-    newActiveCam = pyqtSignal(str)
+    newActiveBody = pyqtSignal(int)
+    newActiveTab = pyqtSignal(int)
+    newActiveCam = pyqtSignal(int)
 
     def __init__(self, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
@@ -124,11 +124,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.cameras  = CameraSet()
         self.model    = SimSystem()
         self.canvas   = CanvasWrapper(self.cameras)
-        self.visuals  = StarSystemVisuals(body_names=self.model.body_names,
-                                          trajectories=self.model.trajects,
-                                          scene=self.canvas.scene,
-                                          primary_name=self.model.primary_name,
-                                          )
+        self.visuals  = StarSystemVisuals(body_names=self.model.body_names,)
+        self.visuals.generate_visuals(scene=self.canvas.scene,
+                                      primary_name=self.model.system_primary.name,
+                                      trajectories=self.model.trajects,)
         self.controls = Controls()
         self.ui = self.controls.ui
 
@@ -142,9 +141,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(central_widget)
 
         self.connect_controls()
-        self.thread = QThread()
-        self.model.moveToThread(self.thread)
-        self.thread.start()
+        # self.thread = QThread()
+        # self.model.moveToThread(self.thread)
+        # self.thread.start()
         self.init_controls()
 
     def init_controls(self):
