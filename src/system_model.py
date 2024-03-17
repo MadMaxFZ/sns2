@@ -117,7 +117,7 @@ class SimSystem(SimBodyList):
             pass
         elif panel_key == "tab_ATTR":
             body_obj: Body = self.data[body_idx].body
-            data_set = []d
+            data_set = []
             for i in range(len(body_obj._fields())):
                 data_set.append(body_obj[i])
 
