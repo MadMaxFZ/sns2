@@ -36,9 +36,9 @@ class SimSystem(SimBodyList):
         self._USE_MULTIPROC   = multi
         self._USE_AUTO_UPDATE_STATE = False
         self._sys_epoch = Time(sys_data.default_epoch, format='jd', scale='tdb')
-        print(f'BODY_NAMES: {self._current_body_names}')
+        # print(f'BODY_NAMES: {self._current_body_names}')
         self.load_from_names(self._current_body_names)
-
+        self._system_primary  = None
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
@@ -64,7 +64,6 @@ class SimSystem(SimBodyList):
         if _body_names is None:
             _body_names = self._current_body_names
 
-        # print(f'body_names: {body_names}\n_valid_names: {_valid_names}')
         # populate the list with SimBody objects
         [self.data.append(SimBody(body_data=sys_data.body_data(body_name)))
          for body_name in (_body_names and _valid_names)]
@@ -72,7 +71,7 @@ class SimSystem(SimBodyList):
             assert (n in _body_names)
         self._current_body_names = tuple([sb.name for sb in self.data])
         self._body_count = len(self.data)
-
+        self._primary_sb = [sb for sb in self.data if sb.body.parent is None][0]
         [self._set_parentage(sb) for sb in self.data if sb.body.parent]
         self._IS_POPULATED = True
 
@@ -107,9 +106,31 @@ class SimSystem(SimBodyList):
             sb.epoch = epoch
             sb.update_state(sb, epoch)
 
+    # @pyqtSlot(list)
+    def send_panel(self, target):
+        #   This method will receive the selected body name and
+        #   the data block requested from Controls
+        data_set = [0, 0]
+        body_idx  = target[0]
+        panel_key = target[1]
+        if panel_key == "CAMS":
+            pass
+        elif panel_key == "tab_ATTR":
+            body_obj: Body = self.data[body_idx].body
+            data_set = []d
+            for i in range(len(body_obj._fields())):
+                data_set.append(body_obj[i])
+
+        self.data_return.emit(target, data_set)
+        pass
+
     @property
     def body_names(self):
         return self._current_body_names
+
+    @property
+    def system_primary(self):
+        return self._primary_sb
 
     @property
     def trajects(self):

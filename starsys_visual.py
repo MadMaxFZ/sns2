@@ -5,6 +5,7 @@ import math
 import logging
 import numpy as np
 import vispy.visuals.transforms as trx
+from vispy.color import *
 from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
@@ -43,7 +44,7 @@ class StarSystemVisuals:
     """
     """
 
-    def __init__(self, body_names, trajectories, scene, primary_name):
+    def __init__(self, body_names):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -54,45 +55,59 @@ class StarSystemVisuals:
         body_names   :  TODO: Only require the SimBody name... as an argument to generate_bodyvizz() method
         scene :   TODO: minimize the use of this. Only need scene for parents...?
         """
-        self._body_count = len(body_names)
-        self._status = "NEW"
-        self._scene = scene  # test if parent can be set after init
-        # self._cam           = system_view.camera        # cams can be assigned elsewhere
-        # self._cam_rel_pos   = np.zeros((body_count,), dtype=vec_type)
-        # self._cam_rel_vel   = None  # there is no readily available velocity for camera
-        self._skymap = SkyMap()
+        self._IS_INITIALIZED = False
+        self._body_names   = body_names
+        self._body_count   = len(self._body_names)
+        self._scene        = None
+        self._skymap       = None
+        self._planets      = {}      # a dict of Planet visuals
+        self._tracks       = {}       # a dict of Polygon visuals
+        self._symbols      = []
         self._symbol_sizes = []
-        self._planets = {}  # a dict of Planet visuals
-        self._tracks = {}  # a dict of Polygon visuals
+        self._cam_rel_pos  = None
+        self._frame_viz    = None
+        self._plnt_markers = None
+        self._cntr_markers = None
+        self._subvizz      = None
+
+    '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
+
+    def generate_visuals(self, scene,  primary_name, trajectories,):
+        """
+        Parameters
+        ----------
+        scene           :  vispy.visuals.VisualView.scene
+        primary_name    :  name of the system's primary Body
+        trajectories    :  a list of samples of orbit positions for each of the SimBody objects,
+                           describing the path of the orbit, the points used to render a polygon
+
+        Returns
+        -------
+        None            : No return value, however all of the visuals for the sim rendering are
+                          created here, collected together and then added to the scene.
+        """
+        self._skymap = SkyMap(parent=scene)
+        self._scene = scene
         self._frame_viz = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
         self._frame_viz.transform = MT()
         self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
-        self._symbols = []
-        self._cam_rel_pos = None
-        self._plnt_markers = None
-        self._cntr_markers = None
-        self._subvizz = None
-        for name in body_names:
+
+        for name in self._body_names:
             self._generate_planet_viz(body_name=name)
             if name != primary_name:
                 self._generate_trajct_viz(body_name=name,
-                                          trajs=trajectories[name],
+                                          trajectory=trajectories[name],
                                           color=self._planets[name].base_color,
-                                          alpha=self._planets[name].track_alpha,
-                                          )
+                                          trk_alpha=self._planets[name].track_alpha,)
 
         self._generate_marker_viz()
-
         self._subvizz = dict(sk_map=self._skymap,
                              r_fram=self._frame_viz,
                              p_mrks=self._plnt_markers,
                              c_mrks=self._cntr_markers,
                              tracks=self._tracks,
-                             surfcs=self._planets,
-                             )
+                             surfcs=self._planets,)
         self._upload2view()
-
-    '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
 
     def _generate_planet_viz(self, body_name):
         """ Generate Planet visual object for each SimBody
@@ -108,18 +123,18 @@ class StarSystemVisuals:
         plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
         self._planets.update({body_name: plnt})
 
-    def _generate_trajct_viz(self, body_name, trajs, color, alpha):
+    def _generate_trajct_viz(self, body_name, trajectory, color, trk_alpha):
         """ Generate Polygon visual object for each SimBody orbit
         """
-        if not body_name.is_primary:
-            # print(f"Body: %s / Track: %s / Parent.pos: %s", sb.name, sb.track, sb.sb_parent.pos)
-            poly = Polygon(pos=trajs[body_name],  # + sb.sb_parent.pos,
-                           border_color=np.array(list(color) + [0, ]) + np.array([0, 0, 0, alpha]),
-                           triangulate=False,
-                           parent=self._scene,
-                           )
-            poly.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
-            self._tracks.update({body_name.name: poly})
+        b_color = Color(color)
+        b_color.alpha = trk_alpha
+        poly = Polygon(pos=trajectory,
+                       border_color=b_color,
+                       triangulate=False,
+                       parent=self._scene,
+                       )
+        poly.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
+        self._tracks.update({body_name: poly})
 
     def _generate_marker_viz(self):
         # put init of markers into a method
@@ -127,7 +142,7 @@ class StarSystemVisuals:
         self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
         self._cntr_markers = Markers(parent=self._scene,
                                      symbol='+',
-                                     size=[(MIN_SYMB_SIZE - 2) for n in range(self._body_count)],
+                                     size=[(MIN_SYMB_SIZE - 2) for _ in range(self._body_count)],
                                      **DEF_MARKS_INIT)  # another instance of Markers
         # self._plnt_markers.parent = self._mainview.scene
         self._cntr_markers.set_data(symbol=['+' for n in range(self._body_count)])
@@ -141,9 +156,16 @@ class StarSystemVisuals:
                 [self._scene.parent.add(t) for t in v.values()]
 
     def update_vizz(self):
+        """
+        TODO:   Refactor to remove references to 'self._simbods' and look to implement multiprocessing.
+        Returns
+        -------
+        Has no return value, but updates the transforms for the Planet and Polygon visuals,
+        also, updates the positions and sizes of the Markers icons.
+        """
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
         self._bods_pos = {}
-        for sb_name, sb in self._simbods.items():
+        for sb_name, sb in self._simbods.items():                                                    # <--
 
             # print(sb.pos2primary - sb.pos)
             sb_pos = np.zeros((4,))
@@ -166,12 +188,12 @@ class StarSystemVisuals:
 
         # collect the body positions relative to the camera location
         self._cam_rel_pos = [sb.rel2pos(pos=self._cam.center * sb.dist_unit)['rel_pos']
-                             for sb in self._simbods.values()]
+                             for sb in self._simbods.values()]                                          # <--
 
         self._plnt_markers.set_data(pos=self.bods_pos,
                                     face_color=[np.array(list(sb.base_color) + [0, ]) +
                                                 np.array([0, 0, 0, sb.track_alpha])
-                                                for sb in self._simbods.values()
+                                                for sb in self._simbods.values()                         # <--
                                                 ],
                                     edge_color=[1, 0, 0, .6],
                                     size=self._symbol_sizes,
@@ -180,7 +202,7 @@ class StarSystemVisuals:
         self._cntr_markers.set_data(pos=self.bods_pos,
                                     edge_color=[0, 1, 0, .6],
                                     size=MIN_SYMB_SIZE,
-                                    symbol=['diamond' for sb in self._simbods.values()],
+                                    symbol=['diamond' for sb in self._simbods.values()],                  # <--
                                     )
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._cam_rel_pos])
@@ -189,8 +211,8 @@ class StarSystemVisuals:
         """
         Calculates the size in pixels at which a SimBody will appear in the view from
         the perspective of a specified camera.
-        TODO:   Check the math in here since the marker symbols seem too big.
-                Maybe the perspective transform isn't being figured in properly?
+        TODO:   Refactor to remove references to 'self._simbods' and look to implement multiprocessing,
+                decide how to handle the self._cam.fov reference as well.
         Parameters
         ----------
         from_cam :  A Camera object from which the apparent sizes are measured from
@@ -207,14 +229,14 @@ class StarSystemVisuals:
 
         pix_diams = []
         _bods_pos = []
-        for sb_name, sb in self._simbods.items():
+        for sb_name, sb in self._simbods.items():                                                       # <--
             _bods_pos.append(sb.pos2primary)
             # if sb.type not in ['star', 'planet']:
             #     self._bods_pos[-1] += sb.sb_parent.pos
 
             body_fov = sb.rel2pos(pos=from_cam.center * sb.dist_unit)['fov']
             pix_diam = 0
-            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / self._cam.fov)
+            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / self._cam.fov)                # <--
 
             if raw_diam < MIN_SYMB_SIZE:
                 pix_diam = MIN_SYMB_SIZE
