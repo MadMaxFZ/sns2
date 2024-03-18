@@ -176,6 +176,18 @@ class SimBody:
                      )
         return simbody._state
 
+    def get_field(self, f):
+        match f:
+            case 'rel2cam':
+                return self.rel2cam
+            case 'pos':
+                return self.pos
+            case 'rot':
+                return self._state[2]
+            case 'track':
+                return self.track
+
+    @property
     def rel2cam(self):
         rel_pos = (self.pos - self._curr_camera.center) * self.dist_unit
         dist = np.linalg.norm(rel_pos)
@@ -190,17 +202,6 @@ class SimBody:
                 "dist": dist,
                 "fov": fov,
                 }
-
-    def get_field(self, f):
-        match f:
-            case 'rel2cam':
-                return self.rel2cam(self._cam)
-            case 'pos':
-                return self.pos
-            case 'rot':
-                return self._state[2]
-            case 'track':
-                return self.track
 
     @property
     def name(self):

@@ -123,10 +123,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.cameras  = CameraSet()
         self.model    = SimSystem()
+        self.model.current_cam = self.cameras.curr_cam
         self.canvas   = CanvasWrapper()
         self.canvas.assign_camera(self.cameras.curr_cam)
         self.visuals  = StarSystemVisuals()
-        self.visuals.generate_visuals(scene=self.canvas.scene, agg_data=self.model.agg_fields)
+        self.visuals.generate_visuals(self.canvas.view, agg_data=self.model.agg_fields)
         self.controls = Controls()
         self.ui = self.controls.ui
 
@@ -180,6 +181,7 @@ class CanvasWrapper:
     def __init__(self):
         self._canvas = MainSimCanvas()
         self._scene = self._canvas.view.scene
+        self._view = self._canvas.view
 
     def assign_camera(self, camera):
         self._canvas.view.camera = camera

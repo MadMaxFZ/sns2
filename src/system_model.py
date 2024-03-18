@@ -118,7 +118,7 @@ class SimSystem(SimBodyList):
             case 'rad':
                 return simbod.radius[0]
             case 'rel2cam':
-                return simbod.rel2cam()
+                return simbod.rel2cam
             case 'pos':
                 return simbod.pos
             case 'rot':

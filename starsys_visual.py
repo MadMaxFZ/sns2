@@ -81,8 +81,8 @@ class StarSystemVisuals:
         """
         Parameters
         ----------
-        scene       :  vispy.visuals.VisualView.scene
-                            The scene to which the visuals will be added.
+        view        :  View object
+                            The view in which the visuals are to be rendered.
         agg_data    :  dict
                             The data to be used for generating the visuals.
 
