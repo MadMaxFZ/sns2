@@ -12,9 +12,10 @@ class SimSystem(SimBodyList):
     """
     _body_count: int = 0
     initialized = psygnal.Signal(list)
-    updating    = psygnal.Signal(Time)
-    ready       = psygnal.Signal(float)
+    updating = psygnal.Signal(Time)
+    ready = psygnal.Signal(float)
     data_return = psygnal.Signal(list, list)
+    fields2agg = ('pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
 
     def __init__(self, body_names=None, multi=False):
         """
@@ -28,25 +29,25 @@ class SimSystem(SimBodyList):
         else:
             self._current_body_names = [n for n in body_names if n in sys_data.body_names]
 
-        super(SimSystem, self).__init__([])   # iterable=self._body_names)
-        self._IS_POPULATED    = False
-        self._HAS_INIT        = False
-        self._IS_UPDATING     = False
+        super(SimSystem, self).__init__([])
+        self._IS_POPULATED = False
+        self._HAS_INIT = False
+        self._IS_UPDATING = False
         self._USE_LOCAL_TIMER = False
-        self._USE_MULTIPROC   = multi
+        self._USE_MULTIPROC = multi
         self._USE_AUTO_UPDATE_STATE = False
         self._sys_epoch = Time(sys_data.default_epoch, format='jd', scale='tdb')
         # print(f'BODY_NAMES: {self._current_body_names}')
-        self.load_from_names(self._current_body_names)
-        self._system_primary  = None
+        self._system_primary = None
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        
-        self.update(self._sys_epoch)
+
+        self.load_from_names(self._current_body_names)
+        self.agg_fields = self.load_agg_fields(SimSystem.fields2agg)
 
     def load_from_names(self, _body_names):
         """
@@ -75,8 +76,34 @@ class SimSystem(SimBodyList):
         [self._set_parentage(sb) for sb in self.data if sb.body.parent]
         self._IS_POPULATED = True
 
-        self.update(epoch=self._sys_epoch)
+        self.update_state(epoch=self._sys_epoch)
         self._HAS_INIT = True
+
+    def load_agg_fields(self, fields):
+        res = {}
+        for k in fields:
+            agg = {}
+            [agg.update({sb.name: self.get_fields(sb, k)}) for sb in self.data]
+            res.update({k: agg})
+
+        return res
+
+    def get_fields(self, simbod, field):
+        match field:
+            case 'pos':
+                return simbod.pos
+            case 'rot':
+                return simbod.rot
+            case 'track':
+                return simbod.track
+            case 'b_alpha':
+                return sys_data.vizz_data(simbod.name)['body_alpha']
+            case 't_alpha':
+                return sys_data.vizz_data(simbod.name)['track_alpha']
+            case 'symb':
+                return sys_data.vizz_data(simbod.name)['body_mark']
+            case 'color':
+                return sys_data.vizz_data(simbod.name)['body_color']
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC
@@ -95,7 +122,7 @@ class SimSystem(SimBodyList):
                     if this_parent.name == "Earth":
                         sb.plane = Planes.EARTH_EQUATOR
 
-    def update(self, epoch=None):
+    def update_state(self, epoch=None):
         if epoch:
             if type(epoch) == Time:
                 self._sys_epoch = epoch
@@ -111,7 +138,7 @@ class SimSystem(SimBodyList):
         #   This method will receive the selected body name and
         #   the data block requested from Controls
         data_set = [0, 0]
-        body_idx  = target[0]
+        body_idx = target[0]
         panel_key = target[1]
         if panel_key == "CAMS":
             pass
@@ -123,6 +150,12 @@ class SimSystem(SimBodyList):
 
         self.data_return.emit(target, data_set)
         pass
+
+    @property
+    def agg_pos(self):
+        res = {}
+        [res.update({sb.name: sb.r}) for sb in self.data]
+        return res
 
     @property
     def body_names(self):

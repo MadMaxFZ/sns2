@@ -66,6 +66,7 @@ class SimBody:
         self._trajectory    = None
         self._rad_set       = None
         self._type          = None
+        self._viz_data      = None
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
@@ -127,7 +128,7 @@ class SimBody:
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._trajectory is None) or (self._RESAMPLE is True):
-                self._trajectory = self._orbit.sample(360).xyz.transpose().value
+                self._trajectory = self._orbit.sample(360)
                 self._RESAMPLE = False
 
         elif self._body.parent is None:
@@ -168,6 +169,15 @@ class SimBody:
                      simbody._state[2],
                      )
         return simbody._state
+
+    def get_field(self, f):
+        match f:
+            case 'pos':
+                return self.pos
+            case 'rot':
+                return self._state[2]
+            case 'track':
+                return self.track
 
     def rel2pos(self, pos=None):
         if pos is None:
@@ -240,6 +250,27 @@ class SimBody:
         self._type = new_type
 
     @property
+    def r(self):
+        return self._state[0] * self._dist_unit
+
+    @property
+    def v(self):
+        return self._state[1] * self._dist_unit / u.s
+
+    @property
+    def pos(self):
+        return self.pos2primary
+
+    @property
+    def rot(self):
+        return self._state[2]
+
+    @property
+    def track(self):
+        if self._trajectory:
+            return self._trajectory.xyz.transpose().value
+
+    @property
     def RA(self):
         return self._state[2, 0]
 
@@ -273,7 +304,7 @@ class SimBody:
 
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
-        _pos = self.pos
+        _pos = self._state[0]
         if self.body.parent is None:
             return _pos
         else:
@@ -339,14 +370,6 @@ class SimBody:
     @property
     def state_matrix(self):
         return self._state
-
-    @property
-    def pos(self):
-        return self._state[0] * self._dist_unit
-
-    @property
-    def track(self):
-        return self._trajectory
 
     @property
     def dist2parent(self):

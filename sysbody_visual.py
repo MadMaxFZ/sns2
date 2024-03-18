@@ -72,8 +72,8 @@ class PlanetVisual(CompoundVisual):
             self._tex_data = self._vizz_data['tex_data']
             self._mark = self._vizz_data['body_mark']
             self._base_color = self._vizz_data['body_color']
-            self._body_alpha = 1.0
-            self._track_alpha = 0.6
+            self._body_alpha = self._vizz_data['body_alpha']
+            self._track_alpha = self._vizz_data['track_alpha']
             if texture is None:
                 self._texture_data = self._tex_data
             else:
@@ -140,6 +140,10 @@ class PlanetVisual(CompoundVisual):
     @base_color.setter
     def base_color(self, new_color=(1, 1, 1, 1)):
         self._base_color = np.array(new_color)
+
+    @property
+    def body_alpha(self):
+        return self._body_alpha
 
     @property
     def track_alpha(self):

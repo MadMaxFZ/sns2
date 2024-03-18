@@ -350,11 +350,13 @@ class SystemDataStore:
                               fixed_frame=_frame_set[idx],
                               rot_func=_rot_set[idx],
                               o_period=_o_per_set[idx].to(u.s),
-                              body_type=_body_types[_type_set[idx]],
+                              body_type=_body_types[_type_set[idx]]
                               )
             _body_params.update({_bod_name: _body_data})
             # a dict of the initial visual parameters
             _vizz_data = dict(body_color=_colorset_rgb[idx],
+                              body_alpha=1.0,
+                              track_alpha=0.6,
                               fname_idx=_tex_idx[idx],
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
