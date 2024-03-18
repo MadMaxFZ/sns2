@@ -5,7 +5,7 @@ from src.simbody_list import SimBodyList
 from sysbody_model import SimBody
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
-
+from vispy.scene.cameras import BaseCamera
 
 class SimSystem(SimBodyList):
     """
@@ -45,9 +45,21 @@ class SimSystem(SimBodyList):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-
+        self._curr_cam = None
         self.load_from_names(self._current_body_names)
         self.agg_fields = self.load_agg_fields(SimSystem.fields2agg)
+
+    @property
+    def current_cam(self):
+        return self._curr_cam
+
+    @current_cam.setter
+    def current_cam(self, cam):
+        if isinstance(cam, BaseCamera):
+            self._curr_cam = cam
+        else:
+            raise TypeError("SimSystem.set_model_cam(): 'cam' must be a BaseCamera object, got %s",
+                            type(cam))
 
     def load_from_names(self, _body_names):
         """
@@ -72,7 +84,7 @@ class SimSystem(SimBodyList):
             assert (n in _body_names)
         self._current_body_names = tuple([sb.name for sb in self.data])
         self._body_count = len(self.data)
-        self._primary_sb = [sb for sb in self.data if sb.body.parent is None][0]
+        self._system_primary = [sb for sb in self.data if sb.body.parent is None][0]
         [self._set_parentage(sb) for sb in self.data if sb.body.parent]
         self._IS_POPULATED = True
 
@@ -104,6 +116,7 @@ class SimSystem(SimBodyList):
                 return sys_data.vizz_data(simbod.name)['body_mark']
             case 'color':
                 return sys_data.vizz_data(simbod.name)['body_color']
+            case 'to_cam':
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC
