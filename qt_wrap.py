@@ -123,12 +123,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.cameras  = CameraSet()
         self.model    = SimSystem()
-        self.model.current_cam = self.cameras.curr_cam
-        self.canvas   = CanvasWrapper(self.cameras)
-        self.visuals  = StarSystemVisuals(body_names=self.model.body_names,)
-        self.visuals.generate_visuals(scene=self.canvas.scene,
-                                      primary_name=self.model.system_primary.name,
-                                      trajectories=self.model.trajects,)
+        self.canvas   = CanvasWrapper()
+        self.canvas.assign_camera(self.cameras.curr_cam)
+        self.visuals  = StarSystemVisuals()
+        self.visuals.generate_visuals(scene=self.canvas.scene, agg_data=self.model.agg_fields)
         self.controls = Controls()
         self.ui = self.controls.ui
 
@@ -179,9 +177,12 @@ class CanvasWrapper:
         the vispy SceneCanvas object.
     """
     #   TODO:: Be prepared to add some methods to this class
-    def __init__(self, cam_set):
-        self._canvas = MainSimCanvas(cam_set)
+    def __init__(self):
+        self._canvas = MainSimCanvas()
         self._scene = self._canvas.view.scene
+
+    def assign_camera(self, camera):
+        self._canvas.view.camera = camera
 
     @property
     def native(self):
@@ -207,23 +208,3 @@ if __name__ == "__main__":
         sys.exit(app.exec_())
     else:
         app.run()
-
-
-    #     self._system_model = None
-    #     self._system_model.t_warp = 9000
-    #     self._model_timer = Timer(interval='auto',
-    #                               connect=self.on_mod_timer,
-    #                               iterations=-1
-    #                               )
-    #     self._report_timer = Timer(interval=1,
-    #                                connect=self.on_rpt_timer,
-    #                                iterations=-1
-    #                                )
-    #     self._system_model.assign_timer(self._model_timer)
-    #
-    # def on_mod_timer(self, event=None):
-    #     self._system_model.update_epoch()
-    #     self._sys_vizz.update_vizz()
-    #
-    # def on_rpt_timer(self, event=None):
-    #     print("MeshData:\n", self._sys_vizz.planet_meshdata)

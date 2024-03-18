@@ -10,7 +10,7 @@ from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time, TimeDelta
 from vispy.geometry import MeshData
-from starsys_data import sys_data
+# from starsys_data import sys_data
 from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
 
@@ -34,6 +34,8 @@ class SimBody:
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
+    #
+    # curr_camera = None
     epoch0 = J2000_TDB
     system = {}
     # created = pyqtSignal(str)
@@ -46,6 +48,7 @@ class SimBody:
         self._sb_parent     = None
         self._sys_primary   = None
         self._body_data     = body_data
+        self._curr_camera   = None
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
@@ -72,6 +75,9 @@ class SimBody:
         self.set_orbit(ephem=self._ephem)
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
+
+    def set_curr_cam(self, curr_cam):
+        self._curr_camera = curr_cam
 
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
@@ -170,31 +176,31 @@ class SimBody:
                      )
         return simbody._state
 
+    def rel2cam(self):
+        rel_pos = (self.pos - self._curr_camera.center) * self.dist_unit
+        dist = np.linalg.norm(rel_pos)
+        if dist < 1e-09:
+            dist = 0.0 * self.dist_unit
+            rel_pos = np.zeros((3,), dtype=vec_type)
+            fov = MIN_FOV
+        else:
+            fov = np.float64(1.0 * math.atan(self.body.R.to(self.dist_unit).value / dist))
+
+        return {"rel_pos": rel_pos,
+                "dist": dist,
+                "fov": fov,
+                }
+
     def get_field(self, f):
         match f:
+            case 'rel2cam':
+                return self.rel2cam(self._cam)
             case 'pos':
                 return self.pos
             case 'rot':
                 return self._state[2]
             case 'track':
                 return self.track
-
-    def rel2pos(self, pos=None):
-        if pos is None:
-            pos = np.zeros((3,), dtype=vec_type)
-        rel_pos = pos.value - self.pos2primary.value
-        dist = np.linalg.norm(rel_pos)
-        if dist < 1e-09:
-            dist = 0.0 * self._dist_unit
-            rel_pos = np.zeros((3,), dtype=vec_type)
-            fov = MIN_FOV
-        else:
-            fov = np.float64(1.0 * math.atan(self.body.R.to(self._dist_unit).value / dist))
-
-        return {"rel_pos": rel_pos,
-                "dist": dist,
-                "fov": fov,
-                }
 
     @property
     def name(self):
@@ -264,6 +270,10 @@ class SimBody:
     @property
     def rot(self):
         return self._state[2]
+
+    @property
+    def axes(self):
+        return self.x_ax, self.y_ax, self.z_ax, self.z_ax
 
     @property
     def track(self):
@@ -388,52 +398,6 @@ class SimBody:
     def epoch(self, e=None):
         if type(e) == Time:
             self._epoch = e
-
-    # @property
-    # def texture(self):
-    #     return self._tex_data
-    #
-    # @texture.setter
-    # def texture(self, new_tex_data=None):
-    #     self._tex_data = new_tex_data
-
-    # @property
-    # def colormap(self):
-    #     return ColorArray(self._colormap)
-
-    # @colormap.setter
-    # def colormap(self, new_cmap=None):
-    #     self._colormap = new_cmap
-    #
-    # @property
-    # def periods(self):
-    #     return self._periods
-
-    # @property
-    # def spacing(self):
-    #     return self._spacing
-
-    # @state.setter
-    # def state(self, new_state=None):
-    #     if (type(new_state)  == np.ndarray) and (new_state.shape == (3, 3)):
-    #         self._state = new_state
-    #     else:
-    #         logging.info("!!!\t>> Incorrect state format. Ignoring...:<%s\n>",
-    #                      new_state)
-    #         pass
-
-    # @periods.setter
-    # def periods(self, p=None):
-    #     if p is not None:
-    #         self._periods = p
-    #
-    # @spacing.setter
-    # def spacing(self, s=None):
-    #     if s is not None:
-    #         self._spacing = s
-    # @property
-    # def base_color(self):
-    #     return self._base_color
 
 
 def main():

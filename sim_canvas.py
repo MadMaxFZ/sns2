@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import psygnal
 from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
@@ -14,11 +15,12 @@ logging.basicConfig(filename="logs/mainsimwin.log",
 
 class MainSimCanvas(scene.SceneCanvas):
     FIRST_RUN = True
+    emit_keypress = psygnal.Signal(str)
 
     #   TODO::  Refactor to remove all references to the StarSystemModel instance.
     #           This class only needs to handle the CameraSet and key/mouse events here.
     #           There may need to be methods added to handle some operations for this SceneCanvas.
-    def __init__(self, cam_set):
+    def __init__(self):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
                                             show=False,
@@ -27,21 +29,25 @@ class MainSimCanvas(scene.SceneCanvas):
                                             )
         self.unfreeze()
         self._sys_vizz = None
-        self._cam_set = cam_set
+        # self._cam_set = cam_set
         self._fpv_viewbox = self.central_widget.add_view()
-        self._fpv_viewbox.camera = self._cam_set.curr_cam
-
+        self._fpv_viewbox.camera = None
         self.freeze()
 
-        for k, v in self._fpv_viewbox.camera.get_state().items():
-            print(k, ":", v)
+        # for k, v in self._fpv_viewbox.camera.get_state().items():
+        #     print(k, ":", v)
 
     #   TODO::  Implement a class that accepts a keystroke value then calls a
     #           function associated with that value. These associations will be
     #           represented with a dict that can be stored, modified or loaded
     #           from a file.
+
+    def assign_camera(self, new_cam):
+        self._fpv_viewbox.camera = new_cam
+
     def on_key_press(self, ev):
         try:
+            self.emit_keypress.emit(ev)
             if ev.key.name == "+":
                 self._fpv_viewbox.camera.scale_factor *= 1.1
                 print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
@@ -61,7 +67,7 @@ class MainSimCanvas(scene.SceneCanvas):
                 self.model.t_warp *= 0.9
                 print("TIME_WARP:", self.model.t_warp)
             elif ev.key.name == "\\":
-                self._system_model.cmd_timer()
+                print("Toggle timer...")
             elif ev.key.name == "p":
                 print("MESH_DATA[\"Sun\"]", self._sys_vizz.mesh_data["Sun"].save())
             elif ev.key.name == "'":
@@ -71,24 +77,24 @@ class MainSimCanvas(scene.SceneCanvas):
         except AttributeError:
             print("Key Error...")
 
-    def run(self):
-        self.show()
-        self._system_model.cmd_timer()
-        app.run()
-
-    def toggle_timer(self):
-        self._system_model.cmd_timer()
+    # def run(self):
+    #     self.show()
+    #     self._system_model.cmd_timer()
+    #     app.run()
+    #
+    # def toggle_timer(self):
+    #     self._system_model.cmd_timer()
+    #
+    # @property
+    # def model(self):
+    #     return self._system_model
 
     def quit(self):
         app.quit()
 
     @property
     def curr_cam(self):
-        return self._cam_set.curr_cam
-
-    @property
-    def model(self):
-        return self._system_model
+        return self._fpv_viewbox.camera.get_state()
 
     @property
     def view(self):
@@ -121,7 +127,7 @@ def main():
                          # 'Triton',
                          # 'Charon',
                          ]
-    my_simwin = MainSimCanvas(body_names=_body_include_set)
+    my_simwin = MainSimCanvas()
     my_simwin.run()
 
 

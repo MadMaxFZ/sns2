@@ -1,7 +1,13 @@
 #! /usr/bin/python
+import math
+
+import numpy as np
 from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
+
+from starsys_data import vec_type, _dist_unit
+from sysbody_model import MIN_FOV
 
 
 class CameraSet:
@@ -52,6 +58,11 @@ class CameraSet:
     @property
     def curr_cam(self):
         return self._curr_cam
+
+    @curr_cam.setter
+    def curr_cam(self, cam_label):
+        if cam_label in self._cam_dict.keys():
+            self._curr_cam = self._cam_dict[cam_label]
 
     @property
     def curr_key(self):

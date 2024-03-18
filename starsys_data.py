@@ -12,6 +12,7 @@ from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
+from sysbody_model import MIN_FOV
 from viz_functs import get_tex_data
 
 logging.basicConfig(filename="logs/sns_defs.log",
@@ -185,7 +186,7 @@ class SystemDataStore:
         DEF_EPOCH    = J2000_TDB  # default epoch
         SYS_PARAMS   = dict(sys_name="Sol",
                             def_epoch=DEF_EPOCH,
-                            dist_unit=u.km,
+                            dist_unit=self.dist_unit,
                             periods=365,
                             spacing=24 * 60 * 60 * u.s,
                             fps=60,
@@ -285,7 +286,7 @@ class SystemDataStore:
                        "ship",
                        )
         # Markers symbol to be used for each body type
-        _body_tmark = ('star',
+        _body_mark = ('star',
                        'o',
                        'diamond',
                        'triangle',
@@ -360,7 +361,7 @@ class SystemDataStore:
                               fname_idx=_tex_idx[idx],
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
-                              body_mark=_body_tmark[_type_set[idx]],
+                              body_mark=_body_mark[_type_set[idx]],
                               viz_names=_viz_assign[_bod_name],
                               )
             _vizz_params.update({_bod_name: _vizz_data})
@@ -400,6 +401,10 @@ class SystemDataStore:
                                VIZZ_DATA=_vizz_params,
                                )
         logging.debug("ALL data for the system have been collected...!")
+
+    @property
+    def dist_unit(self):
+        return u.km
 
     @property
     def default_epoch(self):

@@ -12,6 +12,7 @@ import numpy as np
 import logging
 from astropy import units as u
 from PIL import Image
+from vispy.color import *
 from vispy.visuals import CompoundVisual
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
@@ -61,7 +62,7 @@ class PlanetVisual(CompoundVisual):
     def __init__(self, body_name='Earth', # sim_body=None,
                  radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
-                 color=(1, 1, 1, 1), edge_color=(0, 0, 1, 0.2),
+                 color=Color((1, 1, 1, 1)), edge_color=Color((0, 0, 1, 0.2)),
                  shading=None, texture=None, method='oblate', **kwargs):
 
         self._radii = np.zeros((3,),dtype=np.float64)
@@ -71,7 +72,7 @@ class PlanetVisual(CompoundVisual):
             self._vizz_data = sys_data.vizz_data(body_name)
             self._tex_data = self._vizz_data['tex_data']
             self._mark = self._vizz_data['body_mark']
-            self._base_color = self._vizz_data['body_color']
+            self._base_color = Color(self._vizz_data['body_color'])
             self._body_alpha = self._vizz_data['body_alpha']
             self._track_alpha = self._vizz_data['track_alpha']
             if texture is None:
@@ -134,16 +135,21 @@ class PlanetVisual(CompoundVisual):
         return self._mesh.mesh_data.save()
 
     @property
-    def base_color(self):
-        return self._vizz_data['body_color']
+    def body_color(self):
+        return self._base_color
 
-    @base_color.setter
-    def base_color(self, new_color=(1, 1, 1, 1)):
-        self._base_color = np.array(new_color)
+    @body_color.setter
+    def body_color(self, new_color=(1, 1, 1, 1)):
+        self._base_color = Color(new_color)
 
     @property
     def body_alpha(self):
         return self._body_alpha
+
+    @body_alpha.setter
+    def body_alpha(self, new_alpha):
+        if new_alpha:
+            self._base_color.alpha = new_alpha
 
     @property
     def track_alpha(self):

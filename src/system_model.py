@@ -1,4 +1,5 @@
-# starsystem.py
+# system_model.py
+
 import psygnal
 from starsys_data import *
 from src.simbody_list import SimBodyList
@@ -6,6 +7,7 @@ from sysbody_model import SimBody
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
 from vispy.scene.cameras import BaseCamera
+
 
 class SimSystem(SimBodyList):
     """
@@ -15,7 +17,7 @@ class SimSystem(SimBodyList):
     updating = psygnal.Signal(Time)
     ready = psygnal.Signal(float)
     data_return = psygnal.Signal(list, list)
-    fields2agg = ('pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
+    fields2agg = ('rad', 'rel2cam', 'pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
 
     def __init__(self, body_names=None, multi=False):
         """
@@ -47,7 +49,7 @@ class SimSystem(SimBodyList):
                                      dtype=vec_type)
         self._curr_cam = None
         self.load_from_names(self._current_body_names)
-        self.agg_fields = self.load_agg_fields(SimSystem.fields2agg)
+        self.agg_fields = self._load_agg_fields(SimSystem.fields2agg)
 
     @property
     def current_cam(self):
@@ -57,6 +59,7 @@ class SimSystem(SimBodyList):
     def current_cam(self, cam):
         if isinstance(cam, BaseCamera):
             self._curr_cam = cam
+            [sb.set_curr_camera(cam) for sb in self.data]
         else:
             raise TypeError("SimSystem.set_model_cam(): 'cam' must be a BaseCamera object, got %s",
                             type(cam))
@@ -87,27 +90,43 @@ class SimSystem(SimBodyList):
         self._system_primary = [sb for sb in self.data if sb.body.parent is None][0]
         [self._set_parentage(sb) for sb in self.data if sb.body.parent]
         self._IS_POPULATED = True
-
         self.update_state(epoch=self._sys_epoch)
         self._HAS_INIT = True
 
-    def load_agg_fields(self, fields):
-        res = {}
+    def _load_agg_fields(self, fields):
+        res = {'primary_name': self._system_primary.name}
         for k in fields:
             agg = {}
-            [agg.update({sb.name: self.get_fields(sb, k)}) for sb in self.data]
+            [agg.update({sb.name: self._get_fields(sb, k)}) for sb in self.data]
             res.update({k: agg})
 
         return res
 
-    def get_fields(self, simbod, field):
+    def _get_fields(self, simbod, field):
+        """
+            This method is used to get the values of a particular field for a given SimBody object.
+        Parameters
+        ----------
+        simbod  : SimBody            The SimBody object for which the field value is to be retrieved.
+        field   : str                The field for which the value is to be retrieved.
+
+        Returns
+        -------
+        res     : float or list       The value of the field for the given SimBody object.
+        """
         match field:
+            case 'rad':
+                return simbod.radius[0]
+            case 'rel2cam':
+                return simbod.rel2cam()
             case 'pos':
                 return simbod.pos
             case 'rot':
                 return simbod.rot
             case 'track':
                 return simbod.track
+            case 'axes':
+                return simbod.axes
             case 'b_alpha':
                 return sys_data.vizz_data(simbod.name)['body_alpha']
             case 't_alpha':
@@ -116,7 +135,6 @@ class SimSystem(SimBodyList):
                 return sys_data.vizz_data(simbod.name)['body_mark']
             case 'color':
                 return sys_data.vizz_data(simbod.name)['body_color']
-            case 'to_cam':
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC
@@ -176,7 +194,7 @@ class SimSystem(SimBodyList):
 
     @property
     def system_primary(self):
-        return self._primary_sb
+        return self._system_primary
 
     @property
     def trajects(self):
