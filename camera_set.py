@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
 
-from starsys_data import vec_type, _dist_unit
+from starsys_data import vec_type
 from sysbody_model import MIN_FOV
 
 
@@ -15,8 +15,10 @@ class CameraSet:
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
     """
+    cam_types = [FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera]
+
     def __init__(self):
-        self._cam_dict = {}     # super(CameraSet, self).__init__()
+        self._cam_dict = {}  # super(CameraSet, self).__init__()
         self._cam_count = 0
         self._curr_key = ""
         self._curr_cam = None
@@ -27,16 +29,15 @@ class CameraSet:
         Parameters
         ----------
         cam_label : str
-        new_cam :   vispy.scene.cameras
+        new_cam :   is_subclass(vispy.scene.cameras.BaseCamera)
 
         Returns
         -------
         """
-        if issubclass(type(new_cam), BaseCamera):
-            # new_cam.canvas = self._canvas
-            if not cam_label:
-                cam_label = "cam_" + str(self._cam_count)
-            self._cam_dict.update({cam_label: new_cam})
+        assert issubclass(type(new_cam), BaseCamera)
+        if not cam_label:
+            cam_label = "cam_" + str(self._cam_count)
+        self._cam_dict.update({cam_label: new_cam})
         self._curr_key = cam_label
         self._curr_cam = new_cam
         self._cam_count += 1
@@ -73,5 +74,6 @@ class CameraSetWidget(QWidget):
     """ This widget will display the state of a camera in
         the dictionary
     """
+
     def __init__(self):
         super(CameraSetWidget, self).__init__()

@@ -21,7 +21,7 @@ from sim_canvas import MainSimCanvas
 from src.system_model import SimSystem
 from starsys_visual import StarSystemVisuals
 from composite import Ui_frm_sns_controls
-from starsys_data import log_config
+from starsys_data import log_config, sys_data
 
 logging.config.dictConfig(log_config)
 
@@ -122,11 +122,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.cameras  = CameraSet()
-        self.model    = SimSystem()
-        self.model.current_cam = self.cameras.curr_cam
+        self.model    = SimSystem(self.cameras.curr_cam)
         self.canvas   = CanvasWrapper()
-        self.canvas.assign_camera(self.cameras.curr_cam)
-        self.visuals  = StarSystemVisuals()
+        self.visuals  = StarSystemVisuals(body_names=sys_data.body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.model.agg_fields)
         self.controls = Controls()
         self.ui = self.controls.ui
@@ -189,6 +187,10 @@ class CanvasWrapper:
     @property
     def native(self):
         return self._canvas.native
+
+    @property
+    def view(self):
+        return self._canvas.view
 
     @property
     def scene(self):

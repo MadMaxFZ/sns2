@@ -4,16 +4,17 @@ import sys
 import math
 import logging
 import numpy as np
+import astropy.units as u
 import vispy.visuals.transforms as trx
 from vispy.color import *
 from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
                                  Compound, Polygon)
-from starsys_data import vec_type, _dist_unit
+from starsys_data import vec_type
 from sysbody_visual import Planet
 from sys_skymap import SkyMap
-from sysbody_model import SimBody
+from sysbody_model import SimBody, MIN_FOV
 from camera_set import CameraSet
 
 # these quantities can be served from DATASTORE class
@@ -74,6 +75,7 @@ class StarSystemVisuals:
         self._cntr_markers = None
         self._subvizz      = None
         self._agg_cache    = None
+        self.dist_unit     = u.km
 
     '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
 
@@ -130,7 +132,7 @@ class StarSystemVisuals:
     def _generate_trajct_viz(self, body_name):
         """ Generate Polygon visual object for each SimBody orbit
         """
-        t_color = self._agg_cache['color'][body_name]
+        t_color = Color(self._agg_cache['color'][body_name])
         t_color.alpha = self._agg_cache['t_alpha'][body_name]
         poly = Polygon(pos=self._agg_cache['track'][body_name],
                        border_color=t_color,
@@ -200,9 +202,6 @@ class StarSystemVisuals:
             _p_face_colors.append(_pf_clr)
             _c_face_colors.append(_cf_clr)
 
-            self._pos_rel2cam = [(self._curr_camera.center - _p) * _dist_unit
-                                 for _p in self._bods_pos]                                          # <--
-
         self._plnt_markers.set_data(pos=self._bods_pos,
                                     face_color=_p_face_colors,
                                     edge_color=[1, 0, 0, _pm_e_alpha],
@@ -242,12 +241,9 @@ class StarSystemVisuals:
         _bods_pos = []
         for sb_name in self._body_names:                                                       # <--
             _bods_pos = self._agg_cache['pos'][sb_name]
-            # if sb.type not in ['star', 'planet']:
-            #     self._bods_pos[-1] += sb.sb_parent.pos
-
             body_fov = self._agg_cache['rel2cam'][sb_name]['fov']
             pix_diam = 0
-            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / self._cam.fov)                # <--
+            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / from_cam.fov)                # <--
 
             if raw_diam < MIN_SYMB_SIZE:
                 pix_diam = MIN_SYMB_SIZE

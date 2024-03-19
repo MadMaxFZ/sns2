@@ -188,22 +188,6 @@ class SimBody:
                 return self.track
 
     @property
-    def rel2cam(self):
-        rel_pos = (self.pos - self._curr_camera.center) * self.dist_unit
-        dist = np.linalg.norm(rel_pos)
-        if dist < 1e-09:
-            dist = 0.0 * self.dist_unit
-            rel_pos = np.zeros((3,), dtype=vec_type)
-            fov = MIN_FOV
-        else:
-            fov = np.float64(1.0 * math.atan(self.body.R.to(self.dist_unit).value / dist))
-
-        return {"rel_pos": rel_pos,
-                "dist": dist,
-                "fov": fov,
-                }
-
-    @property
     def name(self):
         return self._name
 

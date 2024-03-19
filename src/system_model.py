@@ -19,7 +19,7 @@ class SimSystem(SimBodyList):
     data_return = psygnal.Signal(list, list)
     fields2agg = ('rad', 'rel2cam', 'pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
 
-    def __init__(self, body_names=None, multi=False):
+    def __init__(self, cam, body_names=None, multi=False):
         """
 
         Parameters
@@ -38,6 +38,7 @@ class SimSystem(SimBodyList):
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = multi
         self._USE_AUTO_UPDATE_STATE = False
+        self._dist_unit = u.km
         self._sys_epoch = Time(sys_data.default_epoch, format='jd', scale='tdb')
         # print(f'BODY_NAMES: {self._current_body_names}')
         self._system_primary = None
@@ -47,7 +48,7 @@ class SimSystem(SimBodyList):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-        self._curr_cam = None
+        self._curr_cam = cam
         self.load_from_names(self._current_body_names)
         self.agg_fields = self._load_agg_fields(SimSystem.fields2agg)
 
@@ -118,7 +119,7 @@ class SimSystem(SimBodyList):
             case 'rad':
                 return simbod.radius[0]
             case 'rel2cam':
-                return simbod.rel2cam
+                return self.rel2cam(simbod)
             case 'pos':
                 return simbod.pos
             case 'rot':
@@ -135,6 +136,31 @@ class SimSystem(SimBodyList):
                 return sys_data.vizz_data(simbod.name)['body_mark']
             case 'color':
                 return sys_data.vizz_data(simbod.name)['body_color']
+
+    def rel2cam(self, sb):
+        """
+            This method is used to get the position of a SimBody object relative to the current camera.
+        Parameters
+        ----------
+        sb      : SimBody                The name of the SimBody object for which the relative position is to be calculated.
+
+        Returns
+        -------
+        res     : list               The relative position of the SimBody object.
+        """
+        rel_2cam = (sb.pos - self._curr_cam.center)
+        dist = np.linalg.norm(rel_2cam)
+        if dist < 1e-09:
+            dist = 0.0 * sb.dist_unit
+            rel_pos = np.zeros((3,), dtype=vec_type)
+            fov = MIN_FOV
+        else:
+            fov = np.float64(1.0 * math.atan(sb.body.R.to(sb.dist_unit).value / dist))
+
+        return {"rel_pos": rel_2cam * sb.dist_unit,
+                "dist": dist * sb.dist_unit,
+                "fov": fov,
+                }
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC

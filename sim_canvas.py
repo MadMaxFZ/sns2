@@ -31,7 +31,7 @@ class MainSimCanvas(scene.SceneCanvas):
         self._sys_vizz = None
         # self._cam_set = cam_set
         self._fpv_viewbox = self.central_widget.add_view()
-        self._fpv_viewbox.camera = None
+        # self._fpv_viewbox.camera = None
         self.freeze()
 
         # for k, v in self._fpv_viewbox.camera.get_state().items():
