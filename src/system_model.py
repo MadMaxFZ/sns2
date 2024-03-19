@@ -6,7 +6,7 @@ from src.simbody_list import SimBodyList
 from sysbody_model import SimBody
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
-from vispy.scene.cameras import BaseCamera
+from vispy.scene.cameras import BaseCamera, FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera
 
 
 class SimSystem(SimBodyList):
@@ -19,7 +19,7 @@ class SimSystem(SimBodyList):
     data_return = psygnal.Signal(list, list)
     fields2agg = ('rad', 'rel2cam', 'pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
 
-    def __init__(self, cam, body_names=None, multi=False):
+    def __init__(self, cam=FlyCamera(fov=60), body_names=None, multi=False):
         """
 
         Parameters
