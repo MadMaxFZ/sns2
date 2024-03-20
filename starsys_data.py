@@ -182,10 +182,11 @@ class SystemDataStore:
     def __init__(self):
         """
         """
+        self._dist_unit = u.km
         DEF_EPOCH    = J2000_TDB  # default epoch
         SYS_PARAMS   = dict(sys_name="Sol",
                             def_epoch=DEF_EPOCH,
-                            dist_unit=self.dist_unit,
+                            dist_unit=self._dist_unit,
                             periods=365,
                             spacing=24 * 60 * 60 * u.s,
                             fps=60,
@@ -403,7 +404,7 @@ class SystemDataStore:
 
     @property
     def dist_unit(self):
-        return u.km
+        return self._dist_unit
 
     @property
     def default_epoch(self):
@@ -466,6 +467,7 @@ class SystemDataStore:
 
 
 sys_data = SystemDataStore()
+dist_unit = sys_data.dist_unit
 
 if __name__ == "__main__":
 
