@@ -43,5 +43,6 @@ class SimBodyList(UserList):
 
 
 if __name__ == "__main__":
+
     sb_list = SimBodyList([])
     print(sb_list)

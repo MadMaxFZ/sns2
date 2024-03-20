@@ -1,4 +1,5 @@
 # system_model.py
+import time
 
 import psygnal
 from starsys_data import *
@@ -218,4 +219,10 @@ class SimSystem(SimBodyList):
 
 
 if __name__ == "__main__":
+    start = time.monotonic_ns()
     model = SimSystem()
+    init_time = start = time.monotonic_ns() - start
+    print(f"Setup time: {(init_time / 1e+09):0.4f} seconds")
+    model.update_state()
+    done_time = time.monotonic_ns() - init_time
+    print(f'Update time: {(done_time / 1e+09):0.4f} seconds')
