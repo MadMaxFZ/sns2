@@ -11,6 +11,7 @@ from vispy.scene.cameras import BaseCamera, FlyCamera, TurntableCamera, ArcballC
 
 class SimSystem(SimBodyList):
     """
+        This
     """
     _body_count: int = 0
     initialized = psygnal.Signal(list)
@@ -21,10 +22,11 @@ class SimSystem(SimBodyList):
 
     def __init__(self, cam=FlyCamera(fov=60), body_names=None, multi=False):
         """
-
         Parameters
         ----------
-        body_names :
+        cam
+        body_names
+        multi
         """
         if not body_names:
             self._current_body_names = sys_data.body_names
@@ -103,64 +105,57 @@ class SimSystem(SimBodyList):
 
         return res
 
-    def _get_fields(self, simbod, field):
+    def _get_fields(self, simbody, field):
         """
             This method is used to get the values of a particular field for a given SimBody object.
         Parameters
         ----------
-        simbod  : SimBody            The SimBody object for which the field value is to be retrieved.
-        field   : str                The field for which the value is to be retrieved.
+        simbody     : SimBody            The SimBody object for which the field value is to be retrieved.
+        field       : str                The field for which the value is to be retrieved.
 
         Returns
         -------
-        res     : float or list       The value of the field for the given SimBody object.
+        res         : float or list      The value of the field for the given SimBody object.
         """
         match field:
             case 'rad':
-                return simbod.radius[0]
-            case 'rel2cam':
-                return self.rel2cam(simbod)
+                return simbody.body.R
+
             case 'pos':
-                return simbod.pos
+                return simbody.pos
+
+            case 'attr':
+                return simbody.body
+
             case 'rot':
-                return simbod.rot
+                return simbody.rot
+
             case 'track':
-                return simbod.track
+                return simbody.track
+
             case 'axes':
-                return simbod.axes
+                return simbody.axes
+
+            case 'elem':
+                return dict(classical=simbody.orbit.clasical(),
+                            pqw=simbody.orbit.pqw(),
+                            rv=simbody.orbit.rv,
+                            )
+
+            case 'rel2cam':
+                return self.rel2cam(simbody.pos, simbody.body.R)
+
             case 'b_alpha':
-                return sys_data.vizz_data(simbod.name)['body_alpha']
+                return sys_data.vizz_data(simbody.name)['body_alpha']
+
             case 't_alpha':
-                return sys_data.vizz_data(simbod.name)['track_alpha']
+                return sys_data.vizz_data(simbody.name)['track_alpha']
+
             case 'symb':
-                return sys_data.vizz_data(simbod.name)['body_mark']
+                return sys_data.vizz_data(simbody.name)['body_mark']
+
             case 'color':
-                return sys_data.vizz_data(simbod.name)['body_color']
-
-    def rel2cam(self, sb):
-        """
-            This method is used to get the position of a SimBody object relative to the current camera.
-        Parameters
-        ----------
-        sb      : SimBody                The name of the SimBody object for which the relative position is to be calculated.
-
-        Returns
-        -------
-        res     : list               The relative position of the SimBody object.
-        """
-        rel_2cam = (sb.pos - self._curr_cam.center)
-        dist = np.linalg.norm(rel_2cam)
-        if dist < 1e-09:
-            dist = 0.0 * sb.dist_unit
-            rel_pos = np.zeros((3,), dtype=vec_type)
-            fov = MIN_FOV
-        else:
-            fov = np.float64(1.0 * math.atan(sb.body.R.to(sb.dist_unit).value / dist))
-
-        return {"rel_pos": rel_2cam * sb.dist_unit,
-                "dist": dist * sb.dist_unit,
-                "fov": fov,
-                }
+                return sys_data.vizz_data(simbody.name)['body_color']
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC

@@ -26,6 +26,13 @@ class SimBodyList(UserList):
             self.data.extend(self._validate_simbody(item) for item in other)
 
     def _validate_simbody(self, value):
+        """
+            This method returns value if and only of it is of type SimBody,
+            otherwise raises TypeError
+        Returns
+        -------
+        value if value is of type SimBody
+        """
         if isinstance(value, obj_type):
             return value
         raise TypeError(f"SimBody object expected, got {type(value).__name__}")

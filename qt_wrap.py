@@ -139,9 +139,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(central_widget)
 
         self.connect_controls()
-        # self.thread = QThread()
-        # self.model.moveToThread(self.thread)
-        # self.thread.start()
         self.init_controls()
 
     def init_controls(self):
@@ -153,11 +150,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.bodyBox.setCurrentIndex(0)
         self.ui.camBox.setCurrentIndex(0)
+        self.req_panel_data_sig()
+
+    def req_panel_data_sig(self):
         self.update_panel.emit([self.controls.active_body,
                                 self.controls.active_panel,
                                 self.controls.active_cam,
                                 ])
-        pass
 
     def connect_controls(self):
         # TODO:: From here the scope should allow access sufficient to define all

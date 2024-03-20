@@ -467,7 +467,7 @@ class SystemDataStore:
 
 
 sys_data = SystemDataStore()
-
+dist_unit = u.km
 
 if __name__ == "__main__":
 

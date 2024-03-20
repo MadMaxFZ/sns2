@@ -1,12 +1,11 @@
 #! /usr/bin/python
 import math
-
 import numpy as np
+import astropy.units as u
 from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
-
-from starsys_data import vec_type
+from starsys_data import vec_type, dist_unit
 from sysbody_model import MIN_FOV
 
 
@@ -51,6 +50,34 @@ class CameraSet:
             print(f"{cam_key}.{k} : {v}")
 
         return cam_states
+
+    def rel2cam(self, tgt_pos, tgt_radius):
+        """
+            This method is used to get the position of a SimBody object relative to the current camera.
+        Parameters
+        ----------
+        tgt_pos     :   vec_type    :   The position vector of the target SimBody object.
+
+        tgt_radius  :   float       :   The radius of the target SimBody object.
+
+        Returns
+        -------
+        res         :   dict        :   The relative position, distance to and FOV of the SimBody object.
+        """
+        rel_2cam = (tgt_pos - self._curr_cam.center)
+        dist = np.linalg.norm(rel_2cam)
+        if dist < 1e-09:
+            dist = 0.0 * dist_unit
+            rel_pos = np.zeros((3,), dtype=vec_type)
+            fov = MIN_FOV
+        else:
+            fov = np.float64(math.atan(tgt_radius.value / dist))
+            # print(f' FOV : {fov:.4f}')
+
+        return {"rel_pos": rel_2cam * dist_unit,
+                "dist": dist * dist_unit,
+                "fov": fov * u.rad,
+                }
 
     @property
     def cam_count(self):
