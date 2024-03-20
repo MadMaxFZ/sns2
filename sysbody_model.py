@@ -4,7 +4,7 @@ import math
 import logging
 import numpy as np
 import multiprocessing
-# from starsys_data import *
+# from starsys_data import vec_type
 from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
@@ -299,7 +299,7 @@ class SimBody:
 
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
-        _pos = self._state[0]
+        _pos = self._state[0] * self._dist_unit
         if self.body.parent is None:
             return _pos
         else:
