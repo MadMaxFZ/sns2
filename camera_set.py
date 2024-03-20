@@ -69,6 +69,31 @@ class CameraSet:
     def curr_key(self):
         return self._curr_key
 
+    def rel2cam(self, tgt_pos):
+        """
+            This method is used to get the position of a SimBody object relative to the current camera.
+        Parameters
+        ----------
+        tgt_pos      : SimBody                The name of the SimBody object for which the relative position is to be calculated.
+
+        Returns
+        -------
+        res     : list               The relative position of the SimBody object.
+        """
+        rel_2cam = (tgt_pos.pos - self._curr_cam.center)
+        dist = np.linalg.norm(rel_2cam)
+        if dist < 1e-09:
+            dist = 0.0 * tgt_pos.dist_unit
+            rel_pos = np.zeros((3,), dtype=vec_type)
+            fov = MIN_FOV
+        else:
+            fov = np.float64(1.0 * math.atan(tgt_pos.body.R.to(tgt_pos.dist_unit).value / dist))
+
+        return {"rel_pos": rel_2cam * tgt_pos.dist_unit,
+                "dist": dist * tgt_pos.dist_unit,
+                "fov": fov,
+                }
+
 
 class CameraSetWidget(QWidget):
     """ This widget will display the state of a camera in

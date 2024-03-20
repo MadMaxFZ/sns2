@@ -28,6 +28,66 @@ logging.config.dictConfig(log_config)
 QT_NATIVE = False
 
 
+class MainQtWindow(QtWidgets.QMainWindow):
+    update_panel = pyqtSignal(list)
+    newActiveBody = pyqtSignal(int)
+    newActiveTab = pyqtSignal(int)
+    newActiveCam = pyqtSignal(int)
+
+    def __init__(self, *args, **kwargs):
+        super(MainQtWindow, self).__init__(*args,
+                                           **kwargs)
+        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
+        self.cameras  = CameraSet()
+        self.model    = SimSystem(self.cameras.curr_cam)
+        self.canvas   = CanvasWrapper()
+        self.visuals  = StarSystemVisuals(body_names=sys_data.body_names)
+        self.visuals.generate_visuals(self.canvas.view, agg_data=self.model.agg_fields)
+        self.controls = Controls()
+        self.ui = self.controls.ui
+
+        main_layout = QtWidgets.QHBoxLayout()
+        splitter = QtWidgets.QSplitter()
+        splitter.addWidget(self.controls)
+        splitter.addWidget(self.canvas.native)
+        main_layout.addWidget(splitter)
+        central_widget = QtWidgets.QWidget()
+        central_widget.setLayout(main_layout)
+        self.setCentralWidget(central_widget)
+
+        self.connect_controls()
+        # self.thread = QThread()
+        # self.model.moveToThread(self.thread)
+        # self.thread.start()
+        self.init_controls()
+
+    def init_controls(self):
+        self.ui.bodyList.clear()
+        item_names = [self.model.data[n].name for n in range(len(self.model.data))]
+        self.ui.bodyList.addItems(item_names)
+        self.ui.bodyBox.addItems(item_names)
+        # add items to camera combobox
+        self.ui.tabWidget_Body.setCurrentIndex(0)
+        self.ui.bodyBox.setCurrentIndex(0)
+        self.ui.camBox.setCurrentIndex(0)
+        self.update_panel.emit([self.controls.active_body,
+                                self.controls.active_panel,
+                                self.controls.active_cam,
+                                ])
+        pass
+
+    def connect_controls(self):
+        # TODO:: From here the scope should allow access sufficient to define all
+        #       slots necessary to communicate with model thread
+        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
+        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
+        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
+        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
+        self.update_panel.connect(self.model.send_panel)
+        self.model.panel_data.connect(self.controls.refresh)
+
+
 class Controls(QtWidgets.QWidget):
     data_request = pyqtSignal(list)
 
@@ -111,66 +171,6 @@ class Controls(QtWidgets.QWidget):
         return self.ui.camBox.currentText()
 
 
-class MainQtWindow(QtWidgets.QMainWindow):
-    update_panel = pyqtSignal(list)
-    newActiveBody = pyqtSignal(int)
-    newActiveTab = pyqtSignal(int)
-    newActiveCam = pyqtSignal(int)
-
-    def __init__(self, *args, **kwargs):
-        super(MainQtWindow, self).__init__(*args,
-                                           **kwargs)
-        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.cameras  = CameraSet()
-        self.model    = SimSystem(self.cameras.curr_cam)
-        self.canvas   = CanvasWrapper()
-        self.visuals  = StarSystemVisuals(body_names=sys_data.body_names)
-        self.visuals.generate_visuals(self.canvas.view, agg_data=self.model.agg_fields)
-        self.controls = Controls()
-        self.ui = self.controls.ui
-
-        main_layout = QtWidgets.QHBoxLayout()
-        splitter = QtWidgets.QSplitter()
-        splitter.addWidget(self.controls)
-        splitter.addWidget(self.canvas.native)
-        main_layout.addWidget(splitter)
-        central_widget = QtWidgets.QWidget()
-        central_widget.setLayout(main_layout)
-        self.setCentralWidget(central_widget)
-
-        self.connect_controls()
-        # self.thread = QThread()
-        # self.model.moveToThread(self.thread)
-        # self.thread.start()
-        self.init_controls()
-
-    def init_controls(self):
-        self.ui.bodyList.clear()
-        item_names = [self.model.data[n].name for n in range(len(self.model.data))]
-        self.ui.bodyList.addItems(item_names)
-        self.ui.bodyBox.addItems(item_names)
-        # add items to camera combobox
-        self.ui.tabWidget_Body.setCurrentIndex(0)
-        self.ui.bodyBox.setCurrentIndex(0)
-        self.ui.camBox.setCurrentIndex(0)
-        self.update_panel.emit([self.controls.active_body,
-                                self.controls.active_panel,
-                                self.controls.active_cam,
-                                ])
-        pass
-
-    def connect_controls(self):
-        # TODO:: From here the scope should allow access sufficient to define all
-        #       slots necessary to communicate with model thread
-        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
-        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
-        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
-        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
-        self.update_panel.connect(self.model.send_panel)
-        self.model.data_return.connect(self.controls.refresh)
-
-
 class CanvasWrapper:
     """     This class simply encapsulates the simulation, which resides within
         the vispy SceneCanvas object.
@@ -197,6 +197,7 @@ class CanvasWrapper:
         return self._scene
 
 
+'''==============================================================================================================='''
 if __name__ == "__main__":
     if QT_NATIVE:
         app = QCoreApplication(sys.argv)
