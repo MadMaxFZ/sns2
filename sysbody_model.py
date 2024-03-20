@@ -56,7 +56,7 @@ class SimBody:
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
-        self._dist_unit     = dist_unit
+        self._dist_unit     = u.km
         self._plane         = Planes.EARTH_ECLIPTIC
         self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
         self._state         = np.zeros((3,), dtype=vec_type)
@@ -299,9 +299,9 @@ class SimBody:
 
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
-        _pos = self._state[0]
+        _pos = self._state[0] * self._dist_unit
         if self.body.parent is None:
-            return _pos * self.dist_unit
+            return _pos
         else:
             return _pos + self.sb_parent.pos2primary
 

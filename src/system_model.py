@@ -41,7 +41,7 @@ class SimSystem(SimBodyList):
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = multi
         self._USE_AUTO_UPDATE_STATE = False
-        self._dist_unit = dist_unit
+        self._dist_unit = sys_data.dist_unit
         self._sys_epoch = Time(sys_data.default_epoch, format='jd', scale='tdb')
         # print(f'BODY_NAMES: {self._current_body_names}')
         self._system_primary = None
@@ -143,7 +143,7 @@ class SimSystem(SimBodyList):
                             rv=simbody.orbit.rv,
                             )
 
-            case 'rel2cam':
+            case '_rel2cam':
                 return self.rel2cam(simbody.pos, simbody.body.R)
 
             case 'b_alpha':

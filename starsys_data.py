@@ -12,7 +12,6 @@ from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
 from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
-from sysbody_model import MIN_FOV
 from viz_functs import get_tex_data
 
 logging.basicConfig(filename="logs/sns_defs.log",
@@ -467,7 +466,6 @@ class SystemDataStore:
 
 
 sys_data = SystemDataStore()
-dist_unit = u.km
 
 if __name__ == "__main__":
 
