@@ -4,7 +4,7 @@ import math
 import logging
 import numpy as np
 import multiprocessing
-# from starsys_data import *
+# from starsys_data import vec_type
 from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
@@ -56,7 +56,7 @@ class SimBody:
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
-        self._dist_unit     = u.km
+        self._dist_unit     = dist_unit
         self._plane         = Planes.EARTH_ECLIPTIC
         self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
         self._state         = np.zeros((3,), dtype=vec_type)
@@ -301,7 +301,7 @@ class SimBody:
     def pos2primary(self):
         _pos = self._state[0]
         if self.body.parent is None:
-            return _pos
+            return _pos * self.dist_unit
         else:
             return _pos + self.sb_parent.pos2primary
 

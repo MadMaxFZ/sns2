@@ -1,6 +1,7 @@
 # system_model.py
 
 import psygnal
+import numpy as np
 from starsys_data import *
 from src.simbody_list import SimBodyList
 from sysbody_model import SimBody
@@ -40,7 +41,7 @@ class SimSystem(SimBodyList):
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = multi
         self._USE_AUTO_UPDATE_STATE = False
-        self._dist_unit = u.km
+        self._dist_unit = dist_unit
         self._sys_epoch = Time(sys_data.default_epoch, format='jd', scale='tdb')
         # print(f'BODY_NAMES: {self._current_body_names}')
         self._system_primary = None
