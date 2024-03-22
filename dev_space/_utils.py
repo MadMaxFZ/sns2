@@ -143,7 +143,7 @@ class Emitter:
         logging.info("Emitter __init__...")
 
     def emit(self, q=None):
-        self.timer.start()
+        self.timer.ref_time()
         while True:
             dt = self.timer.elapsed
             while (self.timer.elapsed - dt) < self.timer.interval:

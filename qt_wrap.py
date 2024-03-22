@@ -13,6 +13,7 @@ import autologging
 import numpy as np
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
+from poliastro.bodies import Body
 from vispy.scene import SceneCanvas, visuals
 from vispy.app import use_app
 from vispy.app.timer import Timer
@@ -33,6 +34,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     newActiveBody = pyqtSignal(int)
     newActiveTab = pyqtSignal(int)
     newActiveCam = pyqtSignal(int)
+    fields2agg = ('rad', 'rel2cam', 'pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
 
     def __init__(self, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
@@ -42,24 +44,38 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.model    = SimSystem(self.cameras.curr_cam)
         self.canvas   = CanvasWrapper()
         self.visuals  = StarSystemVisuals(body_names=sys_data.body_names)
-        self.visuals.generate_visuals(self.canvas.view, agg_data=self.model.agg_fields)
+        self.visuals.generate_visuals(self.canvas.view, agg_data=self._agg_fields)
         self.controls = Controls()
         self.ui = self.controls.ui
+        self.central_widget = QtWidgets.QWidget()
 
-        main_layout = QtWidgets.QHBoxLayout()
-        splitter = QtWidgets.QSplitter()
-        splitter.addWidget(self.controls)
-        splitter.addWidget(self.canvas.native)
-        main_layout.addWidget(splitter)
-        central_widget = QtWidgets.QWidget()
-        central_widget.setLayout(main_layout)
-        self.setCentralWidget(central_widget)
-
+        self._setup_layout()
         self.connect_controls()
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
         self.init_controls()
+
+    def _setup_layout(self):
+        main_layout = QtWidgets.QHBoxLayout()
+        splitter = QtWidgets.QSplitter()
+        splitter.addWidget(self.controls)
+        splitter.addWidget(self.canvas.native)
+        main_layout.addWidget(splitter)
+        self.central_widget.setLayout(main_layout)
+        self.setCentralWidget(self.central_widget)
+        self._agg_fields = self._load_agg_fields(self.fields2agg)
+
+    def connect_controls(self):
+        # TODO:: From here the scope should allow access sufficient to define all
+        #       slots necessary to communicate with model thread
+        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
+        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
+        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
+        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
+        self.update_panel.connect(self.send_panel_data)
+        self.model.panel_data.connect(self.controls.refresh_panel)
 
     def init_controls(self):
         self.ui.bodyList.clear()
@@ -74,18 +90,77 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                 self.controls.active_panel,
                                 self.controls.active_cam,
                                 ])
+        print("Controls initialized...")
+
+    # TODO::    Incorporate the following methods into the MainQtWindow class
+    def send_panel_data(self, target):
+        """
+            This method will return the data block for the selected target given
+        Parameters
+        ----------
+        target
+
+        Returns
+        -------
+            Has no return value, but emits the data_set via signal
+        """
+        #
+        data_set = [0, 0]
+        body_idx = target[0]
+        panel_key = target[1]
+        if panel_key == "CAMS":
+            pass
+        elif panel_key == "tab_ATTR":
+            body_obj: Body = self.data[body_idx].body
+            data_set = []
+            for i in range(len(body_obj._fields())):
+                data_set.append(body_obj[i])
+
+        self.panel_data.emit(target, data_set)
         pass
 
-    def connect_controls(self):
-        # TODO:: From here the scope should allow access sufficient to define all
-        #       slots necessary to communicate with model thread
-        self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
-        self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
-        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
-        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
-        self.update_panel.connect(self.model.send_panel)
-        self.model.panel_data.connect(self.controls.refresh)
+    def _load_agg_fields(self, field_ids):
+        res = {'primary_name': self._sys_primary.name}
+        for f_id in field_ids:
+            agg = {}
+            [agg.update({sb.name: self._get_field(sb, f_id)}) for sb in self.data]
+            res.update({f_id: agg})
+
+        return res
+
+    def _get_field(self, simbod, field_id):
+        """
+            This method is used to get the values of a particular field for a given SimBody object.
+        Parameters
+        ----------
+        simbod      : SimBody            The SimBody object for which the field value is to be retrieved.
+        field_id    : str                The field for which the value is to be retrieved.
+
+        Returns
+        -------
+        res     : float or list       The value of the field for the given SimBody object.
+        """
+        match field_id:
+            case 'rad':
+                return simbod.radius[0]
+            # case 'rel2cam':
+            #     return self.rel2cam(simbod)
+            case 'pos':
+                return simbod.pos
+            case 'rot':
+                return simbod.rot
+            case 'track':
+                return simbod.track
+            case 'axes':
+                return simbod.axes
+            case 'b_alpha':
+                return sys_data.vizz_data(simbod.name)['body_alpha']
+            case 't_alpha':
+                return sys_data.vizz_data(simbod.name)['track_alpha']
+            case 'symb':
+                return sys_data.vizz_data(simbod.name)['body_mark']
+            case 'color':
+                return sys_data.vizz_data(simbod.name)['body_color']
 
 
 class Controls(QtWidgets.QWidget):
@@ -98,23 +173,23 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
-        self._group_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
+        self._grp_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
                              'cam_', 'tw_', 'twb_', 'axis_']
-        self._widget_groups = self._scanUi_4panels(patterns=self._group_names)
-        self.tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
-        pass
+        self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
+        self._widget_groups = self._scanUi_4panels(patterns=self._grp_names)
+        print(f'{len(self._widget_groups)} groups defined...')
 
     @property
     def active_body(self):
-        return self.ui.bodyBox.currentText()
+        return self.ui.bodyBox.currentIndex()
 
     @property
     def active_cam(self):
-        return self.ui.camBox.currentText()
+        return self.ui.camBox.currentIndex()
 
     @property
     def active_panel(self):
-        return self.tab_names[self.ui.tabWidget_Body.currentIndex()]
+        return self._tab_names[self.ui.tabWidget_Body.currentIndex()]
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -138,7 +213,7 @@ class Controls(QtWidgets.QWidget):
         return panels
 
     @pyqtSlot(list, list)
-    def refresh(self, target, data_set):
+    def refresh_panel(self, target, data_set):
         if target[1] == "tab_ATTR":
             for i in range(len(data_set)):
                 self._widget_groups['attr_'].values()[i].setCurrentText(data_set[i])
@@ -146,29 +221,13 @@ class Controls(QtWidgets.QWidget):
         pass
 
     @property
-    def panels(self, name=None):
+    def panel_widgets(self, name=None):
         if name is None:
             return self._widget_groups
         elif name in self._widget_groups.keys():
             return self._widget_groups[name]
         else:
             return None
-
-    @property
-    def body_list(self):
-        return self.ui.bodyList.items()
-
-    @property
-    def curr_body(self):
-        return self.ui.bodyBox.currentText()
-
-    @property
-    def curr_tab(self):
-        return self.ui.tabWidget_Body.currentWidget()
-
-    @property
-    def curr_cam(self):
-        return self.ui.camBox.currentText()
 
 
 class CanvasWrapper:

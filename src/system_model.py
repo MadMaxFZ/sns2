@@ -16,7 +16,6 @@ class SimSystem(SimBodyList):
     initialized = psygnal.Signal(list)
     has_updated = psygnal.Signal(Time)
     panel_data = psygnal.Signal(list, list)
-    fields2agg = ('rad', 'rel2cam', 'pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
     _body_count: int = 0
 
     def __init__(self, cam=FlyCamera(fov=60), epoch=None, body_names=None, multi=False):
@@ -53,20 +52,8 @@ class SimSystem(SimBodyList):
             self._sys_epoch = epoch
         if body_names:
             self._current_body_names = [n for n in body_names if n in sys_data.body_names]
+
         self.load_from_names(self._current_body_names)
-
-    @property
-    def current_cam(self):
-        return self._curr_cam
-
-    @current_cam.setter
-    def current_cam(self, cam):
-        if isinstance(cam, BaseCamera):
-            self._curr_cam = cam
-            [sb.set_curr_camera(cam) for sb in self.data]
-        else:
-            raise TypeError("SimSystem.set_model_cam(): 'cam' must be a BaseCamera object, got %s",
-                            type(cam))
 
     def load_from_names(self, _body_names):
         """
@@ -101,51 +88,7 @@ class SimSystem(SimBodyList):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
         self.update_state(epoch=self._sys_epoch)
-        self._agg_fields = self._load_agg_fields(SimSystem.fields2agg)
         self.HAS_INIT = True
-
-    def _load_agg_fields(self, fields):
-        res = {'primary_name': self._sys_primary.name}
-        for k in fields:
-            agg = {}
-            [agg.update({sb.name: self._get_fields(sb, k)}) for sb in self.data]
-            res.update({k: agg})
-
-        return res
-
-    def _get_fields(self, simbod, field):
-        """
-            This method is used to get the values of a particular field for a given SimBody object.
-        Parameters
-        ----------
-        simbod  : SimBody            The SimBody object for which the field value is to be retrieved.
-        field   : str                The field for which the value is to be retrieved.
-
-        Returns
-        -------
-        res     : float or list       The value of the field for the given SimBody object.
-        """
-        match field:
-            case 'rad':
-                return simbod.radius[0]
-            # case 'rel2cam':
-            #     return self.rel2cam(simbod)
-            case 'pos':
-                return simbod.pos
-            case 'rot':
-                return simbod.rot
-            case 'track':
-                return simbod.track
-            case 'axes':
-                return simbod.axes
-            case 'b_alpha':
-                return sys_data.vizz_data(simbod.name)['body_alpha']
-            case 't_alpha':
-                return sys_data.vizz_data(simbod.name)['track_alpha']
-            case 'symb':
-                return sys_data.vizz_data(simbod.name)['body_mark']
-            case 'color':
-                return sys_data.vizz_data(simbod.name)['body_color']
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC
@@ -176,25 +119,8 @@ class SimSystem(SimBodyList):
             sb.update_state(sb, epoch)
 
     # @pyqtSlot(list)
-    def send_panel(self, target):
-        #   This method will receive the selected body name and
-        #   the data block requested from Controls
-        data_set = [0, 0]
-        body_idx = target[0]
-        panel_key = target[1]
-        if panel_key == "CAMS":
-            pass
-        elif panel_key == "tab_ATTR":
-            body_obj: Body = self.data[body_idx].body
-            data_set = []
-            for i in range(len(body_obj._fields())):
-                data_set.append(body_obj[i])
-
-        self.panel_data.emit(target, data_set)
-        pass
-
     @property
-    def agg_pos(self):
+    def positions_dict(self):
         res = {}
         [res.update({sb.name: sb.r}) for sb in self.data]
         return res
@@ -212,17 +138,32 @@ class SimSystem(SimBodyList):
         return self._sys_primary
 
     @property
-    def trajects(self):
+    def tracks_dict(self):
         traj_dict = {}
         [traj_dict.update({sb.name: sb.track}) for sb in self.data]
         return traj_dict
 
 
 if __name__ == "__main__":
-    start = time.monotonic_ns()
+    ref_time = time.time()
     model = SimSystem()
-    init_time = start = time.monotonic_ns() - start
-    print(f"Setup time: {(init_time / 1e+09):0.4f} seconds")
+    init_time = time.time() - ref_time
     model.update_state()
-    done_time = time.monotonic_ns() - init_time
+    done_time = time.time() - ref_time
+    print(f"Setup time: {(init_time / 1e+09):0.4f} seconds")
     print(f'Update time: {(done_time / 1e+09):0.4f} seconds')
+
+
+
+    # @property
+    # def current_cam(self):
+    #     return self._curr_cam
+    #
+    # @current_cam.setter
+    # def current_cam(self, cam):
+    #     if isinstance(cam, BaseCamera):
+    #         self._curr_cam = cam
+    #         [sb.set_curr_camera(cam) for sb in self.data]
+    #     else:
+    #         raise TypeError("SimSystem.set_model_cam(): 'cam' must be a BaseCamera object, got %s",
+    #                         type(cam))
