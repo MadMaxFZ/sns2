@@ -18,7 +18,7 @@ class SimSystem(SimBodyList):
     panel_data = psygnal.Signal(list, list)
     _body_count: int = 0
 
-    def __init__(self, cam=FlyCamera(fov=60), epoch=None, body_names=None, multi=False):
+    def __init__(self, sys_data, epoch=None, body_names=None, multi=False):
         """
             Initialize a star system model to include SimBody objects indicated by a list of names.
             If no list of names is provided, the complete default star system will be loaded.
@@ -31,10 +31,10 @@ class SimSystem(SimBodyList):
         multi        : bool     #   If True, use multiprocessing to speed up calculations.
         """
         super(SimSystem, self).__init__([])
-        self.IS_POPULATED = False
-        self.HAS_INIT = False
+        self._IS_POPULATED = False
+        self._HAS_INIT = False
         self._IS_UPDATING = False
-        self.USE_LOCAL_TIMER = False
+        self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = multi
         self._USE_AUTO_UPDATE_STATE = False
         self._dist_unit = u.km
@@ -46,18 +46,22 @@ class SimSystem(SimBodyList):
         self._curr_cam_idx = 0
         self._curr_tab_idx = 0
         self._curr_bod_idx = 0
-        self._current_body_names = sys_data.body_names
-        self._sys_epoch = Time(sys_data.default_epoch, format='jd', scale='tdb')
+        self.sys_data      = sys_data
+        self._valid_body_names = self.sys_data.body_names
+        self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
         if epoch:
             self._sys_epoch = epoch
+
         if body_names:
-            self._current_body_names = [n for n in body_names if n in sys_data.body_names]
+            self._current_body_names = [_ for _ in body_names if _ in self._valid_body_names]
+        else:
+            self._current_body_names = self._valid_body_names
 
         self.load_from_names(self._current_body_names)
 
     def load_from_names(self, _body_names):
         """
-
+            This metho
         Parameters
         ----------
         _body_names :
@@ -67,20 +71,19 @@ class SimSystem(SimBodyList):
 
         """
         solar_system_ephemeris.set("jpl")
-        _valid_names = sys_data.body_names
         if _body_names is None:
-            _body_names = self._current_body_names
+            self._current_body_names = self._valid_body_names
+        else:
+            self._current_body_names = [_ for _ in _body_names if _ in self._valid_body_names]
 
         # populate the list with SimBody objects
-        [self.data.append(SimBody(body_data=sys_data.body_data(body_name)))
-         for body_name in (_body_names and _valid_names)]
-        for n in self._current_body_names:
-            assert (n in _body_names)
-        self._current_body_names = tuple([sb.name for sb in self.data])
+        self.data.clear()
+        [self.data.append(SimBody(body_data=self.sys_data.body_data(body_name)))
+         for body_name in self._current_body_names]
         self._body_count = len(self.data)
         self._sys_primary = [sb for sb in self.data if sb.body.parent is None][0]
         [self._set_parentage(sb) for sb in self.data if sb.body.parent]
-        self.IS_POPULATED = True
+        self._IS_POPULATED = True
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
@@ -88,7 +91,7 @@ class SimSystem(SimBodyList):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
         self.update_state(epoch=self._sys_epoch)
-        self.HAS_INIT = True
+        self._HAS_INIT = True
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC

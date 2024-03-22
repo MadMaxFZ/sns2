@@ -5,7 +5,6 @@ import astropy.units as u
 from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
-from starsys_data import vec_type, dist_unit
 from sysbody_model import MIN_FOV
 
 
@@ -16,12 +15,22 @@ class CameraSet:
     """
     cam_types = [FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera]
 
-    def __init__(self):
+    def __init__(self, dist_unit=None, vec_type=None):
         self._cam_dict = {}  # super(CameraSet, self).__init__()
         self._cam_count = 0
         self._curr_key = ""
         self._curr_cam = None
         self.add_cam("def_cam", FlyCamera(fov=60))
+
+        if vec_type:
+            self._vec_type = vec_type
+        else:
+            self._vec_type = type(np.zeros((3,), dtype=np.float64))
+
+        if dist_unit:
+            self._dist_unit = dist_unit
+        else:
+            self._dist_unit = u.km = u.km
 
     def add_cam(self, cam_label=None, new_cam=FlyCamera(fov=60)):
         """
@@ -56,7 +65,7 @@ class CameraSet:
             This method is used to get the position of a SimBody object relative to the current camera.
         Parameters
         ----------
-        tgt_pos     :   vec_type    :   The position vector of the target SimBody object.
+        tgt_pos     :   sys_data.vec_type    :   The position vector of the target SimBody object.
 
         tgt_radius  :   float       :   The radius of the target SimBody object.
 
@@ -67,15 +76,15 @@ class CameraSet:
         rel_2cam = (tgt_pos - self._curr_cam.center)
         dist = np.linalg.norm(rel_2cam)
         if dist < 1e-09:
-            dist = 0.0 * dist_unit
-            rel_pos = np.zeros((3,), dtype=vec_type)
+            dist = 0.0 * self._dist_unit
+            rel_pos = np.zeros((3,), dtype=self._vec_type)
             fov = MIN_FOV
         else:
             fov = np.float64(math.atan(tgt_radius.value / dist))
             # print(f' FOV : {fov:.4f}')
 
-        return {"rel_pos": rel_2cam * dist_unit,
-                "dist": dist * dist_unit,
+        return {"rel_pos": rel_2cam * self._dist_unit,
+                "dist": dist * self._dist_unit,
                 "fov": fov * u.rad,
                 }
 
@@ -96,22 +105,29 @@ class CameraSet:
     def curr_key(self):
         return self._curr_key
 
+    @property
+    def cam_ids(self):
+        return self._cam_dict.keys()
+
     def rel2cam(self, tgt_pos):
         """
             This method is used to get the position of a SimBody object relative to the current camera.
         Parameters
         ----------
-        tgt_pos      : SimBody                The name of the SimBody object for which the relative position is to be calculated.
+        tgt_pos : self._vec_type     The name of the SimBody object for which the relative position is to be calculated.
 
         Returns
         -------
-        res     : list               The relative position of the SimBody object.
+        res     : dict               {'rel_pos' :   relative position of camera to the target,
+                                      'dist'    :   distance of the target from the camera,
+                                      'fov'     :   field of view of the target,
+                                      }
         """
         rel_2cam = (tgt_pos.pos - self._curr_cam.center)
         dist = np.linalg.norm(rel_2cam)
         if dist < 1e-09:
             dist = 0.0 * tgt_pos.dist_unit
-            rel_pos = np.zeros((3,), dtype=vec_type)
+            rel_pos = np.zeros((3,), dtype=self._vec_type)
             fov = MIN_FOV
         else:
             fov = np.float64(1.0 * math.atan(tgt_pos.body.R.to(tgt_pos.dist_unit).value / dist))

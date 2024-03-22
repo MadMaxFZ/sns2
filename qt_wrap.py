@@ -22,7 +22,7 @@ from sim_canvas import MainSimCanvas
 from src.system_model import SimSystem
 from starsys_visual import StarSystemVisuals
 from composite import Ui_frm_sns_controls
-from starsys_data import log_config, sys_data
+from starsys_data import log_config, SystemDataStore
 
 logging.config.dictConfig(log_config)
 
@@ -30,25 +30,27 @@ QT_NATIVE = False
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
-    update_panel = pyqtSignal(list)
+    update_panel = pyqtSignal(list, dict)
     newActiveBody = pyqtSignal(int)
     newActiveTab = pyqtSignal(int)
     newActiveCam = pyqtSignal(int)
     fields2agg = ('rad', 'rel2cam', 'pos', 'rot', 'b_alpha', 't_alpha', 'symb', 'color', 'track',)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, _body_names=None, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
+        self.sys_data = SystemDataStore()
+        self.model    = SimSystem(self.sys_data)
         self.cameras  = CameraSet()
-        self.model    = SimSystem(self.cameras.curr_cam)
-        self.canvas   = CanvasWrapper()
-        self.visuals  = StarSystemVisuals(body_names=sys_data.body_names)
-        self.visuals.generate_visuals(self.canvas.view, agg_data=self._agg_fields)
+        self.canvas   = CanvasWrapper(self.cameras)
         self.controls = Controls()
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget()
 
+        self._agg_data = self._load_agg_fields(self.fields2agg)
+        self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
+        self.visuals.generate_visuals(self.canvas.view, agg_data=self._agg_data)
         self._setup_layout()
         self.connect_controls()
         # self.thread = QThread()
@@ -64,7 +66,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         main_layout.addWidget(splitter)
         self.central_widget.setLayout(main_layout)
         self.setCentralWidget(self.central_widget)
-        self._agg_fields = self._load_agg_fields(self.fields2agg)
+        self._agg_data = self._load_agg_fields(self.fields2agg)
 
     def connect_controls(self):
         # TODO:: From here the scope should allow access sufficient to define all
@@ -79,13 +81,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     def init_controls(self):
         self.ui.bodyList.clear()
-        item_names = [self.model.data[n].name for n in range(len(self.model.data))]
-        self.ui.bodyList.addItems(item_names)
-        self.ui.bodyBox.addItems(item_names)
-        # add items to camera combobox
-        self.ui.tabWidget_Body.setCurrentIndex(0)
+        self.ui.bodyBox.clear()
+        self.ui.bodyList.addItems(self.model.body_names)
+        self.ui.bodyBox.addItems(self.model.body_names)
+        self.ui.camBox.addItems(self.cameras.cam_ids)
         self.ui.bodyBox.setCurrentIndex(0)
+        self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.camBox.setCurrentIndex(0)
+
+        # TODO:: Review the data sent versus data expected, and fix if necessary
         self.update_panel.emit([self.controls.active_body,
                                 self.controls.active_panel,
                                 self.controls.active_cam,
@@ -116,14 +120,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
             for i in range(len(body_obj._fields())):
                 data_set.append(body_obj[i])
 
-        self.panel_data.emit(target, data_set)
+        self.update_panel.emit(target, data_set)
         pass
 
     def _load_agg_fields(self, field_ids):
-        res = {'primary_name': self._sys_primary.name}
+        res = {'primary_name': self.model.system_primary.name}
         for f_id in field_ids:
             agg = {}
-            [agg.update({sb.name: self._get_field(sb, f_id)}) for sb in self.data]
+            [agg.update({sb.name: self._get_field(sb, f_id)}) for sb in self.model.data]
             res.update({f_id: agg})
 
         return res
@@ -154,13 +158,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'axes':
                 return simbod.axes
             case 'b_alpha':
-                return sys_data.vizz_data(simbod.name)['body_alpha']
+                return self.sys_data.vizz_data(simbod.name)['body_alpha']
             case 't_alpha':
-                return sys_data.vizz_data(simbod.name)['track_alpha']
+                return self.sys_data.vizz_data(simbod.name)['track_alpha']
             case 'symb':
-                return sys_data.vizz_data(simbod.name)['body_mark']
+                return self.sys_data.vizz_data(simbod.name)['body_mark']
             case 'color':
-                return sys_data.vizz_data(simbod.name)['body_color']
+                return self.sys_data.vizz_data(simbod.name)['body_color']
 
 
 class Controls(QtWidgets.QWidget):
@@ -235,13 +239,10 @@ class CanvasWrapper:
         the vispy SceneCanvas object.
     """
     #   TODO:: Be prepared to add some methods to this class
-    def __init__(self):
-        self._canvas = MainSimCanvas()
+    def __init__(self, _camera_set):
+        self._canvas = MainSimCanvas(camera_set=_camera_set)
         self._scene = self._canvas.view.scene
         self._view = self._canvas.view
-
-    def assign_camera(self, camera):
-        self._canvas.view.camera = camera
 
     @property
     def native(self):

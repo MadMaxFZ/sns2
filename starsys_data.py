@@ -466,9 +466,6 @@ class SystemDataStore:
         return res
 
 
-sys_data = SystemDataStore()
-dist_unit = sys_data.dist_unit
-
 if __name__ == "__main__":
 
     def main():

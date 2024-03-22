@@ -4,7 +4,7 @@ import psygnal
 from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
-from starsys_data import sys_data
+# from starsys_data import sys_data
 from starsys_model import StarSystemModel
 
 logging.basicConfig(filename="logs/mainsimwin.log",
@@ -20,7 +20,7 @@ class MainSimCanvas(scene.SceneCanvas):
     #   TODO::  Refactor to remove all references to the StarSystemModel instance.
     #           This class only needs to handle the CameraSet and key/mouse events here.
     #           There may need to be methods added to handle some operations for this SceneCanvas.
-    def __init__(self):
+    def __init__(self, camera_set):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
                                             show=False,

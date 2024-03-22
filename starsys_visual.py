@@ -47,7 +47,7 @@ _cm_e_alpha = 0.6
 class StarSystemVisuals:
     """
     """
-    def __init__(self, body_names):
+    def __init__(self, _valid_names, body_names=None):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -59,13 +59,12 @@ class StarSystemVisuals:
         scene :   TODO: minimize the use of this. Only need scene for parents...?
         """
         self._IS_INITIALIZED = False
-        self._body_names   = body_names
-        self._body_count   = len(body_names)
+        self._body_names   = []
         self._bods_pos     = None
         self._scene        = None
         self._skymap       = None
         self._planets      = {}      # a dict of Planet visuals
-        self._tracks       = {}       # a dict of Polygon visuals
+        self._tracks       = {}      # a dict of Polygon visuals
         self._symbols      = []
         self._symbol_sizes = []
         self._curr_camera  = None
@@ -76,6 +75,9 @@ class StarSystemVisuals:
         self._subvizz      = None
         self._agg_cache    = None
         self.dist_unit     = u.km
+        if body_names and _valid_names:
+            self._body_names   = [n for n in body_names if n in _valid_names]
+        self._body_count = len(self._body_names)
 
     '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
 
@@ -103,8 +105,10 @@ class StarSystemVisuals:
 
         for name in self._body_names:
             self._generate_planet_viz(body_name=name)
+            print(f'Planet Visual for {name:=12} created...')
             if name != self._agg_cache['primary_name']:
                 self._generate_trajct_viz(body_name=name)
+                print(f'Trajectory Visual for {name:=12} created...')
 
         self._generate_marker_viz()
         self._subvizz = dict(sk_map=self._skymap,
@@ -219,17 +223,15 @@ class StarSystemVisuals:
 
     def get_symb_sizes(self, from_cam=None):
         """
-        Calculates the size in pixels at which a SimBody will appear in the view from
-        the perspective of a specified camera.
-        TODO:   Refactor to remove references to 'self._simbods' and look to implement multiprocessing,
-                decide how to handle the self._cam.fov reference as well.
+            Calculates the size in pixels at which a SimBody will appear in the view from
+            the perspective of a specified camera.
         Parameters
         ----------
-        from_cam :  A Camera object from which the apparent sizes are measured from
+        from_cam :  A Camera object from which the apparent sizes are measured
 
         Returns
         -------
-        An np.array containing a pixel width for each SimBody
+            An np.array containing a pixel width for each SimBody
 
         TODO: instead of only symbol sizes, include face and edge color, etc.
                   Probably rename this method to 'get_mark_data(self, from_cam=None)'
