@@ -1,0 +1,43 @@
+SNS_Version:
+
+StarSystem:
+  body_list:
+      Primary_Body:
+        - Sun:
+            children:
+              - Mercury:
+                  - no moon
+              - Venus:
+                  - no moon
+              - Earth:
+                  - Moon
+                  - ISS
+              - Mars:
+                  - Phobos
+                  - Deimos
+              - Jupiter:
+                  - Io
+                  - Europa
+                  - Ganymede
+              - Saturn:
+                  - Titan
+                  - Enceladus
+              - Uranus:
+                  - Titania
+                  - Miranda
+                  - Oberon
+              - Neptune:
+                  - Triton
+                  - Thalassa
+              - Pluto:
+                  - Charon
+              - Asteeroid Belt:
+                  - Ceres
+              - Comets:
+                  - Haley
+                  - Hale-Bopp
+              - Kuiper Belt:
+                  -Arrokoth
+                  - Sedna
+              - Oort Cloud:
+
