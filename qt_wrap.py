@@ -95,8 +95,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                 self.controls.active_cam,
                                 ], {})
         print("Controls initialized...")
-        print("Active Widgets:")
-        [print(f'\t{widget_name:=10}: type: {type(widget)},') for widget_name, widget in self.controls.active_widgets]
 
     # TODO::    Incorporate the following methods into the MainQtWindow class
     def send_panel_data(self, target):
