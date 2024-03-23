@@ -125,7 +125,7 @@ class StarSystemVisuals:
         plnt = Planet(body_name=body_name,
                       rows=18,
                       color=Color((1, 1, 1, self._agg_cache['b_alpha'][body_name])),
-                      edge_color=(0, 0, 0, _pm_e_alpha),  # sb.base_color,
+                      edge_color=Color((0, 0, 0, _pm_e_alpha)),  # sb.base_color,
                       parent=self._scene,
                       visible=True,
                       method='oblate',

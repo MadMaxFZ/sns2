@@ -13,6 +13,29 @@ logging.basicConfig(filename="logs/mainsimwin.log",
                     )
 
 
+class CanvasWrapper:
+    """     This class simply encapsulates the simulation, which resides within
+        the vispy SceneCanvas object.
+    """
+    #   TODO:: Be prepared to add some methods to this class
+    def __init__(self, _camera_set):
+        self._canvas = MainSimCanvas(camera_set=_camera_set)
+        self._scene = self._canvas.view.scene
+        self._view = self._canvas.view
+
+    @property
+    def native(self):
+        return self._canvas.native
+
+    @property
+    def view(self):
+        return self._canvas.view
+
+    @property
+    def scene(self):
+        return self._scene
+
+
 class MainSimCanvas(scene.SceneCanvas):
     FIRST_RUN = True
     emit_keypress = psygnal.Signal(str)

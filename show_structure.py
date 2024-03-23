@@ -32,7 +32,9 @@ def scan_fname(filename=None):
 path_name = "C:\\_Projects\\sns2\\"
 trgt_dict = dict(g="starsys_data.py",
                  # i="viz_functs.py",
-                 f="qt_wrap.py",
+                 # f="qt_wrap.py",
+                 f="controls.py",
+                 i="main_qtwindow.py",
                  e="sim_canvas.py",
                  a="starsys_model.py",
                  b="sysbody_model.py",
