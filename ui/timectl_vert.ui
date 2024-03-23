@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>244</width>
-    <height>353</height>
+    <width>360</width>
+    <height>373</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,17 +16,30 @@
   <widget class="QWidget" name="QVEpochTimer" native="true">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>244</width>
-     <height>351</height>
+     <x>30</x>
+     <y>10</y>
+     <width>271</width>
+     <height>361</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_6">
+   <layout class="QVBoxLayout" name="verticalLayout_18">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,0,2,0,2">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_19">
         <item>
          <widget class="QLabel" name="tw_max">
           <property name="text">
@@ -38,7 +51,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lv_tw_mid">
+         <widget class="QLabel" name="lv_tw_mid_2">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -48,7 +61,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lv_tw_min">
+         <widget class="QLabel" name="lv_tw_min_2">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -60,7 +73,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QSlider" name="tw_mant">
+       <widget class="QSlider" name="tw_mant_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -97,11 +110,24 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,4">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_20" stretch="0,4">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,0">
           <item>
-           <widget class="QLabel" name="lf_exp">
+           <widget class="QLabel" name="lf_exp_2">
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;x10^&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -114,7 +140,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="twarp_exp">
+           <widget class="QSpinBox" name="twarp_exp_2">
             <property name="buttonSymbols">
              <enum>QAbstractSpinBox::PlusMinus</enum>
             </property>
@@ -129,7 +155,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <layout class="QVBoxLayout" name="verticalLayout_21" stretch="0,1,0,1">
           <item>
            <widget class="QPushButton" name="twb_stop">
             <property name="sizePolicy">
@@ -168,14 +194,27 @@
         </item>
        </layout>
       </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
     <item>
-     <layout class="QFormLayout" name="formLayout">
+     <layout class="QFormLayout" name="formLayout_2">
       <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_22">
         <item>
-         <widget class="QLabel" name="lf_time_warp">
+         <widget class="QLabel" name="lf_time_warp_2">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TIME FACTOR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -185,7 +224,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lf_ref_epoch">
+         <widget class="QLabel" name="lf_ref_epoch_2">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;REF. EPOCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -195,7 +234,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lf_elapsed">
+         <widget class="QLabel" name="lf_elapsed_2">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;REAL TIME&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -205,7 +244,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lf_sys_epoch">
+         <widget class="QLabel" name="lf_sys_epoch_2">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;SYSTEM EPOCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -220,7 +259,7 @@
        </layout>
       </item>
       <item row="0" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_23">
         <item>
          <widget class="QLineEdit" name="twarp_val">
           <property name="alignment">

@@ -18,7 +18,7 @@ class SimSystem(SimBodyList):
     panel_data = psygnal.Signal(list, list)
     _body_count: int = 0
 
-    def __init__(self, sys_data, epoch=None, body_names=None, multi=False):
+    def __init__(self, sys_data, epoch=None, body_names=None, use_multi=False):
         """
             Initialize a star system model to include SimBody objects indicated by a list of names.
             If no list of names is provided, the complete default star system will be loaded.
@@ -28,14 +28,14 @@ class SimSystem(SimBodyList):
         ----------
         epoch        : Time     #   Epoch of the system.
         body_names   : list     #   List of names of bodies to include in the model.
-        multi        : bool     #   If True, use multiprocessing to speed up calculations.
+        use_multi    : bool     #   If True, use multiprocessing to speed up calculations.
         """
         super(SimSystem, self).__init__([])
         self._IS_POPULATED = False
         self._HAS_INIT = False
         self._IS_UPDATING = False
         self._USE_LOCAL_TIMER = False
-        self._USE_MULTIPROC = multi
+        self._USE_MULTIPROC = use_multi
         self._USE_AUTO_UPDATE_STATE = False
         self._dist_unit = u.km
         self._sys_primary = None
@@ -147,18 +147,3 @@ if __name__ == "__main__":
     done_time = time.time() - ref_time
     print(f"Setup time: {(init_time / 1e+09):0.4f} seconds")
     print(f'Update time: {(done_time / 1e+09):0.4f} seconds')
-
-
-
-    # @property
-    # def current_cam(self):
-    #     return self._curr_cam
-    #
-    # @current_cam.setter
-    # def current_cam(self, cam):
-    #     if isinstance(cam, BaseCamera):
-    #         self._curr_cam = cam
-    #         [sb.set_curr_camera(cam) for sb in self.data]
-    #     else:
-    #         raise TypeError("SimSystem.set_model_cam(): 'cam' must be a BaseCamera object, got %s",
-    #                         type(cam))
