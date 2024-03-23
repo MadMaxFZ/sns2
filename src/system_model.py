@@ -42,10 +42,6 @@ class SimSystem(SimBodyList):
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
-        self._agg_fields  = None
-        self._curr_cam_idx = 0
-        self._curr_tab_idx = 0
-        self._curr_bod_idx = 0
         self.sys_data      = sys_data
         self._valid_body_names = self.sys_data.body_names
         self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
@@ -53,7 +49,7 @@ class SimSystem(SimBodyList):
             self._sys_epoch = epoch
 
         if body_names:
-            self._current_body_names = [_ for _ in body_names if _ in self._valid_body_names]
+            self._current_body_names = [n for n in body_names if n in self._valid_body_names]
         else:
             self._current_body_names = self._valid_body_names
 
@@ -74,7 +70,7 @@ class SimSystem(SimBodyList):
         if _body_names is None:
             self._current_body_names = self._valid_body_names
         else:
-            self._current_body_names = [_ for _ in _body_names if _ in self._valid_body_names]
+            self._current_body_names = [n for n in _body_names if n in self._valid_body_names]
 
         # populate the list with SimBody objects
         self.data.clear()
@@ -127,10 +123,6 @@ class SimSystem(SimBodyList):
         res = {}
         [res.update({sb.name: sb.r}) for sb in self.data]
         return res
-
-    @property
-    def agg_fields(self):
-        return self._agg_fields
 
     @property
     def body_names(self):

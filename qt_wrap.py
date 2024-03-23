@@ -76,7 +76,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
         self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
-        self.update_panel.connect(self.send_panel_data)
+        # self.update_panel.connect(self.send_panel_data)
         self.model.panel_data.connect(self.controls.refresh_panel)
 
     def init_controls(self):
@@ -93,8 +93,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.update_panel.emit([self.controls.active_body,
                                 self.controls.active_panel,
                                 self.controls.active_cam,
-                                ])
+                                ], {})
         print("Controls initialized...")
+        print("Active Widgets:")
+        [print(f'\t{widget_name:=10}: type: {type(widget)},') for widget_name, widget in self.controls.active_widgets]
 
     # TODO::    Incorporate the following methods into the MainQtWindow class
     def send_panel_data(self, target):
@@ -182,6 +184,10 @@ class Controls(QtWidgets.QWidget):
         self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
         self._widget_groups = self._scanUi_4panels(patterns=self._grp_names)
         print(f'{len(self._widget_groups)} groups defined...')
+
+    @property
+    def active_widgets(self):
+        return dict.fromkeys([i for i in self.ui_obj_dict.items() if i[1].isActive()])
 
     @property
     def active_body(self):
