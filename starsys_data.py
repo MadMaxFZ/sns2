@@ -388,17 +388,17 @@ class SystemDataStore:
         print("\t>>>check sets check out!")
         logging.debug("STATIC DATA has been loaded and verified...")
 
-        self._datastore = dict(DEF_EPOCH=DEF_EPOCH,
+        self._datastore = dict(DFLT_EPOCH=DEF_EPOCH,
                                SYS_PARAMS=SYS_PARAMS,
                                TEX_FNAMES=_tex_fnames,
-                               TEX_PATH=_tex_path,
-                               TEX_DAT_SET=_tex_dat_set,
+                               TEXTR_PATH=_tex_path,
+                               TEXTR_DATA=_tex_dat_set,
                                BODY_COUNT=_body_count,
                                BODY_NAMES=self._body_names,
-                               COLOR_SET=_colorset_rgb,
+                               COLOR_DATA=_colorset_rgb,
                                TYPE_COUNT=_type_count,
-                               BODY_DATA=_body_params,
-                               VIZZ_DATA=_vizz_params,
+                               BODY_PARAM=_body_params,
+                               VIZZ_PARAM=_vizz_params,
                                )
         logging.debug("ALL data for the system have been collected...!")
 
