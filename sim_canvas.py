@@ -60,14 +60,27 @@ class MainSimCanvas(scene.SceneCanvas):
         # for k, v in self._fpv_viewbox.camera.get_state().items():
         #     print(k, ":", v)
 
-    #   TODO::  Implement a class that accepts a keystroke value then calls a
-    #           function associated with that value. These associations will be
-    #           represented with a dict that can be stored, modified or loaded
-    #           from a file.
-
     def assign_camera(self, new_cam):
+        """         Assigns the new_cam to the viewbox.
+        Parameters
+        ----------
+            new_cam :   is_subclass(vispy.scene.cameras.BaseCamera)
+                The new camera to be assigned to the viewbox.
+
+        Returns
+        -------
+            None, but the camera is set to the new_cam.
+        """
         self._fpv_viewbox.camera = new_cam
 
+    #
+    """   TODO::    Implement a class that accepts a keystroke value then calls a
+                function associated with that value. These associations will be
+                represented with a dict that can be stored, modified or loaded
+                from a file.
+          TODO::    Implement a method in CanvasWrapper to forward keyboard events here if they
+                are not handled by the CanvasWrapper object.
+    """
     def on_key_press(self, ev):
         try:
             self.emit_keypress.emit(ev)

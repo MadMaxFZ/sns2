@@ -96,7 +96,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.update_panel.connect(self.send_panel_data)
         self.model.panel_data.connect(self.controls.refresh_panel)
 
-
         # TODO:: Review the data sent versus data expected, and fix if necessary
         self.update_panel.emit([self.controls.active_body,
                                 self.controls.active_panel,
