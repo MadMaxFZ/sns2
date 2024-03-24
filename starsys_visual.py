@@ -55,8 +55,14 @@ class StarSystemVisuals:
                 be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        body_names   :  TODO: Only require the SimBody name... as an argument to generate_bodyvizz() method
-        scene :   TODO: minimize the use of this. Only need scene for parents...?
+        _valid_names : list of str
+            list of valid SimBody names
+        vizz_data    : dict
+            dict of visual data for each body
+        body_radsets : dict of dicts
+            dict of dicts of radius sets for each body
+        body_names   : list of str
+            list of SimBody names to make visuals for
         """
         self._IS_INITIALIZED = False
         self._body_names   = []
