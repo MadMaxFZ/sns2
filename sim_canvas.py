@@ -78,40 +78,48 @@ class MainSimCanvas(scene.SceneCanvas):
 
         if issubclass(new_cam, BaseCamera):
             self._fpv_viewbox.camera = new_cam
-
-    """   TODO::    Implement a class that accepts a keystroke value then calls a
-                function associated with that value. These associations will be
-                represented with a dict that can be stored, modified or loaded
-                from a file.
-          TODO::    Implement a method in CanvasWrapper to forward keyboard events here if they
-                are not handled by the CanvasWrapper object.
+    """ 
+        TODO::>    Implement a method in CanvasWrapper to forward keyboard events here if they
+                 are not handled by the CanvasWrapper object.
+              >    Implement a class that accepts a keystroke value then calls a
+                 function associated with that value. These associations will be
+                 represented with a dict that can be stored, modified or loaded
+                 from a file.
     """
     def on_key_press(self, ev):
         try:
             self.emit_keypress.emit(ev)
-            if ev.key.name == "+":
+            if ev.key.name == "+":          # increase camera scale factor
                 self._fpv_viewbox.camera.scale_factor *= 1.1
                 print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
-            elif ev.key.name == "-":
+
+            elif ev.key.name == "-":        # decrease camera scale factor
                 self._fpv_viewbox.camera.scale_factor *= 0.9
                 print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
-            elif ev.key.name == "*":
+
+            elif ev.key.name == "*":        # increase camera FOV
                 self._fpv_viewbox.camera.fov *= 1.5
                 print("CAM_FOV", self._fpv_viewbox.camera.fov)
-            elif ev.key.name == "/":
+
+            elif ev.key.name == "/":        # decrease camera FOV
                 self._fpv_viewbox.camera.fov *= 0.75
                 print("CAM_FOV", self._fpv_viewbox.camera.fov)
-            elif ev.key.name == "]":
+
+            elif ev.key.name == "]":        # increase time warp factor
                 self.model.t_warp *= 1.1
                 print("TIME_WARP:", self.model.t_warp)
-            elif ev.key.name == "[":
+
+            elif ev.key.name == "[":        # decrease time warp factor
                 self.model.t_warp *= 0.9
                 print("TIME_WARP:", self.model.t_warp)
-            elif ev.key.name == "\\":
+
+            elif ev.key.name == "\\":       # toggle timer on/off
                 print("Toggle timer...")
-            elif ev.key.name == "p":
+
+            elif ev.key.name == "p":        # print mesh data for Sun
                 print("MESH_DATA[\"Sun\"]", self._sys_vizz.mesh_data["Sun"].save())
-            elif ev.key.name == "'":
+
+            elif ev.key.name == "'":        # rotate the skymap grid line color
                 new_aplha = (self._fpv_viewbox.skymap.mesh.meshdata.color[3] + .1) % 1
                 self._fpv_viewbox.skymap.mesh.meshdata.color[3] = new_aplha
 
