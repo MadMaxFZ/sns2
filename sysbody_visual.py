@@ -63,13 +63,14 @@ class PlanetVisual(CompoundVisual):
                  radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=Color((1, 1, 1, 1)), edge_color=Color((0, 0, 1, 0.2)),
-                 shading=None, texture=None, method='oblate', **kwargs):
+                 shading=None, texture=None, method='oblate',
+                 vizz_data=None, body_radset=None, valid_names=None, **kwargs):
 
         self._radii = np.zeros((3,),dtype=np.float64)
         self._pos = np.zeros((3,), dtype=np.float64)
         # self._sb_ref = sim_body
-        if body_name in sys_data.body_names:
-            self._vizz_data = sys_data.vizz_data(body_name)
+        if body_name in valid_names:
+            self._vizz_data = vizz_data
             self._tex_data = self._vizz_data['tex_data']
             self._mark = self._vizz_data['body_mark']
             self._base_color = Color(self._vizz_data['body_color'])
@@ -80,7 +81,7 @@ class PlanetVisual(CompoundVisual):
             else:
                 self._texture_data = texture
 
-            self._radii = sys_data.body_data(body_name)['rad_set']
+            self._radii = body_radset
 
         else:           # no SimBody provided
             self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0

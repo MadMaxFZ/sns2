@@ -47,7 +47,7 @@ _cm_e_alpha = 0.6
 class StarSystemVisuals:
     """
     """
-    def __init__(self, _valid_names, body_names=None):
+    def __init__(self, _valid_names, vizz_data, body_radsets=None, body_names=None):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -75,6 +75,8 @@ class StarSystemVisuals:
         self._subvizz      = None
         self._agg_cache    = None
         self.dist_unit     = u.km
+        self._vizz_data    = vizz_data
+        self._body_radsets = body_radsets
         if body_names and _valid_names:
             self._body_names   = [n for n in body_names if n in _valid_names]
         self._body_count = len(self._body_names)
@@ -129,6 +131,8 @@ class StarSystemVisuals:
                       parent=self._scene,
                       visible=True,
                       method='oblate',
+                      vizz_data=self._vizz_data[body_name],
+                      body_radset=self._body_radsets[body_name]
                       )
         plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
         self._planets.update({body_name: plnt})

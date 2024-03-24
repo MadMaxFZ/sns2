@@ -4,6 +4,7 @@ import psygnal
 from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
+from vispy.scene.cameras import BaseCamera
 # from starsys_data import sys_data
 from starsys_model import StarSystemModel
 
@@ -52,7 +53,8 @@ class MainSimCanvas(scene.SceneCanvas):
                                             )
         self.unfreeze()
         self._sys_vizz = None
-        # self._cam_set = cam_set
+        self._cam_set = camera_set
+        self.assign_camera(new_cam=self._cam_set.curr_cam)
         self._fpv_viewbox = self.central_widget.add_view()
         # self._fpv_viewbox.camera = None
         self.freeze()
@@ -60,7 +62,7 @@ class MainSimCanvas(scene.SceneCanvas):
         # for k, v in self._fpv_viewbox.camera.get_state().items():
         #     print(k, ":", v)
 
-    def assign_camera(self, new_cam):
+    def assign_camera(self, new_cam=None):
         """         Assigns the new_cam to the viewbox.
         Parameters
         ----------
@@ -71,9 +73,12 @@ class MainSimCanvas(scene.SceneCanvas):
         -------
             None, but the camera is set to the new_cam.
         """
-        self._fpv_viewbox.camera = new_cam
+        if not new_cam:
+            new_cam = self._cam_set.curr_cam
 
-    #
+        if issubclass(new_cam, BaseCamera):
+            self._fpv_viewbox.camera = new_cam
+
     """   TODO::    Implement a class that accepts a keystroke value then calls a
                 function associated with that value. These associations will be
                 represented with a dict that can be stored, modified or loaded
