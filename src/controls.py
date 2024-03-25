@@ -8,21 +8,10 @@ import logging
 import logging.config
 from typing import List
 
-import sys
-import autologging
-import numpy as np
-from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
-from poliastro.bodies import Body
-from vispy.scene import SceneCanvas, visuals
-from vispy.app import use_app
-from vispy.app.timer import Timer
-from camera_set import CameraSet
-from sim_canvas import MainSimCanvas
-from src.system_model import SimSystem
-from starsys_visual import StarSystemVisuals
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from composite import Ui_frm_sns_controls
-from starsys_data import log_config, SystemDataStore
+from src.starsys_data import log_config
 
 logging.config.dictConfig(log_config)
 

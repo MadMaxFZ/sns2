@@ -24,7 +24,7 @@ from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
 from multiprocessing import get_logger
 # from PIL import Image
-from sysbody_model import SimBody
+from src.sysbody_model import SimBody
 # from skymap import SkyMap
 
 """------------------------------------------------------------------------------"""
@@ -295,7 +295,6 @@ class Planet(visuals.Compound):
 
 def main():
     from vispy.io.image import imread
-    from poliastro.bodies import Earth
     canvas = SceneCanvas(keys="interactive",
                          size=(1000, 750),
                          title="Testing PlanetVisual",

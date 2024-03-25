@@ -5,7 +5,7 @@ import astropy.units as u
 from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
-from sysbody_model import MIN_FOV
+from src.sysbody_model import MIN_FOV
 
 
 class CameraSet:
