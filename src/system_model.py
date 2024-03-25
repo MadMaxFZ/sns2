@@ -42,7 +42,7 @@ class SimSystem(SimBodyList):
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
-        self.sys_data      = sys_data
+        self.sys_data     = sys_data
         self._valid_body_names = self.sys_data.body_names
         self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
         if epoch:
@@ -74,7 +74,7 @@ class SimSystem(SimBodyList):
 
         # populate the list with SimBody objects
         self.data.clear()
-        [self.data.append(SimBody(body_data=self.sys_data.body_data(body_name)))
+        [self.data.append(SimBody(body_data=self.sys_data.body_data[body_name]))
          for body_name in self._current_body_names]
         self._body_count = len(self.data)
         self._sys_primary = [sb for sb in self.data if sb.body.parent is None][0]

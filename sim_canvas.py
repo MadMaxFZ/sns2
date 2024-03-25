@@ -54,9 +54,8 @@ class MainSimCanvas(scene.SceneCanvas):
         self.unfreeze()
         self._sys_vizz = None
         self._cam_set = camera_set
-        self.assign_camera(new_cam=self._cam_set.curr_cam)
         self._fpv_viewbox = self.central_widget.add_view()
-        # self._fpv_viewbox.camera = None
+        self.assign_camera(new_cam=self._cam_set.curr_cam)
         self.freeze()
 
         # for k, v in self._fpv_viewbox.camera.get_state().items():
@@ -76,7 +75,7 @@ class MainSimCanvas(scene.SceneCanvas):
         if not new_cam:
             new_cam = self._cam_set.curr_cam
 
-        if issubclass(new_cam, BaseCamera):
+        if issubclass(type(new_cam), BaseCamera):
             self._fpv_viewbox.camera = new_cam
     """ 
         TODO::>    Implement a method in CanvasWrapper to forward keyboard events here if they

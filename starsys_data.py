@@ -408,7 +408,7 @@ class SystemDataStore:
 
     @property
     def default_epoch(self):
-        return self._datastore['DEF_EPOCH']
+        return self._datastore['DFLT_EPOCH']
 
     @property
     def system_params(self):
@@ -427,9 +427,9 @@ class SystemDataStore:
     def body_data(self, name=None):
         res = None
         if not name:
-            res = self._datastore['BODY_DATA']
+            res = self._datastore['BODY_PARAM']
         elif name in self.body_names:
-            res = self._datastore['BODY_DATA'][name]
+            res = self._datastore['BODY_PARAM'][name]
 
         return res
 
@@ -437,15 +437,15 @@ class SystemDataStore:
     def vizz_data(self, name=None):
         res = None
         if not name:
-            res = self._datastore['VIZZ_DATA']
+            res = self._datastore['VIZZ_PARAM']
         elif name in self.body_names:
-            res = self._datastore['VIZZ_DATA'][name]
+            res = self._datastore['VIZZ_PARAM'][name]
 
         return res
 
     @property
     def texture_path(self):
-        return self._datastore['TEX_PATH']
+        return self._datastore['TEXTR_PATH']
 
     @property
     def texture_fname(self, name=None):
@@ -453,7 +453,7 @@ class SystemDataStore:
         if name is None:
             res = self._datastore['TEX_FNAMES']
         elif name in self.body_names:
-            res = self._datastore['BODY_DATA'][name]['tex_fname']
+            res = self._datastore['BODY_PARAM'][name]['tex_fname']
 
         return res
 
@@ -461,9 +461,9 @@ class SystemDataStore:
     def texture_data(self, name=None):
         res = None
         if name is None:
-            res = self._datastore['TEX_DAT_SET']
+            res = self._datastore['TEXTR_DATA']
         elif name in self.body_names:
-            res = self._datastore['BODY_DATA'][name]['tex_data']
+            res = self._datastore['BODY_PARAM'][name]['tex_data']
 
         return res
 
