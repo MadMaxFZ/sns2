@@ -188,16 +188,16 @@ class SystemDataStore:
                             def_epoch=DEF_EPOCH,
                             dist_unit=self._dist_unit,
                             periods=365,
-                            spacing=24 * 60 * 60 * u.s,
+                            spacing=24 * 60 * 60 * u.s,     # one Earth day
                             fps=60,
                             n_samples=365,
                             )
-        _tex_path      = "../resources/textures/"  # directory of texture image files for windows
+        _tex_path      = "../sns2/resources/textures/"      # directory of texture image files for windows
         _def_tex_fname = "2k_ymakemake_fictional.png"
         _tex_fnames    = []  # list of texture filenames (will be sorted)
         _tex_dat_set   = {}  # dist of body name and the texture data associated with it
         _body_params   = {}  # dict of body name and the static parameters of each
-        _vizz_params   = {}
+        _vizz_params   = {}  # dict of body name and the semi-static visual parameters
         _body_count    = 0   # number of available bodies
         _type_count    = {}  # dict of body types and the count of each typE
         _viz_assign    = {}  # dict of visual names to use for each body
