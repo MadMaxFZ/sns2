@@ -40,8 +40,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         The first four data elements must be computed every cycle regardless, while the remaining elements will
         only require updating if they are modified by the user at runtime. (Maybe separate the two sets?)
     """
-    model_fields2agg = ('rad', 'rel2cam', 'pos', 'rot',)
-    color_fields2agg = ('body_alpha', 'track_alpha', 'marker', 'color', 'track',)
+
 
     def __init__(self, _body_names=None, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
@@ -55,16 +54,22 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget()
 
-        self._agg_data = self._load_agg_fields(self.model_fields2agg)
+        self._model_fields2agg = ('rad', 'rel2cam', 'pos', 'rot')
+        self._color_fields2agg = ['body_alpha', 'track_alpha', 'body_mark',
+                                  'body_color', 'track_data', 'cams']
+        self.agg_data = self._load_agg_fields(self._model_fields2agg)
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
-        self.visuals.generate_visuals(self.canvas.view, agg_data=self._agg_data)
-        self.agg_data.update(self._load_agg_fields(self.color_fields2agg)
+        self.visuals.generate_visuals(self.canvas.view, agg_data=self.agg_data)
+        self.agg_data.update(self._load_agg_fields(self._color_fields2agg))
+
         self._setup_layout()
         self.init_controls()
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
+        self.blockSignals(True)
         self.connect_slots()
+        self.blockSignals(False)
 
     def _setup_layout(self):
         main_layout = QtWidgets.QHBoxLayout()
@@ -87,11 +92,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         print("Controls initialized...")
 
     def connect_slots(self):
-        # TODO:: From here the scope should allow access sufficient to define all
-        #       slots necessary to communicate with model thread
+        """
+            Connects slots to signals.
+        """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        self.ui.bodyBox.currrenIndexChanged.connect(self.newActiveBody)
         self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
@@ -99,14 +105,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
         print("Slots Connected...")
 
         # TODO:: Review the data sent versus data expected, and fix if necessary
-        self.update_panel.emit([self.controls.active_body,
-                                self.controls.active_panel,
-                                self.controls.active_cam,
-                                ], {})
-        print("Panel data sent...")
+        # self.update_panel.emit([self.ui.bodyBox.currentIndex(),
+        #                         self.ui.tabWidget_Body.currentIndex(),
+        #                         self.ui.camBox.currentIndex(),
+        #                         ], {})
+        # print("Panel data sent...")
+    def newActiveBody(self, idx):
+        self.refresh_panel_data([idx, "tab_ATTR"])
 
-    # TODO::    Incorporate the following methods into the MainQtWindow class
-    def send_panel_data(self, target):
+    def refresh_panel_data(self, target):
         """
             This method will return the data block for the selected target given
         Parameters
@@ -118,18 +125,22 @@ class MainQtWindow(QtWidgets.QMainWindow):
             Has no return value, but emits the data_set via signal
         """
         #
-        data_set = [0, 0]
+        data_set = {}
         body_idx = target[0]
         panel_key = target[1]
-        if panel_key == "CAMS":
-            pass
-        elif panel_key == "tab_ATTR":
-            body_obj: Body = self.data[body_idx].body
-            data_set = []
-            for i in range(len(body_obj._fields())):
-                data_set.append(body_obj[i])
+        match panel_key:
+            case "cam_":
+                pass
 
-        self.update_panel.emit(target, data_set)
+            case "attr_":
+                body_obj: Body = self.data[body_idx].body
+                for i in range(len(body_obj._fields())):
+                    data_set.update({panel_key + str(i): body_obj[i]})
+
+            case "elem_":
+                data_set = self._load_agg_fields()
+
+        self.update_panel.emit(data_set)
         pass
 
     def _load_agg_fields(self, field_ids):
@@ -153,27 +164,52 @@ class MainQtWindow(QtWidgets.QMainWindow):
         -------
         res     : float or list       The value of the field for the given SimBody object.
         """
+        try:
+            if self.visuals:
+                _planet_viz = self.visuals.planets[simbod.name]
+        except:
+            pass
+
         match field_id:
             case 'rad':
                 return simbod.radius[0]
+
             # case 'rel2cam':
             #     return self.rel2cam(simbod)
             case 'pos':
                 return simbod.pos
+
             case 'rot':
                 return simbod.rot
+
             case 'track':
                 return simbod.track
+
             case 'axes':
                 return simbod.axes
-            case 'b_alpha':
-                return self.sys_data.vizz_data(simbod.name)['body_alpha']
-            case 't_alpha':
-                return self.sys_data.vizz_data(simbod.name)['track_alpha']
-            case 'symb':
-                return self.sys_data.vizz_data(simbod.name)['body_mark']
-            case 'color':
-                return self.sys_data.vizz_data(simbod.name)['body_color']
+
+            case 'cams':
+                _state = self.cameras.cam_states(self.ui.camBox.currentIndex())
+                res = {}
+                for _idx, _widget in enumerate(self.controls.panel_widgets('cam_')):
+                    res.update({_idx: [_widget, _state[_idx]]})
+
+                return res
+
+            # case 'body_alpha':
+            #     return _planet_viz[self.color_fields2agg[0]]
+            #
+            # case 'track_alpha':
+            #     return _planet_viz[self.color_fields2agg[1]]
+            #
+            # case 'body_mark':
+            #     return _planet_viz[self.color_fields2agg[2]]
+            #
+            # case 'body_color':
+            #     return _planet_viz[self.color_fields2agg[3]]
+
+            case 'track_data':
+                return simbod.track
 
 
 '''==============================================================================================================='''

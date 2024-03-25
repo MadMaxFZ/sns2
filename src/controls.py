@@ -28,10 +28,10 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
-        self._grp_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
+        self._pattern_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
                            'cam_', 'tw_', 'twb_', 'axis_']
         self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
-        self._widget_groups = self._scanUi_4panels(patterns=self._grp_names)
+        self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_groups)} groups defined...')
 
     @property

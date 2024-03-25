@@ -318,6 +318,13 @@ class StarSystemVisuals:
         else:
             return self._planets[name].mesh_data
 
+    @property
+    def planets(self, name=None):
+        if name:
+            return self._planets[name]
+        else:
+            return self._planets
+
 
 def main():
     print("MAIN FUNCTION...")

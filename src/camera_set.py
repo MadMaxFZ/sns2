@@ -50,15 +50,34 @@ class CameraSet:
         self._curr_cam = new_cam
         self._cam_count += 1
 
-    def cam_state(self, cam_key=None):
-        if not cam_key:
-            cam_key = self._curr_key
+    def cam_states(self, cam_idx=None):
+        if cam_idx:
+            _keys = [list(self._cam_dict.keys())[cam_idx]]
+        else:
+            _keys = self._cam_dict.keys()
 
-        cam_states = self._cam_dict[cam_key].get_state()
-        for k, v in cam_states.items():
-            print(f"{cam_key}.{k} : {v}")
+        res = {}
+        for key in _keys:
+            cam_state = self._cam_dict[key].get_state()
+            exp_state = []
+            for k in cam_state.keys():
+                match k:
+                    case "center":
+                        exp_state = [i for i in cam_state[k]]
+                    case "rotation1":
+                        exp_state.extend([i for i in cam_state[k]])
+                    case "rotation2":
+                        exp_state.extend([i for i in cam_state[k]])
+                    case "scale_factor":
+                        exp_state.append(cam_state['scale_factor'])
+                    case "fov":
+                        exp_state.append(cam_state['fov'])
+                    case "zoom":
+                        exp_state.append(cam_state['zoom'])
 
-        return cam_states
+            res.update({key: exp_state})
+
+        return res
 
     def rel2cam(self, tgt_pos, tgt_radius):
         """
@@ -109,6 +128,10 @@ class CameraSet:
     def cam_ids(self):
         return self._cam_dict.keys()
 
+    @property
+    def cam_list(self):
+        return self._cam_dict.values()
+
     def rel2cam(self, tgt_pos):
         """
             This method is used to get the position of a SimBody object relative to the current camera.
@@ -138,10 +161,10 @@ class CameraSet:
                 }
 
 
-class CameraSetWidget(QWidget):
-    """ This widget will display the state of a camera in
-        the dictionary
-    """
-
-    def __init__(self):
-        super(CameraSetWidget, self).__init__()
+# class CameraSetWidget(QWidget):
+#     """ This widget will display the state of a camera in
+#         the dictionary
+#     """
+#
+#     def __init__(self):
+#         super(CameraSetWidget, self).__init__()

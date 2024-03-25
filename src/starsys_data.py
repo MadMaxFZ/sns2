@@ -14,7 +14,7 @@ from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+logging.basicConfig(filename="../sns2/logs/sns_defs.log",
                     level=logging.INFO,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -192,7 +192,7 @@ class SystemDataStore:
                             fps=60,
                             n_samples=365,
                             )
-        _tex_path      = "../sns2/resources/textures/"  # directory of texture image files for windows
+        _tex_path      = "../resources/textures/"  # directory of texture image files for windows
         _def_tex_fname = "2k_ymakemake_fictional.png"
         _tex_fnames    = []  # list of texture filenames (will be sorted)
         _tex_dat_set   = {}  # dist of body name and the texture data associated with it
@@ -366,8 +366,8 @@ class SystemDataStore:
                               )
             _vizz_params.update({_bod_name: _vizz_data})
 
-            if _body_data["body_type"] not in _type_count.keys():  # identify types of bodies
-                _type_count[_body_data["body_type"]] = 0
+            if _body_data['body_type'] not in _type_count.keys():  # identify types of bodies
+                _type_count[_body_data['body_type']] = 0
             _type_count[_body_types[_type_set[idx]]] += 1  # count members of each type
             idx += 1
             _body_count += 1
