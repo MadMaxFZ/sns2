@@ -61,13 +61,14 @@ class CameraSet:
             cam_state = self._cam_dict[key].get_state()
             exp_state = []
             for k in cam_state.keys():
+                print(f'CAM_STATE[{k}]: {cam_state[k]}')
                 match k:
                     case "center":
                         exp_state = [i for i in cam_state[k]]
                     case "rotation1":
-                        exp_state.extend([i for i in cam_state[k]])
+                        exp_state.extend([i for i in cam_state[k].__dict__.keys()])
                     case "rotation2":
-                        exp_state.extend([i for i in cam_state[k]])
+                        exp_state.extend([i for i in cam_state[k].__dict__.keys()])
                     case "scale_factor":
                         exp_state.append(cam_state['scale_factor'])
                     case "fov":
