@@ -54,13 +54,19 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget()
 
-        self._model_fields2agg = ('rad', 'rel2cam', 'pos', 'rot')
-        self._color_fields2agg = ['body_alpha', 'track_alpha', 'body_mark',
-                                  'body_color', 'track_data', 'cams']
-        self.agg_data = self._load_agg_fields(self._model_fields2agg)
+        # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
+        # The first two are fields that exist for each SimBody (exceptr primary)
+        self._model_fields2agg = ('rad', 'pos', 'rot')
+        self._color_fields2agg = ('body_alpha', 'track_alpha', 'body_mark',
+                                  'body_color', 'track_data', 'rel2cam')
+        # This key set refers to fields that are common to the cameras (only FlyCameras right now)
+        self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
+
+        self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
-        self.visuals.generate_visuals(self.canvas.view, agg_data=self.agg_data)
-        self.agg_data.update(self._load_agg_fields(self._color_fields2agg))
+        self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
+        self.body_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))
+        self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
         self._setup_layout()
         self.init_controls()
@@ -125,7 +131,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             Has no return value, but emits the data_set via signal
         """
         #
-        data_set = {}
+        model_agg_data = {}
         body_idx = target[0]
         panel_key = target[1]
         match panel_key:
@@ -135,47 +141,60 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case "attr_":
                 body_obj: Body = self.data[body_idx].body
                 for i in range(len(body_obj._fields())):
-                    data_set.update({panel_key + str(i): body_obj[i]})
+                    model_agg_data.update({panel_key + str(i): body_obj[i]})
 
             case "elem_":
-                data_set = self._load_agg_fields()
+                model_agg_data = self._get_model_agg_fields()
 
-        self.update_panel.emit(data_set)
+        self.update_panel.emit(model_agg_data)
         pass
 
-    def _load_agg_fields(self, field_ids):
+    def _get_model_agg_fields(self, field_ids):
         res = {'primary_name': self.model.system_primary.name}
         for f_id in field_ids:
             agg = {}
-            [agg.update({sb.name: self._get_field(sb, f_id)}) for sb in self.model.data]
+            [agg.update({sb.name: self._get_sbod_field(sb, f_id)})
+             for sb in self.model.data]
             res.update({f_id: agg})
 
         return res
 
-    def _get_field(self, simbod, field_id):
+    def _get_vizz_agg_fields(self, field_ids):
+        res = {}
+        for f_id in field_ids:
+            agg = {}
+            [agg.update({sb.name: self._get_vizz_field(sb, f_id)})
+             for sb in self.model.data]
+            res.update({f_id: agg})
+
+        return res
+
+    def _get_cam_agg_fields(self, field_ids):
+        res = {}
+        for f_id in field_ids:
+            agg = {}
+            [agg.update({sb.name: self._get_field(cam, f_id)})
+             for cam in self.cameras.cam_list]
+            res.update({f_id: agg})
+
+        return res
+
+    def _get_sbod_field(self, simbod, field_id):
         """
             This method is used to get the values of a particular field for a given SimBody object.
         Parameters
         ----------
-        simbod      : SimBody            The SimBody object for which the field value is to be retrieved.
-        field_id    : str                The field for which the value is to be retrieved.
+        simbod              : SimBody            The SimBody object for which the field value is to be retrieved.
+        field_id            : str                The field for which the value is to be retrieved.
 
         Returns
         -------
-        res     : float or list       The value of the field for the given SimBody object.
+        simbod.<field_id>   : float or list       The value of the field for the given SimBody object.
         """
-        try:
-            if self.visuals:
-                _planet_viz = self.visuals.planets[simbod.name]
-        except:
-            pass
-
         match field_id:
             case 'rad':
                 return simbod.radius[0]
 
-            # case 'rel2cam':
-            #     return self.rel2cam(simbod)
             case 'pos':
                 return simbod.pos
 
@@ -188,29 +207,48 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'axes':
                 return simbod.axes
 
-            case 'cams':
+            case 'track_data':
+                return simbod.track
+
+    def _get_vizz_field(self, _planet, field_id):
+        match field_id:
+            case 'body_alpha':
+                return _planet[self.color_fields2agg[0]]
+
+            case 'track_alpha':
+                return _planet[self.color_fields2agg[1]]
+
+            case 'body_mark':
+                return _planet[self.color_fields2agg[2]]
+
+            case 'body_color':
+                return _planet[self.color_fields2agg[3]]
+
+    def _get_cams_field(self, _camera, field_id):
+        match field_id:
+            case 'center':
                 _state = self.cameras.cam_states(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex())
-                                                 
+
                 res = {}
                 for _idx, _widget in enumerate(self.controls.panel_widgets['cam_']):
                     res.update({_idx: [_widget, _state[_idx]]})
 
                 return res
 
-            # case 'body_alpha':
-            #     return _planet_viz[self.color_fields2agg[0]]
-            #
-            # case 'track_alpha':
-            #     return _planet_viz[self.color_fields2agg[1]]
-            #
-            # case 'body_mark':
-            #     return _planet_viz[self.color_fields2agg[2]]
-            #
-            # case 'body_color':
-            #     return _planet_viz[self.color_fields2agg[3]]
+            case 'rot1':
+                pass
 
-            case 'track_data':
-                return simbod.track
+            case 'rot2':
+                pass
+
+            case 'zoom':
+                pass
+
+            case 'fov':
+                pass
+
+            case 'scale':
+                pass
 
 
 '''==============================================================================================================='''
