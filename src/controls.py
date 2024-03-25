@@ -34,22 +34,6 @@ class Controls(QtWidgets.QWidget):
         self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_groups)} groups defined...')
 
-    @property
-    def active_widgets(self):
-        return dict.fromkeys([i for i in self.ui_obj_dict.items() if i[1].isActive()])
-
-    @property
-    def active_body(self):
-        return self.ui.bodyBox.currentIndex()
-
-    @property
-    def active_cam(self):
-        return self.ui.camBox.currentIndex()
-
-    @property
-    def active_panel(self):
-        return self._tab_names[self.ui.tabWidget_Body.currentIndex()]
-
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
             The objects containing each pattern are collected into a dict with the pattern

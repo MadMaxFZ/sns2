@@ -41,7 +41,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         only require updating if they are modified by the user at runtime. (Maybe separate the two sets?)
     """
 
-
     def __init__(self, _body_names=None, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
@@ -66,7 +65,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
         self.body_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))
-        self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
+        # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
         self._setup_layout()
         self.init_controls()
@@ -163,8 +162,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         res = {}
         for f_id in field_ids:
             agg = {}
-            [agg.update({sb.name: self._get_vizz_field(sb, f_id)})
-             for sb in self.model.data]
+            [agg.update({pl.name: self._get_vizz_field(pl, f_id)})
+             for pl in self.visuals.planets]
             res.update({f_id: agg})
 
         return res
@@ -173,18 +172,18 @@ class MainQtWindow(QtWidgets.QMainWindow):
         res = {}
         for f_id in field_ids:
             agg = {}
-            [agg.update({sb.name: self._get_field(cam, f_id)})
+            [agg.update({"def_cam": self._get_cams_field(cam, f_id)})
              for cam in self.cameras.cam_list]
             res.update({f_id: agg})
 
         return res
 
-    def _get_sbod_field(self, simbod, field_id):
+    def _get_sbod_field(self, _simbod, field_id):
         """
             This method is used to get the values of a particular field for a given SimBody object.
         Parameters
         ----------
-        simbod              : SimBody            The SimBody object for which the field value is to be retrieved.
+        _simbod              : SimBody            The SimBody object for which the field value is to be retrieved.
         field_id            : str                The field for which the value is to be retrieved.
 
         Returns
@@ -193,41 +192,42 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         match field_id:
             case 'rad':
-                return simbod.radius[0]
+                return _simbod.radius[0]
 
             case 'pos':
-                return simbod.pos
+                return _simbod.pos
 
             case 'rot':
-                return simbod.rot
+                return _simbod.rot
 
             case 'track':
-                return simbod.track
+                return _simbod.track
 
             case 'axes':
-                return simbod.axes
+                return _simbod.axes
 
             case 'track_data':
-                return simbod.track
+                return _simbod.track
 
     def _get_vizz_field(self, _planet, field_id):
         match field_id:
             case 'body_alpha':
-                return _planet[self.color_fields2agg[0]]
+                return _planet[self._color_fields2agg[0]]
 
             case 'track_alpha':
-                return _planet[self.color_fields2agg[1]]
+                return _planet[self._color_fields2agg[1]]
 
             case 'body_mark':
-                return _planet[self.color_fields2agg[2]]
+                return _planet[self._color_fields2agg[2]]
 
             case 'body_color':
-                return _planet[self.color_fields2agg[3]]
+                return _planet[self._color_fields2agg[3]]
 
     def _get_cams_field(self, _camera, field_id):
+        _idx = 0
         match field_id:
             case 'center':
-                _state = self.cameras.cam_states(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex())
+                _state = self.cameras.cam_states(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex()))
 
                 res = {}
                 for _idx, _widget in enumerate(self.controls.panel_widgets['cam_']):
