@@ -15,7 +15,7 @@ class SkyMapVisual(CompoundVisual):
     """
     """
 
-    DEF_TEX_FNAME = "../resources/textures/8k_zzESO_Milky_Way.png"
+    DEF_TEX_FNAME = "../sns2/resources/textures/8k_zzESO_Milky_Way.png"
     with Image.open(DEF_TEX_FNAME) as im:
         print("-->SKYMAP:", DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
         DEF_TEX = im.copy()
