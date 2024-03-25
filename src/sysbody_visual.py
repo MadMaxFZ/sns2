@@ -5,8 +5,6 @@
 # -----------------------------------------------------------------------------
 # Modified by Max S. Whitten in order to address the "stripe" glitch
 # x
-import os
-import sys
 
 import numpy as np
 import logging
@@ -18,9 +16,9 @@ from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
-from starsys_data import DEF_TEX_FNAME, _latitude, _oblate_sphere, get_texture_data
+from src.starsys_data import DEF_TEX_FNAME, _latitude, _oblate_sphere, get_texture_data
 
-logging.basicConfig(filename="logs/sns_defs.log",
+logging.basicConfig(filename="../sns2/logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -213,9 +211,8 @@ Planet = create_visual_node(PlanetVisual)
 
 
 def main():
-    from vispy import app
     from vispy.app.timer import Timer
-    from vispy.scene import SceneCanvas, ArcballCamera, FlyCamera, TurntableCamera
+    from vispy.scene import SceneCanvas, TurntableCamera
     from sys_skymap import SkyMap
     import vispy.visuals.transforms as trx
 

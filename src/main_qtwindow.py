@@ -96,12 +96,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         self.model.panel_data.connect(self.controls.refresh_panel)
+        print("Slots Connected...")
 
         # TODO:: Review the data sent versus data expected, and fix if necessary
         self.update_panel.emit([self.controls.active_body,
                                 self.controls.active_panel,
                                 self.controls.active_cam,
                                 ], {})
+        print("Panel data sent...")
 
     # TODO::    Incorporate the following methods into the MainQtWindow class
     def send_panel_data(self, target):

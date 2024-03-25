@@ -1,31 +1,14 @@
 # basic imports, general data and functions
 # @2023 Max S. Whitten madmaxfz@protonmail.com
 
-import os
-import sys
-import numpy as np
-import logging
-import subprocess
-from starsys_data import *
+from src.starsys_data import *
 from viz_functs import *
-from multiprocessing import Pool, Queue, Process, Lock
-from astropy.time import TimeDelta, Time
 from poliastro.bodies import *
 from poliastro.constants import J2000_TDB
-from poliastro.twobody.orbit.scalar import Orbit
 from poliastro.ephem import *
-from poliastro.frames.enums import Planes
-from poliastro.frames.fixed import *
-from poliastro.frames.fixed import MoonFixed as LunaFixed
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.core.fixed import *
 import astropy.units as u
-from astropy.coordinates.solar_system import get_body_barycentric_posvel
-from vispy import app
-from vispy.app import Canvas
-from vispy.app.timer import Timer
-from vispy.visuals import transforms as tr
-from vispy.scene.visuals import *
 
 solar_system_ephemeris.set("jpl")
 # bods=solar_system_ephemeris.bodies

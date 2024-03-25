@@ -2,12 +2,11 @@
 import time
 
 import psygnal
-from starsys_data import *
+from src.starsys_data import *
 from src.simbody_list import SimBodyList
-from sysbody_model import SimBody
+from src.sysbody_model import SimBody
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
-from vispy.scene.cameras import BaseCamera, FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera
 
 
 class SimSystem(SimBodyList):

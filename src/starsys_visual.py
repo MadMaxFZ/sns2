@@ -174,6 +174,7 @@ class StarSystemVisuals:
                 self._scene.parent.add(v)
             else:
                 [self._scene.parent.add(t) for t in v.values()]
+        pass
 
     def update_vizz(self):
         """

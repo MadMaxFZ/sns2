@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 # x
-import concurrent.futures
-import os
-import time
 import multiprocessing
 import cProfile, pstats
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
 from astropy.constants.codata2014 import G
 from astropy.coordinates import solar_system_ephemeris
 from poliastro.util import time_range
-from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import Pool
-from starsys_data import *
-from sysbody_model import SimBody
+from src.starsys_data import *
+from src.sysbody_model import SimBody
 
-logging.basicConfig(filename="logs/sb_viewer.log",
+logging.basicConfig(filename="../logs/sb_viewer.log",
                     level=logging.DEBUG,
                     format='%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s',
                     )
@@ -322,7 +318,7 @@ if __name__ == "__main__":
 
     my_starsys = StarSystemModel()
     e0 = my_starsys.epoch
-    cProfile.run('[my_starsys.update_epoch(e0 + n * u.d) for n in range(365)]', sort='cumtime', filename='profile.prof')
+    cProfile.run('[my_starsys.update_epoch(e0 + n * u.d) for n in range(365)]', sort='cumtime', filename='../profile.prof')
     p = pstats.Stats('profile.prof')
     p.sort_stats('cumtime').print_callers()
 
