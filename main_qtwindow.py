@@ -41,7 +41,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         only require updating if they are modified by the user at runtime. (Maybe separate the two sets?)
     """
     model_fields2agg = ('rad', 'rel2cam', 'pos', 'rot',)
-    color_fields2agg = ('b_alpha', 't_alpha', 'symb', 'color', 'track',)
+    color_fields2agg = ('body_alpha', 'track_alpha', 'marker', 'color', 'track',)
 
     def __init__(self, _body_names=None, *args, **kwargs):
         super(MainQtWindow, self).__init__(*args,
@@ -58,6 +58,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._agg_data = self._load_agg_fields(self.model_fields2agg)
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self._agg_data)
+        self.agg_data.update(self._load_agg_fields(self.color_fields2agg)
         self._setup_layout()
         self.init_controls()
         # self.thread = QThread()
