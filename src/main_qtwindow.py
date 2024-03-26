@@ -24,6 +24,7 @@ from starsys_data import log_config, SystemDataStore
 
 logging.config.dictConfig(log_config)
 QT_NATIVE = False
+STOP_IT = True
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
