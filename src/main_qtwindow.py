@@ -62,10 +62,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
         self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
 
-        self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)
+        self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)                     ###
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
-        self.body_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))
+        self.body_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))                ###
         # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
         self._setup_layout()
@@ -184,7 +184,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             This method is used to get the values of a particular field for a given SimBody object.
         Parameters
         ----------
-        _simbod              : SimBody            The SimBody object for which the field value is to be retrieved.
+        _simbod             : SimBody            The SimBody object for which the field value is to be retrieved.
         field_id            : str                The field for which the value is to be retrieved.
 
         Returns

@@ -3,13 +3,13 @@ import time
 
 import psygnal
 from src.starsys_data import *
-from src.simbody_list import SimBodyList        #   TODO::
+from src.simbody_dict import SimBodyDict        #   TODO::
 from src.sysbody_model import SimBody
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
 
 
-class SimSystem(SimBodyList):
+class SimSystem(SimBodyDict):
     """
     """
     initialized = psygnal.Signal(list)
@@ -56,7 +56,7 @@ class SimSystem(SimBodyList):
 
     def load_from_names(self, _body_names):
         """
-            This metho
+            This method creates one or more SimBody objects based upon the provided list of names.
         Parameters
         ----------
         _body_names :
@@ -73,11 +73,11 @@ class SimSystem(SimBodyList):
 
         # populate the list with SimBody objects
         self.data.clear()
-        [self.data.append(SimBody(body_data=self.sys_data.body_data[body_name]))
+        [self.data.update({body_name : SimBody(body_data=self.sys_data.body_data[body_name])})
          for body_name in self._current_body_names]
         self._body_count = len(self.data)
-        self._sys_primary = [sb for sb in self.data if sb.body.parent is None][0]
-        [self._set_parentage(sb) for sb in self.data if sb.body.parent]
+        self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
+        [self._set_parentage(sb) for sb in self.data.values() if sb.body.parent]
         self._IS_POPULATED = True
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
@@ -97,7 +97,7 @@ class SimSystem(SimBodyList):
             sb.is_primary = True
         else:
             if this_parent.name in self._current_body_names:
-                sb.sb_parent = self.data[self._current_body_names.index(this_parent.name)]
+                sb.sb_parent = self.data[this_parent.name]
                 if sb.sb_parent.type == 'star':
                     sb.type = 'planet'
                 elif sb.sb_parent.type == 'planet':
@@ -120,12 +120,12 @@ class SimSystem(SimBodyList):
     @property
     def positions_dict(self):
         res = {}
-        [res.update({sb.name: sb.r}) for sb in self.data]
+        [res.update({sb.name: sb.r}) for sb in self.data.values()]
         return res
 
     @property
     def body_names(self):
-        return self._current_body_names
+        return self.data.keys()
 
     @property
     def system_primary(self):
@@ -134,13 +134,13 @@ class SimSystem(SimBodyList):
     @property
     def tracks_dict(self):
         traj_dict = {}
-        [traj_dict.update({sb.name: sb.track}) for sb in self.data]
+        [traj_dict.update({sb.name: sb.track}) for sb in self.data.values()]
         return traj_dict
 
 
 if __name__ == "__main__":
     ref_time = time.time()
-    model = SimSystem()
+    model = SimSystem({})
     init_time = time.time() - ref_time
     model.update_state()
     done_time = time.time() - ref_time
