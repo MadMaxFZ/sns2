@@ -103,7 +103,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        # self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        self.ui.bodyBox.currentTextChanged.connect(self.controls.set_attribs)
         # self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
         # self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
@@ -116,7 +116,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         self.ui.camBox.currentIndex(),
         #                         ], {})
         # print("Panel data sent...")
+
     def newActiveBody(self, idx):
+        """
+
+        Parameters
+        ----------
+        idx
+        """
         self.refresh_panel_data([idx, "tab_ATTR"])
 
     def refresh_panel_data(self, target):

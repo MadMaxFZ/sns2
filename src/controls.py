@@ -8,7 +8,7 @@ import logging
 import logging.config
 from typing import List
 
-import PyQt5
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from composite import Ui_frm_sns_controls
 from src.starsys_data import log_config
@@ -18,7 +18,7 @@ logging.config.dictConfig(log_config)
 QT_NATIVE = False
 
 
-class Controls(PyQt5.QtWidgets.QWidget):
+class Controls(QWidget):
     data_request = pyqtSignal(list)
 
     def __init__(self, parent=None):
@@ -56,6 +56,10 @@ class Controls(PyQt5.QtWidgets.QWidget):
         return panels
 
     @pyqtSlot(str)
+    def set_attribs(self, sb_name):
+        print(f"Setting attribs for {sb_name}")
+        self.refresh_panel(target='attr_')
+
     def refresh_panel(self, target):
         """
             This method is called when the simulation panel needs to be refreshed.
@@ -69,12 +73,16 @@ class Controls(PyQt5.QtWidgets.QWidget):
         nothing     :   applies a tuple of values from the model based upon the target key
                         to the currentText field of the widgets identified by the key.
         """
+        print(f'TARGET RECEIVED: {target}')
+
         match target:
-            case ['attr_', 'elem_', 'syst_']:
+            case 'attr_':   # ['elem_', 'syst_']:
+                print(f'TARGET RECEIVED: {target}')
                 new_data = self.model.data_group(sb_name=self.ui.bodyBox.currentText(),
                                                  tgt_key=target)
-                for i in range(len(self._widget_groups[target])):
-                    self._widget_groups[target][i].setCurrentText(new_data[i])
+                print(f'Data for {self.ui.bodyBox.currentText()}: {new_data}')
+                for i, w in enumerate(self._widget_groups[target]):
+                    w.setCurrentText(new_data[i])
 
             case 'cams_':
                 new_data = ""
