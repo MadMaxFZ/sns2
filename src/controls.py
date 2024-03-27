@@ -8,7 +8,7 @@ import logging
 import logging.config
 from typing import List
 
-from PyQt5 import QtWidgets
+import PyQt5
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from composite import Ui_frm_sns_controls
 from src.starsys_data import log_config
@@ -18,7 +18,7 @@ logging.config.dictConfig(log_config)
 QT_NATIVE = False
 
 
-class Controls(QtWidgets.QWidget):
+class Controls(PyQt5.QtWidgets.QWidget):
     data_request = pyqtSignal(list)
 
     def __init__(self, parent=None):
