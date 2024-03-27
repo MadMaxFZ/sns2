@@ -16,7 +16,7 @@ from PyQt5.QtCore import pyqtSignal, QObject
 
 # import starsys_data
 
-logging.basicConfig(filename="./logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -170,7 +170,7 @@ class SimBody:
 
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
-                     _simbody,
+                     simbody,
                      simbody._epoch,
                      np.linalg.norm(simbody._state[0]),
                      np.linalg.norm(simbody._state[1]),
