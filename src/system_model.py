@@ -2,6 +2,7 @@
 import time
 
 import psygnal
+import src.starsys_data as data_store
 from src.starsys_data import *
 from src.simbody_dict import SimBodyDict        #   TODO::
 from src.sysbody_model import SimBody
@@ -17,7 +18,7 @@ class SimSystem(SimBodyDict):
     panel_data = psygnal.Signal(list, list)
     _body_count: int = 0
 
-    def __init__(self, sys_data, epoch=None, body_names=None, use_multi=False):
+    def __init__(self, sys_data=None, epoch=None, body_names=None, use_multi=False):
         """
             Initialize a star system model to include SimBody objects indicated by a list of names.
             If no list of names is provided, the complete default star system will be loaded.
@@ -41,6 +42,8 @@ class SimSystem(SimBodyDict):
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
+        if not sys_data:
+            sys_data = data_store.SystemDataStore()
         self.sys_data     = sys_data
         self._valid_body_names = self.sys_data.body_names
         self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
@@ -48,9 +51,9 @@ class SimSystem(SimBodyDict):
             self._sys_epoch = epoch
 
         if body_names:
-            self._current_body_names = [n for n in body_names if n in self._valid_body_names]
+            self._current_body_names = tuple([n for n in body_names if n in self._valid_body_names])
         else:
-            self._current_body_names = self._valid_body_names
+            self._current_body_names = tuple(self._valid_body_names)
 
         self.load_from_names(self._current_body_names)
 
@@ -112,7 +115,7 @@ class SimSystem(SimBodyDict):
         else:
             epoch = self._sys_epoch
 
-        for sb in self.data:
+        for sb in self.data.values():
             sb.epoch = epoch
             sb.update_state(sb, epoch)
 
