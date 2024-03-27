@@ -7,7 +7,8 @@ class SimBodyDict(UserDict):
     def __init__(self, data=None):
         super().__init__()
         if data:
-            self.data = {name: self._validate_simbody(simbody) for name, simbody in data.items()}
+            self.data = {name: self._validate_simbody(simbody)
+                         for name, simbody in data.items()}
         else:
             self.data = {}
 

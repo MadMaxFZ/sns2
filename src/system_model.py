@@ -137,6 +137,32 @@ class SimSystem(SimBodyDict):
         [traj_dict.update({sb.name: sb.track}) for sb in self.data.values()]
         return traj_dict
 
+    @property
+    def data_group(self, sb_name, tgt_key):
+        """
+            This method returns the data group associated with the provided body name and key.
+        Parameters
+        ----------
+        sb_name :   the name of the SimBody object targeted
+        tgt_key :   the key associated with the data group requested
+
+        Returns
+        -------
+        data_list : a list containing the data associated with the provided body name and key.
+        """
+        match tgt_key:
+            case 'attr_':
+                data_list = [f for f in self.data[sb_name].body]
+
+            case 'elem_':
+                data_list = [f for f in self.data[sb_name.orbit]]
+                pass
+
+            case 'syst_':
+                pass
+
+        return data_list
+
 
 if __name__ == "__main__":
     ref_time = time.time()
