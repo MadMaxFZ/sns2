@@ -103,11 +103,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currenIndexChanged.connect(self.newActiveBody)
-        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
-        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
+        # self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        # self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
+        # self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
-        self.model.panel_data.connect(self.controls.refresh_panel)
+        # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
 
         # TODO:: Review the data sent versus data expected, and fix if necessary
@@ -228,7 +228,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         _idx = 0
         match field_id:
             case 'center':
-                _state = self.cameras.cam_states(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex()))
+                _state = self.cameras.cam_state(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex()))
 
                 res = {}
                 for _idx, _widget in enumerate(self.controls.panel_widgets['cam_']):

@@ -29,7 +29,7 @@ class Controls(PyQt5.QtWidgets.QWidget):
         self.ui_obj_dict = self.ui.__dict__
         logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
         self._pattern_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
-                           'cam_', 'tw_', 'twb_', 'axis_']
+                               'cam_', 'tw_', 'twb_', 'axis_']
         self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
         self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_groups)} groups defined...')
@@ -55,7 +55,7 @@ class Controls(PyQt5.QtWidgets.QWidget):
 
         return panels
 
-    @pyqtSlot(list, list)
+    @pyqtSlot(str)
     def refresh_panel(self, target):
         """
             This method is called when the simulation panel needs to be refreshed.
@@ -72,11 +72,12 @@ class Controls(PyQt5.QtWidgets.QWidget):
         match target:
             case ['attr_', 'elem_', 'syst_']:
                 new_data = self.model.data_group(sb_name=self.ui.bodyBox.currentText(),
-                                                 tgt_group=target)
+                                                 tgt_key=target)
                 for i in range(len(self._widget_groups[target])):
                     self._widget_groups[target][i].setCurrentText(new_data[i])
 
             case 'cams_':
+                new_data = ""
                 pass
 
     @property
