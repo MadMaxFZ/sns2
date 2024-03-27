@@ -153,12 +153,13 @@ class SimSystem(SimBodyDict):
         -------
         data_list : a list containing the data associated with the provided body name and key.
         """
+        data_list = []
         match tgt_key:
             case 'attr_':
                 data_list = [f for f in self.data[sb_name].body]
 
             case 'elem_':
-                data_list = [f for f in self.data[sb_name.orbit]]
+                data_list = [f for f in self.data[sb_name.elements]]
                 pass
 
             case 'syst_':

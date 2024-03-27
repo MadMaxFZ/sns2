@@ -1,5 +1,7 @@
 #! /usr/bin/python
 import math
+from collections import UserDict
+
 import numpy as np
 import astropy.units as u
 from PyQt5.QtWidgets import QWidget
@@ -8,19 +10,20 @@ from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
 from src.sysbody_model import MIN_FOV
 
 
-class CameraSet:
+class CameraSet(UserDict):
     """     This class contains and manages a set of camera objects.
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
     """
     cam_types = [FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera]
 
-    def __init__(self, dist_unit=None, vec_type=None):
-        self._cam_dict = {}  # super(CameraSet, self).__init__()
-        self._cam_count = 0
-        self._curr_key = ""
-        self._curr_cam = None
-        self.add_cam("def_cam", FlyCamera(fov=60))
+    def __init__(self, data=None, dist_unit=None, vec_type=None):
+        super().__init__()
+        if data:
+            self.data = {cam_id: self._validate_cam(cam)
+                         for cam_id, cam in data.items()}
+        else:
+            self.data = {}  # super(CameraSet, self).__init__()
 
         if vec_type:
             self._vec_type = vec_type
@@ -32,53 +35,71 @@ class CameraSet:
         else:
             self._dist_unit = u.km = u.km
 
-    def add_cam(self, cam_label=None, new_cam=FlyCamera(fov=60)):
+        self._curr_key = "def_cam"
+        self._curr_cam = FlyCamera(fov=60)
+        self.update({self._curr_key: self._curr_cam})
+
+    def _validate_cam(self, camera):
+        if not issubclass(type(camera), BaseCamera):
+            raise TypeError("Camera object expected")
+        return camera
+
+    def __set_item__(self, cam_id=None, new_cam=FlyCamera(fov=60)):
         """
         Parameters
         ----------
-        cam_label : str
+        cam_id  :   str
         new_cam :   is_subclass(vispy.scene.cameras.BaseCamera)
 
         Returns
         -------
+        nothing :   if new_cam is a valid object, it is added to the CameraSet.
         """
-        assert issubclass(type(new_cam), BaseCamera)
-        if not cam_label:
-            cam_label = "cam_" + str(self._cam_count)
-        self._cam_dict.update({cam_label: new_cam})
-        self._curr_key = cam_label
-        self._curr_cam = new_cam
-        self._cam_count += 1
+        if not cam_id:
+            cam_id = "cam_" + str(len(self.keys()))
+        if self._validate_cam(new_cam):
+            self.data[cam_id] = new_cam
+            self._curr_key = cam_id
+            self._curr_cam = new_cam
 
-    def cam_states(self, cam_idx=None):
-        if cam_idx:
-            _keys = [list(self._cam_dict.keys())[cam_idx]]
+    def __getitem__(self, cam_id):
+        return self.data[cam_id]
+
+    @property
+    def cam_state(self, cam_id=None):
+        if cam_id:
+            _keys = [cam_id]
         else:
-            _keys = self._cam_dict.keys()
+            _keys = [self._curr_key]
 
         res = {}
         for key in _keys:
-            cam_state = self._cam_dict[key].get_state()
+            cam_state = self.data[key].get_state()
             exp_state = []
             for k in cam_state.keys():
-                print(f'CAM_STATE[{k}]: {cam_state[k]}')
                 match k:
-                    case "center":
+                    case 'center':
                         exp_state = [i for i in cam_state[k]]
-                    case "rotation1":
+                        print(f'CAM_STATE[{k}]: {cam_state[k]}')
+                    case 'rotation1':
                         exp_state.extend([i for i in cam_state[k].__dict__.keys()])
-                    case "rotation2":
+                        print(f'CAM_STATE[{k}]: {cam_state[k]}')
+                    case 'rotation':
                         exp_state.extend([i for i in cam_state[k].__dict__.keys()])
-                    case "scale_factor":
-                        exp_state.append(cam_state['scale_factor'])
-                    case "fov":
-                        exp_state.append(cam_state['fov'])
-                    case "zoom":
-                        exp_state.append(cam_state['zoom'])
+                        print(f'CAM_STATE[{k}]: {cam_state[k]}')
+                    case 'zoom':
+                        exp_state.append(cam_state[k])
+                        print(f'CAM_STATE[{k}]: {cam_state[k]}')
+                    case 'scale_factor':
+                        exp_state.append(cam_state[k])
+                        print(f'CAM_STATE[{k}]: {cam_state[k]}')
+                    case 'fov':
+                        exp_state.append(cam_state[k])
+                        print(f'CAM_STATE[{k}]: {cam_state[k]}')
 
             res.update({key: exp_state})
 
-        return res
+        return list(res.values())
 
     def rel2cam(self, tgt_pos, tgt_radius):
         """
@@ -110,7 +131,7 @@ class CameraSet:
 
     @property
     def cam_count(self):
-        return self._cam_count
+        return len(self.data)
 
     @property
     def curr_cam(self):
@@ -118,8 +139,9 @@ class CameraSet:
 
     @curr_cam.setter
     def curr_cam(self, cam_label):
-        if cam_label in self._cam_dict.keys():
-            self._curr_cam = self._cam_dict[cam_label]
+        # if cam_label in self._cam_dict.keys():
+        #     self._curr_cam = self._cam_dict[cam_label]
+        self._curr_cam = self.data[cam_label]
 
     @property
     def curr_key(self):
@@ -127,12 +149,13 @@ class CameraSet:
 
     @property
     def cam_ids(self):
-        return self._cam_dict.keys()
+        return self.data.keys()
 
     @property
     def cam_list(self):
-        return self._cam_dict.values()
+        return self.data.values()
 
+    @property
     def rel2cam(self, tgt_pos):
         """
             This method is used to get the position of a SimBody object relative to the current camera.
