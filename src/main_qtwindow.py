@@ -237,7 +237,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 _state = self.cameras.cam_states(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex()))
 
                 res = {}
-                for _idx, _widget in enumerate(self.controls.panel_widgets['cam_']):
+                for _idx, _widget in enumerate(self.controls.widget_group['cam_']):
                     res.update({_idx: [_widget, _state[_idx]]})
 
                 return res

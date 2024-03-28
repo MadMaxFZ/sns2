@@ -30,9 +30,9 @@ class Controls(QtWidgets.QWidget):
         logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
         self._pattern_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
                            'cam_', 'tw_', 'twb_', 'axis_']
-        self._tab_names = ['tab_TIME', 'tab_ATTR', 'tab_ELEM', 'tab_CAMS']
-        self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
-        print(f'{len(self._widget_groups)} groups defined...')
+        self._tab_names = ['elem_', 'syst_', 'cam_']
+        self._widget_group = self._scanUi_4panels(patterns=self._pattern_names)
+        print(f'{len(self._widget_group)} groups defined...')
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -74,7 +74,7 @@ class Controls(QtWidgets.QWidget):
             case 'attr_':   # , 'elem_', 'syst_']:
                 new_data = self.model.data_group(sb_name=tgt_bname,
                                                  tgt_group=tgt_group)
-                for i, w in enumerate(self.panel_widgets[tgt_group]):
+                for i, w in enumerate(self.widget_group[tgt_group]):
                     print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
                     try:
                         w.setCurrentText(new_data[i])
@@ -85,10 +85,10 @@ class Controls(QtWidgets.QWidget):
                 pass
 
     @property
-    def panel_widgets(self, name=None):
-        if name is None:
-            return self._widget_groups
-        elif name in self._widget_groups.keys():
-            return self._widget_groups[name]
+    def widget_group(self, group_name=None):
+        if group_name is None:
+            return self._widget_group
+        elif group_name in self._widget_group.keys():
+            return self._widget_group[group_name]
         else:
-            raise ValueError(f'>>>ERROR: {name} is not a valid widget group name.')
+            raise ValueError(f'>>>ERROR: {group_name} is not a valid widget group name.')
