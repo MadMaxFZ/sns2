@@ -123,7 +123,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def newActiveTab(self, new_active_panel):
-        self.controls.refresh_panel(, new_active_panel)
+        self.controls.refresh_panel( new_active_panel)
 
     def refresh_panel_data(self, target):
         """
