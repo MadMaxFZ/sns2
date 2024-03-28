@@ -56,24 +56,25 @@ class Controls(QtWidgets.QWidget):
         return panels
 
     @pyqtSlot(str)
-    def refresh_panel(self, target):
+    def refresh_panel(self, tgt_group, tgt_bname):
         """
             This method is called when the simulation panel needs to be refreshed.
         Parameters
         ----------
-        target      :   key for a widget_group in the _widget_groups dict,
+        tgt_group      :   key for a widget_group in the _widget_groups dict,
                         also it is a key for a set of values from the model.
+        tgt_bname      :   the name of the SimBody to be used in the refresh.
 
         Returns
         -------
         nothing     :   applies a tuple of values from the model based upon the target key
                         to the currentText field of the widgets identified by the key.
         """
-        match target:
+        match tgt_group:
             case 'attr_':   # , 'elem_', 'syst_']:
-                new_data = self.model.data_group(sb_name=self.ui.bodyBox.currentText(),
-                                                 tgt_group=target)
-                for i, w in enumerate(self.panel_widgets[target]):
+                new_data = self.model.data_group(sb_name=tgt_bname,
+                                                 tgt_group=tgt_group)
+                for i, w in enumerate(self.panel_widgets[tgt_group]):
                     print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
                     try:
                         w.setCurrentText(new_data[i])

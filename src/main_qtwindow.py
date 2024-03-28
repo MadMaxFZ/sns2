@@ -33,9 +33,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
     """
     # Signals for communication between simulation components:
     update_panel = pyqtSignal(list, dict)
-    newActiveBody = pyqtSignal(int)
-    newActiveTab = pyqtSignal(int)
-    newActiveCam = pyqtSignal(int)
+    # newActiveBody = pyqtSignal(int)
+    # newActiveTab = pyqtSignal(int)
+    # newActiveCam = pyqtSignal(int)
 
     """     A dictionary of labels to act as keys to reference the data stored in the SimSystem model:
         The first four data elements must be computed every cycle regardless, while the remaining elements will
@@ -103,7 +103,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.newActiveBody)
+        self.ui.bodyBox.currentTextChanged.connect(self.newActiveBody)
         self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
@@ -116,8 +116,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         self.ui.camBox.currentIndex(),
         #                         ], {})
         # print("Panel data sent...")
-    def newActiveBody(self, idx):
-        self.refresh_panel_data('attr_')
+
+    @pyqtSlot(str)
+    def newActiveBody(self, new_active_body):
+        self.controls.refresh_panel('attr_', new_active_body)
+
+    @pyqtSlot()
+    def newActiveTab(self, new_active_panel):
+        self.controls.refresh_panel(, new_active_panel)
 
     def refresh_panel_data(self, target):
         """
