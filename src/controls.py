@@ -91,6 +91,4 @@ class Controls(QtWidgets.QWidget):
         elif name in self._widget_groups.keys():
             return self._widget_groups[name]
         else:
-            return None
-
-
+            raise ValueError(f'>>>ERROR: {name} is not a valid widget group name.')

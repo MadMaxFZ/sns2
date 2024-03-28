@@ -1,5 +1,6 @@
 # system_model.py
 import time
+import urllib.parse
 
 import psygnal
 import src.starsys_data as data_store
@@ -38,19 +39,25 @@ class SimSystem(SimBodyDict):
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = use_multi
         self._USE_AUTO_UPDATE_STATE = False
-        self._dist_unit = u.km
         self._sys_primary = None
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
-        if not sys_data:
-            sys_data = data_store.SystemDataStore()
-        self.sys_data     = sys_data
-        self._valid_body_names = self.sys_data.body_names
-        self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
+
+        self._dist_unit = u.km
         if epoch:
             self._sys_epoch = epoch
+        else:
+            self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
 
+        if not sys_data:
+            sys_data = data_store.SystemDataStore()
+        elif isinstance(type(sys_data), SystemDataStore):
+            self.sys_data = sys_data
+        else:
+            raise TypeError("Invalid <sys_data> data type...\n\tEXIT...")
+
+        self._valid_body_names = self.sys_data.body_names
         if body_names:
             self._current_body_names = tuple([n for n in body_names if n in self._valid_body_names])
         else:
@@ -110,6 +117,7 @@ class SimSystem(SimBodyDict):
                         sb.plane = Planes.EARTH_EQUATOR
 
     def update_state(self, epoch=None):
+        t0 = time.perf_counter()
         if epoch:
             if type(epoch) == Time:
                 self._sys_epoch = epoch
@@ -119,17 +127,24 @@ class SimSystem(SimBodyDict):
         for sb in self.data.values():
             sb.epoch = epoch
             sb.update_state(sb, epoch)
+        t1 = time.perf_counter()
+
+        return (t1 - t0) * u.s
 
     # @pyqtSlot(list)
     @property
-    def positions_dict(self):
+    def positions(self):
         res = {}
         [res.update({sb.name: sb.r}) for sb in self.data.values()]
         return res
 
     @property
+    def radii(self):
+        pass
+
+    @property
     def body_names(self):
-        return self.data.keys()
+        return tuple(self.data.keys())
 
     @property
     def system_primary(self):

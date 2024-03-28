@@ -20,9 +20,12 @@ from camera_set import CameraSet
 # these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5
 MAX_SYMB_SIZE = 30
+EDGE_COLOR = Color('red')
+EDGE_COLOR.alpha = 0.6
 ST = trx.STTransform
 MT = trx.MatrixTransform
-SUN_COLOR = tuple(np.array([253, 184, 19]) / 256)
+SUN_COLOR = Color(tuple(np.array([253, 184, 19]) / 256))
+
 DEF_MARKS_INIT = dict(scaling=False,
                       alpha=1,
                       antialias=1,
@@ -35,11 +38,11 @@ DEF_MARKS_DATA = dict(pos=None,
                       size=None,
                       edge_width=None,
                       edge_width_rel=None,
-                      edge_color=None,
-                      face_color=None,
+                      edge_color=EDGE_COLOR,
+                      face_color=SUN_COLOR,
                       symbol=None,
                       )
-_pl_e_alpha = 0.2
+
 _pm_e_alpha = 0.6
 _cm_e_alpha = 0.6
 
@@ -326,9 +329,9 @@ class StarSystemVisuals:
             return self._planets
 
 
-def main():
-    print("MAIN FUNCTION...")
-
-
 if __name__ == "__main__":
+
+    def main():
+        print("MAIN FUNCTION...")
+
     main()
