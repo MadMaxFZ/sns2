@@ -23,8 +23,8 @@ class SkyMapVisual(CompoundVisual):
     def __init__(self,
                  rows=18, cols=36,
                  radius=8e+09,
-                 edge_color=(0, 0, 1, 0.4),
-                 color=(0.3, 0.3, 0.3, 1),
+                 edge_color=Color(0, 0, 1, 0.4),
+                 color=Color(0.3, 0.3, 0.3, 1),
                  texture=None,
                  **kwargs,
                  ):

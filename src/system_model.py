@@ -6,6 +6,7 @@ import src.starsys_data as data_store
 from src.starsys_data import *
 from src.simbody_dict import SimBodyDict        #   TODO::
 from src.sysbody_model import SimBody
+from vispy.color import *
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
 
