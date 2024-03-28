@@ -18,7 +18,7 @@ from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
 from src.starsys_data import DEF_TEX_FNAME, _latitude, _oblate_sphere, get_texture_data
 
-logging.basicConfig(filename="../sns2/logs/sns_defs.log",
+logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )

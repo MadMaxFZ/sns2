@@ -65,7 +65,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)                     ###
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
-        self.body_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))                ###
+        self.color_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))                ###
         # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
         self._setup_layout()
