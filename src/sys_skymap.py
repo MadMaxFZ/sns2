@@ -2,6 +2,7 @@
 
 import logging
 import numpy as np
+from vispy.color import Color
 from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import create_visual_node, Mesh
 # from poliastro.bodies import Sun
@@ -15,16 +16,21 @@ class SkyMapVisual(CompoundVisual):
     """
     """
 
-    DEF_TEX_FNAME = "resources/textures/8k_zzESO_Milky_Way.png"
-    with Image.open(DEF_TEX_FNAME) as im:
-        print("-->SKYMAP:", DEF_TEX_FNAME, im.format, f"{im.size}x{im.mode}")
+    DEF_TXTR_FNAME = "../resources/textures/8k_zzESO_Milky_Way.png"
+    DEF_EDGE_COLOR = Color('blue')
+    DEF_EDGE_COLOR.alpha = 0.4
+    DEF_BACK_COLOR = Color((0.3, 0.3, 0.3))
+    DEF_BACK_COLOR.alpha = 1.0
+
+    with Image.open(DEF_TXTR_FNAME) as im:
+        print("-->SKYMAP:", DEF_TXTR_FNAME, im.format, f"{im.size}x{im.mode}")
         DEF_TEX = im.copy()
 
     def __init__(self,
                  rows=18, cols=36,
                  radius=8e+09,
-                 edge_color=Color(0, 0, 1, 0.4),
-                 color=Color(0.3, 0.3, 0.3, 1),
+                 edge_color=DEF_EDGE_COLOR,
+                 color=DEF_BACK_COLOR,
                  texture=None,
                  **kwargs,
                  ):

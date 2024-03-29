@@ -14,12 +14,11 @@ from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
 
-logging.basicConfig(filename="../sns2/logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.INFO,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 
-vec_type = type(np.zeros((3,), dtype=np.float64))
 DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
 
 
@@ -192,7 +191,7 @@ class SystemDataStore:
                             fps=60,
                             n_samples=365,
                             )
-        _tex_path      = "resources/textures/"      # directory of texture image files for windows
+        _tex_path      = "../resources/textures/"      # directory of texture image files for windows
         _def_tex_fname = "2k_ymakemake_fictional.png"
         _tex_fnames    = []  # list of texture filenames (will be sorted)
         _tex_dat_set   = {}  # dist of body name and the texture data associated with it
@@ -405,6 +404,10 @@ class SystemDataStore:
     @property
     def dist_unit(self):
         return self._dist_unit
+
+    @property
+    def vec_type(self):
+        return type(np.zeros((3,), dtype=np.float64))
 
     @property
     def default_epoch(self):

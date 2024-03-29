@@ -43,19 +43,19 @@ class SimSystem(SimBodyDict):
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
+        if not sys_data:
+            sys_data = SystemDataStore()
+        else:  # isinstance(sys_data, SystemDataStore):
+            self.sys_data = sys_data
+        # else:
+        #     raise TypeError("Invalid <sys_data> data type...\n\tEXIT...")
+        self._dist_unit = self.sys_data.dist_unit
+        self._vec_type = self.sys_data.vec_type
 
-        self._dist_unit = u.km
         if epoch:
             self._sys_epoch = epoch
         else:
             self._sys_epoch = Time(self.sys_data.default_epoch, format='jd', scale='tdb')
-
-        if not sys_data:
-            sys_data = data_store.SystemDataStore()
-        elif isinstance(type(sys_data), SystemDataStore):
-            self.sys_data = sys_data
-        else:
-            raise TypeError("Invalid <sys_data> data type...\n\tEXIT...")
 
         self._valid_body_names = self.sys_data.body_names
         if body_names:
@@ -91,11 +91,11 @@ class SimSystem(SimBodyDict):
         [self._set_parentage(sb) for sb in self.data.values() if sb.body.parent]
         self._IS_POPULATED = True
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self.update_state(epoch=self._sys_epoch)
         self._HAS_INIT = True
 

@@ -11,7 +11,7 @@ from vispy.visuals import CompoundVisual
 from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
                                  Compound, Polygon)
-from starsys_data import vec_type
+# from starsys_data import vec_type
 from sysbody_visual import Planet
 from sys_skymap import SkyMap
 from sysbody_model import SimBody, MIN_FOV

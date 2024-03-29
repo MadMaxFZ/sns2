@@ -23,16 +23,15 @@ class Controls(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-
         self.ui = Ui_frm_sns_controls()
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
-        logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
-        self._pattern_names = ['attr_', 'elem_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
-                           'cam_', 'tw_', 'twb_', 'axis_']
+        # logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
+        self._pattern_names = ['attr_', 'elem_', 'cam_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
+                               'tw_', 'twb_', 'axis_']
         self._tab_names = ['elem_', 'syst_', 'cam_']
         self._widget_group = self._scanUi_4panels(patterns=self._pattern_names)
-        print(f'{len(self._widget_group)} groups defined...')
+        print(f'{len(self._widget_group)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.

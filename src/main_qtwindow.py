@@ -47,7 +47,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.sys_data = SystemDataStore()
-        self.model    = SimSystem(self.sys_data)
+        self.model    = SimSystem(sys_data=self.sys_data)
         self.cameras  = CameraSet()
         self.canvas   = CanvasWrapper(self.cameras)
         self.controls = Controls()
@@ -65,7 +65,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)                     ###
         self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
-        self.color_agg_data.update(self._get_vizz_agg_fields(self._color_fields2agg))                ###
+        self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
         # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
         self._setup_layout()
@@ -118,12 +118,16 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # print("Panel data sent...")
 
     @pyqtSlot(str)
-    def newActiveBody(self, new_active_body):
-        self.controls.refresh_panel('attr_', new_active_body)
+    def newActiveBody(self, new_body_idx):
+        self.controls.refresh_panel('attr_', new_body_idx)
 
-    @pyqtSlot()
-    def newActiveTab(self, new_active_panel):
-        self.controls.refresh_panel( new_active_panel)
+    @pyqtSlot(int)
+    def newActiveTab(self, new_panel_idx):
+        self.controls.refresh_panel('panel', new_panel_idx)
+
+    @pyqtSlot(int)
+    def newActiveCam(self, new_cam_idx):
+        self.controls.refresh_panel('cam_', new_cam_idx)
 
     def refresh_panel_data(self, target):
         """
