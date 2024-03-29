@@ -103,9 +103,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentTextChanged.connect(self.newActiveBody)
-        self.ui.tabWidget_Body.currentChanged.connect(self.newActiveTab)
-        self.ui.camBox.currentIndexChanged.connect(self.newActiveCam)
+        self.ui.bodyBox.currentIndexChanged.connect(self.controls.newActiveBody)
+        self.ui.tabWidget_Body.currentIndexChanged.connect(self.controls.newActiveTab)
+        self.ui.camBox.currentIndexChanged.connect(self.controls.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
@@ -116,18 +116,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         self.ui.camBox.currentIndex(),
         #                         ], {})
         # print("Panel data sent...")
-
-    @pyqtSlot(str)
-    def newActiveBody(self, new_body_idx):
-        self.controls.refresh_panel('attr_', new_body_idx)
-
-    @pyqtSlot(int)
-    def newActiveTab(self, new_panel_idx):
-        self.controls.refresh_panel('panel', new_panel_idx)
-
-    @pyqtSlot(int)
-    def newActiveCam(self, new_cam_idx):
-        self.controls.refresh_panel('cam_', new_cam_idx)
 
     def refresh_panel_data(self, target):
         """
