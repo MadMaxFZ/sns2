@@ -72,7 +72,7 @@ class Controls(QtWidgets.QWidget):
 
         return panels
 
-    @pyqtSlot(str)
+    @pyqtSlot(str, str)
     def refresh_panel(self, tgt_group, tgt_bname):
         """
             This method is called when the simulation panel needs to be refreshed.
@@ -87,19 +87,18 @@ class Controls(QtWidgets.QWidget):
         nothing     :   applies a tuple of values from the model based upon the target key
                         to the currentText field of the widgets identified by the key.
         """
-        match tgt_group:
-            case 'attr_':   # , 'elem_', 'syst_']:
-                new_data = self.model.data_group(sb_name=tgt_bname,
-                                                 tgt_group=tgt_group)
-                for i, w in enumerate(self.widget_group[tgt_group]):
-                    print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
-                    try:
-                        w.setCurrentText(new_data[i])
-                    except:
-                        print(f'>>>ERROR: Did not like widget {i}: {w} set to {new_data[i]}')
+        if tgt_group in ['attr_', 'elem_', 'syst_']:
+            new_data = self.model.data_group(sb_name=tgt_bname,
+                                             tgt_group=tgt_group)
+            for i, w in enumerate(self.widget_group[tgt_group]):
+                print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
+                try:
+                    w.setCurrentText(new_data[i])
+                except:
+                    print(f'>>>ERROR: Did not like widget {i}: {w} set to {new_data[i]}')
 
-            case 'cams_':
-                pass
+        elif tgt_group == 'cams_':
+            pass
 
     @property
     def widget_group(self, group_name=None):

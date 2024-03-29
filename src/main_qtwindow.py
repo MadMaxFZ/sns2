@@ -104,7 +104,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentIndexChanged.connect(self.controls.newActiveBody)
-        self.ui.tabWidget_Body.currentIndexChanged.connect(self.controls.newActiveTab)
+        self.ui.tabWidget_Body.currentChanged.connect(self.controls.newActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.controls.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         self.model.panel_data.connect(self.controls.refresh_panel)
@@ -129,22 +129,18 @@ class MainQtWindow(QtWidgets.QMainWindow):
             Has no return value, but emits the data_set via signal
         """
         #
-        model_agg_data = {}
-        body_idx = target[0]
+        # model_agg_data = {}
+        body_name = target[0]
         panel_key = target[1]
-        match panel_key:
-            case "cam_":
-                pass
+        if panel_key in ['attr_', 'elem_', 'syst_']:
+           [self.controls.widget_group[panel_key][1][i].setCurrentText(data)
+            for i, data in enumerate(self.model.data_group(body_name, panel_key))
+            ]
+        elif panel_key == 'cam_':
+            # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
+            pass
 
-            case "attr_":
-                body_obj: Body = self.data[body_idx].body
-                for i in range(len(body_obj._fields())):
-                    model_agg_data.update({panel_key + str(i): body_obj[i]})
-
-            case "elem_":
-                model_agg_data = self._get_model_agg_fields()
-
-        self.update_panel.emit(model_agg_data)
+        # self.update_panel.emit(model_agg_data)
         pass
 
     def _get_model_agg_fields(self, field_ids):
@@ -168,14 +164,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         return res
 
     def _get_cam_agg_fields(self, field_ids):
-        res = {}
-        for f_id in field_ids:
-            agg = {}
-            [agg.update({"def_cam": self._get_cams_field(cam, f_id)})
-             for cam in self.cameras.cam_list]
-            res.update({f_id: agg})
 
-        return res
+        return self.cameras.cam_state
 
     def _get_sbod_field(self, _simbod, field_id):
         """

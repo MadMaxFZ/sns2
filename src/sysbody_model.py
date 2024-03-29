@@ -41,6 +41,11 @@ class SimBody:
     epoch0 = J2000_TDB
     system = {}
     # created = pyqtSignal(str)
+    _fields = ('attr',
+               'pos',
+               'rot',
+               'elem',
+               )
 
     def __init__(self, body_data=None):
         # super(SimBody, self).__init__()
@@ -77,6 +82,15 @@ class SimBody:
         self.set_orbit(ephem=self._ephem)
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
+
+    @property
+    def field_dict(self):
+        return {'attr_': [self.body[i] for i in self.body],
+                'pos': self.r,
+                'rot': self.rot,
+                'elem_': [i for lst in [self._orbit.classical(), self._orbit.pqw(), self._orbit.rv()]
+                          for i in lst],
+                }
 
     def set_curr_cam(self, curr_cam):
         self._curr_camera = curr_cam
@@ -215,7 +229,7 @@ class SimBody:
             self._sb_parent = new_sb_parent
 
     def set_parent(self, new_sb_parent=None):
-        self.sb_parent = new_sb_parent
+        self._sb_parent = new_sb_parent
 
     @property
     def sys_primary(self):
@@ -244,11 +258,11 @@ class SimBody:
 
     @property
     def r(self):
-        return self._state[0] * self._dist_unit
+        return self._orbit.r
 
     @property
     def v(self):
-        return self._state[1] * self._dist_unit / u.s
+        return self._orbit.v
 
     @property
     def pos(self):
@@ -375,9 +389,10 @@ class SimBody:
     @property
     def vel(self):
         """
+        TODO:  make this a property that returns the velocity of the body relative to system primary
         Returns
         -------
-        velocity of biody rewlative to its parent body
+        velocity of biody relative to its parent body
         """
         return self._state[1] * self._dist_unit
 

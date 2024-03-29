@@ -32,6 +32,7 @@ class SimSystem(SimBodyDict):
         body_names   : list     #   List of names of bodies to include in the model.
         use_multi    : bool     #   If True, use multiprocessing to speed up calculations.
         """
+        t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
         self._IS_POPULATED = False
         self._HAS_INIT = False
@@ -69,6 +70,8 @@ class SimSystem(SimBodyDict):
             self._current_body_names = tuple(self._valid_body_names)
 
         self.load_from_names(self._current_body_names)
+        t1 = time.perf_counter()
+        print(f'SimSystem initialization took {t1 - t0:.6f} seconds...')
 
     def load_from_names(self, _body_names):
         """
@@ -139,13 +142,21 @@ class SimSystem(SimBodyDict):
     # @pyqtSlot(list)
     @property
     def positions(self):
-        res = {}
-        [res.update({sb.name: sb.r}) for sb in self.data.values()]
-        return res
+        """
+        Returns
+        -------
+        dict    :   a dictionary of the positions of the bodies in the system keyed by name.
+        """
+        return dict.fromkeys([(sb.name, sb.r) for sb in self.data.values()])
 
     @property
     def radii(self):
-        pass
+        """
+        Returns
+        -------
+        dict    :   a dictionary of the mean radius of the bodies in the system keyed by name.
+        """
+        return dict.fromkeys([(sb.name, sb.body.R) for sb in self.data.values()])
 
     @property
     def body_names(self):
@@ -156,12 +167,15 @@ class SimSystem(SimBodyDict):
         return self._sys_primary
 
     @property
-    def tracks_dict(self):
-        traj_dict = {}
-        [traj_dict.update({sb.name: sb.track}) for sb in self.data.values()]
-        return traj_dict
+    def tracks_data(self):
+        """
+        Returns
+        -------
+        dict    :   a dictionary of the orbit tracks of the bodies in the system keyed by name.
+        """
+        return dict.fromkeys(list(self.data.keys()),
+                             [sb.track for sb in self.data.values()])
 
-    @property
     def data_group(self, sb_name, tgt_key):
         """
             This method returns the data group associated with the provided body name and key.
@@ -174,19 +188,7 @@ class SimSystem(SimBodyDict):
         -------
         data_list : a list containing the data associated with the provided body name and key.
         """
-        data_list = []
-        match tgt_key:
-            case 'attr_':
-                data_list = [f for f in self.data[sb_name].body]
-
-            case 'elem_':
-                data_list = [f for f in self.data[sb_name.elements]]
-                pass
-
-            case 'syst_':
-                pass
-
-        return data_list
+        return self.data[sb_name].field_dict[tgt_key]
 
 
 if __name__ == "__main__":
