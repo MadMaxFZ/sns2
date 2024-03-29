@@ -56,14 +56,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
         # The first two are fields that exist for each SimBody (exceptr primary)
-        self._model_fields2agg = ('rad', 'pos', 'rot')
+        self._model_fields2agg = ('attr_', 'rad', 'pos', 'rot', 'radii')
         self._color_fields2agg = ('body_alpha', 'track_alpha', 'body_mark',
                                   'body_color', 'track_data', 'rel2cam')
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
         self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
 
         self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)                     ###
-        self.visuals = StarSystemVisuals(self.sys_data.body_names, _body_names)
+        self.visuals = StarSystemVisuals(self.sys_data.body_names, body_names=_body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
         self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
         # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
@@ -180,6 +180,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         simbod.<field_id>   : float or list       The value of the field for the given SimBody object.
         """
         match field_id:
+            case 'attr_':
+                return [a for a in _simbod.body]
+
+            case 'elem_':
+                return _simbod.elem
+
             case 'rad':
                 return _simbod.radius[0]
 
@@ -197,6 +203,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
             case 'track_data':
                 return _simbod.track
+
+            case 'radii':
+                return _simbod.radius
 
     def _get_vizz_field(self, _planet, field_id):
         match field_id:

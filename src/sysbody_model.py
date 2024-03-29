@@ -92,9 +92,6 @@ class SimBody:
                           for i in lst],
                 }
 
-    def set_curr_cam(self, curr_cam):
-        self._curr_camera = curr_cam
-
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
@@ -402,14 +399,13 @@ class SimBody:
             self._epoch = e
 
 
-def main():
-    bod_name = "Jupiter"
-    sb = SimBody(body_data=starsys_data.sys_data.body_data(bod_name))
-    sb.update_state(sb)
-    print(sb.orbit)
-
-
 if __name__ == "__main__":
+
+    def main():
+        sb = SimBody(body_data=starsys_data.sys_data.body_data(bod_name))
+        sb.update_state(sb)
+        print(sb.orbit)
+
 
     main()
     print("SimBody doesn't really do much...")
