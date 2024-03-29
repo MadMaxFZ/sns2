@@ -147,7 +147,8 @@ class SimSystem(SimBodyDict):
         -------
         dict    :   a dictionary of the positions of the bodies in the system keyed by name.
         """
-        return dict.fromkeys([(sb.name, sb.r) for sb in self.data.values()])
+        return dict.fromkeys(list(self.data.keys()),
+                             [sb.pos for sb in self.data.values()])
 
     @property
     def radii(self):
@@ -156,7 +157,8 @@ class SimSystem(SimBodyDict):
         -------
         dict    :   a dictionary of the mean radius of the bodies in the system keyed by name.
         """
-        return dict.fromkeys([(sb.name, sb.body.R) for sb in self.data.values()])
+        return dict.fromkeys(list(self.data.keys()),
+                             [sb.body.R for sb in self.data.values()])
 
     @property
     def body_names(self):
