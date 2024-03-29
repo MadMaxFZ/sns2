@@ -103,9 +103,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.controls.newActiveBody)
-        self.ui.tabWidget_Body.currentChanged.connect(self.controls.newActiveTab)
-        self.ui.camBox.currentIndexChanged.connect(self.controls.newActiveCam)
+        # self.ui.bodyBox.currentIndexChanged.connect(self.controls.newActiveBody)
+        # self.ui.tabWidget_Body.currentChanged[int].connect(self.controls.newActiveTab)
+        # self.ui.camBox.currentIndexChanged.connect(self.controls.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
