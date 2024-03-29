@@ -43,12 +43,17 @@ class SimSystem(SimBodyDict):
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
-        if not sys_data:
+        if sys_data:
+            if isinstance(sys_data, SystemDataStore):
+                print('<sys_date> input is valid...')
+            else:
+                print('Bad <sys_data> input... Reverting to defaults...')
+                sys_data = SystemDataStore()
+
+        else:
             sys_data = SystemDataStore()
-        else:  # isinstance(sys_data, SystemDataStore):
-            self.sys_data = sys_data
-        # else:
-        #     raise TypeError("Invalid <sys_data> data type...\n\tEXIT...")
+
+        self.sys_data = sys_data
         self._dist_unit = self.sys_data.dist_unit
         self._vec_type = self.sys_data.vec_type
 
