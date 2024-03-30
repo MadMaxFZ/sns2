@@ -107,7 +107,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.ui.tabWidget_Body.currentChanged[int].connect(self.controls.newActiveTab)
         # self.ui.camBox.currentIndexChanged.connect(self.controls.newActiveCam)
         # self.update_panel.connect(self.send_panel_data)
-        self.model.panel_data.connect(self.controls.refresh_panel)
+        # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
 
         # TODO:: Review the data sent versus data expected, and fix if necessary
