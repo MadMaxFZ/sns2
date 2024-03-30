@@ -153,32 +153,31 @@ class MainSimCanvas(scene.SceneCanvas):
         return self._sys_vizz
 
 
-def main():
-    _body_include_set = ['Sun',
-                         'Mercury',
-                         'Venus',
-                         'Earth',
-                         'Moon',  # all built-ins from poliastro
-                         'Mars',
-                         'Jupiter',
-                         'Saturn',
-                         'Uranus',
-                         'Neptune',
-                         'Pluto',
-                         # 'Phobos',
-                         # 'Deimos',
-                         # 'Europa',
-                         # 'Ganymede',
-                         # 'Enceladus',
-                         # 'Titan',
-                         # 'Titania',
-                         # 'Triton',
-                         # 'Charon',
-                         ]
-    my_simwin = MainSimCanvas()
-    my_simwin.run()
-
-
 if __name__ == "__main__":
+    def main():
+        _body_include_set = ['Sun',
+                             'Mercury',
+                             'Venus',
+                             'Earth',
+                             'Moon',  # all built-ins from poliastro
+                             'Mars',
+                             'Jupiter',
+                             'Saturn',
+                             'Uranus',
+                             'Neptune',
+                             'Pluto',
+                             # 'Phobos',
+                             # 'Deimos',
+                             # 'Europa',
+                             # 'Ganymede',
+                             # 'Enceladus',
+                             # 'Titan',
+                             # 'Titania',
+                             # 'Triton',
+                             # 'Charon',
+                             ]
+        my_simwin = MainSimCanvas()
+        my_simwin.run()
+
 
     main()
