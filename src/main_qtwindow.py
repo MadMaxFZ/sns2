@@ -49,7 +49,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.model    = SimSystem()
         self.sys_data = self.model.sys_data
         self.model.load_from_names()
-        [sb.set_field_dict() for sb in self.model.data.values()]
+        [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
         self.cameras  = CameraSet()
         self.canvas   = CanvasWrapper(self.cameras)
         self.controls = Controls()
@@ -64,7 +64,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
         self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
 
-        self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)                     ###
+        self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)
+        # this body_agg_data is not correct somehow
         self.visuals = StarSystemVisuals(self.sys_data.body_names, body_names=_body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
         self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
@@ -94,7 +95,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyList.addItems(self.model.body_names)
         self.ui.bodyBox.addItems(self.model.body_names)
         self.ui.camBox.addItems(self.cameras.cam_ids)
-        self.ui.bodyBox.setCurrentIndex(0)
+        self.ui.bodyBox.setCurrentIndex(3)
         self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.camBox.setCurrentIndex(0)
         print("Controls initialized...")
@@ -105,9 +106,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.controls.setActiveBody)
-        self.ui.tabWidget_Body.currentChanged[int].connect(self.controls.setActiveTab)
-        self.ui.camBox.currentIndexChanged.connect(self.controls.setActiveCam)
+        self.ui.bodyBox.currentIndexChanged.connect(self.setActiveBody)
+        self.ui.tabWidget_Body.currentChanged.connect(self.setActiveTab)
+        self.ui.camBox.currentIndexChanged.connect(self.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
@@ -120,26 +121,26 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # print("Panel data sent...")
 
     @pyqtSlot(int)
-    def setActiveBody(self, new_body_idx):
-        self.controls.active_body_idx = new_body_idx
-        self.refresh_panel('attr_', new_body_idx)
+    def setActiveBody(self, new_bod_id):
+        self.controls.active_bod = new_bod_id
+        self.refresh_panel('attr_')
 
     @pyqtSlot(int)
-    def setActiveTab(self, new_panel_idx):
-        self.controls.active_panl_idx = new_panel_idx
-        self.refresh_panel(self.model[new_panel_idx])
+    def setActiveTab(self, new_pnl_id):
+        self.controls.active_pnl = new_pnl_id
+        self.refresh_panel(self.sys_data.model_data_group_keys[new_pnl_id])
 
     @pyqtSlot(int)
-    def setActiveCam(self, new_cam_idx):
-        self.controls.active_cmid_idx = new_cam_idx
-        self.refresh_panel('cam_', new_cam_idx)
+    def setActiveCam(self, new_cam_id):
+        self.controls.active_cam = new_cam_id
+        self.refresh_panel('cam_')
 
-    def refresh_panel_data(self, target):
+    def refresh_panel(self, panel_key):
         """
             This method will return the data block for the selected target given
         Parameters
         ----------
-        target
+        panel_key : str
 
         Returns
         -------
@@ -147,12 +148,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         #
         # model_agg_data = {}
-        body_name = target[0]
-        panel_key = target[1]
         if panel_key in ['attr_', 'elem_', 'syst_']:
-           [self.controls.widget_group[panel_key][1][i].setCurrentText(data)
-            for i, data in enumerate(self.model.data_group(body_name, panel_key))
-            ]
+            for i, data in enumerate(self.model.data_group(sb_name=list(self.model.data.keys())[self.controls.active_bod],
+                                                           tgt_key=panel_key)):
+                list(self.controls.widget_group[panel_key].values())[i].setText(data[i])
+
         elif panel_key == 'cam_':
             # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
             pass

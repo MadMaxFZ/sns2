@@ -314,14 +314,6 @@ class StarSystemVisuals:
         else:
             print("Must provide a SkyMap object...")
 
-    # @property
-    # def mesh_data(self, name=None):
-    #     if name is None:
-    #         res = {}
-    #         return [res.update({k: v.mesh_data}) for k, v in self._planets.items()]
-    #     else:
-    #         return self._planets[name].mesh_data
-
     @property
     def planets(self, name=None):
         if name:

@@ -45,6 +45,7 @@ class SimBody:
                'pos',
                'rot',
                'elem',
+               'traj',
                )
 
     def __init__(self, body_data=None):
@@ -85,19 +86,23 @@ class SimBody:
         # self.created.emit(self.name)
 
     def set_field_dict(self):
-        self._field_dict = {'attr_': [self.body[i] for i in range(len(self.body._fields))],
-                            'pos': self.pos,
-                            'rot': self.rot,
-                            'rad': self.body.R,
+        self._field_dict = {'attr_': [str(self.body[i]) for i in range(len(self.body._fields))],
+                            'pos':   self.pos,
+                            'rot':   self.rot,
+                            'rad':   self.body.R,
                             'radii': self._rad_set,
+                            'traj':  self.track,
                             }
         if self.body.parent:
+            elem_list = []
+            for elem_set in (self._orbit.classical(),
+                             self._orbit.pqw(),
+                             self._orbit.rv()):
+                for e in elem_set:
+                    elem_list.append(e)
+
             self._field_dict.update({'orbit': self._orbit,
-                                     'elem_': [[lst[i]
-                                                for i in lst]
-                                               for lst in [self._orbit.classical,
-                                                           self._orbit.pqw,
-                                                           self._orbit.rv]]
+                                     'elem_': elem_list
                                      })
 
     def field(self, field_key):

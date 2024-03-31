@@ -177,7 +177,7 @@ class SimSystem(SimBodyDict):
         dict    :   a dictionary of the orbit tracks of the bodies in the system keyed by name.
         """
         return dict.fromkeys(list(self.data.keys()),
-                             [sb.track for sb in self.data.values()])
+                              [sb.track for sb in self.data.values() if not sb.is_primary])
 
     def data_group(self, sb_name=None, tgt_key=None):
         """
@@ -210,7 +210,7 @@ class SimSystem(SimBodyDict):
 
         if sb_names and tgt_keys:
             res = {}
-            [[res.update({n: self.data[n].get_tgt(t)})
+            [[res.update({n: self.data[n].field(t)})
               for t in tgt_keys
               ]
              for n in sb_names
@@ -218,7 +218,7 @@ class SimSystem(SimBodyDict):
 
         elif not sb_names and tgt_keys:
             res = {}
-            [[res.update({t: self.data[n].get_tgt(t)})
+            [[res.update({t: self.data[n].field(t)})
               for n in self._current_body_names
               ]
              for t in tgt_keys
@@ -226,7 +226,7 @@ class SimSystem(SimBodyDict):
 
         elif sb_names and not tgt_keys:
             res = {}
-            [[res.update({n: self.data[n].get_tgt(t)})
+            [[res.update({n: self.data[n].field(t)})
               for t in self.sys_data.model_data_group_keys
               ]
              for n in sb_names
