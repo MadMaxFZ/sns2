@@ -16,7 +16,7 @@ from PyQt5.QtCore import pyqtSignal, QObject
 
 # import starsys_data
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -45,7 +45,6 @@ class SimBody:
                'pos',
                'rot',
                'elem',
-               'traj',
                )
 
     def __init__(self, body_data=None):
@@ -86,23 +85,17 @@ class SimBody:
         # self.created.emit(self.name)
 
     def set_field_dict(self):
-        self._field_dict = {'attr_': [str(self.body[i]) for i in range(len(self.body._fields))],
-                            'pos':   self.pos,
-                            'rot':   self.rot,
-                            'rad':   self.body.R,
+        self._field_dict = {'attr_': [self.body[i] for i in range(len(self.body._fields))],
+                            'pos': self.pos,
+                            'rot': self.rot,
+                            'rad': self.body.R,
                             'radii': self._rad_set,
-                            'traj':  self.track,
                             }
         if self.body.parent:
-            elem_list = []
-            for elem_set in (self._orbit.classical(),
-                             self._orbit.pqw(),
-                             self._orbit.rv()):
-                for e in elem_set:
-                    elem_list.append(e)
-
-            self._field_dict.update({'orbit': self._orbit,
-                                     'elem_': elem_list
+            _orb = self._orbit
+            _elem = self.elems
+            self._field_dict.update({'orb_': _orb,
+                                     'elem_': _elem,
                                      })
 
     def field(self, field_key):
@@ -386,6 +379,14 @@ class SimBody:
                                        spacing=spacing,
                                        format='jd',
                                        scale='tdb', )
+
+    @property
+    def elems(self):
+        res = list(self._orbit.classical())
+        res.extend(list(self._orbit.pqw()))
+        res.extend(list(self._orbit.rv()))
+
+        return res
 
     @property
     def ephem(self):
