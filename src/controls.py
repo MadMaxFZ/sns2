@@ -46,17 +46,17 @@ class Controls(QtWidgets.QWidget):
         return res
 
     @pyqtSlot(int)
-    def newActiveBody(self, new_body_idx):
+    def setActiveBody(self, new_body_idx):
         self._active_body_idx = new_body_idx
         self.refresh_panel('attr_', new_body_idx)
 
     @pyqtSlot(int)
-    def newActiveTab(self, new_panel_idx):
+    def setActiveTab(self, new_panel_idx):
         self._active_panl_idx = new_panel_idx
         self.refresh_panel('panel', new_panel_idx)
 
     @pyqtSlot(int)
-    def newActiveCam(self, new_cam_idx):
+    def setActiveCam(self, new_cam_idx):
         self._active_cmid_idx = new_cam_idx
         self.refresh_panel('cam_', new_cam_idx)
 

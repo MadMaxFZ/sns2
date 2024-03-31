@@ -16,7 +16,7 @@ from PyQt5.QtCore import pyqtSignal, QObject
 
 # import starsys_data
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+logging.basicConfig(filename="logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -92,12 +92,10 @@ class SimBody:
                             'radii': self._rad_set,
                             }
         if self.body.parent:
-            self._field_dict.update({'orbit': self._orbit,
-                                     'elem_': [[lst[i]
-                                                for i in lst]
-                                               for lst in [self._orbit.classical,
-                                                           self._orbit.pqw,
-                                                           self._orbit.rv]]
+            _orb = self._orbit
+            _elem = self.elems
+            self._field_dict.update({'orb_': _orb,
+                                     'elem_': _elem,
                                      })
 
     def field(self, field_key):
@@ -381,6 +379,14 @@ class SimBody:
                                        spacing=spacing,
                                        format='jd',
                                        scale='tdb', )
+
+    @property
+    def elems(self):
+        res = list(self._orbit.classical())
+        res.extend(list(self._orbit.pqw()))
+        res.extend(list(self._orbit.rv()))
+
+        return res
 
     @property
     def ephem(self):

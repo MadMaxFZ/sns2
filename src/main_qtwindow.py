@@ -57,7 +57,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.central_widget = QtWidgets.QWidget()
 
         # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
-        # The first two are fields that exist for each SimBody (exceptr primary)
+        # The first two are fields that exist for each SimBody (except primary)
         self._model_fields2agg = ('attr_', 'rad', 'pos', 'rot', 'radii')
         self._color_fields2agg = ('body_alpha', 'track_alpha', 'body_mark',
                                   'body_color', 'track_data', 'rel2cam')
@@ -106,7 +106,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentIndexChanged.connect(self.controls.setActiveBody)
-        self.ui.tabWidget_Body.currentChanged[int].connect(self.controls.setActiveTab)
+        self.ui.tabWidget_Body.currentChanged.connect(self.controls.setActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.controls.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
@@ -118,21 +118,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         self.ui.camBox.currentIndex(),
         #                         ], {})
         # print("Panel data sent...")
-
-    @pyqtSlot(int)
-    def setActiveBody(self, new_body_idx):
-        self.controls.active_body_idx = new_body_idx
-        self.refresh_panel('attr_', new_body_idx)
-
-    @pyqtSlot(int)
-    def setActiveTab(self, new_panel_idx):
-        self.controls.active_panl_idx = new_panel_idx
-        self.refresh_panel(self.model[new_panel_idx])
-
-    @pyqtSlot(int)
-    def setActiveCam(self, new_cam_idx):
-        self.controls.active_cmid_idx = new_cam_idx
-        self.refresh_panel('cam_', new_cam_idx)
 
     def refresh_panel_data(self, target):
         """
