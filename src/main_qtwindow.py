@@ -46,8 +46,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.sys_data = SystemDataStore()
-        self.model    = SimSystem(sys_data=self.sys_data)
+        self.model    = SimSystem()
+        self.sys_data = self.model.sys_data
+        self.model.load_from_names()
+        [sb.set_field_dict() for sb in self.model.data.values()]
         self.cameras  = CameraSet()
         self.canvas   = CanvasWrapper(self.cameras)
         self.controls = Controls()
@@ -103,9 +105,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        # self.ui.bodyBox.currentIndexChanged.connect(self.controls.newActiveBody)
-        # self.ui.tabWidget_Body.currentChanged[int].connect(self.controls.newActiveTab)
-        # self.ui.camBox.currentIndexChanged.connect(self.controls.newActiveCam)
+        self.ui.bodyBox.currentIndexChanged.connect(self.controls.setActiveBody)
+        self.ui.tabWidget_Body.currentChanged[int].connect(self.controls.setActiveTab)
+        self.ui.camBox.currentIndexChanged.connect(self.controls.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
@@ -116,6 +118,21 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         self.ui.camBox.currentIndex(),
         #                         ], {})
         # print("Panel data sent...")
+
+    @pyqtSlot(int)
+    def setActiveBody(self, new_body_idx):
+        self.controls.active_body_idx = new_body_idx
+        self.refresh_panel('attr_', new_body_idx)
+
+    @pyqtSlot(int)
+    def setActiveTab(self, new_panel_idx):
+        self.controls.active_panl_idx = new_panel_idx
+        self.refresh_panel(self.model[new_panel_idx])
+
+    @pyqtSlot(int)
+    def setActiveCam(self, new_cam_idx):
+        self.controls.active_cmid_idx = new_cam_idx
+        self.refresh_panel('cam_', new_cam_idx)
 
     def refresh_panel_data(self, target):
         """

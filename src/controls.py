@@ -29,27 +29,13 @@ class Controls(QtWidgets.QWidget):
         # logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
         self._pattern_names = ['attr_', 'elem_', 'cam_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
                                'tw_', 'twb_', 'axis_']
-        self._tab_names = ['elem_', 'syst_', 'cam_']
+        self.tab_names = ('elem_', 'syst_', 'vizz_')
         self._widget_group = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_group)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
         self._active_body_idx = 0
         self._active_panl_idx = 0
         self._active_cmid_idx = 0
 
-    @pyqtSlot(int)
-    def newActiveBody(self, new_body_idx):
-        self._active_body_idx = new_body_idx
-        self.refresh_panel('attr_', new_body_idx)
-
-    @pyqtSlot(int)
-    def newActiveTab(self, new_panel_idx):
-        self._active_panl_idx = new_panel_idx
-        self.refresh_panel('panel', new_panel_idx)
-
-    @pyqtSlot(int)
-    def newActiveCam(self, new_cam_idx):
-        self._active_cmid_idx = new_cam_idx
-        self.refresh_panel('cam_', new_cam_idx)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.

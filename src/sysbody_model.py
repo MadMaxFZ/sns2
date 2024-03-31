@@ -80,17 +80,32 @@ class SimBody:
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
+        self._field_dict = None
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
-    @property
-    def field_dict(self):
-        return {'attr_': [self.body[i] for i in self.body],
-                'pos': self.r,
-                'rot': self.rot,
-                'elem_': [i for lst in [self._orbit.classical(), self._orbit.pqw(), self._orbit.rv()]
-                          for i in lst],
-                }
+    def set_field_dict(self):
+        self._field_dict = {'attr_': [self.body[i] for i in range(len(self.body._fields))],
+                            'pos': self.pos,
+                            'rot': self.rot,
+                            'rad': self.body.R,
+                            'radii': self._rad_set,
+                            }
+        if self.body.parent:
+            self._field_dict.update({'orbit': self._orbit,
+                                     'elem_': [[lst[i]
+                                                for i in lst]
+                                               for lst in [self._orbit.classical,
+                                                           self._orbit.pqw,
+                                                           self._orbit.rv]]
+                                     })
+
+    def field(self, field_key):
+        if field_key in self._field_dict:
+            return self._field_dict[field_key]
+        else:
+            print(f'No field with name: <{field_key}>')
+            return None
 
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
@@ -402,7 +417,7 @@ class SimBody:
 if __name__ == "__main__":
 
     def main():
-        sb = SimBody(body_data=starsys_data.sys_data.body_data(bod_name))
+        sb = SimBody(body_data=sys_data.body_data(bod_name))
         sb.update_state(sb)
         print(sb.orbit)
 

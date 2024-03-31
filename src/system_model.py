@@ -69,11 +69,11 @@ class SimSystem(SimBodyDict):
         else:
             self._current_body_names = tuple(self._valid_body_names)
 
-        self.load_from_names(self._current_body_names)
+        # self.load_from_names(self._current_body_names)
         t1 = time.perf_counter()
         print(f'SimSystem initialization took {t1 - t0:.6f} seconds...')
 
-    def load_from_names(self, _body_names):
+    def load_from_names(self, _body_names=None):
         """
             This method creates one or more SimBody objects based upon the provided list of names.
         Parameters
@@ -105,6 +105,7 @@ class SimSystem(SimBodyDict):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=self._vec_type)
         self.update_state(epoch=self._sys_epoch)
+        # [sb.set_field_dict() for sb in self.data.values()]
         self._HAS_INIT = True
 
     def _set_parentage(self, sb):
@@ -137,7 +138,7 @@ class SimSystem(SimBodyDict):
             sb.update_state(sb, epoch)
         t1 = time.perf_counter()
 
-        return (t1 - t0) * u.s
+        print(f'> Time to update: {(t1 - t0) * u.s:.4f} seconds.')
 
     # @pyqtSlot(list)
     @property
