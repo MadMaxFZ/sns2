@@ -149,9 +149,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #
         # model_agg_data = {}
         if panel_key in ['attr_', 'elem_', 'syst_']:
-            for i, data in enumerate(self.model.data_group(sb_name=list(self.model.data.keys())[self.controls.active_bod],
-                                                           tgt_key=panel_key)):
-                list(self.controls.widget_group[panel_key].values())[i].setText(data[i])
+            widg_grp = [w for w in self.controls.widget_group[panel_key].values()]
+            curr_bod_name = self.model.data.keys()[self.controls.bodyBox.currentText()]
+            for i, data in enumerate(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key).values()):
+                widg_grp[i].setText(data)
 
         elif panel_key == 'cam_':
             # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
