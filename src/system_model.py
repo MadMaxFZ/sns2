@@ -176,8 +176,9 @@ class SimSystem(SimBodyDict):
         -------
         dict    :   a dictionary of the orbit tracks of the bodies in the system keyed by name.
         """
-        return dict.fromkeys(list(self.data.keys()),
-                              [sb.track for sb in self.data.values() if not sb.is_primary])
+        keys = [k for k in self.data.keys() if not self[k].is_primary]
+        vals = [self.data[k].track for k in keys]
+        return dict.fromkeys(keys, vals)
 
     def data_group(self, sb_name=None, tgt_key=None):
         """
