@@ -178,7 +178,7 @@ class SimSystem(SimBodyDict):
         return dict.fromkeys(list(self.data.keys()),
                              [sb.track for sb in self.data.values()])
 
-    def data_group(self, sb_name, tgt_key):
+    def data_group(self, sb_name=None, tgt_key=None):
         """
             This method returns the data group associated with the provided body name and key.
         Parameters
@@ -190,7 +190,51 @@ class SimSystem(SimBodyDict):
         -------
         data_list : a list containing the data associated with the provided body name and key.
         """
-        return self.data[sb_name].field_dict[tgt_key]
+        sb_names = tgt_keys = None
+        if sb_name:
+            if type(sb_name) == str:
+                sb_names = [sb_name,]
+            elif type(sb_name) == list:
+                sb_names = [n for n in sb_name if n in self._valid_body_names]
+            else:
+                sb_names = None
+
+        if tgt_key:
+            if type(tgt_key) == str:
+                tgt_keys = [tgt_key, ]
+            elif type(tgt_key) == list:
+                tgt_keys = [k for k in tgt_key if k in self.sys_data.model_data_group_keys]
+            else:
+                tgt_keys = None
+
+        if sb_names and tgt_keys:
+            res = {}
+            [[res.update({n: self.data[n].get_tgt(t)})
+              for t in tgt_keys
+              ]
+             for n in sb_names
+             ]
+
+        elif not sb_names and tgt_keys:
+            res = {}
+            [[res.update({t: self.data[n].get_tgt(t)})
+              for n in self._current_body_names
+              ]
+             for t in tgt_keys
+             ]
+
+        elif sb_names and not tgt_keys:
+            res = {}
+            [[res.update({n: self.data[n].get_tgt(t)})
+              for t in self.sys_data.model_data_group_keys
+              ]
+             for n in sb_names
+             ]
+
+        else:
+            res = {}
+
+        return res
 
 
 if __name__ == "__main__":
