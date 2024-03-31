@@ -29,13 +29,36 @@ class Controls(QtWidgets.QWidget):
         # logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])
         self._pattern_names = ['attr_', 'elem_', 'cam_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
                                'tw_', 'twb_', 'axis_']
-        self.tab_names = ('elem_', 'syst_', 'vizz_')
-        self._widget_group = self._scanUi_4panels(patterns=self._pattern_names)
-        print(f'{len(self._widget_group)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
+        self._tab_names = ['elem_', 'syst_', 'vizz_']
+        self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
+        print(f'{len(self._widget_groups)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
         self._active_body_idx = 0
         self._active_panl_idx = 0
         self._active_cmid_idx = 0
 
+    def with_prefix(self, prefix):
+        res = {}
+        [res.update({name: widget})
+         for name, widget in self.ui_obj_dict.items()
+         if name.startswith(prefix)
+         ]
+
+        return res
+
+    @pyqtSlot(int)
+    def newActiveBody(self, new_body_idx):
+        self._active_body_idx = new_body_idx
+        self.refresh_panel('attr_', new_body_idx)
+
+    @pyqtSlot(int)
+    def newActiveTab(self, new_panel_idx):
+        self._active_panl_idx = new_panel_idx
+        self.refresh_panel('panel', new_panel_idx)
+
+    @pyqtSlot(int)
+    def newActiveCam(self, new_cam_idx):
+        self._active_cmid_idx = new_cam_idx
+        self.refresh_panel('cam_', new_cam_idx)
 
     def _scanUi_4panels(self, patterns: List[str]) -> dict:
         """ This method identifies objects that contain one of the strings in the patterns list.
@@ -53,44 +76,43 @@ class Controls(QtWidgets.QWidget):
         """
         panels = {}
         for p in patterns:
-            panels.update({p: [(name, widget) for name, widget in
-                               self.ui_obj_dict.items() if name.startswith(p)]})
+            panels.update({p: self.with_prefix(p)})
 
         return panels
 
-    @pyqtSlot(str, str)
-    def refresh_panel(self, tgt_group, tgt_bname):
-        """
-            This method is called when the simulation panel needs to be refreshed.
-        Parameters
-        ----------
-        tgt_group      :   key for a widget_group in the _widget_groups dict,
-                        also it is a key for a set of values from the model.
-        tgt_bname      :   the name of the SimBody to be used in the refresh.
-
-        Returns
-        -------
-        nothing     :   applies a tuple of values from the model based upon the target key
-                        to the currentText field of the widgets identified by the key.
-        """
-        if tgt_group in ['attr_', 'elem_', 'syst_']:
-            new_data = self.model.data_group(sb_name=tgt_bname,
-                                             tgt_group=tgt_group)
-            for i, w in enumerate(self.widget_group[tgt_group]):
-                print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
-                try:
-                    w.setCurrentText(new_data[i])
-                except:
-                    print(f'>>>ERROR: Did not like widget {i}: {w} set to {new_data[i]}')
-
-        elif tgt_group == 'cams_':
-            pass
+    # @pyqtSlot(str, str)
+    # def refresh_panel(self, tgt_group, tgt_bname):
+    #     """
+    #         This method is called when the simulation panel needs to be refreshed.
+    #     Parameters
+    #     ----------
+    #     tgt_group      :   key for a widget_group in the _widget_groups dict,
+    #                     also it is a key for a set of values from the model.
+    #     tgt_bname      :   the name of the SimBody to be used in the refresh.
+    #
+    #     Returns
+    #     -------
+    #     nothing     :   applies a tuple of values from the model based upon the target key
+    #                     to the currentText field of the widgets identified by the key.
+    #     """
+    #     if tgt_group in ['attr_', 'elem_', 'syst_']:
+    #         new_data = self.model.data_group(sb_name=tgt_bname,
+    #                                          tgt_group=tgt_group)
+    #         for i, w in enumerate(self.widget_group[tgt_group]):
+    #             print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
+    #             try:
+    #                 w.setCurrentText(new_data[i])
+    #             except:
+    #                 print(f'>>>ERROR: Did not like widget {i}: {w} set to {new_data[i]}')
+    #
+    #     elif tgt_group == 'cams_':
+    #         pass
 
     @property
     def widget_group(self, group_name=None):
         if group_name is None:
-            return self._widget_group
-        elif group_name in self._widget_group.keys():
-            return self._widget_group[group_name]
+            return self._widget_groups
+        elif group_name in self._widget_groups.keys():
+            return self._widget_groups[group_name]
         else:
             raise ValueError(f'>>>ERROR: {group_name} is not a valid widget group name.')
