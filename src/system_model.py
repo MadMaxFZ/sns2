@@ -142,7 +142,10 @@ class SimSystem(SimBodyDict):
 
         print(f'> Time to update: {(t1 - t0) * u.s:.4f} seconds.')
 
-    # @pyqtSlot(list)
+    @property
+    def dist_unit(self):
+        return self._dist_unit
+
     @property
     def positions(self):
         """
@@ -215,7 +218,8 @@ class SimSystem(SimBodyDict):
         -------
         data_list : a list containing the data associated with the provided body name and key.
         """
-        sb_names = tgt_keys = None
+        sb_names = None
+        tgt_keys = None
         if sb_name:
             if type(sb_name) == str:
                 sb_names = [sb_name,]
@@ -240,7 +244,7 @@ class SimSystem(SimBodyDict):
              for n in sb_names
              ]
 
-        elif not sb_names and tgt_keys:
+        elif tgt_keys and not sb_names:
             res = {}
             [[res.update({t: self.data[n].field(t)})
               for n in self._current_body_names

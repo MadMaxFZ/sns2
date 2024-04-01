@@ -47,7 +47,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.model    = SimSystem()
-        self.sys_data = self.model.sys_data
         self.model.load_from_names()
         [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
         self.cameras  = CameraSet()
@@ -58,17 +57,18 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
         # The first two are fields that exist for each SimBody (exceptr primary)
-        self._model_fields2agg = ('attr_', 'rad', 'pos', 'rot', 'radii')
-        self._color_fields2agg = ('body_alpha', 'track_alpha', 'body_mark',
+        self._model_fields2agg = ('attr_', 'key_', 'rad', 'pos', 'rot', 'radii',
+                                  'body_alpha', 'track_alpha', 'body_mark',
                                   'body_color', 'track_data', 'rel2cam')
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
         self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
 
         self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)
         # this body_agg_data is not correct somehow
-        self.visuals = StarSystemVisuals(self.sys_data.body_names, body_names=_body_names)
+        self.visuals = StarSystemVisuals(self.model.sys_data.body_names,
+                                         body_names=_body_names)
         self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
-        self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
+        # self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
         # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
         self._setup_layout()
@@ -125,10 +125,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.controls.active_bod = new_bod_id
         self.refresh_panel('attr_')
 
-    @pyqtSlot(int)
-    def setActiveTab(self, new_pnl_id):
-        self.controls.active_pnl = new_pnl_id
-        self.refresh_panel(self.sys_data.model_data_group_keys[new_pnl_id])
+    # @pyqtSlot(int)
+    # def setActiveTab(self, new_pnl_id):
+    #     self.controls.active_pnl = new_pnl_id
+    #     self.refresh_panel(self.sys_data.model_data_group_keys[new_pnl_id])
 
     @pyqtSlot(int)
     def setActiveCam(self, new_cam_id):
@@ -148,15 +148,21 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         #
         # model_agg_data = {}
-        if panel_key in ['attr_', 'elem_', 'syst_']:
-            widg_grp = [w for w in self.controls.widget_group[panel_key].values()]
+        if panel_key in self._model_fields2agg:
+            widg_grp = [w for w in list(self.controls.widget_group[panel_key].values())]
             curr_bod_name = list(self.model.data.keys())[self.controls.ui.bodyBox.currentIndex()]
-            for i, data in enumerate(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key).values()):
-                widg_grp[i].setText(data[i])
+            for i, data in enumerate(list(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key).values())):
+                # widg_grp[i].setText(str(data[i]))
                 print(f'widget #{i}: {widg_grp[i].__repr__} -> {data[i]}')
 
         elif panel_key == 'cam_':
             # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
+            i = 0
+            for k, v in self.cameras.curr_cam.get_state():
+                list(self.controls.widget_group['key_'].values())[i].setText(str(k))
+                list(self.controls.widget_group[panel_key].values())[i].setText(str(v))
+                i += 1
+
             pass
 
         # self.update_panel.emit(model_agg_data)
@@ -171,20 +177,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
             res.update({f_id: agg})
 
         return res
-
-    def _get_vizz_agg_fields(self, field_ids):
-        res = {}
-        for f_id in field_ids:
-            agg = {}
-            [agg.update({pl.name: self._get_vizz_field(pl, f_id)})
-             for pl in self.visuals.planets]
-            res.update({f_id: agg})
-
-        return res
-
-    def _get_cam_agg_fields(self, field_ids):
-
-        return self.cameras.cam_state
 
     def _get_sbod_field(self, _simbod, field_id):
         """
@@ -215,9 +207,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'rot':
                 return _simbod.rot
 
-            case 'track':
-                return _simbod.track
-
             case 'axes':
                 return _simbod.axes
 
@@ -226,50 +215,21 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
             case 'radii':
                 return _simbod.radius
-        pass
 
-    def _get_vizz_field(self, _planet, field_id):
-        match field_id:
             case 'body_alpha':
-                return _planet[self._color_fields2agg[0]]
+                return _simbod.body_alpha
 
             case 'track_alpha':
-                return _planet[self._color_fields2agg[1]]
+                return _simbod.track_alpha
 
             case 'body_mark':
-                return _planet[self._color_fields2agg[2]]
+                return _simbod.body_mark
 
             case 'body_color':
-                return _planet[self._color_fields2agg[3]]
+                return _simbod.body_color
 
-        pass
-
-    def _get_cams_field(self, _camera, field_id):
-        _idx = 0
-        match field_id:
-            case 'center':
-                _state = self.cameras.cam_states(self.cameras._cam_dict[_idx](self.ui.camBox.currentIndex()))
-
-                res = {}
-                for _idx, _widget in enumerate(self.controls.widget_group['cam_']):
-                    res.update({_idx: [_widget, _state[_idx]]})
-
-                return res
-
-            case 'rot1':
-                pass
-
-            case 'rot2':
-                pass
-
-            case 'zoom':
-                pass
-
-            case 'fov':
-                pass
-
-            case 'scale':
-                pass
+            case 'rel2cam':
+                return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
 
         pass
 

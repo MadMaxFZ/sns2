@@ -18,7 +18,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
-    <option name="requirementsPath" value="" />
+    <option name="requirementsPath" value="C:\_Projects\sns2\src\requirements.txt" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="NUMPY" />
