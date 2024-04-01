@@ -419,6 +419,21 @@ class SimBody:
         if type(e) == Time:
             self._epoch = e
 
+    @property
+    def body_alpha(self):
+        return self._vizz_data['body_alpha']
+
+    @property
+    def track_alpha(self):
+        return self._vizz_data['track_alpha']
+
+    @property
+    def body_mark(self):
+        return self._vizz_data['body_mark']
+
+    @property
+    def body_color(self):
+        return self._vizz_data['body_color']
 
 if __name__ == "__main__":
 
