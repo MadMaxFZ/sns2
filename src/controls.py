@@ -10,7 +10,8 @@ from typing import List
 
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
-from composite import Ui_frm_sns_controls
+#from composite import Ui_frm_sns_controls
+from tiled import Ui_SNS_DataPanels
 from src.starsys_data import log_config
 
 logging.config.dictConfig(log_config)
@@ -23,7 +24,8 @@ class Controls(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super(Controls, self).__init__(parent)
-        self.ui = Ui_frm_sns_controls()
+        # self.ui = Ui_frm_sns_controls()
+        self.ui = Ui_SNS_DataPanels()
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         # logging.info([i for i in self.ui.__dict__.keys() if (i.startswith("lv") or "warp" in i)])

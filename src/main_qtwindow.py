@@ -96,7 +96,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.addItems(self.model.body_names)
         self.ui.camBox.addItems(self.cameras.cam_ids)
         self.ui.bodyBox.setCurrentIndex(3)
-        self.ui.tabWidget_Body.setCurrentIndex(0)
+        # self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.camBox.setCurrentIndex(0)
         print("Controls initialized...")
 
@@ -107,7 +107,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentIndexChanged.connect(self.setActiveBody)
-        self.ui.tabWidget_Body.currentChanged.connect(self.setActiveTab)
+        # self.ui.tabWidget_Body.currentChanged.connect(self.setActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
