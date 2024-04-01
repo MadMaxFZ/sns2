@@ -357,10 +357,10 @@ class SystemDataStore:
             _vizz_data = dict(body_color=_colorset_rgb[idx],
                               body_alpha=1.0,
                               track_alpha=0.6,
+                              body_mark=_body_mark[_type_set[idx]],
                               fname_idx=_tex_idx[idx],
                               tex_fname=_tex_fnames[_tex_idx[idx]],
                               tex_data=_tex_dat_set[_bod_name],  # _tex_dat_set[idx],
-                              body_mark=_body_mark[_type_set[idx]],
                               viz_names=_viz_assign[_bod_name],
                               )
             _vizz_params.update({_bod_name: _vizz_data})

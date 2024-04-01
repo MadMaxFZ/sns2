@@ -150,9 +150,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # model_agg_data = {}
         if panel_key in ['attr_', 'elem_', 'syst_']:
             widg_grp = [w for w in self.controls.widget_group[panel_key].values()]
-            curr_bod_name = self.model.data.keys()[self.controls.bodyBox.currentText()]
+            curr_bod_name = list(self.model.data.keys())[self.controls.ui.bodyBox.currentIndex()]
             for i, data in enumerate(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key).values()):
-                widg_grp[i].setText(data)
+                widg_grp[i].setText(data[i])
+                print(f'widget #{i}: {widg_grp[i].__repr__} -> {data[i]}')
 
         elif panel_key == 'cam_':
             # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
@@ -187,7 +188,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     def _get_sbod_field(self, _simbod, field_id):
         """
-            This method is used to get the values of a particular field for a given SimBody object.
+            This method retrieves the values of a particular field for a given SimBody object.
+            Uses the field_id key to indicate which property to return.
         Parameters
         ----------
         _simbod             : SimBody            The SimBody object for which the field value is to be retrieved.
@@ -224,6 +226,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
             case 'radii':
                 return _simbod.radius
+        pass
 
     def _get_vizz_field(self, _planet, field_id):
         match field_id:
@@ -238,6 +241,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
             case 'body_color':
                 return _planet[self._color_fields2agg[3]]
+
+        pass
 
     def _get_cams_field(self, _camera, field_id):
         _idx = 0
@@ -266,6 +271,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'scale':
                 pass
 
+        pass
 
 '''==============================================================================================================='''
 if __name__ == "__main__":

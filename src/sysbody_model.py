@@ -47,7 +47,7 @@ class SimBody:
                'elem',
                )
 
-    def __init__(self, body_data=None):
+    def __init__(self, body_data=None, vizz_data=None,):
         # super(SimBody, self).__init__()
         self._is_primary    = False
         self._prev_update   = None
@@ -76,7 +76,7 @@ class SimBody:
         self._trajectory    = None
         self._rad_set       = None
         self._type          = None
-        self._viz_data      = None
+        self._vizz_data     = vizz_data
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)

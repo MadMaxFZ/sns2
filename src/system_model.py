@@ -92,8 +92,10 @@ class SimSystem(SimBodyDict):
 
         # populate the list with SimBody objects
         self.data.clear()
-        [self.data.update({body_name : SimBody(body_data=self.sys_data.body_data[body_name])})
+        [self.data.update({body_name : SimBody(body_data=self.sys_data.body_data[body_name],
+                                               vizz_data=self.sys_data.vizz_data[body_name])})
          for body_name in self._current_body_names]
+
         self._body_count = len(self.data)
         self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
         [self._set_parentage(sb) for sb in self.data.values() if sb.body.parent]
@@ -177,8 +179,28 @@ class SimSystem(SimBodyDict):
         dict    :   a dictionary of the orbit tracks of the bodies in the system keyed by name.
         """
         res = {}
-        [res.update({k : self.data[k].track}) for k in self.data.keys() if not self.data[k].is_primary]
+        [res.update({k: self.data[k].track}) for k in self.data.keys() if not self.data[k].is_primary]
 
+        return res
+
+    @property
+    def body_color(self):
+        res = {}
+        return res
+
+    @property
+    def body_alpha(self):
+        res = {}
+        return res
+
+    @property
+    def track_color(self):
+        res = {}
+        return res
+
+    @property
+    def body_mark(self):
+        res = {}
         return res
 
     def data_group(self, sb_name=None, tgt_key=None):
