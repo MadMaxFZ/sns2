@@ -263,7 +263,8 @@ class SimSystem(SimBodyDict):
         else:
             res = {}
 
-        return res
+        print(f'model.data_group({sb_name}, {tgt_key}) = {list(res.values())}')
+        return res.values()
 
 
 if __name__ == "__main__":

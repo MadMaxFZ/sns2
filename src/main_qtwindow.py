@@ -57,7 +57,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
         # The first two are fields that exist for each SimBody (exceptr primary)
-        self._model_fields2agg = ('attr_', 'key_', 'rad', 'pos', 'rot', 'radii',
+        self._model_fields2agg = ('rad', 'pos', 'rot', 'radii', 'elem_',
                                   'body_alpha', 'track_alpha', 'body_mark',
                                   'body_color', 'track_data', 'rel2cam')
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
@@ -107,7 +107,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentIndexChanged.connect(self.setActiveBody)
-        # self.ui.tabWidget_Body.currentChanged.connect(self.setActiveTab)
         self.ui.camBox.currentIndexChanged.connect(self.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
@@ -124,6 +123,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveBody(self, new_bod_id):
         self.controls.active_bod = new_bod_id
         self.refresh_panel('attr_')
+        self.refresh_panel('elem_')
 
     # @pyqtSlot(int)
     # def setActiveTab(self, new_pnl_id):
@@ -134,6 +134,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveCam(self, new_cam_id):
         self.controls.active_cam = new_cam_id
         self.refresh_panel('cam_')
+        self.refresh_panel('elem_')
 
     def refresh_panel(self, panel_key):
         """
@@ -148,19 +149,40 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         #
         # model_agg_data = {}
+        widg_grp        = self.controls.with_prefix(panel_key)
+        curr_bod_name   = self.controls.ui.bodyBox.currentText()
+        curr_cam_id     = self.controls.ui.camBox.currentText()
+
         if panel_key in self._model_fields2agg:
-            widg_grp = [w for w in list(self.controls.widget_group[panel_key].values())]
-            curr_bod_name = list(self.model.data.keys())[self.controls.ui.bodyBox.currentIndex()]
-            for i, data in enumerate(list(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key).values())):
-                # widg_grp[i].setText(str(data[i]))
-                print(f'widget #{i}: {widg_grp[i].__repr__} -> {data[i]}')
+            curr_sb = self.model[curr_bod_name]
+            if panel_key == 'elem_' and curr_sb.is_primary:
+                widg_grp = self.controls.with_prefix('elem_rv_')
+                data_set = [curr_sb.r, curr_sb.v]
+            else:
+                data_set = self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key)
+
+            print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+            for i, data in enumerate(data_set):
+                print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(data)}')
+                widg_grp[i].setText(str(data[i]))
+
+        elif panel_key == 'attr_':
+            data_set = self.model[curr_bod_name].body
+            print(f'{data_set}')
+            print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+            for i, data in enumerate(data_set[:-2]):
+                if i == 0 and data:
+                    data = data.name
+
+                print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(data)}')
+                widg_grp[i].setText(str(data))
 
         elif panel_key == 'cam_':
             # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
             i = 0
-            for k, v in self.cameras.curr_cam.get_state():
-                list(self.controls.widget_group['key_'].values())[i].setText(str(k))
-                list(self.controls.widget_group[panel_key].values())[i].setText(str(v))
+            for k, v in self.cameras.curr_cam.get_state().items():
+                self.controls.with_prefix('key_')[i].setText(str(k))
+                self.controls.with_prefix(panel_key)[i].setText(str(v))
                 i += 1
 
             pass
@@ -196,7 +218,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 return [a for a in _simbod.body]
 
             case 'elem_':
-                return _simbod.elem
+                return _simbod.elems
 
             case 'rad':
                 return _simbod.radius[0]

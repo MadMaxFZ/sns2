@@ -268,11 +268,11 @@ class SimBody:
 
     @property
     def r(self):
-        return self._orbit.r
+        return self._state[0]
 
     @property
     def v(self):
-        return self._orbit.v
+        return self._state[1]
 
     @property
     def pos(self):
@@ -382,9 +382,12 @@ class SimBody:
 
     @property
     def elems(self):
-        res = list(self._orbit.classical())
-        res.extend(list(self._orbit.pqw()))
-        res.extend(list(self._orbit.rv()))
+        if self._is_primary:
+            res = [self.r, self.v]
+        else:
+            res = list(self._orbit.classical())
+            res.extend(list(self._orbit.pqw()))
+            res.extend(list(self._orbit.rv()))
 
         return res
 
