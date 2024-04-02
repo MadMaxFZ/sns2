@@ -14,7 +14,7 @@ from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+logging.basicConfig(filename="./logs/sns_defs.log",
                     level=logging.INFO,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )

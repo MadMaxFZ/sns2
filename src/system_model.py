@@ -235,7 +235,7 @@ class SimSystem(SimBodyDict):
                 tgt_keys = [k for k in tgt_key if k in self.sys_data.model_data_group_keys]
             else:
                 tgt_keys = None
-
+        print(f'sb)_names = {sb_names},\n tgt_keys = {tgt_keys}')
         if sb_names and tgt_keys:
             res = {}
             [[res.update({n: self.data[n].field(t)})
@@ -263,7 +263,7 @@ class SimSystem(SimBodyDict):
         else:
             res = {}
 
-        print(f'model.data_group({sb_name}, {tgt_key}) = {list(res.values())}')
+        print(f'model.data_group({sb_name}, {tgt_key}) = {[i for i in list(res.values())]}')
         return res.values()
 
 

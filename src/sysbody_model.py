@@ -438,6 +438,7 @@ class SimBody:
     def body_color(self):
         return self._vizz_data['body_color']
 
+
 if __name__ == "__main__":
 
     def main():

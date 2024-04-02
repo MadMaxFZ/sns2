@@ -14,6 +14,7 @@ from vispy.app import use_app
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
+from astropy.units.quantity import Quantity
 
 from camera_set import CameraSet
 from src.system_model import SimSystem
@@ -25,6 +26,18 @@ from starsys_data import log_config, SystemDataStore
 logging.config.dictConfig(log_config)
 QT_NATIVE = False
 STOP_IT = True
+
+
+def round_off(val):
+    n_digits = 3
+    factor = pow(10, n_digits)
+    try:
+        data_unit = val / val.value
+        res = (int(val.value * factor) / factor) * data_unit
+    except:
+        res = val
+
+    return res
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -151,31 +164,37 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # model_agg_data = {}
         widg_grp        = self.controls.with_prefix(panel_key)
         curr_bod_name   = self.controls.ui.bodyBox.currentText()
+        curr_sb         = self.model[curr_bod_name]
         curr_cam_id     = self.controls.ui.camBox.currentText()
+        if panel_key == 'elem_':
 
-        if panel_key in self._model_fields2agg:
-            curr_sb = self.model[curr_bod_name]
-            if panel_key == 'elem_' and curr_sb.is_primary:
+            if curr_sb.is_primary:
                 widg_grp = self.controls.with_prefix('elem_rv_')
                 data_set = [curr_sb.r, curr_sb.v]
             else:
+                widg_grp = self.controls.with_prefix('elem_')
                 data_set = self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key)
 
             print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
             for i, data in enumerate(data_set):
-                print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(data)}')
+                print(f'widget #{i}: {widg_grp[i].objectName()} -> {data[i]}')
+                # [print(f'{str(n)}') for n in data]
                 widg_grp[i].setText(str(data[i]))
 
         elif panel_key == 'attr_':
-            data_set = self.model[curr_bod_name].body
+            data_set = curr_sb.body
             print(f'{data_set}')
             print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-            for i, data in enumerate(data_set[:-2]):
+            for i, data in enumerate(data_set):
                 if i == 0 and data:
                     data = data.name
+                if type(data) == Quantity:
+                    res = round_off(data)
+                else:
+                    res = data
 
-                print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(data)}')
-                widg_grp[i].setText(str(data))
+                print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(res)}')
+                widg_grp[i].setText(str(res))
 
         elif panel_key == 'cam_':
             # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
@@ -215,7 +234,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         match field_id:
             case 'attr_':
-                return [a for a in _simbod.body]
+                res = []
+                for a in _simbod.body:
+                    if type(a) == Body:
+                        a = a.name
+                    res.append(a)
+                return res
 
             case 'elem_':
                 return _simbod.elems
