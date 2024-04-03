@@ -235,26 +235,30 @@ class SimSystem(SimBodyDict):
                 tgt_keys = [k for k in tgt_key if k in self.sys_data.model_data_group_keys]
             else:
                 tgt_keys = None
-        print(f'sb)_names = {sb_names},\n tgt_keys = {tgt_keys}')
+
+        print(f'sb_names = {sb_names},\n tgt_keys = {tgt_keys}')
         if sb_names and tgt_keys:
+            print("\tNAMES  AND  TARGET\n")
             res = {}
-            [[res.update({n: self.data[n].field(t)})
+            [[res.update({(n, t): self.data[n].field(t)})
               for t in tgt_keys
               ]
              for n in sb_names
              ]
 
         elif tgt_keys and not sb_names:
+            print("\tTARGET  AND  NOT NAMES\n")
             res = {}
-            [[res.update({t: self.data[n].field(t)})
+            [[res.update({(n, t): self.data[n].field(t)})
               for n in self._current_body_names
               ]
              for t in tgt_keys
              ]
 
         elif sb_names and not tgt_keys:
+            print("\tNAMES  AND  NOT TARGET\n")
             res = {}
-            [[res.update({n: self.data[n].field(t)})
+            [[res.update({(n, t): self.data[n].field(t)})
               for t in self.sys_data.model_data_group_keys
               ]
              for n in sb_names
@@ -263,8 +267,9 @@ class SimSystem(SimBodyDict):
         else:
             res = {}
 
-        print(f'model.data_group({sb_name}, {tgt_key}) = {[i for i in list(res.values())]}')
-        return res.values()
+        [print(f'model.data_group({k[0]}, {k[1]}) = {self.data[k[0]].field(k[1])}')
+         for k, v in res.items()]
+        return list(res.values())
 
 
 if __name__ == "__main__":

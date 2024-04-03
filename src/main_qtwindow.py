@@ -147,7 +147,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveCam(self, new_cam_id):
         self.controls.active_cam = new_cam_id
         self.refresh_panel('cam_')
-        self.refresh_panel('elem_')
+        # self.refresh_panel('elem_')
 
     def refresh_panel(self, panel_key):
         """
@@ -173,18 +173,18 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 data_set = [curr_sb.r, curr_sb.v]
             else:
                 widg_grp = self.controls.with_prefix('elem_')
-                data_set = self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key)
+                data_set = iter(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key))
 
             print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-            for i, data in enumerate(data_set):
-                print(f'widget #{i}: {widg_grp[i].objectName()} -> {data[i]}')
+            for i, w in enumerate(widg_grp):
+                print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
                 # [print(f'{str(n)}') for n in data]
-                widg_grp[i].setText(str(data[i]))
+                w.setText(str(data_set[i]))
 
         elif panel_key == 'attr_':
             data_set = curr_sb.body
             print(f'{data_set}')
-            print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+            print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
             for i, data in enumerate(data_set):
                 if i == 0 and data:
                     data = data.name
