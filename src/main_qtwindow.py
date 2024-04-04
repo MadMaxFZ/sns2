@@ -176,18 +176,19 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 data_set = iter(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key))
 
             print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-            for i, w in enumerate(widg_grp):
+            for i, w in enumerate(widg_grp.values()):
                 print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
                 # [print(f'{str(n)}') for n in data]
                 w.setText(str(data_set[i]))
 
         elif panel_key == 'attr_':
+
             data_set = curr_sb.body
             print(f'{data_set}')
             print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
             for i, data in enumerate(data_set):
                 if i == 0 and data:
-                    data = data.name
+                    data = data[i].name
                 if type(data) == Quantity:
                     res = round_off(data)
                 else:
@@ -244,7 +245,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'elem_':
                 return _simbod.elems
 
-            case 'rad':
+            case 'rad0':
                 return _simbod.radius[0]
 
             case 'pos':
@@ -259,7 +260,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'track_data':
                 return _simbod.track
 
-            case 'radii':
+            case 'radius':
                 return _simbod.radius
 
             case 'body_alpha':

@@ -25,6 +25,14 @@ class CanvasWrapper:
         self._view = self._canvas.view
 
     @property
+    def curr_cam(self):
+        return self._canvas.curr_cam
+
+    @property
+    def curr_cam_state(self):
+        return self._canvas.curr_cam.get_state()
+
+    @property
     def native(self):
         return self._canvas.native
 
@@ -141,8 +149,12 @@ class MainSimCanvas(scene.SceneCanvas):
         app.quit()
 
     @property
-    def curr_cam(self):
+    def curr_cam_state(self):
         return self._fpv_viewbox.camera.get_state()
+
+    @property
+    def curr_cam(self):
+        return self._fpv_viewbox.camera
 
     @property
     def view(self):
@@ -178,6 +190,5 @@ if __name__ == "__main__":
                              ]
         my_simwin = MainSimCanvas()
         my_simwin.run()
-
 
     main()
