@@ -92,7 +92,7 @@ def _latitude(rows=4, cols=8, radius=1, offset=False):
     return MeshData(vertices=verts, faces=faces)
 
 
-def _oblate_sphere(rows=4, cols=None, radius=(1200, 1200, 1200), offset=False):
+def _oblate_sphere(rows=4, cols=None, radius=(1200 * u.km,) * 3, offset=False):
     verts = np.empty((rows + 1, cols + 1, 3), dtype=np.float32)
     tcrds = np.empty((rows + 1, cols + 1, 2), dtype=np.float32)
     norms = np.linalg.norm(verts)

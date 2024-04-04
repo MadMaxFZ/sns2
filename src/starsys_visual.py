@@ -110,10 +110,10 @@ class StarSystemVisuals:
 
         for name in self._body_names:
             self._generate_planet_viz(body_name=name)
-            print(f'Planet Visual for {name:=12} created...')
-            if name != self._agg_cache['primary_name']:
+            print(f'Planet Visual for {name} created...')
+            if name != self._agg_cache['is_primary']:
                 self._generate_trajct_viz(body_name=name)
-                print(f'Trajectory Visual for {name:=12} created...')
+                print(f'Trajectory Visual for {name} created...')
 
         self._generate_marker_viz()
         self._subvizz = dict(sk_map=self._skymap,
@@ -138,7 +138,7 @@ class StarSystemVisuals:
                       visible=True,
                       method='oblate',
                       vizz_data=viz_dat,
-                      body_radset=self._agg_cache['rad0'][body_name]
+                      body_radset=self._agg_cache['radius'][body_name]
                       )
         plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
         self._planets.update({body_name: plnt})
@@ -146,9 +146,9 @@ class StarSystemVisuals:
     def _generate_trajct_viz(self, body_name):
         """ Generate Polygon visual object for each SimBody orbit
         """
-        t_color = Color(self._agg_cache['color'][body_name])
-        t_color.alpha = self._agg_cache['t_alpha'][body_name]
-        poly = Polygon(pos=self._agg_cache['track'][body_name],
+        t_color = Color(self._agg_cache['body_color'][body_name])
+        t_color.alpha = self._agg_cache['track_alpha'][body_name]
+        poly = Polygon(pos=self._agg_cache['track_data'][body_name],
                        border_color=t_color,
                        triangulate=False,
                        parent=self._scene,

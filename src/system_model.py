@@ -243,8 +243,8 @@ class SimSystem(SimBodyDict):
             case 'elem_':
                 return _simbod.elems
 
-            case 'rad0':
-                return _simbod.body.R
+            case 'radius':
+                return _simbod.radius
 
             case 'pos':
                 return _simbod.pos
@@ -272,6 +272,9 @@ class SimSystem(SimBodyDict):
 
             case 'body_color':
                 return _simbod.body_color
+
+            case 'is_primary':
+                return _simbod.is_primary
 
             case 'tex_data':
                 # TODO: Add a condition to check if texture data exists in an existing Planet visual.

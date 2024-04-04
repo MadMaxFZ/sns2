@@ -64,7 +64,7 @@ class PlanetVisual(CompoundVisual):
                  shading=None, texture=None, method='oblate',
                  vizz_data=None, body_radset=None, valid_names=None, **kwargs):
 
-        self._radii = np.zeros((3,),dtype=np.float64)
+        self._radius = np.zeros((3,), dtype=np.float64)
         self._pos = np.zeros((3,), dtype=np.float64)
         # self._sb_ref = sim_body
         if body_name:
@@ -74,15 +74,14 @@ class PlanetVisual(CompoundVisual):
             self._base_color = Color(self._vizz_data['body_color'][body_name])
             self._body_alpha = self._vizz_data['body_alpha'][body_name]
             self._track_alpha = self._vizz_data['track_alpha'][body_name]
+            self._radius = self._vizz_data['radius'][body_name]
             if texture is None:
                 self._texture_data = self._tex_data
             else:
                 self._texture_data = texture
 
-            self._radii = body_radset
-
         else:           # no SimBody provided
-            self._radii = [1.0, 1.0, 1.0] * u.km  # default to 1.0
+            self._radius = [1.0, 1.0, 1.0] * u.km  # default to 1.0
             self._texture_data = get_texture_data(DEF_TEX_FNAME)
 
         self._texture_data = self._texture_data.transpose(Image.Transpose.ROTATE_270)
@@ -90,12 +89,12 @@ class PlanetVisual(CompoundVisual):
             cols = rows * 2
 
         if method == 'latitude':
-            radius = self._radii[0]
-            self._mesh_data = _latitude(rows, cols, radius, offset)
+            radius = self._radius
+            self._mesh_data = _latitude(rows, cols, self._radius, offset)
             # print("Using 'latitude' method...")
         else:
-            radius = self.rad0
-            self._surface_data = _oblate_sphere(rows, cols, radius, offset)
+            radius = self._radius
+            self._surface_data = _oblate_sphere(rows, cols, self._radius, offset)
             self._mesh_data = MeshData(vertices=self._surface_data['verts'],
                                        faces=self._surface_data['faces'])
             self._surface_data['edges'] = self._mesh_data.get_edges()
@@ -107,7 +106,7 @@ class PlanetVisual(CompoundVisual):
                                 color=color,
                                 shading=shading)
 
-        if np.array(edge_color).any():
+        if edge_color:
             self._border = MeshVisual(vertices=self._mesh_data.get_vertices(),
                                       faces=self._mesh_data.get_edges(),
                                       color=edge_color, mode='lines')
@@ -122,7 +121,7 @@ class PlanetVisual(CompoundVisual):
 
     @property
     def rad0(self):
-        return self._radii[0]
+        return self._radius
 
     @property
     def mesh(self):

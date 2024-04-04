@@ -107,13 +107,13 @@ class SimBody:
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
-            R  = self._body.R.to(self._dist_unit).value
+            R  = self._body.R.to(self._dist_unit)
             Rm = Rp = R
             self._is_primary = True
         else:
-            R  = self._body.R.to(self._dist_unit).value
-            Rm = self._body.R_mean.to(self._dist_unit).value
-            Rp = self._body.R_polar.to(self._dist_unit).value
+            R  = self._body.R.to(self._dist_unit)
+            Rm = self._body.R_mean.to(self._dist_unit)
+            Rp = self._body.R_polar.to(self._dist_unit)
 
         self._rad_set = [R, Rm, Rp,]
         self._body_data.update({'rad_set': self._rad_set})

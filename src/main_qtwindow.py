@@ -74,8 +74,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius', 'elem_',
                                   'rel2cam',
                                   )
-        self._vizz_fields2agg = ('rad0', 'body_alpha', 'track_alpha', 'body_mark',
-                                 'body_color', 'track_data', 'tex_data',
+        self._vizz_fields2agg = ('radius', 'body_alpha', 'track_alpha', 'body_mark',
+                                 'body_color', 'track_data', 'tex_data', 'is_primary',
                                  )
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
         # self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
