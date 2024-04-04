@@ -14,9 +14,8 @@ from vispy.geometry import MeshData
 from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
 
-# import starsys_data
 
-logging.basicConfig(filename="./logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )

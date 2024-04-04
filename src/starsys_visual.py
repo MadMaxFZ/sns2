@@ -50,7 +50,7 @@ _cm_e_alpha = 0.6
 class StarSystemVisuals:
     """
     """
-    def __init__(self, _valid_names, body_radsets=None, body_names=None):
+    def __init__(self, body_names=None):
         """
         Constructs a collection of Visuals that represent entities in the system model,
         updating periodically based upon the quantities propagating in the model.
@@ -58,12 +58,6 @@ class StarSystemVisuals:
                 be obtained using Signals to the QThread that the model will be running within.
         Parameters
         ----------
-        _valid_names : list of str
-            list of valid SimBody names
-        vizz_data    : dict
-            dict of visual data for each body
-        body_radsets : dict of dicts
-            dict of dicts of radius sets for each body
         body_names   : list of str
             list of SimBody names to make visuals for
         """
@@ -86,8 +80,8 @@ class StarSystemVisuals:
         self._vizz_data    = None
         self._body_radsets = None
         self.dist_unit     = u.km
-        if body_names and _valid_names:
-            self._body_names   = [n for n in body_names if n in _valid_names]
+        if body_names:
+            self._body_names   = [n for n in body_names]
         self._body_count   = len(self._body_names)
 
     '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
@@ -134,15 +128,17 @@ class StarSystemVisuals:
     def _generate_planet_viz(self, body_name):
         """ Generate Planet visual object for each SimBody
         """
+        viz_dat = {}
+        [viz_dat.update({k: v}) for k, v in self._agg_cache.items() if list(v.keys())[0] == body_name]
         plnt = Planet(body_name=body_name,
                       rows=18,
-                      color=Color((1, 1, 1, self._agg_cache['b_alpha'][body_name])),
+                      color=Color((1, 1, 1, self._agg_cache['body_alpha'][body_name])),
                       edge_color=Color((0, 0, 0, _pm_e_alpha)),  # sb.base_color,
                       parent=self._scene,
                       visible=True,
                       method='oblate',
-                      vizz_data=self._vizz_data[body_name],
-                      body_radset=self._body_radsets[body_name]
+                      vizz_data=viz_dat,
+                      body_radset=self._agg_cache['rad0'][body_name]
                       )
         plnt.transform = trx.MatrixTransform()  # np.eye(4, 4, dtype=np.float64)
         self._planets.update({body_name: plnt})

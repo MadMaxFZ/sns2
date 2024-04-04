@@ -34,6 +34,7 @@ def round_off(val):
     try:
         data_unit = val / val.value
         res = (int(val.value * factor) / factor) * data_unit
+
     except:
         res = val
 
@@ -59,28 +60,31 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.model    = SimSystem()
+        self.model = SimSystem()
         self.model.load_from_names()
         [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
-        self.cameras  = CameraSet()
-        self.canvas   = CanvasWrapper(self.cameras)
+        self.cameras = CameraSet()
+        self.canvas = CanvasWrapper(self.cameras)
         self.controls = Controls()
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget()
 
         # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
         # The first two are fields that exist for each SimBody (exceptr primary)
-        self._model_fields2agg = ('rad', 'pos', 'rot', 'radii', 'elem_',
-                                  'body_alpha', 'track_alpha', 'body_mark',
-                                  'body_color', 'track_data', 'rel2cam')
+        self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius', 'elem_',
+                                  'rel2cam',
+                                  )
+        self._vizz_fields2agg = ('rad0', 'body_alpha', 'track_alpha', 'body_mark',
+                                 'body_color', 'track_data', 'tex_data',
+                                 )
         # This key set refers to fields that are common to the cameras (only FlyCameras right now)
-        self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
+        # self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
 
-        self.body_agg_data = self._get_model_agg_fields(self._model_fields2agg)
-        # this body_agg_data is not correct somehow
-        self.visuals = StarSystemVisuals(self.model.sys_data.body_names,
-                                         body_names=_body_names)
-        self.visuals.generate_visuals(self.canvas.view, agg_data=self.body_agg_data)
+        self.vizz_agg_data = self.model.get_agg_fields(self._vizz_fields2agg)
+        # `this body_agg_data is not correct somehow
+        self.visuals = StarSystemVisuals(self.model.body_names)
+        self.visuals.generate_visuals(self.canvas.view,
+                                      self.vizz_agg_data)
         # self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
         # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
 
@@ -136,7 +140,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveBody(self, new_bod_id):
         self.controls.active_bod = new_bod_id
         self.refresh_panel('attr_')
-        self.refresh_panel('elem_')
+        # self.refresh_panel('elem_')
 
     # @pyqtSlot(int)
     # def setActiveTab(self, new_pnl_id):
@@ -162,10 +166,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         #
         # model_agg_data = {}
-        widg_grp        = self.controls.with_prefix(panel_key)
-        curr_bod_name   = self.controls.ui.bodyBox.currentText()
-        curr_sb         = self.model[curr_bod_name]
-        curr_cam_id     = self.controls.ui.camBox.currentText()
+        widg_grp = self.controls.with_prefix(panel_key)
+        curr_bod_name = self.controls.ui.bodyBox.currentText()
+        curr_sb = self.model[curr_bod_name]
+        curr_cam_id = self.controls.ui.camBox.currentText()
         if panel_key == 'elem_':
 
             if curr_sb.is_primary:
@@ -210,75 +214,75 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.update_panel.emit(model_agg_data)
         pass
 
-    def _get_model_agg_fields(self, field_ids):
-        res = {'primary_name': self.model.system_primary.name}
-        for f_id in field_ids:
-            agg = {}
-            [agg.update({sb.name: self._get_sbod_field(sb, f_id)})
-             for sb in self.model.data.values()]
-            res.update({f_id: agg})
+    # def _get_model_agg_fields(self, field_ids):
+    #     res = {'primary_name': self.model.system_primary.name}
+    #     for f_id in field_ids:
+    #         agg = {}
+    #         [agg.update({sb.name: self._get_sbod_field(sb, f_id)})
+    #          for sb in self.model.data.values()]
+    #         res.update({f_id: agg})
+    #
+    #     return res
 
-        return res
-
-    def _get_sbod_field(self, _simbod, field_id):
-        """
-            This method retrieves the values of a particular field for a given SimBody object.
-            Uses the field_id key to indicate which property to return.
-        Parameters
-        ----------
-        _simbod             : SimBody            The SimBody object for which the field value is to be retrieved.
-        field_id            : str                The field for which the value is to be retrieved.
-
-        Returns
-        -------
-        simbod.<field_id>   : float or list       The value of the field for the given SimBody object.
-        """
-        match field_id:
-            case 'attr_':
-                res = []
-                for a in _simbod.body:
-                    if type(a) == Body:
-                        a = a.name
-                    res.append(a)
-                return res
-
-            case 'elem_':
-                return _simbod.elems
-
-            case 'rad0':
-                return _simbod.radius[0]
-
-            case 'pos':
-                return _simbod.pos
-
-            case 'rot':
-                return _simbod.rot
-
-            case 'axes':
-                return _simbod.axes
-
-            case 'track_data':
-                return _simbod.track
-
-            case 'radius':
-                return _simbod.radius
-
-            case 'body_alpha':
-                return _simbod.body_alpha
-
-            case 'track_alpha':
-                return _simbod.track_alpha
-
-            case 'body_mark':
-                return _simbod.body_mark
-
-            case 'body_color':
-                return _simbod.body_color
-
-            case 'rel2cam':
-                return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
-
-        pass
+    # def _get_sbod_field(self, _simbod, field_id):
+    #     """
+    #         This method retrieves the values of a particular field for a given SimBody object.
+    #         Uses the field_id key to indicate which property to return.
+    #     Parameters
+    #     ----------
+    #     _simbod             : SimBody            The SimBody object for which the field value is to be retrieved.
+    #     field_id            : str                The field for which the value is to be retrieved.
+    #
+    #     Returns
+    #     -------
+    #     simbod.<field_id>   : float or list       The value of the field for the given SimBody object.
+    #     """
+    #     match field_id:
+    #         case 'attr_':
+    #             res = []
+    #             for a in _simbod.body:
+    #                 if type(a) == Body:
+    #                     a = a.name
+    #                 res.append(a)
+    #             return res
+    #
+    #         case 'elem_':
+    #             return _simbod.elems
+    #
+    #         case 'rad0':
+    #             return _simbod.radius[0]
+    #
+    #         case 'pos':
+    #             return _simbod.pos
+    #
+    #         case 'rot':
+    #             return _simbod.rot
+    #
+    #         case 'axes':
+    #             return _simbod.axes
+    #
+    #         case 'track_data':
+    #             return _simbod.track
+    #
+    #         case 'radius':
+    #             return _simbod.radius
+    #
+    #         case 'body_alpha':
+    #             return _simbod.body_alpha
+    #
+    #         case 'track_alpha':
+    #             return _simbod.track_alpha
+    #
+    #         case 'body_mark':
+    #             return _simbod.body_mark
+    #
+    #         case 'body_color':
+    #             return _simbod.body_color
+    #
+    #         case 'rel2cam':
+    #             return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
+    #
+    #     pass
 
 
 '''==============================================================================================================='''

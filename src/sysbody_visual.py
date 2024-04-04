@@ -57,7 +57,7 @@ class PlanetVisual(CompoundVisual):
         Shading to use.
     """
 
-    def __init__(self, body_name='Earth', # sim_body=None,
+    def __init__(self, body_name=None, # sim_body=None,
                  radius=1.0, rows=10, cols=None, offset=False,
                  vertex_colors=None, face_colors=None,
                  color=Color((1, 1, 1, 1)), edge_color=Color((0, 0, 1, 0.2)),
@@ -67,13 +67,13 @@ class PlanetVisual(CompoundVisual):
         self._radii = np.zeros((3,),dtype=np.float64)
         self._pos = np.zeros((3,), dtype=np.float64)
         # self._sb_ref = sim_body
-        if body_name in valid_names:
+        if body_name:
             self._vizz_data = vizz_data
-            self._tex_data = self._vizz_data['tex_data']
-            self._mark = self._vizz_data['body_mark']
-            self._base_color = Color(self._vizz_data['body_color'])
-            self._body_alpha = self._vizz_data['body_alpha']
-            self._track_alpha = self._vizz_data['track_alpha']
+            self._tex_data = self._vizz_data['tex_data'][body_name]
+            self._mark = self._vizz_data['body_mark'][body_name]
+            self._base_color = Color(self._vizz_data['body_color'][body_name])
+            self._body_alpha = self._vizz_data['body_alpha'][body_name]
+            self._track_alpha = self._vizz_data['track_alpha'][body_name]
             if texture is None:
                 self._texture_data = self._tex_data
             else:
@@ -94,7 +94,7 @@ class PlanetVisual(CompoundVisual):
             self._mesh_data = _latitude(rows, cols, radius, offset)
             # print("Using 'latitude' method...")
         else:
-            radius = self._radii
+            radius = self.rad0
             self._surface_data = _oblate_sphere(rows, cols, radius, offset)
             self._mesh_data = MeshData(vertices=self._surface_data['verts'],
                                        faces=self._surface_data['faces'])
@@ -119,6 +119,10 @@ class PlanetVisual(CompoundVisual):
                                 depth_test=True)
         super(PlanetVisual, self).__init__([v for v in [self._mesh, self._border]])
         self.texture = self._texture_data
+
+    @property
+    def rad0(self):
+        return self._radii[0]
 
     @property
     def mesh(self):

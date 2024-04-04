@@ -16,7 +16,7 @@ class SkyMapVisual(CompoundVisual):
     """
     """
 
-    DEF_TXTR_FNAME = "./resources/textures/8k_zzESO_Milky_Way.png"
+    DEF_TXTR_FNAME = "../resources/textures/8k_zzESO_Milky_Way.png"
     DEF_EDGE_COLOR = Color('blue')
     DEF_EDGE_COLOR.alpha = 0.4
     DEF_BACK_COLOR = Color((0.3, 0.3, 0.3))
