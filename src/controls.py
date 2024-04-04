@@ -39,7 +39,7 @@ class Controls(QtWidgets.QWidget):
         self.active_cam = 0
 
     def with_prefix(self, prefix):
-        return [widget for name, widget in self.ui_obj_dict.items()
+        return [widget for name, widget in self.ui.__dict__.items()
                 if name.startswith(prefix)
                 ]
 
@@ -92,10 +92,10 @@ class Controls(QtWidgets.QWidget):
     #         pass
 
     @property
-    def widget_group(self, group_name=None):
-        if group_name is None:
+    def widget_group(self, prefix=None):
+        if prefix is None:
             return self._widget_groups
-        elif group_name in self._widget_groups.keys():
-            return self._widget_groups[group_name]
+        elif prefix in self._widget_groups.keys():
+            return self._widget_groups[prefix]
         else:
-            raise ValueError(f'>>>ERROR: {group_name} is not a valid widget group name.')
+            raise ValueError(f'>>>ERROR: {prefix} is not a valid widget group name.')

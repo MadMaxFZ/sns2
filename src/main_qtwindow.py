@@ -71,9 +71,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
         # The first two are fields that exist for each SimBody (exceptr primary)
-        self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius', 'elem_',
-                                  'rel2cam',
-                                  )
+        # self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius', 'elem_', 'is_primary',
+        #                           )
         self._vizz_fields2agg = ('radius', 'body_alpha', 'track_alpha', 'body_mark',
                                  'body_color', 'track_data', 'tex_data', 'is_primary',
                                  )
@@ -124,6 +123,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentIndexChanged.connect(self.setActiveBody)
+        self.ui.bodyBox.currentIndexChanged.connect(self.updateOrbitPanels)
         self.ui.camBox.currentIndexChanged.connect(self.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
@@ -137,21 +137,21 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # print("Panel data sent...")
 
     @pyqtSlot(int)
-    def setActiveBody(self, new_bod_id):
-        self.controls.active_bod = new_bod_id
+    def setActiveBody(self, new_bod_idx):
+        self.controls.active_bod = new_bod_idx
         self.refresh_panel('attr_')
-        # self.refresh_panel('elem_')
 
-    # @pyqtSlot(int)
-    # def setActiveTab(self, new_pnl_id):
-    #     self.controls.active_pnl = new_pnl_id
-    #     self.refresh_panel(self.sys_data.model_data_group_keys[new_pnl_id])
+    @pyqtSlot(int)
+    def updateOrbitPanels(self, new_bod_idx):
+        if new_bod_idx == 0:
+            self.refresh_panel('elem_rv_')
+        else:
+            self.refresh_panel('elem_')
 
     @pyqtSlot(int)
     def setActiveCam(self, new_cam_id):
         self.controls.active_cam = new_cam_id
         self.refresh_panel('cam_')
-        # self.refresh_panel('elem_')
 
     def refresh_panel(self, panel_key):
         """
@@ -167,8 +167,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #
         # model_agg_data = {}
         widg_grp = self.controls.with_prefix(panel_key)
-        curr_bod_name = self.controls.ui.bodyBox.currentText()
-        curr_sb = self.model[curr_bod_name]
+        curr_sb = self.model[self.curr_body_name]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
         match panel_key:
@@ -179,12 +178,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     data_set = [curr_sb.r, curr_sb.v]
                 else:
                     widg_grp = self.controls.with_prefix('elem_')
-                    data_set = iter(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key))
+                    data_set = self.model.data_group(sb_name=self.curr_body_name, tgt_key=panel_key)
 
                 print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-                for i, w in enumerate(widg_grp.values()):
+                for i, w in enumerate(widg_grp):
                     print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                    # [print(f'{str(n)}') for n in data]
                     w.setText(str(data_set[i]))
 
             case 'attr_':
@@ -212,6 +210,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         pass
         # self.update_panel.emit(model_agg_data)
+
+    @property
+    def curr_body_name(self):
+        return self.ui.bodyBox.currentText()
 
 
 '''==============================================================================================================='''

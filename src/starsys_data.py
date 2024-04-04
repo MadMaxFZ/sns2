@@ -191,7 +191,7 @@ class SystemDataStore:
                             fps=60,
                             n_samples=365,
                             )
-        _tex_path      = "./resources/textures/"      # directory of texture image files for windows
+        _tex_path      = "../resources/textures/"      # directory of texture image files for windows
         _def_tex_fname = "2k_ymakemake_fictional.png"
         _tex_fnames    = []  # list of texture filenames (will be sorted)
         _tex_dat_set   = {}  # dist of body name and the texture data associated with it

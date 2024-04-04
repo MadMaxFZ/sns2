@@ -44,6 +44,9 @@ class SimSystem(SimBodyDict):
         self._sys_rel_pos = None
         self._sys_rel_vel = None
         self._bod_tot_acc = None
+        self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
+                                  'elem_', 'is_primary',
+                                  )
         if ref_data:
             if isinstance(ref_data, SystemDataStore):
                 print('<sys_date> input is valid...')
@@ -142,7 +145,7 @@ class SimSystem(SimBodyDict):
                     if this_parent.name == "Earth":
                         sb.plane = Planes.EARTH_EQUATOR
 
-    def data_group(self, sb_name=None, tgt_key=None):
+    def data_group(self, sb_name, tgt_key=None):
         """
             This method returns the data group associated with the provided body name and key.
         Parameters
@@ -156,34 +159,29 @@ class SimSystem(SimBodyDict):
         """
         sb_names = None
         tgt_keys = None
-        if sb_name:
-            if type(sb_name) == str:
-                sb_names = [sb_name, ]
-            elif type(sb_name) == list:
-                sb_names = [n for n in sb_name if n in self._valid_body_names]
-            else:
-                sb_names = None
 
-        if tgt_key:
-            if type(tgt_key) == str:
-                tgt_keys = [tgt_key, ]
-            elif type(tgt_key) == list:
-                tgt_keys = [k for k in tgt_key if k in self.ref_data.model_data_group_keys]
-            else:
-                tgt_keys = None
+        if type(sb_name) == str and sb_name in self._current_body_names:
+            pass
+        else:
+            raise KeyError("Must provide exactly one SimBody name...")
 
-        print(f'sb_names = {sb_names},\n tgt_keys = {tgt_keys}')
-        if sb_names and tgt_keys:
-            print("\tNAMES  AND  TARGET\n")
+        if type(tgt_key) == str and tgt_key in self._model_fields2agg:
+            tgt_keys = [tgt_key, ]
+        elif type(tgt_key) == list:
+            tgt_keys = [k for k in tgt_key if k in self.ref_data.model_data_group_keys]
+        else:
+            raise KeyError("Must provide at least one target key...")
+
+        print(f'sb_names = {sb_name},\n tgt_keys = {tgt_keys}')
+        if sb_name and tgt_keys:
+            print("\tNAME  AND  TARGET(S)\n")
             res = {}
-            [[res.update({(n, t): self.data[n].field(t)})
-              for t in tgt_keys
-              ]
-             for n in sb_names
+            [res.update({(sb_name, t): self.data[sb_name].field(t)})
+             for t in tgt_keys
              ]
 
-        elif tgt_keys and not sb_names:
-            print("\tTARGET  AND  NOT NAMES\n")
+        elif tgt_keys and not sb_name:
+            print("\tTARGET  AND  NO NAME\n")
             res = {}
             [[res.update({(n, t): self.data[n].field(t)})
               for n in self._current_body_names
@@ -191,21 +189,21 @@ class SimSystem(SimBodyDict):
              for t in tgt_keys
              ]
 
-        elif sb_names and not tgt_keys:
-            print("\tNAMES  AND  NOT TARGET\n")
-            res = {}
-            [[res.update({(n, t): self.data[n].field(t)})
-              for t in self.ref_data.model_data_group_keys
-              ]
-             for n in sb_names
-             ]
+        # elif sb_names and not tgt_keys:
+        #     print("\tNAMES  AND  NOT TARGET\n")
+        #     res = {}
+        #     [[res.update({(n, t): self.data[n].field(t)})
+        #       for t in self.ref_data.model_data_group_keys
+        #       ]
+        #      for n in sb_names
+        #      ]
 
         else:
             res = {}
 
         [print(f'model.data_group({k[0]}, {k[1]}) = {self.data[k[0]].field(k[1])}')
          for k, v in res.items()]
-        return list(res.values())
+        return list(res.values())[0]
 
     def get_agg_fields(self, field_ids):
         # res = {'primary_name': self.system_primary.name}
@@ -281,10 +279,12 @@ class SimSystem(SimBodyDict):
                 #       If it exists, return its texture data. Otherwise return the default texture data.
                 return self.ref_data.vizz_data(name=_simbod.name)['tex_data']
 
-            # case 'rel2cam':
-            #     return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
+            case 'rel2cam':
+                return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
 
         pass
+
+    '''===== PROPERTIES ==========================================================================================='''
 
     @property
     def dist_unit(self):

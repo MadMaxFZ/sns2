@@ -15,7 +15,7 @@ from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
 
 
-logging.basicConfig(filename="./logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -91,14 +91,14 @@ class SimBody:
                             'radii': self._rad_set,
                             }
         if self.body.parent:
-            _orb = self._orbit
-            _elem = self.elems
-            self._field_dict.update({'orb_': _orb,
-                                     'elem_': _elem,
-                                     })
+            # _orb = self._orbit.classical()
+            # _orb.extend(self._orbit.pqw())
+            # _orb.extend(self._orbit.rv())
+            # _elem = self.elems
+            self._field_dict.update({'elem_': self.elems})
 
     def field(self, field_key):
-        if field_key in self._field_dict:
+        if field_key in self._field_dict.keys():
             return self._field_dict[field_key]
         else:
             print(f'No field with name: <{field_key}>')

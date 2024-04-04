@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>552</width>
-    <height>635</height>
+    <width>510</width>
+    <height>821</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,12 +17,12 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>450</y>
-     <width>401</width>
-     <height>181</height>
+     <y>550</y>
+     <width>361</width>
+     <height>261</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="EpochTimer" stretch="2,6,3">
+   <layout class="QVBoxLayout" name="EpochTimer" stretch="2,6,2">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
@@ -148,48 +148,48 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="lv_twarp_max_3">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>15</x>
          <y>30</y>
          <width>21</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="lv_twarp_max_4">
        <property name="geometry">
         <rect>
-         <x>310</x>
+         <x>305</x>
          <y>30</y>
          <width>21</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;1.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
       <widget class="QLineEdit" name="lEd_twarp_2">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>180</x>
          <y>70</y>
-         <width>121</width>
-         <height>16</height>
+         <width>151</width>
+         <height>20</height>
         </rect>
        </property>
       </widget>
@@ -246,7 +246,7 @@
         <rect>
          <x>10</x>
          <y>70</y>
-         <width>121</width>
+         <width>131</width>
          <height>16</height>
         </rect>
        </property>
@@ -291,8 +291,8 @@
   <widget class="QListWidget" name="bodyList">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>370</y>
+     <x>380</x>
+     <y>550</y>
      <width>121</width>
      <height>261</height>
     </rect>
@@ -316,9 +316,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>280</y>
-     <width>191</width>
-     <height>161</height>
+     <y>350</y>
+     <width>241</width>
+     <height>191</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="camera_state" stretch="1,1,12">
@@ -489,10 +489,10 @@
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>260</x>
      <y>10</y>
-     <width>211</width>
-     <height>431</height>
+     <width>241</width>
+     <height>531</height>
     </rect>
    </property>
    <property name="title">
@@ -503,11 +503,11 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>201</width>
-      <height>411</height>
+      <width>231</width>
+      <height>511</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="orbital_elements" stretch="7,4,3">
+    <layout class="QVBoxLayout" name="orbital_elements" stretch="7,4,2">
      <item>
       <widget class="QGroupBox" name="classical">
        <property name="font">
@@ -527,7 +527,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>181</width>
+          <width>221</width>
           <height>141</height>
          </rect>
         </property>
@@ -690,7 +690,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>181</width>
+          <width>221</width>
           <height>64</height>
          </rect>
         </property>
@@ -787,7 +787,7 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>181</width>
+          <width>221</width>
           <height>41</height>
          </rect>
         </property>
@@ -850,8 +850,8 @@
     <rect>
      <x>10</x>
      <y>11</y>
-     <width>191</width>
-     <height>261</height>
+     <width>241</width>
+     <height>331</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -1217,6 +1217,38 @@
       </item>
       <item row="10" column="1">
        <widget class="QLabel" name="attr_A">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="J3_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>mean_a</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLabel" name="attr_A_2">
         <property name="text">
          <string>TextLabel</string>
         </property>
