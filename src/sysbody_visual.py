@@ -69,12 +69,12 @@ class PlanetVisual(CompoundVisual):
         # self._sb_ref = sim_body
         if body_name:
             self._vizz_data = vizz_data
-            self._tex_data = self._vizz_data['tex_data'][body_name]
-            self._mark = self._vizz_data['body_mark'][body_name]
-            self._base_color = Color(self._vizz_data['body_color'][body_name])
-            self._body_alpha = self._vizz_data['body_alpha'][body_name]
-            self._track_alpha = self._vizz_data['track_alpha'][body_name]
-            self._radius = self._vizz_data['radius'][body_name]
+            self._tex_data = self._vizz_data['tex_data']
+            self._mark = self._vizz_data['body_mark']
+            self._base_color = Color(self._vizz_data['body_color'])
+            self._body_alpha = self._vizz_data['body_alpha']
+            self._track_alpha = self._vizz_data['track_alpha']
+            self._radius = self._vizz_data['radius']
             if texture is None:
                 self._texture_data = self._tex_data
             else:

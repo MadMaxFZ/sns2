@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>552</width>
-    <height>741</height>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>550</y>
-     <width>398</width>
+     <y>450</y>
+     <width>401</width>
      <height>181</height>
     </rect>
    </property>
@@ -292,7 +292,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>470</y>
+     <y>370</y>
      <width>121</width>
      <height>261</height>
     </rect>
@@ -316,9 +316,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>350</y>
+     <y>280</y>
      <width>191</width>
-     <height>191</height>
+     <height>161</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="camera_state" stretch="1,1,12">
@@ -492,7 +492,7 @@
      <x>200</x>
      <y>10</y>
      <width>211</width>
-     <height>531</height>
+     <height>431</height>
     </rect>
    </property>
    <property name="title">
@@ -504,7 +504,7 @@
       <x>10</x>
       <y>20</y>
       <width>201</width>
-      <height>511</height>
+      <height>411</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="orbital_elements" stretch="7,4,3">
@@ -845,13 +845,13 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>11</y>
      <width>191</width>
-     <height>331</height>
+     <height>261</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -1144,7 +1144,7 @@
          </font>
         </property>
         <property name="text">
-         <string>mass</string>
+         <string>J2</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1176,7 +1176,7 @@
          </font>
         </property>
         <property name="text">
-         <string>J2</string>
+         <string>J3</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1208,7 +1208,7 @@
          </font>
         </property>
         <property name="text">
-         <string>J3</string>
+         <string>mass</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -1217,38 +1217,6 @@
       </item>
       <item row="10" column="1">
        <widget class="QLabel" name="attr_A">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="mean_a">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>1</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>mean_a</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QLabel" name="attr_B">
         <property name="text">
          <string>TextLabel</string>
         </property>

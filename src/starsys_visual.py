@@ -129,7 +129,7 @@ class StarSystemVisuals:
         """ Generate Planet visual object for each SimBody
         """
         viz_dat = {}
-        [viz_dat.update({k: v}) for k, v in self._agg_cache.items() if list(v.keys())[0] == body_name]
+        [viz_dat.update({k: v[body_name]}) for k, v in self._agg_cache.items()]     # if list(v.keys())[0] == body_name]
         plnt = Planet(body_name=body_name,
                       rows=18,
                       color=Color((1, 1, 1, self._agg_cache['body_alpha'][body_name])),

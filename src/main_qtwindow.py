@@ -170,119 +170,48 @@ class MainQtWindow(QtWidgets.QMainWindow):
         curr_bod_name = self.controls.ui.bodyBox.currentText()
         curr_sb = self.model[curr_bod_name]
         curr_cam_id = self.controls.ui.camBox.currentText()
-        if panel_key == 'elem_':
 
-            if curr_sb.is_primary:
-                widg_grp = self.controls.with_prefix('elem_rv_')
-                data_set = [curr_sb.r, curr_sb.v]
-            else:
-                widg_grp = self.controls.with_prefix('elem_')
-                data_set = iter(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key))
+        match panel_key:
 
-            print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-            for i, w in enumerate(widg_grp.values()):
-                print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                # [print(f'{str(n)}') for n in data]
-                w.setText(str(data_set[i]))
-
-        elif panel_key == 'attr_':
-
-            data_set = curr_sb.body
-            print(f'{data_set}')
-            print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-            for i, data in enumerate(data_set):
-                if i == 0 and data:
-                    data = data[i].name
-                if type(data) == Quantity:
-                    res = round_off(data)
+            case 'elem_':
+                if curr_sb.is_primary:
+                    widg_grp = self.controls.with_prefix('elem_rv_')
+                    data_set = [curr_sb.r, curr_sb.v]
                 else:
-                    res = data
+                    widg_grp = self.controls.with_prefix('elem_')
+                    data_set = iter(self.model.data_group(sb_name=curr_bod_name, tgt_key=panel_key))
 
-                print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(res)}')
-                widg_grp[i].setText(str(res))
+                print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                for i, w in enumerate(widg_grp.values()):
+                    print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                    # [print(f'{str(n)}') for n in data]
+                    w.setText(str(data_set[i]))
 
-        elif panel_key == 'cam_':
-            # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
-            i = 0
-            for k, v in self.cameras.curr_cam.get_state().items():
-                self.controls.with_prefix('key_')[i].setText(str(k))
-                self.controls.with_prefix(panel_key)[i].setText(str(v))
-                i += 1
+            case 'attr_':
+                data_set = curr_sb.body
+                print(f'{data_set}')
+                print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                for i, data in enumerate(data_set):
+                    if i == 0 and data:
+                        data = data.name
+                    if type(data) == Quantity:
+                        res = round_off(data)
+                    else:
+                        res = data
 
-            pass
+                    print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(res)}')
+                    widg_grp[i].setText(str(res))
 
-        # self.update_panel.emit(model_agg_data)
+            case 'cam_':
+                # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
+                i = 0
+                for k, v in self.cameras.curr_cam.get_state().items():
+                    self.controls.with_prefix('key_')[i].setText(str(k))
+                    self.controls.with_prefix(panel_key)[i].setText(str(v))
+                    i += 1
+
         pass
-
-    # def _get_model_agg_fields(self, field_ids):
-    #     res = {'primary_name': self.model.system_primary.name}
-    #     for f_id in field_ids:
-    #         agg = {}
-    #         [agg.update({sb.name: self._get_sbod_field(sb, f_id)})
-    #          for sb in self.model.data.values()]
-    #         res.update({f_id: agg})
-    #
-    #     return res
-
-    # def _get_sbod_field(self, _simbod, field_id):
-    #     """
-    #         This method retrieves the values of a particular field for a given SimBody object.
-    #         Uses the field_id key to indicate which property to return.
-    #     Parameters
-    #     ----------
-    #     _simbod             : SimBody            The SimBody object for which the field value is to be retrieved.
-    #     field_id            : str                The field for which the value is to be retrieved.
-    #
-    #     Returns
-    #     -------
-    #     simbod.<field_id>   : float or list       The value of the field for the given SimBody object.
-    #     """
-    #     match field_id:
-    #         case 'attr_':
-    #             res = []
-    #             for a in _simbod.body:
-    #                 if type(a) == Body:
-    #                     a = a.name
-    #                 res.append(a)
-    #             return res
-    #
-    #         case 'elem_':
-    #             return _simbod.elems
-    #
-    #         case 'rad0':
-    #             return _simbod.radius[0]
-    #
-    #         case 'pos':
-    #             return _simbod.pos
-    #
-    #         case 'rot':
-    #             return _simbod.rot
-    #
-    #         case 'axes':
-    #             return _simbod.axes
-    #
-    #         case 'track_data':
-    #             return _simbod.track
-    #
-    #         case 'radius':
-    #             return _simbod.radius
-    #
-    #         case 'body_alpha':
-    #             return _simbod.body_alpha
-    #
-    #         case 'track_alpha':
-    #             return _simbod.track_alpha
-    #
-    #         case 'body_mark':
-    #             return _simbod.body_mark
-    #
-    #         case 'body_color':
-    #             return _simbod.body_color
-    #
-    #         case 'rel2cam':
-    #             return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
-    #
-    #     pass
+        # self.update_panel.emit(model_agg_data)
 
 
 '''==============================================================================================================='''
