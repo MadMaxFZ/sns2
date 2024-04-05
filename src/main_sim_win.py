@@ -173,6 +173,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         match panel_key:
 
             case 'elem_':
+                # TODO:     Fix this such that the RV state is a separate 'panel' in which
+                #           the vector components are stacked vertically...
                 if curr_sb.is_primary:
                     widg_grp = self.controls.with_prefix('elem_rv_')
                     data_set = [curr_sb.r, curr_sb.v]

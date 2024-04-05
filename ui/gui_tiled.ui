@@ -22,7 +22,7 @@
      <height>261</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="EpochTimer" stretch="2,5,3">
+   <layout class="QVBoxLayout" name="EpochTimer" stretch="1,5,3">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
@@ -32,9 +32,9 @@
        <enum>QLayout::SetMinimumSize</enum>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="hlo_ref_epoch_2">
+       <layout class="QHBoxLayout" name="hlo_ref_epoch">
         <item>
-         <widget class="QLabel" name="lf_ref_epoch_2">
+         <widget class="QLabel" name="lf_ref_epoch">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;REF. EPOCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -44,7 +44,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QDateTimeEdit" name="dtEdit_ref_epoch_2">
+         <widget class="QDateTimeEdit" name="dtEdit_ref_epoch">
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -59,9 +59,9 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="hlo_elapsed_2">
+       <layout class="QHBoxLayout" name="hlo_elapsed">
         <item>
-         <widget class="QLabel" name="lf_elapsed_2">
+         <widget class="QLabel" name="lf_elapsed">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;REAL TIME&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -71,7 +71,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lv_elapsed_2">
+         <widget class="QLabel" name="lv_elapsed">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;w_clock.elapsed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -85,7 +85,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QFrame" name="fra_twarp_2">
+     <widget class="QFrame" name="fra_twarp">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
         <horstretch>0</horstretch>
@@ -98,12 +98,12 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
-      <widget class="QSlider" name="sli_twarp_man_2">
+      <widget class="QSlider" name="sli_twarp_mant">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>50</y>
-         <width>431</width>
+         <x>10</x>
+         <y>53</y>
+         <width>451</width>
          <height>21</height>
         </rect>
        </property>
@@ -135,11 +135,11 @@
         <number>20</number>
        </property>
       </widget>
-      <widget class="QLabel" name="lf_twarp_min_2">
+      <widget class="QLabel" name="lf_twarp_mid">
        <property name="geometry">
         <rect>
-         <x>220</x>
-         <y>30</y>
+         <x>225</x>
+         <y>33</y>
          <width>21</width>
          <height>20</height>
         </rect>
@@ -151,11 +151,11 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="lv_twarp_max_3">
+      <widget class="QLabel" name="lv_twarp_min">
        <property name="geometry">
         <rect>
-         <x>15</x>
-         <y>30</y>
+         <x>7</x>
+         <y>33</y>
          <width>21</width>
          <height>21</height>
         </rect>
@@ -167,11 +167,11 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="lv_twarp_max_4">
+      <widget class="QLabel" name="lv_twarp_max">
        <property name="geometry">
         <rect>
-         <x>430</x>
-         <y>30</y>
+         <x>447</x>
+         <y>33</y>
          <width>21</width>
          <height>21</height>
         </rect>
@@ -183,7 +183,7 @@
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QSplitter" name="splitter_2">
+      <widget class="QSplitter" name="splitter">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -195,7 +195,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QPushButton" name="btn_stop_2">
+       <widget class="QPushButton" name="btn_stop">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -206,22 +206,22 @@
          <string>RESET</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_reverse_2">
+       <widget class="QPushButton" name="btn_reverse">
         <property name="text">
          <string>&lt;--&gt;</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_play_pause_2">
+       <widget class="QPushButton" name="btn_play_pause">
         <property name="text">
          <string>&gt; / ||</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_real_twarp_2">
+       <widget class="QPushButton" name="btn_real_twarp">
         <property name="text">
          <string>--&gt; 1</string>
         </property>
        </widget>
-       <widget class="QLabel" name="lf_exp_2">
+       <widget class="QLabel" name="lf_exp">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;x10^&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -229,7 +229,7 @@
          <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
         </property>
        </widget>
-       <widget class="QSpinBox" name="sp_exp_2"/>
+       <widget class="QSpinBox" name="sp_exp"/>
       </widget>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
@@ -242,26 +242,26 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="lf_twarp_2">
+         <widget class="QLabel" name="lf_twarp">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TIME WARP FACTOR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lEd_twarp_2"/>
+         <widget class="QLineEdit" name="lEd_twarp"/>
         </item>
        </layout>
       </widget>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="hlo_sys_epoch_2">
+     <layout class="QHBoxLayout" name="hlo_sys_epoch">
       <property name="sizeConstraint">
        <enum>QLayout::SetMinimumSize</enum>
       </property>
       <item>
-       <widget class="QLabel" name="lf_sys_epoch_2">
+       <widget class="QLabel" name="lf_sys_epoch">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;SYSTEM EPOCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -274,7 +274,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="lv_sys_epoch_2">
+       <widget class="QLabel" name="lv_sys_epoch">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;sys_epoch&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -901,383 +901,403 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>281</x>
-     <y>11</y>
-     <width>341</width>
-     <height>401</height>
+     <x>282</x>
+     <y>12</y>
+     <width>339</width>
+     <height>294</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="3,1">
-    <item>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>ORBITAL ELEMENTS</string>
+   <property name="title">
+    <string>ORBITAL ELEMENTS</string>
+   </property>
+   <widget class="QGroupBox" name="classical">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>21</y>
+      <width>319</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>CLASSICAL</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>301</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="cl_form">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
       </property>
-      <widget class="QGroupBox" name="classical">
-       <property name="geometry">
-        <rect>
-         <x>11</x>
-         <y>21</y>
-         <width>319</width>
-         <height>171</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="title">
-        <string>CLASSICAL</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>301</width>
-          <height>141</height>
-         </rect>
+      <item row="0" column="0">
+       <widget class="QLabel" name="a">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
         </property>
-        <layout class="QFormLayout" name="cl_form">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetMinimumSize</enum>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="a">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>a</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="elem_coe_0">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="argp">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>ecc</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="elem_coe_1">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="ecc">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>inc</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="elem_coe_2">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="inc">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>raan</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLabel" name="elem_coe_3">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="nu">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>argp</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLabel" name="elem_coe_4">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="raan">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>nu</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLabel" name="elem_coe_5">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QGroupBox" name="perifocal">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>190</y>
-         <width>319</width>
-         <height>91</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>PERIFOCAL</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>301</width>
-          <height>64</height>
-         </rect>
+        <property name="text">
+         <string>a</string>
         </property>
-        <layout class="QFormLayout" name="pf_form">
-         <item row="0" column="0">
-          <widget class="QLabel" name="P">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>P</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="elem_pqw_0">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="Q">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Q</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="elem_pqw_1">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="W">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>W</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="elem_pqw_2">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </widget>
-      </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="title">
-       <string>BODY STATE</string>
-      </property>
-      <widget class="QGroupBox" name="rv">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>20</y>
-         <width>331</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="title">
-        <string>POS &amp; VEL</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <widget class="QWidget" name="layoutWidget_3">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>20</y>
-          <width>301</width>
-          <height>41</height>
-         </rect>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="elem_coe_0">
+        <property name="text">
+         <string>TextLabel</string>
         </property>
-        <layout class="QFormLayout" name="rv_form">
-         <item row="0" column="0">
-          <widget class="QLabel" name="POS">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>POS</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="elem_rv_0">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="VEL">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>VEL</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="elem_rv_1">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
-      </widget>
-     </widget>
-    </item>
-   </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="argp">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>ecc</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="elem_coe_1">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="ecc">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>inc</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="elem_coe_2">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="inc">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>raan</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="elem_coe_3">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="nu">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>argp</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="elem_coe_4">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="raan">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>nu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="elem_coe_5">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="perifocal">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>319</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>PERIFOCAL</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>301</width>
+       <height>64</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="pf_form">
+      <item row="0" column="0">
+       <widget class="QLabel" name="P">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>P</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="elem_pqw_0">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="Q">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Q</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="elem_pqw_1">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="W">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>W</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="elem_pqw_2">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>258</x>
+     <y>350</y>
+     <width>351</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>BODY STATE</string>
+   </property>
+   <widget class="QGroupBox" name="rv">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>331</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>POS / VEL VECTORS</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>311</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,10">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="POS">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>POS</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="VEL">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>VEL</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="elem_rv_0">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="elem_rv_1">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="text">
+           <string>TextLabel</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>
