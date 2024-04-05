@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
-
 """
     This module contains classes to allow using Qt to control Vispy
 """
-
-import logging
 import logging.config
 from typing import List
-
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 # from composite import Ui_frm_sns_controls
@@ -62,34 +58,6 @@ class Controls(QtWidgets.QWidget):
             panels.update({p: self.with_prefix(p)})
 
         return panels
-
-    # @pyqtSlot(str, str)
-    # def refresh_panel(self, tgt_group, tgt_bname):
-    #     """
-    #         This method is called when the simulation panel needs to be refreshed.
-    #     Parameters
-    #     ----------
-    #     tgt_group      :   key for a widget_group in the _widget_groups dict,
-    #                     also it is a key for a set of values from the model.
-    #     tgt_bname      :   the name of the SimBody to be used in the refresh.
-    #
-    #     Returns
-    #     -------
-    #     nothing     :   applies a tuple of values from the model based upon the target key
-    #                     to the currentText field of the widgets identified by the key.
-    #     """
-    #     if tgt_group in ['attr_', 'elem_', 'syst_']:
-    #         new_data = self.model.data_group(sb_name=tgt_bname,
-    #                                          tgt_group=tgt_group)
-    #         for i, w in enumerate(self.widget_group[tgt_group]):
-    #             print(f'widget#{i:>2}: {w}\n\tdata: {new_data[i]}')
-    #             try:
-    #                 w.setCurrentText(new_data[i])
-    #             except:
-    #                 print(f'>>>ERROR: Did not like widget {i}: {w} set to {new_data[i]}')
-    #
-    #     elif tgt_group == 'cams_':
-    #         pass
 
     @property
     def widget_group(self, prefix=None):
