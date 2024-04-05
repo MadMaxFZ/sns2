@@ -167,7 +167,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #
         # model_agg_data = {}
         widg_grp = self.controls.with_prefix(panel_key)
-        curr_sb = self.model[self.curr_body_name]
+        curr_sb = self.model.data[self.curr_body_name]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
         match panel_key:
@@ -175,17 +175,20 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'elem_':
                 # TODO:     Fix this such that the RV state is a separate 'panel' in which
                 #           the vector components are stacked vertically...
+                widg_grp = self.controls.with_prefix('elem_')
                 if curr_sb.is_primary:
-                    widg_grp = self.controls.with_prefix('elem_rv_')
-                    data_set = [curr_sb.r, curr_sb.v]
-                else:
-                    widg_grp = self.controls.with_prefix('elem_')
-                    data_set = self.model.data_group(sb_name=self.curr_body_name, tgt_key=panel_key)
+                    [w.clear() for w in widg_grp]
+                    r_str = str(curr_sb.r[0]) + "\n" + str(curr_sb.r[1]) + "\n" + str(curr_sb.r[2])
+                    v_str = str(curr_sb.v[0]) + "\n" + str(curr_sb.v[1]) + "\n" + str(curr_sb.v[2])
+                    widg_grp[-2].setText(r_str)
+                    widg_grp[-1].setText(v_str)
 
-                print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-                for i, w in enumerate(widg_grp):
-                    print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                    w.setText(str(data_set[i]))
+                else:
+                    data_set = self.model.data_group(sb_name=self.curr_body_name, tgt_key=panel_key)
+                    print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                    for i, w in enumerate(widg_grp):
+                        print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                        w.setText(str(data_set[i]))
 
             case 'attr_':
                 data_set = curr_sb.body
