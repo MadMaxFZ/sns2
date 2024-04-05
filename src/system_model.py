@@ -189,15 +189,6 @@ class SimSystem(SimBodyDict):
              for t in tgt_keys
              ]
 
-        # elif sb_names and not tgt_keys:
-        #     print("\tNAMES  AND  NOT TARGET\n")
-        #     res = {}
-        #     [[res.update({(n, t): self.data[n].field(t)})
-        #       for t in self.ref_data.model_data_group_keys
-        #       ]
-        #      for n in sb_names
-        #      ]
-
         else:
             res = {}
 
