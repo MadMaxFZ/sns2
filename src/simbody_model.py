@@ -15,7 +15,7 @@ from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
 
 
-logging.basicConfig(filename="./logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -85,7 +85,7 @@ class SimBody:
 
     def set_field_dict(self):
         self._field_dict = {'attr_': [self.body[i] for i in range(len(self.body._fields))],
-                            'pos': self.pos,
+                            'pos': self.pos.value.round(4) * u.km,
                             'rot': self.rot,
                             'rad': self.body.R,
                             'radii': self._rad_set,
@@ -382,14 +382,15 @@ class SimBody:
     @property
     def elems(self):
         if self._is_primary:
-            res = [self.r, self.v]
+            res = np.array([self.r, self.v]).round(4)
         else:
             res = list(self._orbit.classical())
+            print(res)
             res.extend(list(self._orbit.pqw()))
             res.extend(list(self._orbit.rv()))
 
         print(f'ORBITAL ELEMENTS: {res}')
-        return res
+        return [v.round(4) for v in res]
 
     @property
     def ephem(self):

@@ -16,10 +16,10 @@ from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
 
-from camera_set import CameraSet
-from src.system_model import SimSystem
+from camera_dict import CameraSet
+from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
-from controls import Controls
+from sim_controls import Controls
 from starsys_visual import StarSystemVisuals
 from starsys_data import log_config, SystemDataStore
 

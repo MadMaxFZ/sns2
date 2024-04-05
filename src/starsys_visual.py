@@ -12,10 +12,10 @@ from vispy.scene.visuals import (create_visual_node,
                                  Markers, XYZAxis,
                                  Compound, Polygon)
 # from starsys_data import vec_type
-from sysbody_visual import Planet
-from sys_skymap import SkyMap
-from sysbody_model import SimBody, MIN_FOV
-from camera_set import CameraSet
+from simbody_visual import Planet
+from skymap_visual import SkyMap
+from simbody_model import SimBody, MIN_FOV
+from camera_dict import CameraSet
 
 # these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5

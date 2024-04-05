@@ -33,16 +33,16 @@ path_name = "C:\\_Projects\\sns2\\"
 trgt_dict = dict(g="starsys_data.py",
                  # i="viz_functs.py",
                  # f="qt_wrap.py",
-                 f="controls.py",
-                 i="main_qtwindow.py",
+                 f="sim_controls.py",
+                 i="main_sim_win.py",
                  e="sim_canvas.py",
                  a="starsys_model.py",
-                 b="sysbody_model.py",
+                 b="simbody_model.py",
                  c="starsys_visual.py",
-                 d="sysbody_visual.py",
-                 h="sys_skymap.py",
-                 j="camera_set.py",
-                 k="composite.py",
+                 d="simbody_visual.py",
+                 h="skymap_visual.py",
+                 j="camera_dict.py",
+                 k="gui_composite.py",
                  )
 for i in sorted(trgt_dict.keys()):
     filename = path_name + trgt_dict[i]

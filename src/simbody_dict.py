@@ -1,5 +1,5 @@
 from collections import UserDict
-from src.sysbody_model import SimBody
+from simbody_model import SimBody
 
 
 class SimBodyDict(UserDict):

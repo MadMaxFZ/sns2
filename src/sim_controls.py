@@ -7,8 +7,8 @@ from typing import List
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 # from composite import Ui_frm_sns_controls
-from src.tiled import Ui_SNS_DataPanels
-from src.starsys_data import log_config
+from gui_tiled import Ui_SNS_DataPanels
+from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
 

@@ -5,8 +5,6 @@ from vispy.app.timer import Timer
 from vispy import app, scene
 from vispy.color import Color
 from vispy.scene.cameras import BaseCamera
-# from starsys_data import sys_data
-from starsys_model import StarSystemModel
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,

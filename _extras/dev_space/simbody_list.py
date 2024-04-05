@@ -1,7 +1,7 @@
 # simbody_list.py
 
 from collections import UserList
-from src.sysbody_model import SimBody
+from src.simbody_model import SimBody
 
 DEFAULT_TYPE = SimBody
 

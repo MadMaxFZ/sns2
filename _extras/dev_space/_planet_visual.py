@@ -24,7 +24,7 @@ from vispy.visuals.filters import TextureFilter
 from vispy.geometry.meshdata import MeshData
 from multiprocessing import get_logger
 # from PIL import Image
-from src.sysbody_model import SimBody
+from src.simbody_model import SimBody
 # from skymap import SkyMap
 
 """------------------------------------------------------------------------------"""
