@@ -95,6 +95,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.blockSignals(True)
         self.connect_slots()
         self.blockSignals(False)
+        # self.model.update_state()
 
     def _setup_layout(self):
         main_layout = QtWidgets.QHBoxLayout()

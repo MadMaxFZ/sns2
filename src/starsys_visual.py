@@ -178,7 +178,7 @@ class StarSystemVisuals:
 
     def update_vizz(self):
         """
-        TODO:   Refactor to remove references to 'self._simbods' and look to implement multiprocessing.
+            Collects needed fields from model, calculates transforms and applies them to the visuals
         Returns
         -------
         Has no return value, but updates the transforms for the Planet and Polygon visuals,

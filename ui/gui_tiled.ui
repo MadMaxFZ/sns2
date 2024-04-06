@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
+    <width>633</width>
     <height>822</height>
    </rect>
   </property>
@@ -44,7 +44,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QDateTimeEdit" name="dtEdit_ref_epoch">
+         <widget class="QDateTimeEdit" name="time_ref_epoch">
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
@@ -71,7 +71,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="lv_elapsed">
+         <widget class="QLabel" name="time_elapsed">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;w_clock.elapsed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -98,7 +98,7 @@
       <property name="frameShadow">
        <enum>QFrame::Plain</enum>
       </property>
-      <widget class="QSlider" name="sli_twarp_mant">
+      <widget class="QSlider" name="time_slider">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -135,7 +135,7 @@
         <number>20</number>
        </property>
       </widget>
-      <widget class="QLabel" name="lf_twarp_mid">
+      <widget class="QLabel" name="time_wmid">
        <property name="geometry">
         <rect>
          <x>225</x>
@@ -151,7 +151,7 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="lv_twarp_min">
+      <widget class="QLabel" name="time_wmin">
        <property name="geometry">
         <rect>
          <x>7</x>
@@ -167,7 +167,7 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="lv_twarp_max">
+      <widget class="QLabel" name="time_wmax">
        <property name="geometry">
         <rect>
          <x>447</x>
@@ -195,7 +195,7 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QPushButton" name="btn_stop">
+       <widget class="QPushButton" name="btn_stop_reset">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -229,7 +229,7 @@
          <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
         </property>
        </widget>
-       <widget class="QSpinBox" name="sp_exp"/>
+       <widget class="QSpinBox" name="time_wexp"/>
       </widget>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
@@ -249,7 +249,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lEd_twarp"/>
+         <widget class="QLineEdit" name="time_warp"/>
         </item>
        </layout>
       </widget>
@@ -274,7 +274,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="lv_sys_epoch">
+       <widget class="QLabel" name="time_sys_epoch">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;sys_epoch&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -292,7 +292,7 @@
     <rect>
      <x>490</x>
      <y>550</y>
-     <width>121</width>
+     <width>131</width>
      <height>261</height>
     </rect>
    </property>
@@ -316,7 +316,7 @@
     <rect>
      <x>10</x>
      <y>350</y>
-     <width>241</width>
+     <width>271</width>
      <height>191</height>
     </rect>
    </property>
@@ -907,7 +907,7 @@
      <x>282</x>
      <y>12</y>
      <width>339</width>
-     <height>294</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="title">
@@ -919,7 +919,7 @@
       <x>11</x>
       <y>21</y>
       <width>319</width>
-      <height>171</height>
+      <height>201</height>
      </rect>
     </property>
     <property name="font">
@@ -940,12 +940,15 @@
        <x>10</x>
        <y>20</y>
        <width>301</width>
-       <height>141</height>
+       <height>171</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="cl_form">
       <property name="sizeConstraint">
        <enum>QLayout::SetMinimumSize</enum>
+      </property>
+      <property name="verticalSpacing">
+       <number>12</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="a">
@@ -1092,7 +1095,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>190</y>
+      <y>230</y>
       <width>319</width>
       <height>91</height>
      </rect>
@@ -1189,9 +1192,9 @@
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>258</x>
+     <x>288</x>
      <y>350</y>
-     <width>351</width>
+     <width>331</width>
      <height>191</height>
     </rect>
    </property>
@@ -1203,7 +1206,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>331</width>
+      <width>311</width>
       <height>161</height>
      </rect>
     </property>
@@ -1224,7 +1227,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>311</width>
+       <width>291</width>
        <height>131</height>
       </rect>
      </property>
