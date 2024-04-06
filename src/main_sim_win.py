@@ -140,13 +140,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveBody(self, new_bod_idx):
         self.controls.active_bod = new_bod_idx
         self.refresh_panel('attr_')
+        self.refresh_panel('elem')
 
     @pyqtSlot(int)
     def updateOrbitPanels(self, new_bod_idx):
-        if new_bod_idx == 0:
-            self.refresh_panel('elem_rv_')
-        else:
-            self.refresh_panel('elem_')
+        self.refresh_panel('elem_')
 
     @pyqtSlot(int)
     def setActiveCam(self, new_cam_id):
@@ -176,10 +174,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # TODO:     Fix this such that the RV state is a separate 'panel' in which
                 #           the vector components are stacked vertically...
                 widg_grp = self.controls.with_prefix('elem_')
+                r_str = "X: " + str(curr_sb.r[0]) + "\nY: " + str(curr_sb.r[1]) + "\nZ: " + str(curr_sb.r[2])
+                v_str = "X: " + str(curr_sb.v[0]) + "\nY: " + str(curr_sb.v[1]) + "\nZ: " + str(curr_sb.v[2])
                 if curr_sb.is_primary:
-                    [w.clear() for w in widg_grp]
-                    r_str = str(curr_sb.r[0]) + "\n" + str(curr_sb.r[1]) + "\n" + str(curr_sb.r[2])
-                    v_str = str(curr_sb.v[0]) + "\n" + str(curr_sb.v[1]) + "\n" + str(curr_sb.v[2])
+                    [w.setText("") for w in widg_grp]
                     widg_grp[-2].setText(r_str)
                     widg_grp[-1].setText(v_str)
 
@@ -189,6 +187,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     for i, w in enumerate(widg_grp):
                         print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
                         w.setText(str(data_set[i]))
+
+                    widg_grp[-2].setText(r_str)
+                    widg_grp[-1].setText(v_str)
 
             case 'attr_':
                 data_set = curr_sb.body
