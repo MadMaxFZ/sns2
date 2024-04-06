@@ -15,7 +15,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
-
+from decimal import Decimal
 from camera_dict import CameraSet
 from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
@@ -41,17 +41,28 @@ def round_off(val):
     return res
 
 
-def to_bold_font(value=None):
-    """
+def show_it(value):
+    print(f'VAL: {value}, TYPE(VAL): {type(value)}')
 
-    Parameters
-    ----------
-    value :
 
-    Returns
-    -------
-    <html><head/><body><p><span style=" font-weight:600;">10</span></p></body></html>
-    """
+def to_bold_font(value):
+    if value:
+        ante = "<html><head/><body><p><span style=\" font-weight:600;\">"
+        post = "</span></p></body></html>"
+
+        return ante + str(value) + post
+
+
+def pad_plus(value):
+    if value:
+
+        res = f'{value:.6e}'
+        show_it(res)
+
+        if value > 0:
+            res = "+" + res
+
+        return res
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -188,8 +199,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # TODO:     Fix this such that the RV state is a separate 'panel' in which
                 #           the vector components are stacked vertically...
                 widg_grp = self.controls.with_prefix('elem_')
-                r_str = "X: " + str(curr_sb.r[0]) + "\nY: " + str(curr_sb.r[1]) + "\nZ: " + str(curr_sb.r[2])
-                v_str = "X: " + str(curr_sb.v[0]) + "\nY: " + str(curr_sb.v[1]) + "\nZ: " + str(curr_sb.v[2])
+                r_str = str("X: " + pad_plus(curr_sb.v[0]) +
+                            "\nY: " + pad_plus(curr_sb.r[1]) +
+                            "\nZ: " + pad_plus(curr_sb.r[2]))
+
+                v_str = str("X: " + pad_plus(curr_sb.v[0]) +
+                            "\nY: " + pad_plus(curr_sb.v[1]) +
+                            "\nZ: " + pad_plus(curr_sb.v[2]))
+
                 if curr_sb.is_primary:
                     [w.setText("") for w in widg_grp]
                     widg_grp[-2].setText(r_str)
