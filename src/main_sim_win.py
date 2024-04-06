@@ -41,6 +41,19 @@ def round_off(val):
     return res
 
 
+def to_bold_font(value=None):
+    """
+
+    Parameters
+    ----------
+    value :
+
+    Returns
+    -------
+    <html><head/><body><p><span style=" font-weight:600;">10</span></p></body></html>
+    """
+
+
 class MainQtWindow(QtWidgets.QMainWindow):
     """     This module contains MainQtWindow class, the entry point into the application and
         where access to all simulation components can be utilized to provide control of the sim.

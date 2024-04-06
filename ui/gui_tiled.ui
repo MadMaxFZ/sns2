@@ -183,54 +183,6 @@
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QSplitter" name="splitter">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>451</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <widget class="QPushButton" name="btn_stop_reset">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>RESET</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_reverse">
-        <property name="text">
-         <string>&lt;--&gt;</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_play_pause">
-        <property name="text">
-         <string>&gt; / ||</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="btn_real_twarp">
-        <property name="text">
-         <string>--&gt; 1</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="lf_exp">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;x10^&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-        </property>
-       </widget>
-       <widget class="QSpinBox" name="time_wexp"/>
-      </widget>
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
@@ -252,6 +204,102 @@
          <widget class="QLineEdit" name="time_warp"/>
         </item>
        </layout>
+      </widget>
+      <widget class="QPushButton" name="btn_stop_reset">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>87</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>RESET</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_reverse">
+       <property name="geometry">
+        <rect>
+         <x>103</x>
+         <y>10</y>
+         <width>87</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;--&gt;</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_play_pause">
+       <property name="geometry">
+        <rect>
+         <x>196</x>
+         <y>10</y>
+         <width>87</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&gt; / ||</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_real_twarp">
+       <property name="geometry">
+        <rect>
+         <x>289</x>
+         <y>10</y>
+         <width>87</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>--&gt; 1</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lf_exp">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>20</y>
+         <width>33</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;x10^&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="time_wexp">
+       <property name="geometry">
+        <rect>
+         <x>423</x>
+         <y>11</y>
+         <width>40</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>9</number>
+       </property>
       </widget>
      </widget>
     </item>
@@ -888,7 +936,7 @@
        </widget>
       </item>
       <item row="11" column="1">
-       <widget class="QLabel" name="attr_A_2">
+       <widget class="QLabel" name="attr_B">
         <property name="text">
          <string>TextLabel</string>
         </property>
