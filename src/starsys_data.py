@@ -471,7 +471,7 @@ class SystemDataStore:
 
     @property
     def model_data_group_keys(self):
-        return tuple(['attr_', 'elem_', 'syst_', 'vizz_'])
+        return tuple(['attr_', 'elem_coe', 'elem_pqw', 'elem_rv', 'syst_', 'vizz_'])
 
 
 if __name__ == "__main__":

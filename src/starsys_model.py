@@ -44,7 +44,8 @@ class SimSystem(SimBodyDict):
         self._sys_rel_vel = None
         self._bod_tot_acc = None
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
-                                  'elem_', 'is_primary',
+                                  'elem_coe_', 'elem_pqw_', 'elem_rv',
+                                  'is_primary',
                                   )
         if ref_data:
             if isinstance(ref_data, SystemDataStore):
@@ -227,8 +228,14 @@ class SimSystem(SimBodyDict):
                     res.append(a)
                 return res
 
-            case 'elem_':
-                return _simbod.elems
+            case 'elem_coe_':
+                return _simbod.elem_coe
+
+            case 'elem_pqw_':
+                return _simbod.elem_pqw
+
+            case 'elem_rv_':
+                return _simbod.elem_rv
 
             case 'radius':
                 return _simbod.radius

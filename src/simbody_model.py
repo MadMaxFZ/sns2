@@ -94,7 +94,9 @@ class SimBody:
             # _orb.extend(self._orbit.pqw())
             # _orb.extend(self._orbit.rv())
             # _elem = self.elems
-            self._field_dict.update({'elem_': self.elems})
+            self._field_dict.update({'elem_coe_': self.elem_coe})
+            self._field_dict.update({'elem_pqw_': self.elem_pqw})
+            self._field_dict.update({'elem_rv_': self.elem_rv})
 
     def field(self, field_key):
         if field_key in self._field_dict.keys():
@@ -377,17 +379,28 @@ class SimBody:
                                        scale='tdb', )
 
     @property
-    def elems(self):
+    def elem_coe(self):
         if self._is_primary:
-            res = np.array([self.r, self.v]).round(4)
+            res = np.zeros((6,), dtype=np.float64)
         else:
             res = list(self._orbit.classical())
-            print(res)
-            res.extend(list(self._orbit.pqw()))
-            res.extend(list(self._orbit.rv()))
 
-        print(f'ORBITAL ELEMENTS: {res}')
-        return [v.round(4) for v in res]
+        return res
+
+    @property
+    def elem_pqw(self):
+        if self._is_primary:
+            res = np.zeros((3, 3), dtype=np.float64)
+        else:
+            res = list(self._orbit.pqw())
+
+        return res
+
+    @property
+    def elem_rv(self):
+        res = list(self._orbit.rv())
+
+        return res
 
     @property
     def ephem(self):

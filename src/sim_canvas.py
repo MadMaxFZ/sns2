@@ -2,6 +2,7 @@
 import logging
 import psygnal
 from vispy.app.timer import Timer
+from PyQt5.QtCore import pyqtSignal
 from vispy import app, scene
 from vispy.color import Color
 from vispy.scene.cameras import BaseCamera
@@ -17,6 +18,9 @@ class CanvasWrapper:
         the vispy SceneCanvas object.
     """
     #   TODO:: Be prepared to add some methods to this class
+    qt_keypress = pyqtSignal(str)
+    qt_mouse_move = pyqtSignal()
+
     def __init__(self, _camera_set):
         self._canvas = MainSimCanvas(camera_set=_camera_set)
         self._scene = self._canvas.view.scene
@@ -45,7 +49,8 @@ class CanvasWrapper:
 
 class MainSimCanvas(scene.SceneCanvas):
     FIRST_RUN = True
-    emit_keypress = psygnal.Signal(str)
+    vispy_keypress = psygnal.Signal(str)
+    vispy_mouse_move = psygnal.Signal()
 
     #   TODO::  Refactor to remove all references to the StarSystemModel instance.
     #           This class only needs to handle the CameraSet and key/mouse events here.
