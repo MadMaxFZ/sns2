@@ -138,7 +138,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
         self.ui.camBox.currentTextChanged.connect(self.setActiveCam)
         self.controls.new_active_body.connect(self.setActiveBody)
-        # self.controls.new_active_camera.connect(self.newActiveCam)
+        self.controls.new_active_camera.connect(self.setActiveCam)
         self.main_window_ready.connect(self.setActiveBody)
         self.main_window_ready.connect(self.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
@@ -167,8 +167,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot(str)
     def setActiveCam(self, new_cam_id):
-        if new_cam_id in self.cameras.cam_ids:
-            self.controls.set_active_cam(new_cam_id)
+        if new_cam_id in self.cameras.data.keys():
+            self.cameras.curr_cam = new_cam_id
+            self.canvas.view.camera = self.cameras.curr_cam
 
         self.refresh_panel('cam_')
 
@@ -183,7 +184,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         -------
             Has no return value, but emits the data_set via signal
         """
-        widg_grp = self.controls.widget_group(panel_key)
+        widg_grp = self.controls.widget_group[panel_key]
         curr_sb = self.model.data[self.curr_body_name]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
@@ -234,8 +235,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
                 i = 0
                 for k, v in self.cameras.curr_cam.get_state().items():
-                    self.controls.widget_group('key_')[i].setText(str(k))
-                    self.controls.widget_group(panel_key)[i].setText(str(v))
+                    list(self.controls.widget_group.keys())[i].setText(str(k))
+                    self.controls.widget_group[i].setText(str(v))
                     i += 1
 
         pass
