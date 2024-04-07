@@ -21,11 +21,11 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         self._pattern_names = ['attr_', 'elem_', 'cam_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
-                               'tw_', 'twb_', 'axis_']
+                               'tw_', 'twb_', 'axis_', '_key']
         self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_groups)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
-        self._active_body = ''
-        self._active_cam = ''
+        self._active_body = 'Earth'
+        self._active_cam = 'def_cam'
 
     def with_prefix(self, prefix):
         return [widget for name, widget in self.ui.__dict__.items()
@@ -53,6 +53,7 @@ class Controls(QtWidgets.QWidget):
         return panels
 
     def set_active_cam(self, cam_id):
+        print()
         self._active_cam = cam_id
 
     def set_active_body(self, body_name):
@@ -67,11 +68,3 @@ class Controls(QtWidgets.QWidget):
         else:
             raise ValueError(f'>>>ERROR: {prefix} is not a valid widget group name.')
 
-    @property
-    def active_cam(self):
-        return self._active_cam
-
-    @active_cam.setter
-    def active_cam(self, cam_id):
-        self._active_cam = cam_id
-        self.new_active_camera.emit(cam_id)

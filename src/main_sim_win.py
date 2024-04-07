@@ -136,9 +136,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
-        self.ui.camBox.currentIndexChanged.connect(self.setActiveCam)
+        self.ui.camBox.currentTextChanged.connect(self.setActiveCam)
         self.controls.new_active_body.connect(self.setActiveBody)
+        # self.controls.new_active_camera.connect(self.newActiveCam)
         self.main_window_ready.connect(self.setActiveBody)
+        self.main_window_ready.connect(self.setActiveCam)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
@@ -152,7 +154,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot(str)
     def setActiveBody(self, new_body_name):
-        self.controls.set_active_body(new_body_name)
+        if new_body_name in self.model.body_names:
+            self.controls.set_active_body(new_body_name)
+
         self.refresh_panel('attr_')
         self.refresh_panel('elem_')
 
@@ -161,9 +165,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.refresh_panel('elem_')
         self.refresh_panel('cam_')
 
-    @pyqtSlot(int)
+    @pyqtSlot(str)
     def setActiveCam(self, new_cam_id):
-        self.controls.set_active_cam(new_cam_id)
+        if new_cam_id in self.cameras.cam_ids:
+            self.controls.set_active_cam(new_cam_id)
+
         self.refresh_panel('cam_')
 
     def refresh_panel(self, panel_key):
@@ -177,9 +183,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         -------
             Has no return value, but emits the data_set via signal
         """
-        #
-        # model_agg_data = {}
-        widg_grp = self.controls.with_prefix(panel_key)
+        widg_grp = self.controls.widget_group(panel_key)
         curr_sb = self.model.data[self.curr_body_name]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
@@ -188,7 +192,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'elem_':
                 # TODO:     Fix this such that the RV state is a separate 'panel' in which
                 #           the vector components are stacked vertically...
-                widg_grp = self.controls.with_prefix('elem_')
                 r_str = str("X: " + pad_plus(curr_sb.v[0]) +
                             "\nY: " + pad_plus(curr_sb.r[1]) +
                             "\nZ: " + pad_plus(curr_sb.r[2]))
@@ -231,8 +234,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
                 i = 0
                 for k, v in self.cameras.curr_cam.get_state().items():
-                    self.controls.with_prefix('key_')[i].setText(str(k))
-                    self.controls.with_prefix(panel_key)[i].setText(str(v))
+                    self.controls.widget_group('key_')[i].setText(str(k))
+                    self.controls.widget_group(panel_key)[i].setText(str(v))
                     i += 1
 
         pass
