@@ -70,7 +70,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         where access to all simulation components can be utilized to provide control of the sim.
     """
     # Signals for communication between simulation components:
-    update_panel = pyqtSignal(list, dict)
+    main_window_ready = pyqtSignal(str)
     # newActiveBody = pyqtSignal(int)
     # newActiveTab = pyqtSignal(int)
     # newActiveCam = pyqtSignal(int)
@@ -92,25 +92,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.controls = Controls()
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget()
-
-        # Here we define sets of keys that will correspond to data fields in the model, visuals and cameras.
-        # The first two are fields that exist for each SimBody (exceptr primary)
-        # self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius', 'elem_', 'is_primary',
-        #                           )
         self._vizz_fields2agg = ('radius', 'body_alpha', 'track_alpha', 'body_mark',
                                  'body_color', 'track_data', 'tex_data', 'is_primary',
                                  )
-        # This key set refers to fields that are common to the cameras (only FlyCameras right now)
-        # self._cams_fields2agg = ('center', 'rot1', 'rot2', 'scale', 'fov', 'zoom')
-
         self.vizz_agg_data = self.model.get_agg_fields(self._vizz_fields2agg)
-        # `this body_agg_data is not correct somehow
         self.visuals = StarSystemVisuals(self.model.body_names)
         self.visuals.generate_visuals(self.canvas.view,
                                       self.vizz_agg_data)
-        # self.color_agg_data = self._get_vizz_agg_fields(self._color_fields2agg)                ###
-        # self.cam_agg_data = self._get_cam_agg_fields(self._cams_fields2agg)
-
         self._setup_layout()
         self.init_controls()
         # self.thread = QThread()
@@ -119,7 +107,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.blockSignals(True)
         self.connect_slots()
         self.blockSignals(False)
-        # self.model.update_state()
+        self.main_window_ready.emit('Earth')
 
     def _setup_layout(self):
         main_layout = QtWidgets.QHBoxLayout()
@@ -137,8 +125,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyBox.addItems(self.model.body_names)
         self.ui.camBox.addItems(self.cameras.cam_ids)
         self.ui.bodyBox.setCurrentIndex(3)
-        # self.ui.tabWidget_Body.setCurrentIndex(0)
         self.ui.camBox.setCurrentIndex(0)
+        self.show()
         print("Controls initialized...")
 
     def connect_slots(self):
@@ -147,9 +135,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
-        self.ui.bodyBox.currentIndexChanged.connect(self.setActiveBody)
-        self.ui.bodyBox.currentIndexChanged.connect(self.updateOrbitPanels)
+        self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
         self.ui.camBox.currentIndexChanged.connect(self.setActiveCam)
+        self.controls.new_active_body.connect(self.setActiveBody)
+        self.main_window_ready.connect(self.setActiveBody)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
@@ -161,19 +150,20 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         ], {})
         # print("Panel data sent...")
 
-    @pyqtSlot(int)
-    def setActiveBody(self, new_bod_idx):
-        self.controls.active_bod = new_bod_idx
+    @pyqtSlot(str)
+    def setActiveBody(self, new_body_name):
+        self.controls.set_active_body(new_body_name)
         self.refresh_panel('attr_')
-        self.refresh_panel('elem')
-
-    @pyqtSlot(int)
-    def updateOrbitPanels(self, new_bod_idx):
         self.refresh_panel('elem_')
 
     @pyqtSlot(int)
+    def updatePanels(self, new_bod_idx):
+        self.refresh_panel('elem_')
+        self.refresh_panel('cam_')
+
+    @pyqtSlot(int)
     def setActiveCam(self, new_cam_id):
-        self.controls.active_cam = new_cam_id
+        self.controls.set_active_cam(new_cam_id)
         self.refresh_panel('cam_')
 
     def refresh_panel(self, panel_key):

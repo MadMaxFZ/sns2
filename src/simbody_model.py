@@ -47,14 +47,12 @@ class SimBody:
                )
 
     def __init__(self, body_data=None, vizz_data=None,):
-        # super(SimBody, self).__init__()
         self._is_primary    = False
         self._prev_update   = None
         self._RESAMPLE      = False
         self._sb_parent     = None
         self._sys_primary   = None
         self._body_data     = body_data
-        self._curr_camera   = None
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
@@ -75,6 +73,7 @@ class SimBody:
         self._trajectory    = None
         self._rad_set       = None
         self._type          = None
+        self._curr_cam_id   = None
         self._vizz_data     = vizz_data
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
@@ -367,9 +366,7 @@ class SimBody:
         return self._t_range
 
     @t_range.setter
-    def t_range(self,
-                periods=None,
-                spacing=None, ):
+    def t_range(self, periods=None, spacing=None, ):
         if type(periods) == int:
             self._t_range = time_range(self._epoch,
                                        periods=periods,

@@ -109,7 +109,6 @@ class SimSystem(SimBodyDict):
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=self._vec_type)
         self.update_state(epoch=self._sys_epoch)
-        # [sb.set_field_dict() for sb in self.data.values()]
         self._HAS_INIT = True
 
     def update_state(self, epoch=None):
