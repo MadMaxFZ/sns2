@@ -68,11 +68,23 @@ def pad_plus(value):
 
 def to_vector_str(vec):
     if vec is not None:
+        print(f'{type(vec)}')
         vec_str = str("X: " + pad_plus(vec[0]) +
                       "\nY: " + pad_plus(vec[1]) +
                       "\nZ: " + pad_plus(vec[2]))
 
         return vec_str
+
+
+def to_quat_str(quat):
+    if quat is not None:
+        print(f'{type(quat)}')
+        quat_str = str("X: " + f'{quat.x}' +
+                       "\nY: " + f'{quat.x}' +
+                       "\nZ: " + f'{quat.x}' +
+                       "\nW: " + f'{quat.x}')
+
+        return quat_str
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -169,14 +181,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         self.refresh_panel('attr_')
         self.refresh_panel('elem_coe_')
-        self.refresh_panel('elem_pqw_')
         self.refresh_panel('elem_rv_')
+        self.refresh_panel('elem_pqw_')
+        self.refresh_panel('cam_')
 
     @pyqtSlot(int)
     def updatePanels(self, new_bod_idx):
         self.refresh_panel('elem_coe_')
-        self.refresh_panel('elem_pqw_')
         self.refresh_panel('elem_rv_')
+        self.refresh_panel('elem_pqw_')
         self.refresh_panel('cam_')
 
     @pyqtSlot(str)
@@ -205,11 +218,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
         match panel_key:
 
             case 'elem_coe_':
-                data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
-                print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-                for i, w in enumerate(widg_grp):
-                    print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                    w.setText(str(data_set[i]))
+                if curr_simbod.is_primary:
+                    for w in widg_grp:
+                        w.setText('')
+                else:
+                    data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
+                    print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                    for i, w in enumerate(widg_grp):
+                        print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                        w.setText(str(data_set[i]))
 
             case 'elem_rv_':
                 [w.setText("") for w in widg_grp]
@@ -217,21 +234,27 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 self.controls.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v))
 
             case 'elem_pqw_':
-                data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
-                print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-                for i, w in enumerate(widg_grp):
-                    print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                    w.setText(str(to_vector_str(np.nparray(data_set[i]))))
+                if curr_simbod.is_primary:
+                    for w in widg_grp:
+                        w.setText('')
+                else:
+                    data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
+                    print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                    for i, w in enumerate(widg_grp):
+                        print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                        w.setText(str(to_vector_str(data_set[i].value)))
 
             case 'attr_':
                 data_set = curr_simbod.body
                 print(f'{data_set}')
                 print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                 for i, data in enumerate(data_set):
-                    if i == 0 and data:
-                        data = data.name
-                    if type(data) == Quantity:
-                        res = round_off(data)
+                    if type(data) == Body:
+                        res = data.name
+                    elif type(data) == Quantity:
+                        res = f'{data:.4e}'
+                    elif type(data) == str:
+                        res = f'{data}'
                     else:
                         res = data
 
@@ -241,11 +264,26 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'cam_':
                 # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
                 i = 0
-                cam_state = self.cameras.curr_cam.get_state().items()
+                cam_state = self.cameras.curr_cam.get_state()
                 key_widgs = self.controls.widget_group('key_')
-                for k, v in cam_state:
+                [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
+                for k, v in cam_state.items():
                     key_widgs[i].setText(str(k))
-                    widg_grp[i].setText(str(v))
+                    match str(type(v)):
+
+                        case "<class \'float\'>":
+                            res = f'{v:.4}'
+
+                        case "<class \'tuple\'>":
+                            res = to_vector_str(v)
+
+                        case "<class \'vispy.util.quaternion.Quaternion\'>":
+                            res = to_quat_str(v)
+
+                        case _:
+                            res = ''
+
+                    widg_grp[i].setText(res)
                     i += 1
 
         pass

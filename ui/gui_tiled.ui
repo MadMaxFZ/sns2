@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>771</width>
-    <height>1031</height>
+    <width>635</width>
+    <height>925</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>635</width>
+    <height>925</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>635</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -18,8 +36,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>751</width>
-     <height>751</height>
+     <width>621</width>
+     <height>661</height>
     </rect>
    </property>
    <property name="title">
@@ -32,9 +50,9 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>20</y>
-      <width>361</width>
-      <height>361</height>
+      <y>10</y>
+      <width>241</width>
+      <height>281</height>
      </rect>
     </property>
     <property name="title">
@@ -48,13 +66,13 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>341</width>
-       <height>331</height>
+       <width>221</width>
+       <height>251</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
       <property name="verticalSpacing">
-       <number>12</number>
+       <number>9</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="parent">
@@ -446,10 +464,10 @@
    <widget class="QGroupBox" name="orbitElements">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>20</y>
-      <width>271</width>
-      <height>721</height>
+      <x>350</x>
+      <y>10</y>
+      <width>261</width>
+      <height>641</height>
      </rect>
     </property>
     <property name="title">
@@ -458,16 +476,19 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>251</width>
-       <height>691</height>
+       <width>241</width>
+       <height>611</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_9" stretch="3,4,3">
+     <layout class="QVBoxLayout" name="verticalLayout_9" stretch="8,9,11">
+      <property name="spacing">
+       <number>5</number>
+      </property>
       <item>
        <widget class="QGroupBox" name="rv">
         <property name="font">
@@ -487,8 +508,8 @@
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>231</width>
-           <height>171</height>
+           <width>221</width>
+           <height>151</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,10">
@@ -496,6 +517,12 @@
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <widget class="QLabel" name="POS">
+              <property name="minimumSize">
+               <size>
+                <width>25</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -512,6 +539,12 @@
             </item>
             <item>
              <widget class="QLabel" name="VEL">
+              <property name="minimumSize">
+               <size>
+                <width>25</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -539,7 +572,7 @@
                <string>TextLabel</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -552,7 +585,7 @@
                <string>TextLabel</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               <set>Qt::AlignCenter</set>
               </property>
               <property name="margin">
                <number>5</number>
@@ -584,8 +617,8 @@
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>231</width>
-           <height>231</height>
+           <width>221</width>
+           <height>151</height>
           </rect>
          </property>
          <layout class="QFormLayout" name="cl_form">
@@ -593,10 +626,28 @@
            <enum>QLayout::SetMinimumSize</enum>
           </property>
           <property name="verticalSpacing">
-           <number>21</number>
+           <number>11</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="a">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -605,6 +656,9 @@
             </property>
             <property name="text">
              <string>a</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -623,6 +677,18 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="argp">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -631,6 +697,9 @@
             </property>
             <property name="text">
              <string>ecc</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -649,6 +718,18 @@
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="ecc">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -657,6 +738,9 @@
             </property>
             <property name="text">
              <string>inc</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -675,6 +759,18 @@
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="inc">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -683,6 +779,9 @@
             </property>
             <property name="text">
              <string>raan</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -701,6 +800,18 @@
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="nu">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -709,6 +820,9 @@
             </property>
             <property name="text">
              <string>argp</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -727,6 +841,18 @@
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="raan">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <weight>75</weight>
@@ -735,6 +861,9 @@
             </property>
             <property name="text">
              <string>nu</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -768,8 +897,8 @@
           <rect>
            <x>10</x>
            <y>20</y>
-           <width>231</width>
-           <height>161</height>
+           <width>221</width>
+           <height>211</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="perifocalLayout" stretch="1,11">
@@ -780,6 +909,12 @@
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
              <widget class="QLabel" name="P">
+              <property name="minimumSize">
+               <size>
+                <width>25</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -796,6 +931,12 @@
             </item>
             <item>
              <widget class="QLabel" name="Q">
+              <property name="minimumSize">
+               <size>
+                <width>25</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -812,6 +953,12 @@
             </item>
             <item>
              <widget class="QLabel" name="W">
+              <property name="minimumSize">
+               <size>
+                <width>25</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -884,7 +1031,7 @@
       <x>10</x>
       <y>20</y>
       <width>81</width>
-      <height>361</height>
+      <height>291</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -901,10 +1048,15 @@
      <item>
       <widget class="QListWidget" name="bodyList">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
          <horstretch>1</horstretch>
          <verstretch>1</verstretch>
         </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>7</pointsize>
+        </font>
        </property>
        <item>
         <property name="text">
@@ -922,8 +1074,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
-      <width>451</width>
+      <y>310</y>
+      <width>331</width>
       <height>341</height>
      </rect>
     </property>
@@ -938,13 +1090,19 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>431</width>
+       <width>311</width>
        <height>311</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,13">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,3">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
         <item>
          <widget class="QLabel" name="camHeader">
           <property name="text">
@@ -968,9 +1126,9 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,7">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="4,9">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
+         <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,3,1,4,4,0">
           <item>
            <widget class="QLabel" name="key_0">
             <property name="font">
@@ -981,6 +1139,9 @@
             </property>
             <property name="text">
              <string>key_0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -995,6 +1156,9 @@
             <property name="text">
              <string>key_1</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
           <item>
@@ -1007,6 +1171,9 @@
             </property>
             <property name="text">
              <string>key_2</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -1021,6 +1188,9 @@
             <property name="text">
              <string>key_3</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
            </widget>
           </item>
           <item>
@@ -1033,6 +1203,9 @@
             </property>
             <property name="text">
              <string>key_4</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -1052,9 +1225,18 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <layout class="QVBoxLayout" name="verticalLayout_6" stretch="1,3,1,4,4,0">
+          <property name="spacing">
+           <number>7</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QLabel" name="cam_0">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -1065,6 +1247,9 @@
           </item>
           <item>
            <widget class="QLabel" name="cam_1">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -1075,6 +1260,9 @@
           </item>
           <item>
            <widget class="QLabel" name="cam_2">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -1085,6 +1273,9 @@
           </item>
           <item>
            <widget class="QLabel" name="cam_3">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -1095,6 +1286,9 @@
           </item>
           <item>
            <widget class="QLabel" name="cam_4">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -1109,7 +1303,7 @@
              <string>TextLabel</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignCenter</set>
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -1125,8 +1319,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>770</y>
-     <width>751</width>
+     <y>670</y>
+     <width>621</width>
      <height>251</height>
     </rect>
    </property>
@@ -1139,7 +1333,7 @@
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>10</x>
       <y>20</y>
       <width>601</width>
       <height>221</height>
