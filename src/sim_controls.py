@@ -21,7 +21,7 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         self._pattern_names = ['attr_', 'elem_', 'cam_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
-                               'tw_', 'twb_', 'axis_', '_key']
+                               'tw_', 'twb_', 'axis_', 'key_']
         self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_groups)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
         self._active_body = 'Earth'
@@ -59,10 +59,10 @@ class Controls(QtWidgets.QWidget):
     def set_active_body(self, body_name):
         self._active_body = body_name
 
-    @property
     def widget_group(self, prefix=None):
+
         if prefix is None:
-            return self._widget_groups
+            return self._widget_groups.keys()
         elif prefix in self._widget_groups.keys():
             return self._widget_groups[prefix]
         else:

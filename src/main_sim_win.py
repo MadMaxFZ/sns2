@@ -9,6 +9,7 @@
 # from composite import Ui_frm_sns_controls
 
 import sys
+import numpy as np
 import logging.config
 from vispy.app import use_app
 from PyQt5 import QtWidgets, QtCore
@@ -63,6 +64,15 @@ def pad_plus(value):
             res = "+" + res
 
         return res
+
+
+def to_vector_str(vec):
+    if vec is not None:
+        vec_str = str("X: " + pad_plus(vec[0]) +
+                      "\nY: " + pad_plus(vec[1]) +
+                      "\nZ: " + pad_plus(vec[2]))
+
+        return vec_str
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -158,11 +168,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.controls.set_active_body(new_body_name)
 
         self.refresh_panel('attr_')
-        self.refresh_panel('elem_')
+        self.refresh_panel('elem_coe_')
+        self.refresh_panel('elem_pqw_')
+        self.refresh_panel('elem_rv_')
 
     @pyqtSlot(int)
     def updatePanels(self, new_bod_idx):
-        self.refresh_panel('elem_')
+        self.refresh_panel('elem_coe_')
+        self.refresh_panel('elem_pqw_')
+        self.refresh_panel('elem_rv_')
         self.refresh_panel('cam_')
 
     @pyqtSlot(str)
@@ -183,40 +197,34 @@ class MainQtWindow(QtWidgets.QMainWindow):
         -------
             Has no return value, but emits the data_set via signal
         """
-        widg_grp = self.controls.widget_group(panel_key)
-        curr_sb = self.model.data[self.curr_body_name]
+        widg_grp    = self.controls.widget_group(panel_key)
+        show_it(widg_grp)
+        curr_simbod = self.model.data[self.controls.ui.bodyBox.currentText()]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
         match panel_key:
 
-            case 'elem_':
-                # TODO:     Fix this such that the RV state is a separate 'panel' in which
-                #           the vector components are stacked vertically...
-                r_str = str("X: " + pad_plus(curr_sb.v[0]) +
-                            "\nY: " + pad_plus(curr_sb.r[1]) +
-                            "\nZ: " + pad_plus(curr_sb.r[2]))
+            case 'elem_coe_':
+                data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
+                print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                for i, w in enumerate(widg_grp):
+                    print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                    w.setText(str(data_set[i]))
 
-                v_str = str("X: " + pad_plus(curr_sb.v[0]) +
-                            "\nY: " + pad_plus(curr_sb.v[1]) +
-                            "\nZ: " + pad_plus(curr_sb.v[2]))
+            case 'elem_rv_':
+                [w.setText("") for w in widg_grp]
+                self.controls.ui.elem_rv_0.setText(to_vector_str(curr_simbod.r))
+                self.controls.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v))
 
-                if curr_sb.is_primary:
-                    [w.setText("") for w in widg_grp]
-                    widg_grp[-2].setText(r_str)
-                    widg_grp[-1].setText(v_str)
-
-                else:
-                    data_set = self.model.data_group(sb_name=self.curr_body_name, tgt_key=panel_key)
-                    print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
-                    for i, w in enumerate(widg_grp):
-                        print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(data_set[i]))
-
-                    widg_grp[-2].setText(r_str)
-                    widg_grp[-1].setText(v_str)
+            case 'elem_pqw_':
+                data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
+                print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                for i, w in enumerate(widg_grp):
+                    print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                    w.setText(str(to_vector_str(np.nparray(data_set[i]))))
 
             case 'attr_':
-                data_set = curr_sb.body
+                data_set = curr_simbod.body
                 print(f'{data_set}')
                 print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                 for i, data in enumerate(data_set):
@@ -233,9 +241,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'cam_':
                 # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
                 i = 0
-                for k, v in self.cameras.curr_cam.get_state().items():
-                    self.controls.widget_group('key_')[i].setText(str(k))
-                    self.controls.widget_group(panel_key)[i].setText(str(v))
+                cam_state = self.cameras.curr_cam.get_state().items()
+                key_widgs = self.controls.widget_group('key_')
+                for k, v in cam_state:
+                    key_widgs[i].setText(str(k))
+                    widg_grp[i].setText(str(v))
                     i += 1
 
         pass
