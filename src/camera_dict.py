@@ -147,9 +147,15 @@ class CameraSet(UserDict):
     def curr_key(self):
         return self._curr_key
 
+    def set_curr2key(self, new_key):
+        if new_key in self.cam_ids:
+            self._curr_key = new_key
+            self._curr_cam = self.data[self._curr_key]
+            return self._curr_cam
+
     @property
     def cam_ids(self):
-        return self.data.keys()
+        return list(self.data.keys())
 
     @property
     def cam_list(self):

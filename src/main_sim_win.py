@@ -56,22 +56,22 @@ def to_bold_font(value):
 
 def pad_plus(value):
     if value:
-
-        res = f'{value:.6e}'
-        show_it(res)
-
-        if value > 0:
-            res = "+" + res
+        res = value
+        if not value.startswith('+'):
+            res = "+" + value
 
         return res
+
+    else:
+        return ''
 
 
 def to_vector_str(vec):
     if vec is not None:
         print(f'{type(vec)}')
-        vec_str = str("X: " + pad_plus(vec[0]) +
-                      "\nY: " + pad_plus(vec[1]) +
-                      "\nZ: " + pad_plus(vec[2]))
+        vec_str = str("X: " + pad_plus(f'{vec[0]:.4}') +
+                      "\nY: " + pad_plus(f'{vec[1]:.4}') +
+                      "\nZ: " + pad_plus(f'{vec[2]:.4}'))
 
         return vec_str
 
@@ -79,10 +79,10 @@ def to_vector_str(vec):
 def to_quat_str(quat):
     if quat is not None:
         print(f'{type(quat)}')
-        quat_str = str("X: " + f'{quat.x}' +
-                       "\nY: " + f'{quat.x}' +
-                       "\nZ: " + f'{quat.x}' +
-                       "\nW: " + f'{quat.x}')
+        quat_str = str("X: " + f'{quat.x:.4}' +
+                       "\nY: " + f'{quat.y:.4}' +
+                       "\nZ: " + f'{quat.z:.4}' +
+                       "\nW: " + f'{quat.w:.4}')
 
         return quat_str
 
@@ -195,6 +195,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     @pyqtSlot(str)
     def setActiveCam(self, new_cam_id):
         if new_cam_id in self.cameras.cam_ids:
+            self.canvas.view.camera = self.cameras.set_curr2key(new_cam_id)
             self.controls.set_active_cam(new_cam_id)
 
         self.refresh_panel('cam_')
@@ -226,7 +227,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
                         print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(data_set[i]))
+                        w.setText(str(data_set[i].round(4)))
 
             case 'elem_rv_':
                 [w.setText("") for w in widg_grp]
