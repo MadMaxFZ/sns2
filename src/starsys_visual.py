@@ -45,6 +45,7 @@ DEF_MARKS_DATA = dict(pos=None,
 
 _pm_e_alpha = 0.6
 _cm_e_alpha = 0.6
+_SCALE_FACTOR = np.array([1.0,] * 3)
 
 
 def from_pos(pos, tgt_pos, tgt_R):
@@ -96,7 +97,8 @@ class StarSystemVisuals:
         self._agg_cache    = None
         self._vizz_data    = None
         self._body_radsets = None
-        self.dist_unit     = u.km
+        self.dist_unit     = u.km       # TODO: resolve any confusion with the fucking units...!
+
         if body_names:
             self._body_names   = [n for n in body_names]
         self._body_count   = len(self._body_names)
@@ -221,6 +223,7 @@ class StarSystemVisuals:
                 xform.rotate(W * np.pi / 180, x_ax)
                 xform.rotate(DEC * np.pi / 180, y_ax)
                 xform.rotate(RA * np.pi / 180, z_ax)
+                xform.scale(_SCALE_FACTOR)
                 xform.translate(pos)
                 self._planets[sb_name].transform = xform
 
@@ -250,13 +253,13 @@ class StarSystemVisuals:
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         # logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._pos_rel2cam])
 
-    def get_symb_sizes(self, from_cam=None):
+    def get_symb_sizes(self, obs_cam=None):
         """
-            Calculates the size in pixels at which a SimBody will appear in the view from
+            Calculates the s=ize in pixels at which a SimBody will appear in the view from
             the perspective of a specified camera.
         Parameters
         ----------
-        from_cam :  A Camera object from which the apparent sizes are measured
+        obs_cam :  A Camera object from which the apparent sizes are measured
 
         Returns
         -------
@@ -265,17 +268,17 @@ class StarSystemVisuals:
         TODO: instead of only symbol sizes, include face and edge color, etc.
                   Probably rename this method to 'get_mark_data(self, from_cam=None)'
         """
-        if not from_cam:
-            from_cam = self._curr_camera
+        if not obs_cam:
+            obs_cam = self._curr_camera
 
-        pix_diams = []
+        symb_sizes = []
         for sb_name in self._body_names:                                                       # <--
-            body_fov = from_pos(from_cam.center,
+            body_fov = from_pos(obs_cam.center,
                                 self._agg_cache['pos'][sb_name].value,
                                 self._agg_cache['radius'][sb_name][0],
                                 )['fov']
             pix_diam = 0
-            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / from_cam.fov)                # <--
+            raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / obs_cam.fov)                # <--
 
             if raw_diam < MIN_SYMB_SIZE:
                 pix_diam = MIN_SYMB_SIZE
@@ -287,9 +290,9 @@ class StarSystemVisuals:
             else:
                 self._planets[sb_name].visible = False
 
-            pix_diams.append(pix_diam)
+            symb_sizes.append(pix_diam)
 
-        return np.array(pix_diams)
+        return np.array(symb_sizes)
 
     @staticmethod
     def _check_simbods(simbods=None):

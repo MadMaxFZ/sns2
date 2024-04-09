@@ -4,7 +4,7 @@ import urllib.parse
 
 import psygnal
 from starsys_data import *
-from simbody_dict import SimBodyDict  # TODO::
+from simbody_dict import SimBodyDict
 from simbody_model import SimBody
 from starsys_visual import from_pos
 from vispy.color import *
