@@ -6,6 +6,7 @@ import psygnal
 from starsys_data import *
 from simbody_dict import SimBodyDict  # TODO::
 from simbody_model import SimBody
+from starsys_visual import from_pos
 from vispy.color import *
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time, TimeDeltaSec
@@ -275,8 +276,8 @@ class SimSystem(SimBodyDict):
                 #       If it exists, return its texture data. Otherwise return the default texture data.
                 return self.ref_data.vizz_data(name=_simbod.name)['tex_data']
 
-            case 'rel2cam':
-                return self.cameras.rel2cam(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
+            # case 'rel2cam':
+            #     return from_pos(tgt_pos=_simbod.pos, tgt_radius=_simbod.radius[0] * self.model.dist_unit)
 
         pass
 

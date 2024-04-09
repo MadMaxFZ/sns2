@@ -47,6 +47,23 @@ _pm_e_alpha = 0.6
 _cm_e_alpha = 0.6
 
 
+def from_pos(pos, tgt_pos, tgt_R):
+    rel_2pos = (pos - tgt_pos)
+    dist = np.linalg.norm(rel_2pos)
+    dist_unit = tgt_R / tgt_R.value
+    if dist < 1e-09:
+        dist = 0.0 * dist_unit
+        rel_pos = np.zeros((3,), dtype=type(tgt_pos))
+        fov = MIN_FOV
+    else:
+        fov = np.float64(1.0 * math.atan(tgt_R.value / dist))
+
+    return {"rel_pos": rel_2pos * dist_unit,
+            "dist": dist * dist_unit,
+            "fov": fov,
+            }
+
+
 class StarSystemVisuals:
     """
     """
@@ -207,13 +224,14 @@ class StarSystemVisuals:
                 xform.translate(pos)
                 self._planets[sb_name].transform = xform
 
-            if sb_name != self._agg_cache['primary_name']:
+            if self._agg_cache['is_primary'][sb_name]:
                 self._tracks[sb_name].transform.reset()
                 self._tracks[sb_name].transform.translate(pos)
 
-            self._bods_pos.append(pos)
-            _pf_clr = self._agg_cache['color'][sb_name].alpha = self._agg_cache['b_alpha'][sb_name]
-            _cf_clr = _pf_clr.alpha = 0
+            # self._bods_pos.append(pos)
+            _pf_clr = Color(self._agg_cache['body_color'][sb_name])
+            _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]
+            _cf_clr = _pf_clr
             _p_face_colors.append(_pf_clr)
             _c_face_colors.append(_cf_clr)
 
@@ -230,7 +248,7 @@ class StarSystemVisuals:
                                     symbol=['diamond' for _ in range(self._body_count)],                  # <--
                                     )
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
-        logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._pos_rel2cam])
+        # logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._pos_rel2cam])
 
     def get_symb_sizes(self, from_cam=None):
         """
@@ -251,10 +269,11 @@ class StarSystemVisuals:
             from_cam = self._curr_camera
 
         pix_diams = []
-        _bods_pos = []
         for sb_name in self._body_names:                                                       # <--
-            _bods_pos = self._agg_cache['pos'][sb_name]
-            body_fov = self._agg_cache['rel2cam'][sb_name]['fov']
+            body_fov = from_pos(from_cam.center,
+                                self._agg_cache['pos'][sb_name].value,
+                                self._agg_cache['radius'][sb_name][0],
+                                )['fov']
             pix_diam = 0
             raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / from_cam.fov)                # <--
 

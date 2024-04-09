@@ -9,7 +9,7 @@ from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time, TimeDelta
-from vispy.geometry import MeshData
+from vispy.color import Color
 # from starsys_data import sys_data
 from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
@@ -447,15 +447,19 @@ class SimBody:
 
     @property
     def body_color(self):
-        return self._vizz_data['body_color']
+        res = Color(self._vizz_data['body_color'])
+        res.alpha = self._vizz_data['body_alpha']
+
+        return res
 
 
 if __name__ == "__main__":
 
     def main():
-        sb = SimBody(body_data=sys_data.body_data(bod_name))
-        sb.update_state(sb)
-        print(sb.orbit)
+        pass
+        #     sb = SimBody(body_data=sys_data.body_data(bod_name))
+        #     sb.update_state(sb)
+        # print(sb.orbit)
 
 
     main()

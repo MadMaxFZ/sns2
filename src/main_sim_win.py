@@ -114,8 +114,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.controls = Controls()
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget()
-        self._vizz_fields2agg = ('radius', 'body_alpha', 'track_alpha', 'body_mark',
+        self._vizz_fields2agg = ('pos', 'radius', 'body_alpha', 'track_alpha', 'body_mark',
                                  'body_color', 'track_data', 'tex_data', 'is_primary',
+                                 'axes', 'rot',
                                  )
         self.vizz_agg_data = self.model.get_agg_fields(self._vizz_fields2agg)
         self.visuals = StarSystemVisuals(self.model.body_names)
@@ -126,12 +127,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
-        self.blockSignals(True)
         self.connect_slots()
-        self.blockSignals(False)
         self.main_window_ready.emit('Earth')
 
     def _setup_layout(self):
+        # TODO:     Learn more about the QSplitter object
         main_layout = QtWidgets.QHBoxLayout()
         splitter = QtWidgets.QSplitter()
         splitter.addWidget(self.controls)
@@ -155,6 +155,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
             Connects slots to signals.
         """
+        self.blockSignals(True)
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
@@ -163,6 +164,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.controls.new_active_camera.connect(self.newActiveCam)
         self.main_window_ready.connect(self.setActiveBody)
         self.main_window_ready.connect(self.setActiveCam)
+        self.main_window_ready.connect(self.refresh_canvas)
+        self.blockSignals(False)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
         print("Slots Connected...")
@@ -199,6 +202,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.controls.set_active_cam(new_cam_id)
 
         self.refresh_panel('cam_')
+
+    @pyqtSlot(str)
+    def refresh_canvas(self, body_name):
+        self.visuals.update_vizz()
 
     def refresh_panel(self, panel_key):
         """

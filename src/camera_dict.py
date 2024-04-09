@@ -176,17 +176,17 @@ class CameraSet(UserDict):
     #                                   'fov'     :   field of view of the target,
     #                                   }
     #     """
-    #     rel_2cam = (tgt_pos.pos - self._curr_cam.center)
+    #     rel_2cam = (pos.pos - self._curr_cam.center)
     #     dist = np.linalg.norm(rel_2cam)
     #     if dist < 1e-09:
-    #         dist = 0.0 * tgt_pos.dist_unit
+    #         dist = 0.0 * pos.dist_unit
     #         rel_pos = np.zeros((3,), dtype=self._vec_type)
     #         fov = MIN_FOV
     #     else:
-    #         fov = np.float64(1.0 * math.atan(tgt_pos.body.R.to(tgt_pos.dist_unit).value / dist))
+    #         fov = np.float64(1.0 * math.atan(pos.body.R.to(pos.dist_unit).value / dist))
     #
-    #     return {"rel_pos": rel_2cam * tgt_pos.dist_unit,
-    #             "dist": dist * tgt_pos.dist_unit,
+    #     return {"rel_pos": rel_2cam * pos.dist_unit,
+    #             "dist": dist * pos.dist_unit,
     #             "fov": fov,
     #             }
 
