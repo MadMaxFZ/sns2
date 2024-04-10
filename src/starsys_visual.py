@@ -45,7 +45,7 @@ DEF_MARKS_DATA = dict(pos=None,
 
 _pm_e_alpha = 0.6
 _cm_e_alpha = 0.6
-_SCALE_FACTOR = np.array([1.0,] * 3)
+_SCALE_FACTOR = np.array([50.0,] * 3)
 
 
 def from_pos(pos, tgt_pos, tgt_R):
@@ -216,6 +216,7 @@ class StarSystemVisuals:
             DEC  = self._agg_cache['rot'][sb_name][1]
             W    = self._agg_cache['rot'][sb_name][2]
             pos  = self._agg_cache['pos'][sb_name]
+            is_primary = self._agg_cache['is_primary'][sb_name]
 
             if self._planets[sb_name].visible:
                 xform = self._planets[sb_name].transform
@@ -223,7 +224,9 @@ class StarSystemVisuals:
                 xform.rotate(W * np.pi / 180, x_ax)
                 xform.rotate(DEC * np.pi / 180, y_ax)
                 xform.rotate(RA * np.pi / 180, z_ax)
-                xform.scale(_SCALE_FACTOR)
+                if not is_primary:
+                    xform.scale(_SCALE_FACTOR)
+
                 xform.translate(pos)
                 self._planets[sb_name].transform = xform
 

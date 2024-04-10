@@ -200,7 +200,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         if new_cam_id in self.cameras.cam_ids:
             self.canvas.view.camera = self.cameras.set_curr2key(new_cam_id)
             self.controls.set_active_cam(new_cam_id)
-
+            self.canvas.view.camera = self.cameras.curr_cam
         self.refresh_panel('cam_')
 
     @pyqtSlot(str)
