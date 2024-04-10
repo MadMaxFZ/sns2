@@ -123,11 +123,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.visuals.generate_visuals(self.canvas.view,
                                       self.vizz_agg_data)
         self._setup_layout()
-        self.init_controls()
+        self._init_controls()
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
-        self.connect_slots()
+        self._connect_slots()
         self.main_window_ready.emit('Earth')
 
     def _setup_layout(self):
@@ -140,7 +140,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.central_widget.setLayout(main_layout)
         self.setCentralWidget(self.central_widget)
 
-    def init_controls(self):
+    def _init_controls(self):
         self.ui.bodyList.clear()
         self.ui.bodyBox.clear()
         self.ui.bodyList.addItems(self.model.body_names)
@@ -148,10 +148,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.camBox.addItems(self.cameras.cam_ids)
         self.ui.bodyBox.setCurrentIndex(3)
         self.ui.camBox.setCurrentIndex(0)
+        self.controls.init_epoch_timer()
         self.show()
         print("Controls initialized...")
 
-    def connect_slots(self):
+    def _connect_slots(self):
         """
             Connects slots to signals.
         """

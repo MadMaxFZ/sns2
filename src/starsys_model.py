@@ -81,6 +81,8 @@ class SimSystem(SimBodyDict):
     def load_from_names(self, _body_names=None):
         """
             This method creates one or more SimBody objects based upon the provided list of names.
+            CONSIDER: Should this be a class method that returns a SimSystem() when given names?
+
         Parameters
         ----------
         _body_names :

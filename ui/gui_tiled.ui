@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>543</width>
-    <height>875</height>
+    <width>550</width>
+    <height>883</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>540</width>
+    <width>550</width>
     <height>875</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>545</width>
+    <width>550</width>
     <height>2000</height>
    </size>
   </property>
@@ -79,7 +79,7 @@
        <x>10</x>
        <y>20</y>
        <width>181</width>
-       <height>317</height>
+       <height>291</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
@@ -651,7 +651,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>7</pointsize>
+         <pointsize>8</pointsize>
          <weight>50</weight>
          <bold>false</bold>
         </font>
@@ -712,6 +712,13 @@
      </item>
      <item>
       <widget class="QLabel" name="time_sys_epoch">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;sys_epoch&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -753,10 +760,13 @@
       </rect>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>0</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>10</number>
+     </property>
+     <property name="pageStep">
+      <number>2</number>
      </property>
      <property name="value">
       <number>0</number>
@@ -777,7 +787,7 @@
       <enum>QSlider::TicksAbove</enum>
      </property>
      <property name="tickInterval">
-      <number>20</number>
+      <number>1</number>
      </property>
     </widget>
     <widget class="QLabel" name="time_wmid">
@@ -846,7 +856,21 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="time_warp"/>
+       <widget class="QLineEdit" name="time_warp">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -965,6 +989,37 @@
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
+         <property name="time">
+          <time>
+           <hour>0</hour>
+           <minute>0</minute>
+           <second>0</second>
+          </time>
+         </property>
+         <property name="maximumDateTime">
+          <datetime>
+           <hour>5</hour>
+           <minute>59</minute>
+           <second>59</second>
+           <year>2201</year>
+           <month>1</month>
+           <day>2</day>
+          </datetime>
+         </property>
+         <property name="maximumTime">
+          <time>
+           <hour>5</hour>
+           <minute>59</minute>
+           <second>59</second>
+          </time>
+         </property>
+         <property name="minimumTime">
+          <time>
+           <hour>0</hour>
+           <minute>0</minute>
+           <second>0</second>
+          </time>
+         </property>
          <property name="calendarPopup">
           <bool>true</bool>
          </property>
@@ -989,8 +1044,15 @@
        </item>
        <item>
         <widget class="QLabel" name="time_elapsed">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;w_clock.elapsed&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>0.000</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -1007,7 +1069,7 @@
     <rect>
      <x>10</x>
      <y>600</y>
-     <width>511</width>
+     <width>531</width>
      <height>271</height>
     </rect>
    </property>
@@ -1030,7 +1092,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>169</width>
+      <width>171</width>
       <height>241</height>
      </rect>
     </property>
@@ -1371,7 +1433,7 @@
      <rect>
       <x>190</x>
       <y>20</y>
-      <width>151</width>
+      <width>161</width>
       <height>241</height>
      </rect>
     </property>
@@ -1391,7 +1453,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>131</width>
+       <width>141</width>
        <height>211</height>
       </rect>
      </property>
@@ -1542,9 +1604,9 @@
    <widget class="QGroupBox" name="rv">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>360</x>
       <y>20</y>
-      <width>151</width>
+      <width>161</width>
       <height>241</height>
      </rect>
     </property>
@@ -1566,7 +1628,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>131</width>
+       <width>141</width>
        <height>211</height>
       </rect>
      </property>
@@ -1676,7 +1738,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>270</y>
+     <y>260</y>
      <width>201</width>
      <height>341</height>
     </rect>
@@ -1702,7 +1764,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>194</width>
+      <width>181</width>
       <height>311</height>
      </rect>
     </property>
@@ -1738,6 +1800,7 @@
            <pointsize>8</pointsize>
            <weight>50</weight>
            <bold>false</bold>
+           <kerning>true</kerning>
           </font>
          </property>
         </widget>

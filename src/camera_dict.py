@@ -38,6 +38,7 @@ class CameraSet(UserDict):
         self._curr_key = "def_cam"
         self._curr_cam = FlyCamera(fov=60)
         self.update({self._curr_key: self._curr_cam})
+        self._curr_cam.center = (-9851768.0, -9750760.0, -5012921.5)
 
     def _validate_cam(self, camera):
         if not issubclass(type(camera), BaseCamera):

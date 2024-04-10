@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from gui_tiled import Ui_SNS_DataPanels
 from starsys_data import log_config
+from starsys_data import DEF_EPOCH0 as DEF_EPOCH
 
 logging.config.dictConfig(log_config)
 
@@ -21,11 +22,12 @@ class Controls(QtWidgets.QWidget):
         self.ui.setupUi(self)
         self.ui_obj_dict = self.ui.__dict__
         self._pattern_names = ['attr_', 'elem_', 'cam_', 'elem_coe_', 'elem_pqw_', 'elem_rv_',
-                               'tw_', 'twb_', 'axis_', 'key_']
+                               'time_', 'btn_', 'axis_', 'key_']
         self._widget_groups = self._scanUi_4panels(patterns=self._pattern_names)
         print(f'{len(self._widget_groups)} widget groups (panels) defined...\n\t-> CONTROLS initialized...')
         self._active_body = 'Earth'
         self._active_cam = 'def_cam'
+        self.timer_widgets = self._widget_groups['time_']
 
     def with_prefix(self, prefix):
         return [widget for name, widget in self.ui.__dict__.items()
@@ -51,6 +53,11 @@ class Controls(QtWidgets.QWidget):
             panels.update({p: self.with_prefix(p)})
 
         return panels
+
+    def init_epoch_timer(self, ref_epoch=DEF_EPOCH):
+        [print(f'{k}:\t{v.objectName()}:\t{v}') for k, v in enumerate(self.timer_widgets)]
+        pass
+
 
     def set_active_cam(self, cam_id):
         print()

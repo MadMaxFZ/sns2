@@ -4,6 +4,7 @@ import os
 import logging
 import logging.config
 import autologging
+import astropy.units as u
 from PIL import Image
 from astropy.time import Time
 from poliastro.constants import J2000_TDB
@@ -18,7 +19,8 @@ logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.INFO,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
-
+DEF_UNITS     = u.km
+DEF_EPOCH0    = J2000_TDB
 DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
 
 
@@ -181,8 +183,8 @@ class SystemDataStore:
     def __init__(self):
         """
         """
-        self._dist_unit = u.km
-        DEF_EPOCH    = J2000_TDB  # default epoch
+        self._dist_unit = DEF_UNITS
+        DEF_EPOCH    = DEF_EPOCH0     # default epoch
         SYS_PARAMS   = dict(sys_name="Sol",
                             def_epoch=DEF_EPOCH,
                             dist_unit=self._dist_unit,
@@ -468,6 +470,10 @@ class SystemDataStore:
             res = self._datastore['BODY_PARAM'][name]['tex_data']
 
         return res
+
+    @property
+    def data_store(self):
+        return self._datastore
 
     @property
     def model_data_group_keys(self):
