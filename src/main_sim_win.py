@@ -123,7 +123,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.visuals.generate_visuals(self.canvas.view,
                                       self.vizz_agg_data)
         self._setup_layout()
-        self._init_controls()
+        self.controls.init_controls(self.model.body_names, self.cameras.cam_ids)
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
@@ -139,18 +139,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         main_layout.addWidget(splitter)
         self.central_widget.setLayout(main_layout)
         self.setCentralWidget(self.central_widget)
-
-    def _init_controls(self):
-        self.ui.bodyList.clear()
-        self.ui.bodyBox.clear()
-        self.ui.bodyList.addItems(self.model.body_names)
-        self.ui.bodyBox.addItems(self.model.body_names)
-        self.ui.camBox.addItems(self.cameras.cam_ids)
-        self.ui.bodyBox.setCurrentIndex(3)
-        self.ui.camBox.setCurrentIndex(0)
-        self.controls.init_epoch_timer()
-        self.show()
-        print("Controls initialized...")
 
     def _connect_slots(self):
         """

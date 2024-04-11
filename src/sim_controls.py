@@ -54,10 +54,35 @@ class Controls(QtWidgets.QWidget):
 
         return panels
 
-    def init_epoch_timer(self, ref_epoch=DEF_EPOCH):
-        [print(f'{k}:\t{v.objectName()}:\t{v}') for k, v in enumerate(self.timer_widgets)]
-        pass
+    def init_controls(self, body_names, cam_ids):
+        self.ui.bodyList.clear()
+        self.ui.bodyBox.clear()
+        self.ui.bodyList.addItems(body_names)
+        self.ui.bodyBox.addItems(body_names)
+        self.ui.camBox.addItems(cam_ids)
+        self.ui.bodyBox.setCurrentIndex(3)
+        self.ui.camBox.setCurrentIndex(0)
+        self.init_epoch_timer()
+        print("Controls initialized...")
 
+    def init_epoch_timer(self, wexp=1, ref_epoch=DEF_EPOCH,):
+        # [print(f'{k}:\t{v.objectName()}:\t{v}') for k, v in enumerate(self.timer_widgets)]
+        print(f'JD1:\t{ref_epoch.jd1}\nJD2:\t{ref_epoch.jd2}')
+
+        self.ui.time_ref_epoch.setText(str(ref_epoch.jd1))
+        self.ui.time_elapsed.setText(f'{str(0)}')
+        self.ui.time_wexp.setValue(wexp)
+        self.ui.time_wmax.setText(str(pow(10, wexp)))
+        self.ui.time_slider.setMinimum(0)
+        self.ui.time_slider.setMaximum(int(self.ui.time_wmax.text()))
+        self.ui.time_slider.setValue(0)
+        self.ui.time_warp.setText(str(self.ui.time_slider.value()))
+        self.ui.time_sys_epoch.setText(str(self.ui.time_ref_epoch.text()))
+
+    def update_epoch_timer(self):
+        self.ui.time_sys_epoch.setText(self.ui.time_ref_epoch +
+                                       self.ui.time_slider.value() *
+                                       float(self.ui.time_elapsed.text()))
 
     def set_active_cam(self, cam_id):
         print()

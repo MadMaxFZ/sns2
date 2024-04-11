@@ -79,7 +79,7 @@
        <x>10</x>
        <y>20</y>
        <width>181</width>
-       <height>291</height>
+       <height>293</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="formLayout">
@@ -844,7 +844,7 @@
        <x>10</x>
        <y>80</y>
        <width>491</width>
-       <height>24</height>
+       <height>29</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -985,46 +985,19 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateTimeEdit" name="time_ref_epoch">
+        <widget class="QLabel" name="time_ref_epoch">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Julian Date</string>
+         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
-         </property>
-         <property name="time">
-          <time>
-           <hour>0</hour>
-           <minute>0</minute>
-           <second>0</second>
-          </time>
-         </property>
-         <property name="maximumDateTime">
-          <datetime>
-           <hour>5</hour>
-           <minute>59</minute>
-           <second>59</second>
-           <year>2201</year>
-           <month>1</month>
-           <day>2</day>
-          </datetime>
-         </property>
-         <property name="maximumTime">
-          <time>
-           <hour>5</hour>
-           <minute>59</minute>
-           <second>59</second>
-          </time>
-         </property>
-         <property name="minimumTime">
-          <time>
-           <hour>0</hour>
-           <minute>0</minute>
-           <second>0</second>
-          </time>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-         <property name="timeSpec">
-          <enum>Qt::UTC</enum>
          </property>
         </widget>
        </item>
