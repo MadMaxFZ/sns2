@@ -12,6 +12,7 @@ import sys
 import numpy as np
 import logging.config
 from vispy.app import use_app
+from vispy.util.quaternion import Quaternion
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
@@ -122,6 +123,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.visuals = StarSystemVisuals(self.model.body_names)
         self.visuals.generate_visuals(self.canvas.view,
                                       self.vizz_agg_data)
+        self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
+                                         'scale_factor': 0.5e+08,
+                                         'rotation1': Quaternion(0.0, 0.0, 0.0, 1.0),
+                                         }
+                                        )
+        # self.cameras.curr_cam.scale_factor = 0.5e+08
         self._setup_layout()
         self.controls.init_controls(self.model.body_names, self.cameras.cam_ids)
         # self.thread = QThread()
