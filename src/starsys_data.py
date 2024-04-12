@@ -15,13 +15,16 @@ from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+SNS_SOURCE_PATH = "c:\\_Projects\\sns2\\src\\"
+os.chdir(SNS_SOURCE_PATH)
+
+logging.basicConfig(filename=SNS_SOURCE_PATH + "../logs/sns_defs.log",
                     level=logging.INFO,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 DEF_UNITS     = u.km
 DEF_EPOCH0    = J2000_TDB
-DEF_TEX_FNAME = "resources/textures/2k_5earth_daymap.png"
+DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
 
 
 def get_texture_data(fname=DEF_TEX_FNAME):
