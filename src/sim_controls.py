@@ -84,6 +84,18 @@ class Controls(QtWidgets.QWidget):
                                        self.ui.time_slider.value() *
                                        float(self.ui.time_elapsed.text()))
 
+    def update_warp_exp(self, new_wexp):
+        new_max = pow(10, new_wexp)
+        if new_max < int(self.ui.time_wmax.text()):
+            if int(self.ui.time_warp.text()) > new_max:
+                self.ui.time_slider.setValue(new_max)
+
+        self.ui.time_wmax.setText(f'{new_max}')
+        self.ui.time_slider.setMaximum(new_max)
+
+    def update_warp_slider(self, new_value):
+
+
     def set_active_cam(self, cam_id):
         print()
         self._active_cam = cam_id
