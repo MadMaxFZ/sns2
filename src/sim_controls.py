@@ -81,12 +81,6 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_warp.setText(str(self.ui.time_slider.value()))
         self.ui.time_sys_epoch.setText(str(self.ui.time_ref_epoch.text()))
 
-    def update_epoch_timer(self):
-        new_sys_epoch = (float(self.ui.time_ref_epoch.text()) +
-                         self.ui.time_slider.value() *
-                         float(self.ui.time_elapsed.text()))
-        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
-
     def update_warp_exp(self, new_wexp):
         new_max = pow(10, new_wexp)
         if new_max < int(self.ui.time_wmax.text()):

@@ -17,6 +17,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
+from astropy.time import Time
 from decimal import Decimal
 from camera_dict import CameraSet
 from starsys_model import SimSystem
@@ -169,8 +170,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.controls.ui.time_wexp.valueChanged.connect(self.controls.update_warp_exp)
         self.controls.ui.time_slider.valueChanged.connect(self.controls.update_warp_slider)
         self.controls.ui.time_elapsed.textChanged.connect(self.controls.update_time_elapsed)
-        self.controls.ui.time_sys_epoch.textChanged.connect(self.controls.update_epoch_timer)
-        self.controls.ui.time_sys_epoch.textChanged.connect(self.model.update_state)
+        self.controls.ui.time_sys_epoch.textChanged.connect(self.update_epoch_timer)
+        # self.controls.ui.time_sys_epoch.textChanged.connect(self.model.update_state)
         self.model.has_updated.connect(self.visuals.update_vizz)
 
         # Handling buttons in epoch timer
@@ -219,6 +220,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
     @pyqtSlot(str)
     def refresh_canvas(self, body_name):
         self.visuals.update_vizz()
+
+    def update_epoch_timer(self):
+        new_sys_epoch = (float(self.controls.ui.time_ref_epoch.text()) +
+                         self.controls.ui.time_slider.value() *
+                         float(self.controls.ui.time_elapsed.text()))
+        self.controls.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
+        self.model.update_state(epoch=Time(new_sys_epoch, format='jd'))
 
     def refresh_panel(self, panel_key):
         """
