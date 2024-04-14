@@ -28,6 +28,8 @@ class Controls(QtWidgets.QWidget):
         self._active_body = 'Earth'
         self._active_cam = 'def_cam'
         self.timer_widgets = self._widget_groups['time_']
+        self._tw_hold = '0'
+        self.timer_paused = True
 
     def with_prefix(self, prefix):
         return [widget for name, widget in self.ui.__dict__.items()
@@ -94,7 +96,41 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_slider.setMaximum(new_max)
 
     def update_warp_slider(self, new_value):
+        mid_value = int(self.ui.time_wmax.text()) / 2
+        if new_value < mid_value:
+            res = new_value / mid_value
+        else:
+            res = new_value
 
+        self.ui.time_warp.setText(f'{res}')
+
+    def update_time_elapsed(self, new_elapsed):
+        dt = new_elapsed - float(self.ui.time_elapsed.text())
+        new_sys_epoch = float(self.ui.time_sys_epoch.text()) + self.ui.time_slider.value() * dt
+        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
+
+    def toggle_play_pause(self):
+        if self.timer_paused:
+            self.ui.time_warp.setText(self.tw_hold)
+        else:
+            self._tw_hold = self.ui.time_warp.text()
+
+    def toggle_twarp2norm(self):
+        if self.ui.time_warp.text() == '1':
+            self.ui.time_warp.setText('0')
+            self.ui.time_slider.setValue(0)
+        else:
+            self.ui.time_warp.setText('1')
+            self.ui.time_slider.setValue(1)
+
+    def toggle_twarp_sign(self):
+        self.ui.time_warp.setText(f'{-float(self.ui.time_warp.text())}')
+
+    def reset_epoch_timer(self):
+        self.ui.time_warp.setText('0')
+        self.ui.time_slider.setValue(0)
+        self.ui.time_elapsed.setText('0')
+        self.ui.time_ref_epoch.setText(f'{DEF_EPOCH}')
 
     def set_active_cam(self, cam_id):
         print()

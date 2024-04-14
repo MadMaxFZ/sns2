@@ -152,15 +152,30 @@ class MainQtWindow(QtWidgets.QMainWindow):
             Connects slots to signals.
         """
         self.blockSignals(True)
+        # Handling signals when GUI created
+        self.main_window_ready.connect(self.setActiveBody)
+        self.main_window_ready.connect(self.setActiveCam)
+        self.main_window_ready.connect(self.refresh_canvas)
+
+        # Handling changes in the GUI
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
         self.ui.camBox.currentTextChanged.connect(self.setActiveCam)
         self.controls.new_active_body.connect(self.setActiveBody)
         # self.controls.new_active_camera.connect(self.newActiveCam)
-        self.main_window_ready.connect(self.setActiveBody)
-        self.main_window_ready.connect(self.setActiveCam)
-        self.main_window_ready.connect(self.refresh_canvas)
+
+        #   Handling epoch timer widget signals
+        self.controls.ui.time_wexp.valueChanged.connect(self.controls.update_warp_exp)
+        self.controls.ui.time_slider.valueChanged.connect(self.controls.update_warp_slider)
+        self.controls.ui.time_elapsed.textChanged.connect(self.controls.update_time_elapsed)
+        self.controls.ui.time_sys_epoch.textChanged.connect(self.model.update_state)
+
+        # Handling buttons in epoch timer
+        self.controls.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
+        self.controls.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
+        self.controls.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
+        self.controls.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
         self.blockSignals(False)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)

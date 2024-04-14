@@ -678,6 +678,13 @@
      <height>251</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="title">
     <string>EPOCH TIMER</string>
    </property>
@@ -693,12 +700,18 @@
       <height>71</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="hlo_sys_epoch">
+    <layout class="QHBoxLayout" name="hlo_sys_epoch" stretch="3,5">
      <property name="sizeConstraint">
       <enum>QLayout::SetMaximumSize</enum>
      </property>
      <item>
       <widget class="QLabel" name="lf_sys_epoch">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <kerning>true</kerning>
+        </font>
+       </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;SYSTEM EPOCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -711,21 +724,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="time_sys_epoch">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;sys_epoch&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="time_sys_epoch"/>
      </item>
     </layout>
    </widget>
@@ -825,7 +824,7 @@
     <widget class="QLabel" name="time_wmax">
      <property name="geometry">
       <rect>
-       <x>490</x>
+       <x>470</x>
        <y>30</y>
        <width>21</width>
        <height>21</height>
@@ -916,7 +915,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
+       <y>0</y>
        <width>411</width>
        <height>30</height>
       </rect>
@@ -930,6 +929,11 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>RESET</string>
         </property>
@@ -937,6 +941,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_reverse">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>&lt;--&gt;</string>
         </property>
@@ -944,6 +953,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_play_pause">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>&gt; / ||</string>
         </property>
@@ -951,6 +965,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="btn_real_twarp">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>--&gt; 1</string>
         </property>
@@ -968,7 +987,7 @@
       <height>31</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="ref_times">
+    <layout class="QHBoxLayout" name="ref_times" stretch="1,1">
      <property name="sizeConstraint">
       <enum>QLayout::SetMinimumSize</enum>
      </property>
@@ -1016,19 +1035,13 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="time_elapsed">
+        <widget class="QLineEdit" name="time_elapsed">
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
           </font>
-         </property>
-         <property name="text">
-          <string>0.000</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -1065,7 +1078,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>171</width>
+      <width>181</width>
       <height>241</height>
      </rect>
     </property>
@@ -1087,7 +1100,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>151</width>
+       <width>161</width>
        <height>211</height>
       </rect>
      </property>
@@ -1406,7 +1419,7 @@
      <rect>
       <x>190</x>
       <y>20</y>
-      <width>161</width>
+      <width>171</width>
       <height>241</height>
      </rect>
     </property>
@@ -1426,7 +1439,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>141</width>
+       <width>151</width>
        <height>211</height>
       </rect>
      </property>

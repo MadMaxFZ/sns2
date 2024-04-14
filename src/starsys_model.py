@@ -120,14 +120,17 @@ class SimSystem(SimBodyDict):
         if epoch:
             if type(epoch) == Time:
                 self._sys_epoch = epoch
+            elif type(epoch) == str:
+                self._sys_epoch = Time(epoch, format='jd')
+
         else:
             epoch = self._sys_epoch
 
         for sb in self.data.values():
             sb.epoch = epoch
             sb.update_state(sb, epoch)
-        t1 = time.perf_counter()
 
+        t1 = time.perf_counter()
         print(f'> Time to update: {(t1 - t0) * u.s:.4f} seconds.')
 
     def _set_parentage(self, sb):
