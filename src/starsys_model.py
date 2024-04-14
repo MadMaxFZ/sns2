@@ -16,7 +16,7 @@ class SimSystem(SimBodyDict):
     """
     """
     initialized = psygnal.Signal(list)
-    has_updated = psygnal.Signal(Time)
+    has_updated = psygnal.Signal()
     panel_data = psygnal.Signal(list, list)
     _body_count: int = 0
 
@@ -131,7 +131,9 @@ class SimSystem(SimBodyDict):
             sb.update_state(sb, epoch)
 
         t1 = time.perf_counter()
-        print(f'> Time to update: {(t1 - t0) * u.s:.4f} seconds.')
+        update_time = t1 - t0
+        print(f'> Time to update: {update_time:.4f} seconds.')
+        self.has_updated.emit()
 
     def _set_parentage(self, sb):
         sb.plane = Planes.EARTH_ECLIPTIC

@@ -82,9 +82,10 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_sys_epoch.setText(str(self.ui.time_ref_epoch.text()))
 
     def update_epoch_timer(self):
-        self.ui.time_sys_epoch.setText(self.ui.time_ref_epoch +
-                                       self.ui.time_slider.value() *
-                                       float(self.ui.time_elapsed.text()))
+        new_sys_epoch = (float(self.ui.time_ref_epoch.text()) +
+                         self.ui.time_slider.value() *
+                         float(self.ui.time_elapsed.text()))
+        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
 
     def update_warp_exp(self, new_wexp):
         new_max = pow(10, new_wexp)
@@ -96,32 +97,44 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_slider.setMaximum(new_max)
 
     def update_warp_slider(self, new_value):
-        mid_value = int(self.ui.time_wmax.text()) / 2
+        mid_value = int(int(self.ui.time_wmax.text()) / 2)
         if new_value < mid_value:
             res = new_value / mid_value
         else:
-            res = new_value
+            res = new_value - mid_value + 1
 
         self.ui.time_warp.setText(f'{res}')
 
     def update_time_elapsed(self, new_elapsed):
-        dt = new_elapsed - float(self.ui.time_elapsed.text())
+        elapsed = self.ui.time_elapsed.text()
+        if elapsed == '':
+            elapsed = '0.0'
+
+        if new_elapsed == '':
+            new_elapsed = '0.0'
+
+        dt = float(new_elapsed) - float(elapsed)
         new_sys_epoch = float(self.ui.time_sys_epoch.text()) + self.ui.time_slider.value() * dt
         self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
 
     def toggle_play_pause(self):
         if self.timer_paused:
-            self.ui.time_warp.setText(self.tw_hold)
+            self.ui.time_warp.setText(self._tw_hold)
+            self.timer_paused = False
+            self.delta_elapsed(3600)
         else:
             self._tw_hold = self.ui.time_warp.text()
+            self.timer_paused = True
 
     def toggle_twarp2norm(self):
         if self.ui.time_warp.text() == '1':
-            self.ui.time_warp.setText('0')
+            self.ui.time_warp.setText('0.0')
             self.ui.time_slider.setValue(0)
+            self.timer_paused = True
         else:
-            self.ui.time_warp.setText('1')
+            self.ui.time_warp.setText('1.0')
             self.ui.time_slider.setValue(1)
+            self.timer_paused = False
 
     def toggle_twarp_sign(self):
         self.ui.time_warp.setText(f'{-float(self.ui.time_warp.text())}')
@@ -131,6 +144,10 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_slider.setValue(0)
         self.ui.time_elapsed.setText('0')
         self.ui.time_ref_epoch.setText(f'{DEF_EPOCH}')
+
+    def delta_elapsed(self, num_secs):
+        new_elapsed = float(self.ui.time_elapsed.text()) + num_secs
+        self.ui.time_elapsed.setText(f'{new_elapsed}')
 
     def set_active_cam(self, cam_id):
         print()
