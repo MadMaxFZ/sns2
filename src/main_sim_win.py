@@ -170,7 +170,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.controls.ui.time_wexp.valueChanged.connect(self.controls.update_warp_exp)
         self.controls.ui.time_slider.valueChanged.connect(self.controls.update_warp_slider)
         self.controls.ui.time_elapsed.textChanged.connect(self.controls.update_time_elapsed)
-        self.controls.ui.time_sys_epoch.textChanged.connect(self.update_epoch_timer)
+        self.controls.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
         # self.controls.ui.time_sys_epoch.textChanged.connect(self.model.update_state)
         self.model.has_updated.connect(self.visuals.update_vizz)
 

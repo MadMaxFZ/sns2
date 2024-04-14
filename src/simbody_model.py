@@ -188,9 +188,9 @@ class SimBody:
             simbody._orbit = new_orbit
         else:
             simbody._state = np.array([simbody._ephem.rv(simbody._epoch)[0].to(simbody._dist_unit).value,
-                                    simbody._ephem.rv(simbody._epoch)[1].to(simbody._dist_unit / u.s).value,
-                                    simbody._rot_func(**toTD(simbody._epoch)),
-                                    ])
+                                       simbody._ephem.rv(simbody._epoch)[1].to(simbody._dist_unit / u.s).value,
+                                       simbody._rot_func(**toTD(simbody._epoch)),
+                                       ])
 
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
