@@ -172,35 +172,46 @@ class SimBody:
     def _system(cls, _name):
         return cls.system[_name]
 
-    @classmethod
-    def update_state(cls, _simbody, epoch=None):
-        simbody = _simbody
+    def update_state(self, epoch=None):
+        """
+
+        Parameters
+        ----------
+        simbody         :   SimBody         An instance of a SimBody object
+        epoch           :   Time            The epoch to which the state is to be set
+
+        Returns
+        -------
+        simbody._state  : np.ndarray(3, 3)  The state matrix for the new Simbody state
+        """
         if epoch:
             if type(epoch) == Time:
-                simbody._epoch = epoch
+                self._epoch = epoch
 
-        if type(simbody._orbit) == Orbit:
-            new_orbit = simbody._orbit.propagate(simbody._epoch)
-            simbody._state = np.array([new_orbit.r.to(simbody._dist_unit).value,
-                                       new_orbit.v.to(simbody._dist_unit / u.s).value,
-                                       simbody._rot_func(**toTD(simbody._epoch)),
-                                       ])
-            simbody._orbit = new_orbit
-        else:
-            simbody._state = np.array([simbody._ephem.rv(simbody._epoch)[0].to(simbody._dist_unit).value,
-                                       simbody._ephem.rv(simbody._epoch)[1].to(simbody._dist_unit / u.s).value,
-                                       simbody._rot_func(**toTD(simbody._epoch)),
-                                       ])
+            if type(self._orbit) == Orbit:
+                new_orbit = self._orbit.propagate(self._epoch)
+                new_state = np.array([new_orbit.r.to(self._dist_unit).value,
+                                      new_orbit.v.to(self._dist_unit / u.s).value,
+                                      self._rot_func(**toTD(self._epoch)),
+                                      ])
+                self._orbit = new_orbit
+            else:
+                new_state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit).value,
+                                      self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s).value,
+                                      self._rot_func(**toTD(self._epoch)),
+                                      ])
 
         # self.update_pos(self._state.[0])
         logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
-                     simbody,
-                     simbody._epoch,
-                     np.linalg.norm(simbody._state[0]),
-                     np.linalg.norm(simbody._state[1]),
-                     simbody._state[2],
+                     self,
+                     self._epoch,
+                     np.linalg.norm(new_state[0]),
+                     np.linalg.norm(new_state[1]),
+                     new_state[2],
                      )
-        return simbody._state
+        self._state = new_state
+
+        return self._state
 
     def get_field(self, f):
         match f:

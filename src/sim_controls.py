@@ -97,37 +97,23 @@ class Controls(QtWidgets.QWidget):
         else:
             res = new_value - mid_value + 1
 
-        self.ui.time_warp.setText(f'{res}')
-
-    def update_time_elapsed(self, new_elapsed):
-        elapsed = self.ui.time_elapsed.text()
-        if elapsed == '':
-            elapsed = '0.0'
-
-        if new_elapsed == '':
-            new_elapsed = '0.0'
-
-        dt = float(new_elapsed) - float(elapsed)
-        new_sys_epoch = float(self.ui.time_sys_epoch.text()) + self.ui.time_slider.value() * dt
-        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
+        self.ui.time_warp.setText(f'{float(res)}')
 
     def toggle_play_pause(self):
         if self.timer_paused:
             self.ui.time_warp.setText(self._tw_hold)
             self.timer_paused = False
-            self.delta_elapsed(3600)
+            self.delta_elapsed(1 / 24)
         else:
             self._tw_hold = self.ui.time_warp.text()
             self.timer_paused = True
 
     def toggle_twarp2norm(self):
-        if self.ui.time_warp.text() == '1':
-            self.ui.time_warp.setText('0.0')
+        if float(self.ui.time_warp.text()) == 1.0:
             self.ui.time_slider.setValue(0)
             self.timer_paused = True
         else:
-            self.ui.time_warp.setText('1.0')
-            self.ui.time_slider.setValue(1)
+            self.ui.time_slider.setValue(int(int(self.ui.time_wmax.text()) / 2))
             self.timer_paused = False
 
     def toggle_twarp_sign(self):

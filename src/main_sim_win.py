@@ -137,6 +137,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.thread.start()
         self._connect_slots()
         self.main_window_ready.emit('Earth')
+        self._last_elapsed = 0.0
 
     def _setup_layout(self):
         # TODO:     Learn more about the QSplitter object
@@ -167,18 +168,19 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.controls.new_active_camera.connect(self.newActiveCam)
 
         #   Handling epoch timer widget signals
-        self.controls.ui.time_wexp.valueChanged.connect(self.controls.update_warp_exp)
-        self.controls.ui.time_slider.valueChanged.connect(self.controls.update_warp_slider)
-        self.controls.ui.time_elapsed.textChanged.connect(self.controls.update_time_elapsed)
-        self.controls.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
-        # self.controls.ui.time_sys_epoch.textChanged.connect(self.model.update_state)
+        self.ui.time_wexp.valueChanged.connect(self.controls.update_warp_exp)
+        self.ui.time_slider.valueChanged.connect(self.controls.update_warp_slider)
+        self.ui.time_elapsed.editingFinished.connect(self.update_time_elapsed)
+        # self.controls.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
+        self.ui.time_sys_epoch.editingFinished.connect(self.update_model_epoch)
+        # self.ui.time_sys_epoch.editingFinished.connect(self.model.update_state)
         self.model.has_updated.connect(self.visuals.update_vizz)
 
         # Handling buttons in epoch timer
-        self.controls.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
-        self.controls.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
-        self.controls.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
-        self.controls.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
+        self.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
+        self.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
+        self.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
+        self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
         self.blockSignals(False)
         # self.update_panel.connect(self.send_panel_data)
         # self.model.panel_data.connect(self.controls.refresh_panel)
@@ -221,12 +223,18 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def refresh_canvas(self, body_name):
         self.visuals.update_vizz()
 
-    def update_epoch_timer(self):
-        new_sys_epoch = (float(self.controls.ui.time_ref_epoch.text()) +
-                         self.controls.ui.time_slider.value() *
-                         float(self.controls.ui.time_elapsed.text()))
-        self.controls.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
-        self.model.update_state(epoch=Time(new_sys_epoch, format='jd'))
+    def update_model_epoch(self):
+        self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
+        self.visuals.update_vizz()
+
+    def update_time_elapsed(self):
+        new_elapsed = float(self.ui.time_elapsed.text())
+        dt = float(new_elapsed) - float(self._last_elapsed)
+        self._last_elapsed = new_elapsed
+        new_sys_epoch = Time(float(self.ui.time_sys_epoch.text()) + self.ui.time_slider.value() * dt,
+                             format='jd')
+        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
+        self.model.update_state(new_sys_epoch)
 
     def refresh_panel(self, panel_key):
         """

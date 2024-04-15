@@ -234,6 +234,10 @@ class StarSystemVisuals:
                 self._tracks[sb_name].transform.reset()
                 self._tracks[sb_name].transform.translate(pos)
 
+            self._tracks[sb_name].update()
+            self._planets[sb_name].update()
+
+
             # self._bods_pos.append(pos)
             _pf_clr = Color(self._agg_cache['body_color'][sb_name])
             _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]

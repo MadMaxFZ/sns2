@@ -129,7 +129,7 @@ class SimSystem(SimBodyDict):
         for sb in self.data.values():
             # TODO:     Check if epoch out of range here...
             sb.epoch = epoch
-            sb.update_state(sb, epoch)
+            sb.update_state(self._sys_epoch)
 
         t1 = time.perf_counter()
         update_time = t1 - t0
@@ -290,6 +290,19 @@ class SimSystem(SimBodyDict):
         pass
 
     '''===== PROPERTIES ==========================================================================================='''
+
+    @property
+    def epoch(self):
+        return self._sys_epoch
+
+    @epoch.setter
+    def epoch(self, new_epoch):
+        if new_epoch:
+            if type(new_epoch) == Time:
+                self._sys_epoch = new_epoch
+
+            elif type(new_epoch) == TimeDeltaSec:
+                self._sys_epoch += new_epoch
 
     @property
     def dist_unit(self):
