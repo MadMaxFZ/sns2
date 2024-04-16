@@ -82,7 +82,7 @@ class StarSystemVisuals:
         """
         self._IS_INITIALIZED = False
         self._body_names   = []
-        self._bods_pos     = None
+        self._bods_pos     = []
         self._scene        = None
         self._skymap       = None
         self._planets      = {}      # a dict of Planet visuals
@@ -209,6 +209,7 @@ class StarSystemVisuals:
         _p_face_colors = []
         _c_face_colors = []
         _edge_colors = []
+        self._bods_pos = []
 
         for sb_name in self._body_names:                                                    # <--
             x_ax = self._agg_cache['axes'][sb_name][0]
@@ -217,7 +218,7 @@ class StarSystemVisuals:
             RA   = self._agg_cache['rot'][sb_name][0]
             DEC  = self._agg_cache['rot'][sb_name][1]
             W    = self._agg_cache['rot'][sb_name][2]
-            pos  = self._agg_cache['pos'][sb_name]
+            pos  = self._agg_cache['pos'][sb_name]      # TODO: Fix to adjust for barycenter
             is_primary = self._agg_cache['is_primary'][sb_name]
 
             if self._planets[sb_name].visible:
@@ -226,35 +227,33 @@ class StarSystemVisuals:
                 xform.rotate(W * np.pi / 180, x_ax)
                 xform.rotate(DEC * np.pi / 180, y_ax)
                 xform.rotate(RA * np.pi / 180, z_ax)
-                if not is_primary:
-                    xform.scale(_SCALE_FACTOR)
+                # if not is_primary:
+                #     xform.scale(_SCALE_FACTOR)
 
-                xform.translate(pos)
+                xform.translate(pos.value)
                 self._planets[sb_name].transform = xform
 
             if self._agg_cache['is_primary'][sb_name]:
                 self._tracks[sb_name].transform.reset()
-                self._tracks[sb_name].transform.translate(pos)
+                self._tracks[sb_name].transform.translate(pos.value)
 
             self._tracks[sb_name].update()
             self._planets[sb_name].update()
-
-
-            # self._bods_pos.append(pos)
+            self._bods_pos.append(pos.value)
             _pf_clr = Color(self._agg_cache['body_color'][sb_name])
             _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]
             _cf_clr = _pf_clr
             _p_face_colors.append(_pf_clr)
             _c_face_colors.append(_cf_clr)
 
-        self._plnt_markers.set_data(pos=self._bods_pos,
-                                    face_color=_p_face_colors,
-                                    edge_color=[1, 0, 0, _pm_e_alpha],
+        self._plnt_markers.set_data(pos=np.array(self._bods_pos),
+                                    face_color=ColorArray(_p_face_colors),
+                                    edge_color=Color([1, 0, 0, _pm_e_alpha]),
                                     size=self._symbol_sizes,
                                     symbol=self._symbols,
                                     )
-        self._cntr_markers.set_data(pos=self._bods_pos,
-                                    face_color=_c_face_colors,
+        self._cntr_markers.set_data(pos=np.array(self._bods_pos),
+                                    face_color=ColorArray(_c_face_colors),
                                     edge_color=[0, 1, 0, _cm_e_alpha],
                                     size=MIN_SYMB_SIZE,
                                     symbol=['diamond' for _ in range(self._body_count)],                  # <--

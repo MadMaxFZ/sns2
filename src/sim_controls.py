@@ -28,7 +28,7 @@ class Controls(QtWidgets.QWidget):
         self._active_body = 'Earth'
         self._active_cam = 'def_cam'
         self.timer_widgets = self._widget_groups['time_']
-        self._tw_hold = '0'
+        self._tw_hold = 0
         self.timer_paused = True
 
     def with_prefix(self, prefix):
