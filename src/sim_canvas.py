@@ -98,7 +98,7 @@ class MainSimCanvas(scene.SceneCanvas):
     """
     def on_key_press(self, ev):
         try:
-            self.emit_keypress.emit(ev)
+            self.vispy_keypress.emit(ev)
             if ev.key.name == "+":          # increase camera scale factor
                 self._fpv_viewbox.camera.scale_factor *= 1.1
                 print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
