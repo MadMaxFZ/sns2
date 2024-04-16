@@ -37,7 +37,7 @@ class SimBody:
     """
     #
     # curr_camera = None
-    epoch0 = J2000_TDB
+    epoch0 = J2000_TDB.jd
     system = {}
     # created = pyqtSignal(str)
     _fields = ('attr',

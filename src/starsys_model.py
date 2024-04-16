@@ -20,7 +20,7 @@ class SimSystem(SimBodyDict):
     panel_data = psygnal.Signal(list, list)
     _body_count: int = 0
 
-    def __init__(self, ref_data=None, epoch=None, body_names=None, use_multi=False):
+    def __init__(self, ref_data=None, epoch=None, body_names=None, use_multi=False, auto_up=False):
         """
             Initialize a star system model to include SimBody objects indicated by a list of names.
             If no list of names is provided, the complete default star system will be loaded.
@@ -34,12 +34,12 @@ class SimSystem(SimBodyDict):
         """
         t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
+        self.USE_AUTO_UPDATE_STATE = auto_up
         self._IS_POPULATED = False
         self._HAS_INIT = False
         self._IS_UPDATING = False
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = use_multi
-        self._USE_AUTO_UPDATE_STATE = False
         self._sys_primary = None
         self._sys_rel_pos = None
         self._sys_rel_vel = None
@@ -304,6 +304,9 @@ class SimSystem(SimBodyDict):
             elif type(new_epoch) == TimeDeltaSec:
                 self._sys_epoch += new_epoch
 
+        if self.USE_AUTO_UPDATE_STATE:
+            self.update_state()
+
     @property
     def dist_unit(self):
         return self._dist_unit
@@ -323,10 +326,11 @@ class SimSystem(SimBodyDict):
         """
         Returns
         -------
-        dict    :   a dictionary of the mean radius of the bodies in the system keyed by name.
+        res    :   a dictionary of the mean radius of the bodies in the system keyed by name.
         """
-        return dict.fromkeys(list(self.data.keys()),
-                             [sb.body.R for sb in self.data.values()])
+        res = {}
+        [res.update({sb.name: sb.radius}) for sb in self.data.values()]
+        return res
 
     @property
     def body_names(self):

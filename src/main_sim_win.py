@@ -108,7 +108,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.model = SimSystem()
+        self.model = SimSystem(auto_up=True)
         self.model.load_from_names()
         [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
         self.cameras = CameraSet()
@@ -164,20 +164,20 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
         self.ui.camBox.currentTextChanged.connect(self.setActiveCam)
-        self.controls.new_active_body.connect(self.setActiveBody)
+        # self.controls.new_active_body.connect(self.setActiveBody)
         # self.controls.new_active_camera.connect(self.newActiveCam)
 
         #   Handling epoch timer widget signals
-        self.ui.time_wexp.valueChanged.connect(self.controls.update_warp_exp)
-        self.ui.time_slider.valueChanged.connect(self.controls.update_warp_slider)
-        self.ui.time_elapsed.editingFinished.connect(self.update_time_elapsed)
-        # self.controls.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
-        self.ui.time_sys_epoch.editingFinished.connect(self.update_model_epoch)
-        # self.ui.time_sys_epoch.editingFinished.connect(self.model.update_state)
-        self.model.has_updated.connect(self.visuals.update_vizz)
+        self.ui.time_wexp.valueChanged.connect(self.controls.tw_exp_updated)
+        self.ui.time_slider.valueChanged.connect(self.controls.tw_slider_updated)
+        self.ui.time_elapsed.textChanged.connect(self.controls.tw_elapsed_updated)
+        # self.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
+        self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
+        # self.ui.time_sys_epoch.returnPressed.connect(self.model.update_state)
+        self.model.has_updated.connect(self.refresh_canvas)
 
         # Handling buttons in epoch timer
-        self.ui.btn_play_pause.pressed.connect(self.toggle_play_pause)
+        self.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
         self.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
         self.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
         self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
@@ -192,6 +192,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                         self.ui.camBox.currentIndex(),
         #                         ], {})
         # print("Panel data sent...")
+
+    @property
+    def curr_body_name(self):
+        return self.ui.bodyBox.currentText()
 
     @pyqtSlot(str)
     def setActiveBody(self, new_body_name):
@@ -215,12 +219,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveCam(self, new_cam_id):
         if new_cam_id in self.cameras.cam_ids:
             self.canvas.view.camera = self.cameras.set_curr2key(new_cam_id)
-            self.controls.set_active_cam(new_cam_id)
             self.canvas.view.camera = self.cameras.curr_cam
+
         self.refresh_panel('cam_')
 
-    @pyqtSlot(str)
-    def refresh_canvas(self, body_name):
+    def refresh_canvas(self):
         self.visuals.update_vizz()
 
     def delta_elapsed(self, num_secs):
@@ -232,29 +235,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.visuals.update_vizz()
 
     @pyqtSlot()
-    def toggle_play_pause(self):
-        if self.controls.timer_paused:
-            self.ui.time_warp.setText(f'{self.controls._tw_hold}')
-            self.controls.timer_paused = False
-            self.delta_elapsed(1 / 24)
-        else:
-            self.controls._tw_hold = self.ui.time_warp.text()
-            self.controls.timer_paused = True
-
-    @pyqtSlot()
     def update_model_epoch(self):
         self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
-        self.visuals.update_vizz()
+        if not self.model.USE_AUTO_UPDATE_STATE:
+            self.model.update_state()
 
-    @pyqtSlot()
-    def update_time_elapsed(self):
-        new_elapsed = float(self.ui.time_elapsed.text())
-        dt = float(new_elapsed) - float(self._last_elapsed)
-        self._last_elapsed = new_elapsed
-        new_sys_epoch = Time(float(self.ui.time_sys_epoch.text()) + self.ui.time_slider.value() * dt,
-                             format='jd')
-        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
-        self.model.update_state(new_sys_epoch)
+        self.visuals.update_vizz()
 
     def refresh_panel(self, panel_key):
         """
@@ -345,10 +331,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         pass
         # self.update_panel.emit(model_agg_data)
-
-    @property
-    def curr_body_name(self):
-        return self.ui.bodyBox.currentText()
 
 
 '''==============================================================================================================='''

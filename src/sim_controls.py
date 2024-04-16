@@ -8,8 +8,11 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from gui_tiled import Ui_SNS_DataPanels
 from starsys_data import log_config
 from starsys_data import DEF_EPOCH0 as DEF_EPOCH
+from astropy.time import Time, TimeDelta
 
 logging.config.dictConfig(log_config)
+
+DEFAULT_DT = 0.05
 
 
 class Controls(QtWidgets.QWidget):
@@ -28,8 +31,9 @@ class Controls(QtWidgets.QWidget):
         self._active_body = 'Earth'
         self._active_cam = 'def_cam'
         self.timer_widgets = self._widget_groups['time_']
-        self._tw_hold = 0
+        self.tw_hold = 0
         self.timer_paused = True
+        self._last_elapsed = 0
 
     def with_prefix(self, prefix):
         return [widget for name, widget in self.ui.__dict__.items()
@@ -81,7 +85,26 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_warp.setText(str(self.ui.time_slider.value()))
         self.ui.time_sys_epoch.setText(str(self.ui.time_ref_epoch.text()))
 
-    def update_warp_exp(self, new_wexp):
+    @pyqtSlot()
+    def toggle_play_pause(self):
+        if self.timer_paused:
+            self.ui.time_warp.setText(f'{self.tw_hold}')
+            self.timer_paused = False
+            self.ui.time_elapsed.setText(f'{float(self.ui.time_elapsed.text()) + DEFAULT_DT}')
+        else:
+            self.tw_hold = float(self.ui.time_warp.text())
+            self.timer_paused = True
+
+    @pyqtSlot()
+    def tw_elapsed_updated(self):
+        new_elapsed = float(self.ui.time_elapsed.text())
+        dt = TimeDelta(new_elapsed - self._last_elapsed)
+        self._last_elapsed = new_elapsed
+        new_sys_epoch = Time(float(self.ui.time_sys_epoch.text()), format='jd') + float(self.ui.time_warp.text()) * dt
+        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
+        # self.model.update_state(new_sys_epoch)
+
+    def tw_exp_updated(self, new_wexp):
         new_max = pow(10, new_wexp)
         if new_max < int(self.ui.time_wmax.text()):
             if int(self.ui.time_warp.text()) > new_max:
@@ -90,7 +113,7 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_wmax.setText(f'{new_max}')
         self.ui.time_slider.setMaximum(new_max)
 
-    def update_warp_slider(self, new_value):
+    def tw_slider_updated(self, new_value):
         mid_value = int(int(self.ui.time_wmax.text()) / 2)
         if new_value < mid_value:
             res = new_value / mid_value
