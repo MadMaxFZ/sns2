@@ -15,6 +15,7 @@ from vispy.scene.visuals import (create_visual_node,
 from simbody_visual import Planet
 from skymap_visual import SkyMap
 from simbody_model import SimBody, MIN_FOV
+from PyQt5.QtCore import pyqtSlot
 from camera_dict import CameraSet
 
 # these quantities can be served from DATASTORE class
@@ -195,6 +196,7 @@ class StarSystemVisuals:
                 [self._scene.parent.add(t) for t in v.values()]
         self._IS_INITIALIZED = True
 
+    @pyqtSlot()
     def update_vizz(self):
         """
             Collects needed fields from model, calculates transforms and applies them to the visuals
@@ -270,7 +272,7 @@ class StarSystemVisuals:
 
         Returns
         -------
-            An np.array containing a pixel width for each SimBody
+        An np.array containing a pixel width for each SimBody
 
         TODO: instead of only symbol sizes, include face and edge color, etc.
                   Probably rename this method to 'get_mark_data(self, from_cam=None)'
@@ -279,6 +281,7 @@ class StarSystemVisuals:
             obs_cam = self._curr_camera
 
         symb_sizes = []
+        sb_name: str
         for sb_name in self._body_names:                                                       # <--
             body_fov = from_pos(obs_cam.center,
                                 self._agg_cache['pos'][sb_name].value,
@@ -287,17 +290,17 @@ class StarSystemVisuals:
             pix_diam = 0
             raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / obs_cam.fov)                # <--
 
-            if raw_diam < MIN_SYMB_SIZE:
-                pix_diam = MIN_SYMB_SIZE
-            elif raw_diam < MAX_SYMB_SIZE:
-                pix_diam = raw_diam
-            elif raw_diam >= MAX_SYMB_SIZE:
-                pix_diam = 0
-                self._planets[sb_name].visible = True
-            else:
-                self._planets[sb_name].visible = False
+        if raw_diam < MIN_SYMB_SIZE:
+            pix_diam = MIN_SYMB_SIZE
+        elif raw_diam < MAX_SYMB_SIZE:
+            pix_diam = raw_diam
+        elif raw_diam >= MAX_SYMB_SIZE:
+            pix_diam = 0
+            self._planets[sb_name].visible = True
+        else:
+            self._planets[sb_name].visible = False
 
-            symb_sizes.append(pix_diam)
+        symb_sizes.append(pix_diam)
 
         return np.array(symb_sizes)
 

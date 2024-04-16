@@ -177,7 +177,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.model.has_updated.connect(self.visuals.update_vizz)
 
         # Handling buttons in epoch timer
-        self.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
+        self.ui.btn_play_pause.pressed.connect(self.toggle_play_pause)
         self.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
         self.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
         self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
@@ -223,10 +223,30 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def refresh_canvas(self, body_name):
         self.visuals.update_vizz()
 
+    def delta_elapsed(self, num_secs):
+        new_elapsed = float(self.ui.time_elapsed.text()) + num_secs
+        self.ui.time_elapsed.setText(f'{new_elapsed}')
+        new_epoch = Time(float(self.ui.time_sys_epoch.text()) + new_elapsed, format='jd')
+        self.model.epoch = new_epoch
+        self.ui.time_sys_epoch.setText(f'{self.model.epoch}')
+        self.visuals.update_vizz()
+
+    @pyqtSlot()
+    def toggle_play_pause(self):
+        if self.controls.timer_paused:
+            self.ui.time_warp.setText(f'{self.controls._tw_hold}')
+            self.controls.timer_paused = False
+            self.delta_elapsed(1 / 24)
+        else:
+            self.controls._tw_hold = self.ui.time_warp.text()
+            self.controls.timer_paused = True
+
+    @pyqtSlot()
     def update_model_epoch(self):
         self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
         self.visuals.update_vizz()
 
+    @pyqtSlot()
     def update_time_elapsed(self):
         new_elapsed = float(self.ui.time_elapsed.text())
         dt = float(new_elapsed) - float(self._last_elapsed)
