@@ -232,15 +232,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
         new_epoch = Time(float(self.ui.time_sys_epoch.text()) + new_elapsed, format='jd')
         self.model.epoch = new_epoch
         self.ui.time_sys_epoch.setText(f'{self.model.epoch}')
-        self.visuals.update_vizz()
+        # self.visuals.update_vizz()
 
     @pyqtSlot()
     def update_model_epoch(self):
         self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
         if not self.model.USE_AUTO_UPDATE_STATE:
             self.model.update_state()
-
-        self.visuals.update_vizz()
 
     def refresh_panel(self, panel_key):
         """
@@ -342,7 +340,7 @@ if __name__ == "__main__":
         app = use_app("pyqt5")
         app.create()
 
-    sim = MainQtWindow()
+    sim = MainQtWindow(auto_up=True)
     sim.show()
 
     if QT_NATIVE:
