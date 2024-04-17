@@ -340,7 +340,7 @@ if __name__ == "__main__":
         app = use_app("pyqt5")
         app.create()
 
-    sim = MainQtWindow(auto_up=True)
+    sim = MainQtWindow()
     sim.show()
 
     if QT_NATIVE:
