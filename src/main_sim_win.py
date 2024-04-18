@@ -239,14 +239,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.canvas.update_canvas()
         self.updatePanels('')
 
-    # def delta_elapsed(self, num_secs):
-    #     new_elapsed = float(self.ui.time_elapsed.text()) + num_secs
-    #     self.ui.time_elapsed.setText(f'{new_elapsed}')
-    #     new_epoch = Time(float(self.ui.time_sys_epoch.text()) + new_elapsed, format='jd')
-    #     self.model.epoch = new_epoch
-    #     self.ui.time_sys_epoch.setText(f'{self.model.epoch}')
-    #     # self.visuals.update_vizz()
-
     @pyqtSlot()
     def update_model_epoch(self):
         self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
