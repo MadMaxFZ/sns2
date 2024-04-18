@@ -174,6 +174,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         # self.ui.time_sys_epoch.returnPressed.connect(self.model.update_state)
+        self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
         self.model.has_updated.connect(self.refresh_canvas)
 
         # Handling buttons in epoch timer
@@ -208,7 +209,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.refresh_panel('elem_pqw_')
         self.refresh_panel('cam_')
 
-    @pyqtSlot(int)
+    @pyqtSlot(str)
     def updatePanels(self, new_bod_idx):
         self.refresh_panel('elem_coe_')
         self.refresh_panel('elem_rv_')
@@ -224,15 +225,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.refresh_panel('cam_')
 
     def refresh_canvas(self):
-        self.visuals.update_vizz()
+        self.canvas.update_canvas()
 
-    def delta_elapsed(self, num_secs):
-        new_elapsed = float(self.ui.time_elapsed.text()) + num_secs
-        self.ui.time_elapsed.setText(f'{new_elapsed}')
-        new_epoch = Time(float(self.ui.time_sys_epoch.text()) + new_elapsed, format='jd')
-        self.model.epoch = new_epoch
-        self.ui.time_sys_epoch.setText(f'{self.model.epoch}')
-        # self.visuals.update_vizz()
+    # def delta_elapsed(self, num_secs):
+    #     new_elapsed = float(self.ui.time_elapsed.text()) + num_secs
+    #     self.ui.time_elapsed.setText(f'{new_elapsed}')
+    #     new_epoch = Time(float(self.ui.time_sys_epoch.text()) + new_elapsed, format='jd')
+    #     self.model.epoch = new_epoch
+    #     self.ui.time_sys_epoch.setText(f'{self.model.epoch}')
+    #     # self.visuals.update_vizz()
 
     @pyqtSlot()
     def update_model_epoch(self):

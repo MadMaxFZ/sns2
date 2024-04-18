@@ -107,18 +107,19 @@ class Controls(QtWidgets.QWidget):
     def tw_exp_updated(self, new_wexp):
         new_max = pow(10, new_wexp)
         if new_max < int(self.ui.time_wmax.text()):
-            if int(self.ui.time_warp.text()) > new_max:
+            if int(float(self.ui.time_warp.text())) > new_max:
                 self.ui.time_slider.setValue(new_max)
 
-        self.ui.time_wmax.setText(f'{new_max}')
         self.ui.time_slider.setMaximum(new_max)
+        self.ui.time_wmax.setText(f'{int(new_max)}')
 
     def tw_slider_updated(self, new_value):
-        mid_value = int(int(self.ui.time_wmax.text()) / 2)
-        if new_value < mid_value:
+        max_value = int(self.ui.time_wmax.text())
+        mid_value = int(max_value / 2)
+        if new_value <= mid_value:
             res = new_value / mid_value
         else:
-            res = new_value - mid_value + 1
+            res = max_value * ((new_value - mid_value) / mid_value)
 
         self.ui.time_warp.setText(f'{float(res)}')
 

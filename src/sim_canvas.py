@@ -26,6 +26,9 @@ class CanvasWrapper:
         self._scene = self._canvas.view.scene
         self._view = self._canvas.view
 
+    def update_canvas(self):
+        self._canvas.view.scene.update()
+
     @property
     def curr_cam(self):
         return self._canvas.curr_cam
@@ -88,9 +91,12 @@ class MainSimCanvas(scene.SceneCanvas):
 
         if issubclass(type(new_cam), BaseCamera):
             self._fpv_viewbox.camera = new_cam
+
     """ 
         TODO::>    Implement a method in CanvasWrapper to forward keyboard events here if they
-                 are not handled by the CanvasWrapper object.
+                 are not handled by the CanvasWrapper object,
+                 OR have the CanvasWrapper call methods here in response to Qt parent window
+                 
               >    Implement a class that accepts a keystroke value then calls a
                  function associated with that value. These associations will be
                  represented with a dict that can be stored, modified or loaded
@@ -98,7 +104,7 @@ class MainSimCanvas(scene.SceneCanvas):
     """
     def on_key_press(self, ev):
         try:
-            self.vispy_keypress.emit(ev)
+            # self.vispy_keypress.emit(ev)
             if ev.key.name == "+":          # increase camera scale factor
                 self._fpv_viewbox.camera.scale_factor *= 1.1
                 print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
@@ -133,6 +139,9 @@ class MainSimCanvas(scene.SceneCanvas):
                 new_aplha = (self._fpv_viewbox.skymap.mesh.meshdata.color[3] + .1) % 1
                 self._fpv_viewbox.skymap.mesh.meshdata.color[3] = new_aplha
 
+            else:
+                pass
+
         except AttributeError:
             print("Key Error...")
 
@@ -153,11 +162,11 @@ class MainSimCanvas(scene.SceneCanvas):
 
     @property
     def curr_cam_state(self):
-        return self._fpv_viewbox.camera.get_state()
+        return self._cam_set.curr_cam.get_state()
 
     @property
     def curr_cam(self):
-        return self._fpv_viewbox.camera
+        return self._cam_set.curr_cam
 
     @property
     def view(self):

@@ -210,7 +210,9 @@ class StarSystemVisuals:
         _c_face_colors = []
         _edge_colors = []
         self._bods_pos = []
-
+        """
+                TODO:: Fix the fact that self._agg_cache[][] is NOT getting updated with sys_epoch!!!
+        """
         for sb_name in self._body_names:                                                    # <--
             x_ax = self._agg_cache['axes'][sb_name][0]
             y_ax = self._agg_cache['axes'][sb_name][1]
@@ -237,8 +239,8 @@ class StarSystemVisuals:
                 self._tracks[sb_name].transform.reset()
                 self._tracks[sb_name].transform.translate(pos.value)
 
-            self._tracks[sb_name].update()
-            self._planets[sb_name].update()
+            # self._tracks[sb_name].update()
+            # self._planets[sb_name].update()
             self._bods_pos.append(pos.value)
             _pf_clr = Color(self._agg_cache['body_color'][sb_name])
             _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]
@@ -258,6 +260,7 @@ class StarSystemVisuals:
                                     size=MIN_SYMB_SIZE,
                                     symbol=['diamond' for _ in range(self._body_count)],                  # <--
                                     )
+        self._scene.update()
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
         # logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._pos_rel2cam])
 
@@ -289,17 +292,17 @@ class StarSystemVisuals:
             pix_diam = 0
             raw_diam = math.ceil(self._scene.parent.size[0] * body_fov / obs_cam.fov)                # <--
 
-        if raw_diam < MIN_SYMB_SIZE:
-            pix_diam = MIN_SYMB_SIZE
-        elif raw_diam < MAX_SYMB_SIZE:
-            pix_diam = raw_diam
-        elif raw_diam >= MAX_SYMB_SIZE:
-            pix_diam = 0
-            self._planets[sb_name].visible = True
-        else:
-            self._planets[sb_name].visible = False
+            if raw_diam < MIN_SYMB_SIZE:
+                pix_diam = MIN_SYMB_SIZE
+            elif raw_diam < MAX_SYMB_SIZE:
+                pix_diam = raw_diam
+            elif raw_diam >= MAX_SYMB_SIZE:
+                pix_diam = 0
+                self._planets[sb_name].visible = True
+            else:
+                self._planets[sb_name].visible = False
 
-        symb_sizes.append(pix_diam)
+            symb_sizes.append(pix_diam)
 
         return np.array(symb_sizes)
 
