@@ -196,8 +196,8 @@ class StarSystemVisuals:
                 [self._scene.parent.add(t) for t in v.values()]
         self._IS_INITIALIZED = True
 
-    @pyqtSlot()
-    def update_vizz(self):
+    @pyqtSlot(dict)
+    def update_vizz(self, agg_data):
         """
             Collects needed fields from model, calculates transforms and applies them to the visuals
         Returns
@@ -210,6 +210,7 @@ class StarSystemVisuals:
         _c_face_colors = []
         _edge_colors = []
         self._bods_pos = []
+        self._agg_cache = agg_data
         """
                 TODO:: Fix the fact that self._agg_cache[][] is NOT getting updated with sys_epoch!!!
         """
@@ -220,7 +221,8 @@ class StarSystemVisuals:
             RA   = self._agg_cache['rot'][sb_name][0]
             DEC  = self._agg_cache['rot'][sb_name][1]
             W    = self._agg_cache['rot'][sb_name][2]
-            pos  = self._agg_cache['pos'][sb_name]      # TODO: Fix to adjust for barycenter
+            pos  = self._agg_cache['pos'][sb_name]
+            parent = self._agg_cache['parent_name'][sb_name]
             is_primary = self._agg_cache['is_primary'][sb_name]
 
             if self._planets[sb_name].visible:
@@ -235,9 +237,9 @@ class StarSystemVisuals:
                 xform.translate(pos.value)
                 self._planets[sb_name].transform = xform
 
-            if self._agg_cache['is_primary'][sb_name]:
+            if not is_primary:
                 self._tracks[sb_name].transform.reset()
-                self._tracks[sb_name].transform.translate(pos.value)
+                self._tracks[sb_name].transform.translate(self._agg_cache['pos'][parent].value)
 
             # self._tracks[sb_name].update()
             # self._planets[sb_name].update()

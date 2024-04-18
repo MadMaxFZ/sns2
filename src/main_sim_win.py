@@ -105,25 +105,41 @@ class MainQtWindow(QtWidgets.QMainWindow):
     """
 
     def __init__(self, _body_names=None, *args, **kwargs):
+        """
+            Here we initialize the primary QMainWindow that will interface to the Simulation.
+
+        Parameters
+        ----------
+        _body_names :
+        args :
+        kwargs :
+        """
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.model = SimSystem(auto_up=True)
         self.model.load_from_names()
         [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
+
+        #       TODO:   Encapsulate the creation of the CameraSet instance inside the
+        #               CanvasWrapper class, which will expose methods to manipulate the cameras.
+        #       CONSIDER:   Encapsulating the CanvasWrapper instance inside the
+        #                   StarSystemVisuals class, which would assume the role of CanvasWrapper
+
         self.cameras = CameraSet()
         self.canvas = CanvasWrapper(self.cameras)
         self.controls = Controls()
         self.ui = self.controls.ui
-        self.central_widget = QtWidgets.QWidget()
+        self.central_widget = QtWidgets.QWidget(self)
+
+        #       TODO:   Encapsulate the vizz_fields2agg inside StartSystemVisuals class
         self._vizz_fields2agg = ('pos', 'radius', 'body_alpha', 'track_alpha', 'body_mark',
                                  'body_color', 'track_data', 'tex_data', 'is_primary',
-                                 'axes', 'rot',
+                                 'axes', 'rot', 'parent_name'
                                  )
-        self.vizz_agg_data = self.model.get_agg_fields(self._vizz_fields2agg)
         self.visuals = StarSystemVisuals(self.model.body_names)
         self.visuals.generate_visuals(self.canvas.view,
-                                      self.vizz_agg_data)
+                                      self.model.get_agg_fields(self._vizz_fields2agg))
         self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
                                          'scale_factor': 0.5e+08,
                                          'rotation1': Quaternion(0.0, 0.0, 0.0, 1.0),
@@ -164,16 +180,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
         self.ui.camBox.currentTextChanged.connect(self.setActiveCam)
-        # self.controls.new_active_body.connect(self.setActiveBody)
-        # self.controls.new_active_camera.connect(self.newActiveCam)
 
         #   Handling epoch timer widget signals
         self.ui.time_wexp.valueChanged.connect(self.controls.tw_exp_updated)
         self.ui.time_slider.valueChanged.connect(self.controls.tw_slider_updated)
         self.ui.time_elapsed.textChanged.connect(self.controls.tw_elapsed_updated)
-        # self.ui.time_sys_epoch.textEdited.connect(self.update_epoch_timer)
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
-        # self.ui.time_sys_epoch.returnPressed.connect(self.model.update_state)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
         self.model.has_updated.connect(self.refresh_canvas)
 
@@ -183,9 +195,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
         self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
         self.blockSignals(False)
-        # self.update_panel.connect(self.send_panel_data)
-        # self.model.panel_data.connect(self.controls.refresh_panel)
-        print("Slots Connected...")
+        print("Signals / Slots Connected...")
 
         # TODO:: Review the data sent versus data expected, and fix if necessary
         # self.update_panel.emit([self.ui.bodyBox.currentIndex(),
@@ -225,7 +235,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.refresh_panel('cam_')
 
     def refresh_canvas(self):
+        self.visuals.update_vizz(self.model.get_agg_fields(self._vizz_fields2agg))
         self.canvas.update_canvas()
+        self.updatePanels('')
 
     # def delta_elapsed(self, num_secs):
     #     new_elapsed = float(self.ui.time_elapsed.text()) + num_secs

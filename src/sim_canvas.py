@@ -68,7 +68,7 @@ class MainSimCanvas(scene.SceneCanvas):
         self.unfreeze()
         self._sys_vizz = None
         self._cam_set = camera_set
-        self._fpv_viewbox = self.central_widget.add_view()
+        self._viewbox = self.central_widget.add_view()
         self.assign_camera(new_cam=self._cam_set.curr_cam)
         self.freeze()
 
@@ -76,7 +76,7 @@ class MainSimCanvas(scene.SceneCanvas):
         #     print(k, ":", v)
 
     def assign_camera(self, new_cam=None):
-        """         Assigns the new_cam to the viewbox.
+        """         Sets the Assigns the new_cam to the viewbox.
         Parameters
         ----------
             new_cam :   is_subclass(vispy.scene.cameras.BaseCamera)
@@ -90,36 +90,36 @@ class MainSimCanvas(scene.SceneCanvas):
             new_cam = self._cam_set.curr_cam
 
         if issubclass(type(new_cam), BaseCamera):
-            self._fpv_viewbox.camera = new_cam
+            self._viewbox.camera = new_cam
 
-    """ 
-        TODO::>    Implement a method in CanvasWrapper to forward keyboard events here if they
-                 are not handled by the CanvasWrapper object,
-                 OR have the CanvasWrapper call methods here in response to Qt parent window
-                 
-              >    Implement a class that accepts a keystroke value then calls a
-                 function associated with that value. These associations will be
-                 represented with a dict that can be stored, modified or loaded
-                 from a file.
-    """
     def on_key_press(self, ev):
+        """
+            TODO::>    Implement a method in CanvasWrapper to forward keyboard events here if they
+                     are not handled by the CanvasWrapper object,
+                     OR have the CanvasWrapper call methods here in response to Qt parent window
+
+                  >    Implement a class that accepts a keystroke value then calls a
+                     function associated with that value. These associations will be
+                     represented with a dict that can be stored, modified or loaded
+                     from a file.
+        """
         try:
             # self.vispy_keypress.emit(ev)
             if ev.key.name == "+":          # increase camera scale factor
-                self._fpv_viewbox.camera.scale_factor *= 1.1
-                print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
+                self._viewbox.camera.scale_factor *= 1.1
+                print("SCALE_FACTOR", self._viewbox.camera.scale_factor)
 
             elif ev.key.name == "-":        # decrease camera scale factor
-                self._fpv_viewbox.camera.scale_factor *= 0.9
-                print("SCALE_FACTOR", self._fpv_viewbox.camera.scale_factor)
+                self._viewbox.camera.scale_factor *= 0.9
+                print("SCALE_FACTOR", self._viewbox.camera.scale_factor)
 
             elif ev.key.name == "*":        # increase camera FOV
-                self._fpv_viewbox.camera.fov *= 1.5
-                print("CAM_FOV", self._fpv_viewbox.camera.fov)
+                self._viewbox.camera.fov *= 1.5
+                print("CAM_FOV", self._viewbox.camera.fov)
 
             elif ev.key.name == "/":        # decrease camera FOV
-                self._fpv_viewbox.camera.fov *= 0.75
-                print("CAM_FOV", self._fpv_viewbox.camera.fov)
+                self._viewbox.camera.fov *= 0.75
+                print("CAM_FOV", self._viewbox.camera.fov)
 
             elif ev.key.name == "]":        # increase time warp factor
                 self.model.t_warp *= 1.1
@@ -136,8 +136,8 @@ class MainSimCanvas(scene.SceneCanvas):
                 print("MESH_DATA[\"Sun\"]", self._sys_vizz.mesh_data["Sun"].save())
 
             elif ev.key.name == "'":        # rotate the skymap grid line color
-                new_aplha = (self._fpv_viewbox.skymap.mesh.meshdata.color[3] + .1) % 1
-                self._fpv_viewbox.skymap.mesh.meshdata.color[3] = new_aplha
+                new_aplha = (self._viewbox.skymap.mesh.meshdata.color[3] + .1) % 1
+                self._viewbox.skymap.mesh.meshdata.color[3] = new_aplha
 
             else:
                 pass
@@ -170,7 +170,7 @@ class MainSimCanvas(scene.SceneCanvas):
 
     @property
     def view(self):
-        return self._fpv_viewbox
+        return self._viewbox
 
     @property
     def vizz(self):

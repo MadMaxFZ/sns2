@@ -133,7 +133,7 @@ class SimSystem(SimBodyDict):
 
         t1 = time.perf_counter()
         update_time = t1 - t0
-        print(f'> Time to update: {update_time:.4f} seconds.')
+        print(f'\n\t\t> Time to update: {update_time:.4f} seconds.')
         self.has_updated.emit()
 
     def _set_parentage(self, sb):
@@ -278,6 +278,10 @@ class SimSystem(SimBodyDict):
 
             case 'is_primary':
                 return _simbod.is_primary
+
+            case 'parent_name':
+                if _simbod.sb_parent:
+                    return _simbod.sb_parent.name
 
             case 'tex_data':
                 # TODO: Add a condition to check if texture data exists in an existing Planet visual.

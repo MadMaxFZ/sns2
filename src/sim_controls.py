@@ -90,7 +90,7 @@ class Controls(QtWidgets.QWidget):
         if self.timer_paused:
             self.ui.time_warp.setText(f'{self.tw_hold}')
             self.timer_paused = False
-            self.ui.time_elapsed.setText(f'{float(self.ui.time_elapsed.text()) + DEFAULT_DT}')
+            self.ui.time_elapsed.setText(f'{(float(self.ui.time_elapsed.text()) + DEFAULT_DT):.4f}')
         else:
             self.tw_hold = float(self.ui.time_warp.text())
             self.timer_paused = True
@@ -100,8 +100,9 @@ class Controls(QtWidgets.QWidget):
         new_elapsed = float(self.ui.time_elapsed.text())
         dt = TimeDelta(new_elapsed - self._last_elapsed)
         self._last_elapsed = new_elapsed
-        new_sys_epoch = Time(float(self.ui.time_sys_epoch.text()), format='jd') + float(self.ui.time_warp.text()) * dt
-        self.ui.time_sys_epoch.setText(f'{new_sys_epoch}')
+        new_sys_epoch = (Time(float(self.ui.time_sys_epoch.text()), format='jd') +
+                         float(self.ui.time_warp.text()) * dt)
+        self.ui.time_sys_epoch.setText(f'{new_sys_epoch.value:.4f}')
         # self.model.update_state(new_sys_epoch)
 
     def tw_exp_updated(self, new_wexp):
@@ -109,9 +110,10 @@ class Controls(QtWidgets.QWidget):
         if new_max < int(self.ui.time_wmax.text()):
             if int(float(self.ui.time_warp.text())) > new_max:
                 self.ui.time_slider.setValue(new_max)
+                self.ui.time_warp.setText(f'{new_max}')
 
-        self.ui.time_slider.setMaximum(new_max)
         self.ui.time_wmax.setText(f'{int(new_max)}')
+        self.ui.time_slider.setMaximum(new_max)
 
     def tw_slider_updated(self, new_value):
         max_value = int(self.ui.time_wmax.text())
