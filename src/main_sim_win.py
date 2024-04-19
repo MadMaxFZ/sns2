@@ -175,7 +175,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.model.moveToThread(self.thread)
         # self.thread.start()
         self._connect_slots()
-        self.cameras.curr_cam.set_range(self.visuals.vizz_bounds)
+        self.cameras.curr_cam.set_range(x=self.visuals.vizz_bounds,
+                                        y=self.visuals.vizz_bounds,
+                                        z=self.visuals.vizz_bounds,
+                                        )
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
 

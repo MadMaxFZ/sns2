@@ -104,6 +104,7 @@ class StarSystemVisuals:
         if body_names:
             self._body_names   = [n for n in body_names]
         self._body_count   = len(self._body_names)
+        self._bods_pos     = []
 
     '''--------------------------- END StarSystemVisuals.__init__() -----------------------------------------'''
 
@@ -129,6 +130,7 @@ class StarSystemVisuals:
         self._frame_viz = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
         self._frame_viz.transform = MT()
         self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
+        self._bods_pos = list(self._agg_cache['pos'].values())
 
         for name in self._body_names:
             self._generate_planet_viz(body_name=name)
@@ -211,8 +213,8 @@ class StarSystemVisuals:
         _p_face_colors = []
         _c_face_colors = []
         _edge_colors = []
-        self._bods_pos = []
         self._agg_cache = agg_data
+        self._bods_pos = list(self._agg_cache['pos'].values())
         """
                 TODO:: Fix the fact that self._agg_cache[][] is NOT getting updated with sys_epoch!!!
         """
@@ -243,9 +245,6 @@ class StarSystemVisuals:
                 self._tracks[sb_name].transform.reset()
                 self._tracks[sb_name].transform.translate(self._agg_cache['pos'][parent].value)
 
-            # self._tracks[sb_name].update()
-            # self._planets[sb_name].update()
-            self._bods_pos.append(pos.value)
             _pf_clr = Color(self._agg_cache['body_color'][sb_name])
             _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]
             _cf_clr = _pf_clr
@@ -359,7 +358,7 @@ class StarSystemVisuals:
     def vizz_bounds(self):
         outmost = np.max(np.linalg.norm(self.bods_pos))
         rng = (-outmost, outmost)
-        return [rng, rng, rng]
+        return rng
 
 
 if __name__ == "__main__":
