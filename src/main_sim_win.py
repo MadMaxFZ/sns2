@@ -8,27 +8,28 @@
 # from vispy.app.timer import Timer
 # from composite import Ui_frm_sns_controls
 
+import cProfile
+import pstats
 import sys
-import numpy as np
 import logging.config
 from vispy.app import use_app
 from vispy.util.quaternion import Quaternion
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot, QCoreApplication
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
 from astropy.time import Time
-from decimal import Decimal
 from camera_dict import CameraSet
 from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
 from starsys_visual import StarSystemVisuals
-from starsys_data import log_config, SystemDataStore
+from starsys_data import log_config
 
 logging.config.dictConfig(log_config)
 QT_NATIVE = False
 STOP_IT = True
+DO_PROFILE = False
 
 
 def round_off(val):
@@ -336,8 +337,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.update_panel.emit(model_agg_data)
 
 
-'''==============================================================================================================='''
-if __name__ == "__main__":
+def main():
     if QT_NATIVE:
         app = QCoreApplication(sys.argv)
         app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
@@ -352,3 +352,12 @@ if __name__ == "__main__":
         sys.exit(app.exec_())
     else:
         app.run()
+
+
+'''==============================================================================================================='''
+if __name__ == "__main__":
+
+    if DO_PROFILE:
+        cProfile.run('main()', sort='tottime')
+    else:
+        main()
