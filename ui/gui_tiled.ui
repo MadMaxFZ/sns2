@@ -671,7 +671,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QCheckBox" name="cam_select">
+   <widget class="QCheckBox" name="cam2selected">
     <property name="geometry">
      <rect>
       <x>10</x>
