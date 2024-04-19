@@ -89,6 +89,7 @@ class StarSystemVisuals:
         self._tracks       = {}      # a dict of Polygon visuals
         self._symbols      = []
         self._symbol_sizes = []
+        self._view         = None
         self._curr_camera  = None
         self._pos_rel2cam  = None
         self._frame_viz    = None
@@ -121,8 +122,9 @@ class StarSystemVisuals:
                           created here, collected together and then added to the scene.
         """
         self._agg_cache = agg_data
-        self._scene = view.scene
-        self._curr_camera = view.camera
+        self._view = view
+        self._scene = self._view.scene
+        self._curr_camera = self._view.camera
         self._skymap = SkyMap(parent=self._scene)
         self._frame_viz = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
         self._frame_viz.transform = MT()
@@ -330,7 +332,7 @@ class StarSystemVisuals:
 
     @property
     def bods_pos(self):
-        return self._bods_pos.values()
+        return self._bods_pos
 
     @property
     def skymap(self):
@@ -352,6 +354,12 @@ class StarSystemVisuals:
             return self._planets[name]
         else:
             return self._planets
+
+    @property
+    def vizz_bounds(self):
+        outmost = np.max(np.linalg.norm(self.bods_pos))
+        rng = (-outmost, outmost)
+        return [rng, rng, rng]
 
 
 if __name__ == "__main__":

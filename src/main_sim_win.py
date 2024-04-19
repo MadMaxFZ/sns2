@@ -9,6 +9,7 @@
 # from composite import Ui_frm_sns_controls
 
 import cProfile
+import math
 import pstats
 import sys
 import logging.config
@@ -60,7 +61,7 @@ def to_bold_font(value):
 def pad_plus(value):
     if value:
         res = value
-        if not value.startswith('+'):
+        if float(value) > 0:
             res = "+" + value
 
         return res
@@ -88,6 +89,27 @@ def to_quat_str(quat):
                        "\nW: " + f'{quat.w:.4}')
 
         return quat_str
+
+
+def to_euler_str(quat):
+    t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
+    t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
+    roll_x = math.atan2(t0, t1) * 180 / math.pi
+
+    t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
+    t2 = +1.0 if t2 > +1.0 else t2
+    t2 = -1.0 if t2 < -1.0 else t2
+    pitch_y = math.asin(t2) * 180 / math.pi
+
+    t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
+    t4 = +1.0 - 2.0 * ( quat.y * quat.y + quat.z * quat.z)
+    yaw_z = math.atan2(t3, t4) * 180 / math.pi
+
+    eul_str = str("R: " + pad_plus(f'{roll_x:.4}') +
+                  "\nP: " + pad_plus(f'{pitch_y:.4}') +
+                  "\nY: " + pad_plus(f'{yaw_z:.4}'))
+
+    return eul_str
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -143,16 +165,17 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                       self.model.get_agg_fields(self._vizz_fields2agg))
         self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
                                          'scale_factor': 0.5e+08,
-                                         'rotation1': Quaternion(0.0, 0.0, 0.0, 1.0),
+                                         'rotation1': Quaternion(0.0, 1.0, 0.0, 0.0),
                                          }
                                         )
-        # self.cameras.curr_cam.scale_factor = 0.5e+08
+
         self._setup_layout()
         self.controls.init_controls(self.model.body_names, self.cameras.cam_ids)
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
         self._connect_slots()
+        self.cameras.curr_cam.set_range(self.visuals.vizz_bounds)
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
 
@@ -326,6 +349,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
                         case "<class \'vispy.util.quaternion.Quaternion\'>":
                             res = to_quat_str(v)
+                            widg_grp[i].setText(res)
+                            key_widgs[-1].setText('Attitude:')
+                            widg_grp[-1].setText(to_euler_str(v))
+                            break
 
                         case _:
                             res = ''
