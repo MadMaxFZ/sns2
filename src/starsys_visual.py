@@ -356,7 +356,7 @@ class StarSystemVisuals:
 
     @property
     def vizz_bounds(self):
-        outmost = np.max(np.linalg.norm(self.bods_pos))
+        outmost = np.max(np.linalg.norm(self.bods_pos)) / 2
         rng = (-outmost, outmost)
         return rng
 

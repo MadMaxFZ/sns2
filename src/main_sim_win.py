@@ -70,12 +70,14 @@ def pad_plus(value):
         return ''
 
 
-def to_vector_str(vec):
+def to_vector_str(vec, hdrs=None):
     if vec is not None:
         print(f'{type(vec)}')
-        vec_str = str("X: " + pad_plus(f'{vec[0]:.4}') +
-                      "\nY: " + pad_plus(f'{vec[1]:.4}') +
-                      "\nZ: " + pad_plus(f'{vec[2]:.4}'))
+        if not hdrs:
+            hdrs = ('X:', '\nY:', '\nZ:')
+        vec_str = str(hdrs[0] + pad_plus(f'{vec[0]:.4}') +
+                      hdrs[1] + pad_plus(f'{vec[1]:.4}') +
+                      hdrs[2] + pad_plus(f'{vec[2]:.4}'))
 
         return vec_str
 
@@ -102,7 +104,7 @@ def to_euler_str(quat):
     pitch_y = math.asin(t2) * 180 / math.pi
 
     t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
-    t4 = +1.0 - 2.0 * ( quat.y * quat.y + quat.z * quat.z)
+    t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
     yaw_z = math.atan2(t3, t4) * 180 / math.pi
 
     eul_str = str("R: " + pad_plus(f'{roll_x:.4}') +
@@ -134,8 +136,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         Parameters
         ----------
         _body_names :
-        args :
-        kwargs :
+        args        :
+        kwargs      :
         """
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
@@ -163,11 +165,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.visuals = StarSystemVisuals(self.model.body_names)
         self.visuals.generate_visuals(self.canvas.view,
                                       self.model.get_agg_fields(self._vizz_fields2agg))
-        self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
-                                         'scale_factor': 0.5e+08,
-                                         'rotation1': Quaternion(0.0, 1.0, 0.0, 0.0),
-                                         }
-                                        )
 
         self._setup_layout()
         self.controls.init_controls(self.model.body_names, self.cameras.cam_ids)
@@ -179,6 +176,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         y=self.visuals.vizz_bounds,
                                         z=self.visuals.vizz_bounds,
                                         )
+        self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
+                                         # 'scale_factor': 0.5e+08,
+                                         'rotation1': Quaternion(+1.0, +0.0, -0.0, +0.0),
+                                         }
+                                        )
+        self.cameras.curr_cam.set_default_state()
+        self.cameras.curr_cam.reset()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
 
@@ -215,6 +219,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
         self.model.has_updated.connect(self.refresh_canvas)
+        self.cameras.canvas_changed.connect(self.updatePanels)
 
         # Handling buttons in epoch timer
         self.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
@@ -223,13 +228,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
         self.blockSignals(False)
         print("Signals / Slots Connected...")
-
-        # TODO:: Review the data sent versus data expected, and fix if necessary
-        # self.update_panel.emit([self.ui.bodyBox.currentIndex(),
-        #                         self.ui.tabWidget_Body.currentIndex(),
-        #                         self.ui.camBox.currentIndex(),
-        #                         ], {})
-        # print("Panel data sent...")
 
     @property
     def curr_body_name(self):
@@ -241,10 +239,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.controls.set_active_body(new_body_name)
 
         self.refresh_panel('attr_')
-        self.refresh_panel('elem_coe_')
-        self.refresh_panel('elem_rv_')
-        self.refresh_panel('elem_pqw_')
-        self.refresh_panel('cam_')
+        self.updatePanels('')
+        # self.refresh_panel('elem_coe_')
+        # self.refresh_panel('elem_rv_')
+        # self.refresh_panel('elem_pqw_')
+        # self.refresh_panel('cam_')
 
     @pyqtSlot(str)
     def updatePanels(self, new_bod_idx):
@@ -303,8 +302,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
             case 'elem_rv_':
                 [w.setText("") for w in widg_grp]
-                self.controls.ui.elem_rv_0.setText(to_vector_str(curr_simbod.r))
-                self.controls.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v))
+                self.ui.elem_rv_0.setText(to_vector_str(curr_simbod.r))
+                self.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v))
+                self.ui.elem_rv_3.setText(to_vector_str(curr_simbod.rot,
+                                                        ('RA: ', '\nDEC:', '\nW:  '))
+                                          )
 
             case 'elem_pqw_':
                 if curr_simbod.is_primary:

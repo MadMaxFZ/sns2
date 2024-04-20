@@ -555,7 +555,7 @@
        </widget>
       </item>
       <item row="11" column="0">
-       <widget class="QLabel" name="J3_2">
+       <widget class="QLabel" name="mean_a">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>1</horstretch>
@@ -745,7 +745,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="time_sys_epoch"/>
+      <widget class="QLineEdit" name="time_sys_epoch">
+       <property name="text">
+        <string>Julian Date</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -845,9 +852,9 @@
     <widget class="QLabel" name="time_wmax">
      <property name="geometry">
       <rect>
-       <x>470</x>
+       <x>430</x>
        <y>30</y>
-       <width>21</width>
+       <width>61</width>
        <height>21</height>
       </rect>
      </property>
@@ -855,7 +862,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
@@ -1063,6 +1070,12 @@
            <weight>75</weight>
            <bold>true</bold>
           </font>
+         </property>
+         <property name="text">
+          <string>seconds</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -1630,7 +1643,7 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>

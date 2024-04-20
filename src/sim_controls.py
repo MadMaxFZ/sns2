@@ -3,6 +3,7 @@
     This module contains classes to allow using Qt to control Vispy
 """
 import logging.config
+import astropy.units as u
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from gui_tiled import Ui_SNS_DataPanels
@@ -101,7 +102,7 @@ class Controls(QtWidgets.QWidget):
         dt = TimeDelta(new_elapsed - self._last_elapsed)
         self._last_elapsed = new_elapsed
         new_sys_epoch = (Time(float(self.ui.time_sys_epoch.text()), format='jd') +
-                         float(self.ui.time_warp.text()) * dt)
+                         float(self.ui.time_warp.text()) * dt.to(u.s))
         self.ui.time_sys_epoch.setText(f'{new_sys_epoch.value:.4f}')
         # self.model.update_state(new_sys_epoch)
 
@@ -123,7 +124,7 @@ class Controls(QtWidgets.QWidget):
         else:
             res = max_value * ((new_value - mid_value) / mid_value)
 
-        self.ui.time_warp.setText(f'{float(res)}')
+        self.ui.time_warp.setText(f'{float(res):.4f}')
 
     def toggle_twarp2norm(self):
         if float(self.ui.time_warp.text()) == 1.0:

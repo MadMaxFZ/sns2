@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QWidget
 from vispy.scene import (BaseCamera, FlyCamera, TurntableCamera,
                          ArcballCamera, PanZoomCamera)
 from simbody_model import MIN_FOV
+from psygnal import Signal
 
 
 class CameraSet(UserDict):
@@ -15,7 +16,9 @@ class CameraSet(UserDict):
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
     """
+    _curr_key: str
     cam_types = [FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera]
+    canvas_changed = Signal(str)
 
     def __init__(self, data=None, dist_unit=None, vec_type=None):
         super().__init__()
@@ -65,6 +68,9 @@ class CameraSet(UserDict):
 
     def __getitem__(self, cam_id):
         return self.data[cam_id]
+
+    def on_canvas_change(self, ev):
+        self.canvas_changed.emit('')
 
     # @property
     # def cam_state(self, cam_id=None):
