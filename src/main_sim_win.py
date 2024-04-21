@@ -101,8 +101,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                          'rotation1': Quaternion(+1.0, +0.0, -0.0, +0.0),
                                          }
                                         )
-        self.cameras.curr_cam.set_default_state()
-        self.cameras.curr_cam.reset()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
 
@@ -146,8 +144,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
         self.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
         self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
+        self.ui.btn_set_rot.pressed.connect(self.reset_rotation)
         self.blockSignals(False)
         print("Signals / Slots Connected...")
+
+    def reset_rotation(self):
+        self.cameras.curr_cam.set_default_state()
+        self.cameras.curr_cam.reset()
+        self.updatePanels('')
 
     @property
     def curr_body_name(self):

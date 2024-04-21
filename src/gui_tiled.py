@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui\gui_tiled.ui'
+# Form implementation generated from reading ui file 'ui/gui_tiled.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -992,11 +992,14 @@ class Ui_SNS_DataPanels(object):
         self.key_4.setAlignment(QtCore.Qt.AlignCenter)
         self.key_4.setObjectName("key_4")
         self.verticalLayout_7.addWidget(self.key_4)
+        self.btn_set_rot = QtWidgets.QPushButton(self.layoutWidget9)
+        self.btn_set_rot.setObjectName("btn_set_rot")
+        self.verticalLayout_7.addWidget(self.btn_set_rot)
         self.verticalLayout_7.setStretch(0, 1)
         self.verticalLayout_7.setStretch(1, 3)
         self.verticalLayout_7.setStretch(2, 1)
-        self.verticalLayout_7.setStretch(3, 4)
-        self.verticalLayout_7.setStretch(4, 4)
+        self.verticalLayout_7.setStretch(3, 3)
+        self.verticalLayout_7.setStretch(4, 3)
         self.horizontalLayout_4.addLayout(self.verticalLayout_7)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
         self.verticalLayout_6.setContentsMargins(-1, -1, -1, 0)
@@ -1154,6 +1157,7 @@ class Ui_SNS_DataPanels(object):
         self.key_2.setText(_translate("SNS_DataPanels", "key_2"))
         self.key_3.setText(_translate("SNS_DataPanels", "key_3"))
         self.key_4.setText(_translate("SNS_DataPanels", "key_4"))
+        self.btn_set_rot.setText(_translate("SNS_DataPanels", "SET ROT"))
         self.cam_0.setText(_translate("SNS_DataPanels", "TextLabel"))
         self.cam_1.setText(_translate("SNS_DataPanels", "TextLabel"))
         self.cam_2.setText(_translate("SNS_DataPanels", "TextLabel"))
