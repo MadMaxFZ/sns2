@@ -20,6 +20,7 @@ class CameraSet(UserDict):
     cam_types = [FlyCamera, TurntableCamera, ArcballCamera, PanZoomCamera]
     canvas_changed = Signal(str)
 
+    # noinspection PyTypeChecker
     def __init__(self, data=None, dist_unit=None, vec_type=None):
         super().__init__()
         if data:
@@ -38,12 +39,13 @@ class CameraSet(UserDict):
         else:
             self._dist_unit = u.km = u.km
 
-        self._curr_key = "def_cam"
+        self._curr_key = "fly_cam"
         self._curr_cam = FlyCamera(fov=60, name=self._curr_key)
         self.update({self._curr_key: self._curr_cam})
         self._curr_cam.center = (-9851768.0, -9750760.0, -5012921.5)
 
-    def _validate_cam(self, camera):
+    @staticmethod
+    def _validate_cam(camera):
         if not issubclass(type(camera), BaseCamera):
             raise TypeError("Camera object expected")
         return camera
@@ -69,7 +71,7 @@ class CameraSet(UserDict):
     def __getitem__(self, cam_id):
         return self.data[cam_id]
 
-    def on_canvas_change(self, ev):
+    def on_timer(self, ev):
         self.canvas_changed.emit('')
 
     # @property
