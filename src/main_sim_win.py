@@ -25,7 +25,7 @@ from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
 from starsys_visual import StarSystemVisuals
-from starsys_data import log_config
+from starsys_data import *
 
 logging.config.dictConfig(log_config)
 QT_NATIVE = False
@@ -33,94 +33,14 @@ STOP_IT = True
 DO_PROFILE = False
 
 
-def round_off(val):
-    n_digits = 3
-    factor = pow(10, n_digits)
-    try:
-        data_unit = val / val.value
-        res = (int(val.value * factor) / factor) * data_unit
-
-    except:
-        res = val
-
-    return res
-
-
-def show_it(value):
-    print(f'VAL: {value}, TYPE(VAL): {type(value)}')
-
-
-def to_bold_font(value):
-    if value:
-        ante = "<html><head/><body><p><span style=\" font-weight:600;\">"
-        post = "</span></p></body></html>"
-
-        return ante + str(value) + post
-
-
-def pad_plus(value):
-    if value:
-        res = value
-        if float(value) > 0:
-            res = "+" + value
-
-        return res
-
-    else:
-        return ''
-
-
-def to_vector_str(vec, hdrs=None):
-    if vec is not None:
-        print(f'{type(vec)}')
-        if not hdrs:
-            hdrs = ('X:', '\nY:', '\nZ:')
-        vec_str = str(hdrs[0] + pad_plus(f'{vec[0]:.4}') +
-                      hdrs[1] + pad_plus(f'{vec[1]:.4}') +
-                      hdrs[2] + pad_plus(f'{vec[2]:.4}'))
-
-        return vec_str
-
-
-def to_quat_str(quat):
-    if quat is not None:
-        print(f'{type(quat)}')
-        quat_str = str("X: " + f'{quat.x:.4}' +
-                       "\nY: " + f'{quat.y:.4}' +
-                       "\nZ: " + f'{quat.z:.4}' +
-                       "\nW: " + f'{quat.w:.4}')
-
-        return quat_str
-
-
-def to_euler_str(quat):
-    t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
-    t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
-    roll_x = math.atan2(t0, t1) * 180 / math.pi
-
-    t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
-    t2 = +1.0 if t2 > +1.0 else t2
-    t2 = -1.0 if t2 < -1.0 else t2
-    pitch_y = math.asin(t2) * 180 / math.pi
-
-    t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
-    t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
-    yaw_z = math.atan2(t3, t4) * 180 / math.pi
-
-    eul_str = str("R: " + pad_plus(f'{roll_x:.4}') +
-                  "\nP: " + pad_plus(f'{pitch_y:.4}') +
-                  "\nY: " + pad_plus(f'{yaw_z:.4}'))
-
-    return eul_str
-
-
+# noinspection PyArgumentList
 class MainQtWindow(QtWidgets.QMainWindow):
     """     This module contains MainQtWindow class, the entry point into the application and
         where access to all simulation components can be utilized to provide control of the sim.
     """
     # Signals for communication between simulation components:
     main_window_ready = pyqtSignal(str)
-    # newActiveBody = pyqtSignal(int)
+    panel_refreshed = pyqtSignal(str)
     # newActiveTab = pyqtSignal(int)
     # newActiveCam = pyqtSignal(int)
 
@@ -240,10 +160,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         self.refresh_panel('attr_')
         self.updatePanels('')
-        # self.refresh_panel('elem_coe_')
-        # self.refresh_panel('elem_rv_')
-        # self.refresh_panel('elem_pqw_')
-        # self.refresh_panel('cam_')
 
     @pyqtSlot(str)
     def updatePanels(self, new_bod_idx):
@@ -276,11 +192,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
             This method will return the data block for the selected target given
         Parameters
         ----------
-        panel_key : str
+        panel_key : str     A tag to serve as a key to indicate which panels(s) to update
 
         Returns
         -------
-            Has no return value, but emits the data_set via signal
+            Has no return value, but emits the panel_key via the signal
         """
         widg_grp    = self.controls.widget_group(panel_key)
         show_it(widg_grp)
@@ -365,8 +281,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     widg_grp[i].setText(res)
                     i += 1
 
-        pass
-        # self.update_panel.emit(model_agg_data)
+        self.panel_refreshed.emit(panel_key)
 
 
 def main():
