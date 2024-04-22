@@ -70,7 +70,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.model = SimSystem(auto_up=False)
         self.model.load_from_names()
-        [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
+        [sb.set_field_dict() for sb in self.model.data.values()]    # if not sb.is_primary]
 
         #       TODO:   Encapsulate the creation of the CameraSet instance inside the
         #               CanvasWrapper class, which will expose methods to manipulate the cameras.
