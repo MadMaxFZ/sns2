@@ -13,6 +13,8 @@ import math
 import pstats
 import sys
 import logging.config
+
+import psygnal
 from vispy.app import use_app
 from vispy.util.quaternion import Quaternion
 from PyQt5 import QtWidgets, QtCore
@@ -41,6 +43,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     # Signals for communication between simulation components:
     main_window_ready = pyqtSignal(str)
     panel_refreshed = pyqtSignal(str)
+    on_draw_sig    = psygnal.Signal(str)
     # newActiveTab = pyqtSignal(int)
     # newActiveCam = pyqtSignal(int)
 
@@ -61,8 +64,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
+        self.timer_paused = True
+        self.interval = 100
+        self.tw_hold = 0
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.model = SimSystem(auto_up=True)
+        self.model = SimSystem(auto_up=False)
         self.model.load_from_names()
         [sb.set_field_dict() for sb in self.model.data.values() if not sb.is_primary]
 
@@ -72,10 +78,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #                   StarSystemVisuals class, which would assume the role of CanvasWrapper
 
         self.cameras = CameraSet()
-        self.canvas = CanvasWrapper(self.cameras)
+        self.canvas = CanvasWrapper(self.cameras, self.on_draw_sig)
         self.controls = Controls()
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget(self)
+        self.timer = QtCore.QTimer()
 
         #       TODO:   Encapsulate the vizz_fields2agg inside StartSystemVisuals class
         self._vizz_fields2agg = ('pos', 'radius', 'body_alpha', 'track_alpha', 'body_mark',
@@ -137,10 +144,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
         self.model.has_updated.connect(self.refresh_canvas)
-        self.cameras.canvas_changed.connect(self.updatePanels)
+
+        self.timer.setInterval(self.interval)
+        self.timer.timeout.connect(self.update_elapsed)
 
         # Handling buttons in epoch timer
-        self.ui.btn_play_pause.pressed.connect(self.controls.toggle_play_pause)
+        self.ui.btn_play_pause.pressed.connect(self.toggle_play_pause)
         self.ui.btn_real_twarp.pressed.connect(self.controls.toggle_twarp2norm)
         self.ui.btn_reverse.pressed.connect(self.controls.toggle_twarp_sign)
         self.ui.btn_stop_reset.pressed.connect(self.controls.reset_epoch_timer)
@@ -152,6 +161,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.cameras.curr_cam.set_default_state()
         self.cameras.curr_cam.reset()
         self.updatePanels('')
+
+    def update_elapsed(self):
+        self.ui.time_elapsed.setText(f'{(float(self.ui.time_elapsed.text()) + self.interval / 86400):.4f}')
 
     @property
     def curr_body_name(self):
@@ -190,6 +202,18 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
         if not self.model.USE_AUTO_UPDATE_STATE:
             self.model.update_state()
+
+    @pyqtSlot()
+    def toggle_play_pause(self):
+        if self.timer_paused:
+            self.ui.time_warp.setText(f'{self.tw_hold}')
+            self.timer_paused = False
+            self.timer.start()
+            # self.ui.time_elapsed.setText(f'{(float(self.ui.time_elapsed.text()) + DEFAULT_DT):.4f}')
+        else:
+            self.tw_hold = float(self.ui.time_warp.text())
+            self.timer_paused = True
+            self.timer.stop()
 
     def refresh_panel(self, panel_key):
         """

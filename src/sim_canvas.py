@@ -21,13 +21,18 @@ class CanvasWrapper:
     qt_keypress = pyqtSignal(str)
     qt_mouse_move = pyqtSignal()
 
-    def __init__(self, _camera_set):
+    def __init__(self, _camera_set, on_draw_sig):
         self._canvas = MainSimCanvas(camera_set=_camera_set)
         self._scene = self._canvas.view.scene
         self._view = self._canvas.view
+        self._canvas.update_signal = on_draw_sig
 
     def update_canvas(self):
         self._canvas.view.scene.update()
+
+    @property
+    def canvas_sig(self):
+        return self._canvas.update_signal
 
     @property
     def curr_cam(self):
@@ -69,6 +74,7 @@ class MainSimCanvas(scene.SceneCanvas):
         self._sys_vizz = None
         self._cam_set = camera_set
         self._viewbox = self.central_widget.add_view()
+        self.update_signal = None
         self.assign_camera(new_cam=self._cam_set.curr_cam)
         self.freeze()
 
@@ -144,6 +150,10 @@ class MainSimCanvas(scene.SceneCanvas):
 
         except AttributeError:
             print("Key Error...")
+
+    def on_draw(self, ev):
+        self._update_scenegraph()
+        self.update_signal.emit('')
 
     # def run(self):
     #     self.show()

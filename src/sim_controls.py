@@ -32,7 +32,6 @@ class Controls(QtWidgets.QWidget):
         self._active_body = 'Earth'
         self._active_cam = 'def_cam'
         self.timer_widgets = self._widget_groups['time_']
-        self.tw_hold = 0
         self.timer_paused = True
         self._last_elapsed = 0
 
@@ -85,16 +84,6 @@ class Controls(QtWidgets.QWidget):
         self.ui.time_slider.setValue(0)
         self.ui.time_warp.setText(str(self.ui.time_slider.value()))
         self.ui.time_sys_epoch.setText(str(self.ui.time_ref_epoch.text()))
-
-    @pyqtSlot()
-    def toggle_play_pause(self):
-        if self.timer_paused:
-            self.ui.time_warp.setText(f'{self.tw_hold}')
-            self.timer_paused = False
-            self.ui.time_elapsed.setText(f'{(float(self.ui.time_elapsed.text()) + DEFAULT_DT):.4f}')
-        else:
-            self.tw_hold = float(self.ui.time_warp.text())
-            self.timer_paused = True
 
     @pyqtSlot()
     def tw_elapsed_updated(self):
