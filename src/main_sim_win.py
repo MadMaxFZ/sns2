@@ -143,7 +143,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.time_elapsed.textChanged.connect(self.controls.tw_elapsed_updated)
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
-        self.model.has_updated.connect(self.refresh_canvas)
+        self.model.has_updated.connect(self.canvas.update_canvas)
 
         self.timer.setInterval(self.interval)
         self.timer.timeout.connect(self.update_elapsed)

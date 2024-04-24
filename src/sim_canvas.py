@@ -28,7 +28,7 @@ class CanvasWrapper:
         self._canvas.update_signal = on_draw_sig
 
     def update_canvas(self):
-        self._canvas.view.scene.update()
+        self._canvas.draw_scene()
 
     @property
     def canvas_sig(self):
@@ -151,9 +151,9 @@ class MainSimCanvas(scene.SceneCanvas):
         except AttributeError:
             print("Key Error...")
 
-    def on_draw(self, ev):
-        self._update_scenegraph()
-        self.update_signal.emit('')
+    def draw_scene(self):
+        self.update()
+        # self.update_signal.emit('')
 
     # def run(self):
     #     self.show()
