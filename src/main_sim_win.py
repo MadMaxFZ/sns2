@@ -105,7 +105,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         )
         self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
                                          # 'scale_factor': 0.5e+08,
-                                         'rotation1': Quaternion(+1.0, +0.0, -0.0, +0.0),
+                                         'rotation1': Quaternion(+0.0, +0.0, +0.0, +1.0),
                                          }
                                         )
         self.main_window_ready.emit('Earth')
