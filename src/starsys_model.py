@@ -10,6 +10,7 @@ from starsys_visual import from_pos
 from vispy.color import *
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time, TimeDeltaSec
+from PyQt5.QtCore import QObject
 
 
 class SimSystem(SimBodyDict):
@@ -180,16 +181,16 @@ class SimSystem(SimBodyDict):
         else:
             raise KeyError("Must provide at least one target key...")
 
-        print(f'sb_names = {sb_name},\n tgt_keys = {tgt_keys}')
+        # print(f'sb_names = {sb_name},\n tgt_keys = {tgt_keys}')
         if sb_name and tgt_keys:
-            print("\tNAME  AND  TARGET(S)\n")
+            # print("\tNAME  AND  TARGET(S)\n")
             res = {}
             [res.update({(sb_name, t): self.data[sb_name].field(t)})
              for t in tgt_keys
              ]
 
         elif tgt_keys and not sb_name:
-            print("\tTARGET  AND  NO NAME\n")
+            # print("\tTARGET  AND  NO NAME\n")
             res = {}
             [[res.update({(n, t): self.data[n].field(t)})
               for n in self._current_body_names
@@ -200,8 +201,8 @@ class SimSystem(SimBodyDict):
         else:
             res = {}
 
-        [print(f'model.data_group({k[0]}, {k[1]}) = {self.data[k[0]].field(k[1])}')
-         for k, v in res.items()]
+        # [print(f'model.data_group({k[0]}, {k[1]}) = {self.data[k[0]].field(k[1])}')
+        #  for k, v in res.items()]
         return list(res.values())[0]
 
     def get_agg_fields(self, field_ids):

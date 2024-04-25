@@ -119,10 +119,6 @@ class PlanetVisual(CompoundVisual):
         super(PlanetVisual, self).__init__([v for v in [self._mesh, self._border]])
         self.texture = self._texture_data
 
-    # @property
-    # def rad0(self):
-    #     return self._radius
-
     @property
     def mesh(self):
         """The vispy.visuals.MeshVisual that used to fil in."""

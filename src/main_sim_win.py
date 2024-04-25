@@ -18,6 +18,7 @@ import psygnal
 from vispy.app import use_app
 from vispy.util.quaternion import Quaternion
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
@@ -105,7 +106,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         )
         self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
                                          # 'scale_factor': 0.5e+08,
-                                         'rotation1': Quaternion(+1.0, +0.0, -0.0, +0.0),
+                                         'rotation1': Quaternion(+1.0, +0.0, +0.0, +0.0),
                                          }
                                         )
         self.main_window_ready.emit('Earth')
@@ -228,7 +229,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             Has no return value, but emits the panel_key via the signal
         """
         widg_grp    = self.controls.widget_group(panel_key)
-        show_it(widg_grp)
+        # show_it(widg_grp)
         curr_simbod = self.model.data[self.controls.ui.bodyBox.currentText()]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
@@ -240,9 +241,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                         w.setText('')
                 else:
                     data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
-                    print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                    # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
-                        print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                        # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
                         w.setText(str(data_set[i].round(4)))
 
             case 'elem_rv_':
@@ -259,15 +260,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
                         w.setText('')
                 else:
                     data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
-                    print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                    # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
-                        print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
+                        # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
                         w.setText(str(to_vector_str(data_set[i].value)))
 
             case 'attr_':
                 data_set = curr_simbod.body
-                print(f'{data_set}')
-                print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
+                # print(f'{data_set}')
+                # print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                 for i, data in enumerate(data_set):
                     if type(data) == Body:
                         res = data.name
@@ -278,7 +279,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     else:
                         res = data
 
-                    print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(res)}')
+                    # print(f'widget #{i}: {widg_grp[i].objectName()} -> {str(res)}')
                     widg_grp[i].setText(str(res))
 
             case 'cam_':
@@ -286,7 +287,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 i = 0
                 cam_state = self.cameras.curr_cam.get_state()
                 key_widgs = self.controls.widget_group('key_')
-                [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
+                # [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
                 for k, v in cam_state.items():
                     key_widgs[i].setText(str(k))
                     match str(type(v)):

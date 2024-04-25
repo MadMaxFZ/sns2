@@ -221,9 +221,9 @@ def to_euler_str(quat):
         t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
         yaw_z = math.atan2(t3, t4) * 180 / math.pi
 
-        eul_str = str("R: " + pad_plus(f'{roll_x:.4}') +
-                      "\nP: " + pad_plus(f'{pitch_y:.4}') +
-                      "\nY: " + pad_plus(f'{yaw_z:.4}'))
+        eul_str = str("P: " + pad_plus(f'{-roll_x:.4}') +
+                      "\nY: " + pad_plus(f'{pitch_y:.4}') +
+                      "\nR: " + pad_plus(f'{yaw_z:.4}'))
 
         return eul_str
 

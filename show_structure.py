@@ -29,7 +29,7 @@ def scan_fname(filename=None):
             show_info(method)
 
 
-path_name = "C:\\_Projects\\sns2\\"
+path_name = "C:\\_Projects\\sns2\\src\\"
 trgt_dict = dict(g="starsys_data.py",
                  # i="viz_functs.py",
                  # f="qt_wrap.py",

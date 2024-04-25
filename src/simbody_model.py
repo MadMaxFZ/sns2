@@ -184,6 +184,7 @@ class SimBody:
         -------
         simbody._state  : np.ndarray(3, 3)  The state matrix for the new Simbody state
         """
+        new_state = None
         if epoch:
             if type(epoch) == Time:
                 self._epoch = epoch
