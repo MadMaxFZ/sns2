@@ -17,7 +17,7 @@ import logging.config
 import psygnal
 from vispy.app import use_app
 from vispy.util.quaternion import Quaternion
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, Qt
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
@@ -84,6 +84,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget(self)
         self.timer = QtCore.QTimer()
+        self.timer.setTimerType(QtCore.Qt.PreciseTimer)
 
         #       TODO:   Encapsulate the vizz_fields2agg inside StartSystemVisuals class
         self._vizz_fields2agg = ('pos', 'radius', 'body_alpha', 'track_alpha', 'body_mark',
@@ -194,6 +195,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         self.refresh_panel('cam_')
 
+    @pyqtSlot()
     def refresh_canvas(self):
         self.visuals.update_vizz(self.model.get_agg_fields(self._vizz_fields2agg))
         self.canvas.update_canvas()
@@ -217,6 +219,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.timer_paused = True
             self.timer.stop()
 
+    @pyqtSlot(str)
     def refresh_panel(self, panel_key):
         """
             This method will return the data block for the selected target given
