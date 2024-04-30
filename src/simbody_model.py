@@ -53,6 +53,7 @@ class SimBody:
         self._sb_parent     = None
         self._sys_primary   = None
         self._body_data     = body_data
+        self._vizz_data     = vizz_data
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
@@ -74,7 +75,7 @@ class SimBody:
         self._rad_set       = None
         self._type          = None
         self._curr_cam_id   = None
-        self._vizz_data     = vizz_data
+
         self.set_radius()
         self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         self.set_orbit(ephem=self._ephem)
@@ -123,7 +124,7 @@ class SimBody:
     def set_ephem(self, epoch=None, t_range=None):
         if epoch is None:
             epoch = self._epoch
-        if t_range is None:
+        if t_range is None:                                         # sets t_range from epoch to epoch + orbital period
             self._t_range = time_range(epoch,
                                        periods=self._periods,
                                        spacing=self._spacing,
@@ -132,13 +133,13 @@ class SimBody:
                                        )
             self._end_epoch += self._periods * self._spacing
 
-        if self._orbit is None:
+        if self._orbit is None:                                     # first time through
             self._ephem = Ephem.from_body(self._body,
                                           epochs=self._t_range,
                                           attractor=self.body.parent,
                                           plane=self._plane,
                                           )
-        elif self._orbit != 0:
+        elif self._orbit != 0:                                      # this body has a parent
             self._ephem = Ephem.from_orbit(orbit=self._orbit,
                                            epochs=self._t_range,
                                            plane=self._plane,
@@ -160,7 +161,7 @@ class SimBody:
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._trajectory is None) or (self._RESAMPLE is True):
-                self._trajectory = self._orbit.sample(360)
+                self._trajectory = self._orbit.sample(720)
                 self._RESAMPLE = False
 
         elif self._body.parent is None:
