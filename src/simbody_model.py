@@ -1,20 +1,17 @@
 
 # x
-import math
 import logging
 import numpy as np
-import multiprocessing
 # from starsys_data import vec_type
 from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
-from astropy.time import Time, TimeDelta
+from astropy.time import Time
 from vispy.color import Color
 # from starsys_data import sys_data
 from poliastro.twobody.orbit.scalar import Orbit
-from PyQt5.QtCore import pyqtSignal, QObject
 
-from dev_space.sim_object import SimObject
+from sim_object import SimObject
 
 logging.basicConfig(filename="../logs/sns_defs.log",
                     level=logging.DEBUG,
