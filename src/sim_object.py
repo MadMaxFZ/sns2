@@ -80,12 +80,12 @@ class SimObject:
         # self.set_radius()
         # self.set_ephem(epoch=self._epoch, t_range=self._t_range)
         # self.set_orbit(ephem=self._ephem)
-        # self._field_dict = None
+        self._field_dict = None
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
     def set_field_dict(self):
-        self._field_dict = {# 'attr_': [self.body[i] for i in range(len(self.body._fields))],
+        self._field_dict = {    # 'attr_': [self.body[i] for i in range(len(self.body._fields))],
                             'pos': self.pos.value.round(4) * u.km,
                             'rot': self.rot,
                             # 'rad': self.body.R,
@@ -343,13 +343,13 @@ class SimObject:
     def RESAMPLE(self, new_sample=True):
         self._RESAMPLE = True
 
-    @property                   # this returns the position of a body plus the position of the primary
-    def pos2primary(self):
-        _pos = self._state[0] * self._dist_unit
-        if self._parent is None:
-            return _pos
-        else:
-            return _pos + self._parent.pos2primary
+    # @property                   # this returns the position of a body plus the position of the primary
+    # def pos2primary(self):
+    #     _pos = self._state[0] * self._dist_unit
+    #     if self._parent is None:
+    #         return _pos
+    #     else:
+    #         return _pos + self._parent.pos2primary
 
     # @property                   # this returns the position of a body relative to system barycenter
     # def pos2bary(self):

@@ -331,13 +331,13 @@ class SimBody(SimObject):
     # def RESAMPLE(self, new_sample=True):
     #     self._RESAMPLE = True
     #
-    # @property                   # this returns the position of a body plus the position of the primary
-    # def pos2primary(self):
-    #     _pos = self._state[0] * self._dist_unit
-    #     if self.body.parent is None:
-    #         return _pos
-    #     else:
-    #         return _pos + self.sb_parent.pos2primary
+    @property                   # this returns the position of a body plus the position of the primary
+    def pos2primary(self):
+        _pos = self._state[0] * self._dist_unit
+        if self.body.parent is None:
+            return _pos
+        else:
+            return _pos + self.sb_parent.pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):
