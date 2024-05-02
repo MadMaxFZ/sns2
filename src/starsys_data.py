@@ -163,6 +163,7 @@ def show_it(value):
     # print(f'VAL: {value}, TYPE(VAL): {type(value)}')
     pass
 
+
 def to_bold_font(value):
     if value:
         ante = "<html><head/><body><p><span style=\" font-weight:600;\">"
@@ -188,6 +189,7 @@ def to_vector_str(vec, hdrs=None):
         # print(f'{type(vec)}')
         if not hdrs:
             hdrs = ('X:', '\nY:', '\nZ:')
+        # vec = vec.value
         vec_str = str(hdrs[0] + pad_plus(f'{vec[0]:.4}') +
                       hdrs[1] + pad_plus(f'{vec[1]:.4}') +
                       hdrs[2] + pad_plus(f'{vec[2]:.4}'))

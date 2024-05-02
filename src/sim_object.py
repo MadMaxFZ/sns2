@@ -15,7 +15,7 @@ from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
 
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_sdimobj.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
@@ -219,15 +219,15 @@ class SimObject:
 
     @property
     def r(self):
-        return self._state[0]
+        return self._state[0] * self._dist_unit
 
     @property
     def v(self):
-        return self._state[1]
+        return self._state[1] * self._dist_unit / u.s
 
     @property
     def pos(self):
-        return self.pos2primary
+        return self._state[0] * self._dist_unit
 
     @property
     def rot(self):

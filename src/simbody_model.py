@@ -14,7 +14,7 @@ from poliastro.twobody.orbit.scalar import Orbit
 
 from sim_object import SimObject
 
-logging.basicConfig(filename="../logs/sns_defs.log",
+logging.basicConfig(filename="../logs/sns_simbodmod.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
