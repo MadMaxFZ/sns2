@@ -48,16 +48,9 @@ class SimObject:
 
     def __init__(self, body_data=None, vizz_data=None,):
         self._is_primary    = False
-        # self._prev_update   = None
         self._RESAMPLE      = False
         self._parent        = None
-        # self._sys_primary   = None
-        # self._body_data     = body_data
-        # self._vizz_data     = vizz_data
-        self._name          = ""        # self._body_data['body_name']
-        # self._body          = self._body_data['body_obj']
-        # self._rot_func      = self._body_data['rot_func']
-
+        self._name          = ""
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -68,21 +61,11 @@ class SimObject:
         self._periods       = 365
         self._o_period      = 1.0 * u.year
         self._spacing       = self._o_period.to(u.d) / self._periods
-        # self._t_range       = None
         self._end_epoch     = self._epoch + self._periods * self._spacing
         self._ephem: Ephem  = None
         self._orbit: Orbit  = None
         self._trajectory    = None
-        # self._rad_set       = None
-        # self._type          = None
-        # self._curr_cam_id   = None
-
-        # self.set_radius()
-        # self.set_ephem(epoch=self._epoch, t_range=self._t_range)
-        # self.set_orbit(ephem=self._ephem)
         self._field_dict = None
-        # SimBody.system[self._name] = self
-        # self.created.emit(self.name)
 
     def set_field_dict(self):
         self._field_dict = {    # 'attr_': [self.body[i] for i in range(len(self.body._fields))],
@@ -91,14 +74,10 @@ class SimObject:
                             # 'rad': self.body.R,
                             # 'radii': self._rad_set,
                             }
-        # if self.body.parent:
-        #     # _orb = self._orbit.classical()
-        #     # _orb.extend(self._orbit.pqw())
-        #     # _orb.extend(self._orbit.rv())
-        #     # _elem = self.elems
-        #     self._field_dict.update({'elem_coe_': self.elem_coe})
-        #     self._field_dict.update({'elem_pqw_': self.elem_pqw})
-        #     self._field_dict.update({'elem_rv_': self.elem_rv})
+        if self._parent:
+            self._field_dict.update({'elem_coe_': self.elem_coe})
+            self._field_dict.update({'elem_pqw_': self.elem_pqw})
+            self._field_dict.update({'elem_rv_': self.elem_rv})
 
     def field(self, field_key):
         if field_key in self._field_dict.keys():
@@ -106,21 +85,6 @@ class SimObject:
         else:
             print(f'No field with name: <{field_key}>')
             return None
-
-    # def set_radius(self):
-    #     if (self._name == 'Sun' or self._type == 'star' or
-    #             (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
-    #         R  = self._body.R.to(self._dist_unit)
-    #         Rm = Rp = R
-    #         self._is_primary = True
-    #     else:
-    #         R  = self._body.R.to(self._dist_unit)
-    #         Rm = self._body.R_mean.to(self._dist_unit)
-    #         Rp = self._body.R_polar.to(self._dist_unit)
-    #
-    #     self._rad_set = [R, Rm, Rp,]
-    #     self._body_data.update({'rad_set': self._rad_set})
-    #     logging.info("RADIUS SET: %s", self._rad_set)
 
     def set_ephem(self, epoch=None, t_range=None):
         if epoch is None:
@@ -146,7 +110,7 @@ class SimObject:
                                            epochs=t_range,
                                            plane=self._plane,
                                            )
-
+            Ephem.rv()
         logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
         print(f'EPHEM for {self.name:^9}: {self._ephem}')
 
@@ -196,13 +160,13 @@ class SimObject:
                 new_orbit = self._orbit.propagate(self._epoch)
                 new_state = np.array([new_orbit.r.to(self._dist_unit).value,
                                       new_orbit.v.to(self._dist_unit / u.s).value,
-                                      self._rot_func(**toTD(self._epoch)),
+                                      [0.0, 0.0, 0.0],
                                       ])
                 self._orbit = new_orbit
             else:
                 new_state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit).value,
                                       self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s).value,
-                                      self._rot_func(**toTD(self._epoch)),
+                                      [0.0, 0.0, 0.0],
                                       ])
 
         # self.update_pos(self._state.[0])
@@ -232,14 +196,6 @@ class SimObject:
     def name(self):
         return self._name
 
-    # @property
-    # def body(self):
-    #     return self._body
-    #
-    # @property
-    # def radius(self):
-    #     return self._rad_set
-
     @property
     def dist_unit(self):
         return self._dist_unit
@@ -254,37 +210,12 @@ class SimObject:
         return self._parent
 
     @parent.setter
-    def parent(self, new_sb_parent=None):
-        if type(new_sb_parent) is SimObject:
-            self._parent = new_sb_parent
+    def parent(self, new_parent=None):
+        if type(new_parent) is SimObject:
+            self._parent = new_parent
 
     def set_parent(self, new_sb_parent=None):
         self._parent = new_sb_parent
-
-    # @property
-    # def sys_primary(self):
-    #     return self._sys_primary
-    #
-    # @sys_primary.setter
-    # def sys_primary(self, new_primary):
-    #     self._sys_primary = new_primary
-    #
-    # @property
-    # def is_primary(self):
-    #     return self._is_primary
-    #
-    # @is_primary.setter
-    # def is_primary(self, is_pri):
-    #     if type(is_pri) == bool:
-    #         self._is_primary = is_pri
-
-    # @property
-    # def type(self):
-    #     return self._type
-    #
-    # @type.setter
-    # def type(self, new_type=None):
-    #     self._type = new_type
 
     @property
     def r(self):
@@ -311,18 +242,6 @@ class SimObject:
         if self._trajectory:
             return self._trajectory.xyz.transpose().value
 
-    # @property
-    # def RA(self):
-    #     return self._state[2, 0]
-    #
-    # @property
-    # def DEC(self):
-    #     return 90 - self._state[2, 1]
-    #
-    # @property
-    # def W(self):
-    #     return self._state[2, 2]
-
     @property
     def plane(self):
         return self._plane
@@ -343,22 +262,6 @@ class SimObject:
     def RESAMPLE(self, new_sample=True):
         self._RESAMPLE = True
 
-    # @property                   # this returns the position of a body plus the position of the primary
-    # def pos2primary(self):
-    #     _pos = self._state[0] * self._dist_unit
-    #     if self._parent is None:
-    #         return _pos
-    #     else:
-    #         return _pos + self._parent.pos2primary
-
-    # @property                   # this returns the position of a body relative to system barycenter
-    # def pos2bary(self):
-    #     _pos = self._state[0] * self._dist_unit
-    #     if self.is_primary:
-    #         return _pos
-    #     else:
-    #         return _pos + self._sys_primary.pos
-
     @property
     def epoch(self):
         return self._epoch
@@ -368,11 +271,13 @@ class SimObject:
         if new_epoch is None:
             new_epoch = SimObject.epoch0
         if type(new_epoch) == Time:
+            if new_epoch > self._end_epoch:
+                self.set_ephem(new_epoch)
             self._epoch = Time(new_epoch,
                                format='jd',
                                scale='tdb',
                                )
-            # self.update_state()
+            self.update_state()
 
     @property
     def end_epoch(self):
@@ -382,21 +287,6 @@ class SimObject:
     def end_epoch(self, new_end=None):
         if type(new_end) == Time:
             self._end_epoch = new_end
-
-    # @property
-    # def t_range(self):
-    #     return self._t_range
-    #
-    # @t_range.setter
-    # def t_range(self, periods=None, spacing=None, ):
-    #     if type(periods) == int:
-    #         self._t_range = time_range(self._epoch,
-    #                                    periods=periods,
-    #                                    # TODO:  spacing = orbital_period / periods
-    #                                    #        reset value once orbital period it known
-    #                                    spacing=spacing,
-    #                                    format='jd',
-    #                                    scale='tdb', )
 
     @property
     def elem_coe(self):

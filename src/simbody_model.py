@@ -9,6 +9,7 @@ from astropy import units as u
 from astropy.time import Time
 from vispy.color import Color
 # from starsys_data import sys_data
+from poliastro.bodies import Body
 from poliastro.twobody.orbit.scalar import Orbit
 
 from sim_object import SimObject
@@ -49,7 +50,6 @@ class SimBody(SimObject):
         # self._is_primary    = False
         self._prev_update   = None
         # self._RESAMPLE      = False
-        self._sb_parent     = None
         self._sys_primary   = None
         self._body_data     = body_data
         self._vizz_data     = vizz_data
@@ -57,6 +57,7 @@ class SimBody(SimObject):
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
+        self._sb_parent = None  # TODO:: Fix parent reference for subclass
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
@@ -83,10 +84,10 @@ class SimBody(SimObject):
         # self.created.emit(self.name)
 
     def set_field_dict(self):
-        self._field_dict = {'attr_': [self.body[i] for i in range(len(self.body._fields))],
+        self._field_dict = {'attr_': [self._body[i] for i in range(len(self._body._fields))],
                             'pos': self.pos.value.round(4) * u.km,
                             'rot': self.rot,
-                            'rad': self.body.R,
+                            'rad': self._body.R,
                             'radii': self._rad_set,
                             }
         if self._body.parent:
@@ -94,12 +95,12 @@ class SimBody(SimObject):
             self._field_dict.update({'elem_pqw_': self.elem_pqw})
             self._field_dict.update({'elem_rv_': self.elem_rv})
 
-    # def field(self, field_key):
-    #     if field_key in self._field_dict.keys():
-    #         return self._field_dict[field_key]
-    #     else:
-    #         print(f'No field with name: <{field_key}>')
-    #         return None
+    def field(self, field_key):
+        if field_key in self._field_dict.keys():
+            return self._field_dict[field_key]
+        else:
+            print(f'No field with name: <{field_key}>')
+            return None
 
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
@@ -243,11 +244,12 @@ class SimBody(SimObject):
 
     @sb_parent.setter
     def sb_parent(self, new_sb_parent=None):
-        if type(new_sb_parent) is SimBody:
+        if type(new_sb_parent) == SimBody:
             self._sb_parent = new_sb_parent
 
-    def set_parent(self, new_sb_parent=None):
-        self._sb_parent = new_sb_parent
+    def set_parent(self, new_parent=None):
+        if type(new_parent) == Body:
+            self._parent = new_parent
 
     @property
     def sys_primary(self):
