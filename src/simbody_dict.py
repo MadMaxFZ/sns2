@@ -2,7 +2,7 @@ from collections import UserDict
 from simbody_model import SimBody
 
 
-class SimBodyDict(UserDict):
+class SimBodyDict(dict):
 
     def __init__(self, data=None):
         super().__init__()
