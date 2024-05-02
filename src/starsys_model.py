@@ -134,7 +134,7 @@ class SimSystem(SimBodyDict):
 
         t1 = time.perf_counter()
         update_time = t1 - t0
-        print(f'\n\t\t> Time to update: {update_time:.4f} seconds.')
+        print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS')
         self.has_updated.emit()
 
     def _set_parentage(self, sb):

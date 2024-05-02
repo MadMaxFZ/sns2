@@ -160,8 +160,8 @@ def round_off(val):
 
 
 def show_it(value):
-    print(f'VAL: {value}, TYPE(VAL): {type(value)}')
-
+    # print(f'VAL: {value}, TYPE(VAL): {type(value)}')
+    pass
 
 def to_bold_font(value):
     if value:
@@ -185,7 +185,7 @@ def pad_plus(value):
 
 def to_vector_str(vec, hdrs=None):
     if vec is not None:
-        print(f'{type(vec)}')
+        # print(f'{type(vec)}')
         if not hdrs:
             hdrs = ('X:', '\nY:', '\nZ:')
         vec_str = str(hdrs[0] + pad_plus(f'{vec[0]:.4}') +
@@ -197,7 +197,7 @@ def to_vector_str(vec, hdrs=None):
 
 def to_quat_str(quat):
     if quat is not None:
-        print(f'{type(quat)}')
+        # print(f'{type(quat)}')
         quat_str = str("X: " + f'{quat.x:.4}' +
                        "\nY: " + f'{quat.y:.4}' +
                        "\nZ: " + f'{quat.z:.4}' +

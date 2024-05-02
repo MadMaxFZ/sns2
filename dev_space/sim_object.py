@@ -50,24 +50,25 @@ class SimObject:
         self._is_primary    = False
         # self._prev_update   = None
         self._RESAMPLE      = False
-        self._sb_parent     = None
+        self._parent        = None
         # self._sys_primary   = None
         # self._body_data     = body_data
         # self._vizz_data     = vizz_data
         self._name          = ""        # self._body_data['body_name']
         # self._body          = self._body_data['body_obj']
         # self._rot_func      = self._body_data['rot_func']
-        # self._o_period      = self._body_data['o_period']
+
         self.x_ax           = np.array([1, 0, 0])
         self.y_ax           = np.array([0, 1, 0])
         self.z_ax           = np.array([0, 0, 1])
         self._dist_unit     = u.km
         self._plane         = Planes.EARTH_ECLIPTIC
-        self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
+        self._epoch         = Time(SimObject.epoch0, format='jd', scale='tdb')
         self._state         = np.zeros((3,), dtype=vec_type)
         self._periods       = 365
-        self._spacing       = self._o_period.to(u.d) / self._periods        ###
-        self._t_range       = None
+        self._o_period      = 1.0 * u.year
+        self._spacing       = self._o_period.to(u.d) / self._periods
+        # self._t_range       = None
         self._end_epoch     = self._epoch + self._periods * self._spacing
         self._ephem: Ephem  = None
         self._orbit: Orbit  = None
@@ -77,9 +78,9 @@ class SimObject:
         # self._curr_cam_id   = None
 
         # self.set_radius()
-        self.set_ephem(epoch=self._epoch, t_range=self._t_range)
-        self.set_orbit(ephem=self._ephem)
-        self._field_dict = None
+        # self.set_ephem(epoch=self._epoch, t_range=self._t_range)
+        # self.set_orbit(ephem=self._ephem)
+        # self._field_dict = None
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
@@ -125,12 +126,12 @@ class SimObject:
         if epoch is None:
             epoch = self._epoch
         if t_range is None:                                         # sets t_range from epoch to epoch + orbital period
-            self._t_range = time_range(epoch,
-                                       periods=self._periods,
-                                       spacing=self._spacing,
-                                       format='jd',
-                                       scale='tdb',
-                                       )
+            t_range = time_range(epoch,
+                                  periods=self._periods,
+                                  spacing=self._spacing,
+                                  format='jd',
+                                  scale='tdb',
+                                  )
             self._end_epoch += self._periods * self._spacing
 
         if self._orbit is None:                                     # first time through
@@ -142,7 +143,7 @@ class SimObject:
             pass
         elif self._orbit != 0:                                      # this body has a parent
             self._ephem = Ephem.from_orbit(orbit=self._orbit,
-                                           epochs=self._t_range,
+                                           epochs=t_range,
                                            plane=self._plane,
                                            )
 
@@ -153,8 +154,8 @@ class SimObject:
         if ephem is None:
             ephem = self._ephem
 
-        if self.body.parent is not None:
-            self._orbit = Orbit.from_ephem(self.body.parent,
+        if self._parent is not None:
+            self._orbit = Orbit.from_ephem(self._parent,
                                            ephem,
                                            self._epoch,
                                            )
@@ -165,7 +166,7 @@ class SimObject:
                 self._trajectory = self._orbit.sample(720)
                 self._RESAMPLE = False
 
-        elif self._body.parent is None:
+        elif self._parent is None:
             self._orbit = 0
             logging.info(">>> NO PARENT BODY, Orbit set to: %s",
                          str(self._orbit))
@@ -218,8 +219,8 @@ class SimObject:
 
     def get_field(self, f):
         match f:
-            case 'rel2cam':
-                return self.rel2cam
+            # case 'rel2cam':
+            #     return self.rel2cam
             case 'pos':
                 return self.pos
             case 'rot':
@@ -231,54 +232,59 @@ class SimObject:
     def name(self):
         return self._name
 
-    @property
-    def body(self):
-        return self._body
-
-    @property
-    def radius(self):
-        return self._rad_set
+    # @property
+    # def body(self):
+    #     return self._body
+    #
+    # @property
+    # def radius(self):
+    #     return self._rad_set
 
     @property
     def dist_unit(self):
         return self._dist_unit
+    
+    @dist_unit.setter
+    def dist_unit(self, new_du):
+        if type(new_du) == u.Unit:
+            self._dist_unit = new_du
 
     @property
-    def sb_parent(self):
-        return self._sb_parent
+    def parent(self):
+        return self._parent
 
-    @sb_parent.setter
-    def sb_parent(self, new_sb_parent=None):
-        if type(new_sb_parent) is SimBody:
-            self._sb_parent = new_sb_parent
+    @parent.setter
+    def parent(self, new_sb_parent=None):
+        if type(new_sb_parent) is SimObject:
+            self._parent = new_sb_parent
 
     def set_parent(self, new_sb_parent=None):
-        self._sb_parent = new_sb_parent
+        self._parent = new_sb_parent
 
-    @property
-    def sys_primary(self):
-        return self._sys_primary
+    # @property
+    # def sys_primary(self):
+    #     return self._sys_primary
+    #
+    # @sys_primary.setter
+    # def sys_primary(self, new_primary):
+    #     self._sys_primary = new_primary
+    #
+    # @property
+    # def is_primary(self):
+    #     return self._is_primary
+    #
+    # @is_primary.setter
+    # def is_primary(self, is_pri):
+    #     if type(is_pri) == bool:
+    #         self._is_primary = is_pri
 
-    @sys_primary.setter
-    def sys_primary(self, new_primary):
-        self._sys_primary = new_primary
-
-    @property
-    def is_primary(self):
-        return self._is_primary
-
-    @is_primary.setter
-    def is_primary(self, is_pri):
-        if type(is_pri) == bool:
-            self._is_primary = is_pri
-
-    @property
-    def type(self):
-        return self._type
-
-    @type.setter
-    def type(self, new_type=None):
-        self._type = new_type
+    # @property
+    # def type(self):
+    #     return self._type
+    #
+    # @type.setter
+    # def type(self, new_type=None):
+    #     self._type = new_type
 
     @property
     def r(self):
@@ -305,17 +311,17 @@ class SimObject:
         if self._trajectory:
             return self._trajectory.xyz.transpose().value
 
-    @property
-    def RA(self):
-        return self._state[2, 0]
-
-    @property
-    def DEC(self):
-        return 90 - self._state[2, 1]
-
-    @property
-    def W(self):
-        return self._state[2, 2]
+    # @property
+    # def RA(self):
+    #     return self._state[2, 0]
+    #
+    # @property
+    # def DEC(self):
+    #     return 90 - self._state[2, 1]
+    #
+    # @property
+    # def W(self):
+    #     return self._state[2, 2]
 
     @property
     def plane(self):
@@ -340,18 +346,18 @@ class SimObject:
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
         _pos = self._state[0] * self._dist_unit
-        if self.body.parent is None:
+        if self._parent is None:
             return _pos
         else:
-            return _pos + self.sb_parent.pos2primary
+            return _pos + self._parent.pos2primary
 
-    @property                   # this returns the position of a body relative to system barycenter
-    def pos2bary(self):
-        _pos = self._state[0] * self._dist_unit
-        if self.is_primary:
-            return _pos
-        else:
-            return _pos + self._sys_primary.pos
+    # @property                   # this returns the position of a body relative to system barycenter
+    # def pos2bary(self):
+    #     _pos = self._state[0] * self._dist_unit
+    #     if self.is_primary:
+    #         return _pos
+    #     else:
+    #         return _pos + self._sys_primary.pos
 
     @property
     def epoch(self):
@@ -360,7 +366,7 @@ class SimObject:
     @epoch.setter
     def epoch(self, new_epoch=None):
         if new_epoch is None:
-            new_epoch = SimBody.epoch0
+            new_epoch = SimObject.epoch0
         if type(new_epoch) == Time:
             self._epoch = Time(new_epoch,
                                format='jd',
@@ -377,24 +383,24 @@ class SimObject:
         if type(new_end) == Time:
             self._end_epoch = new_end
 
-    @property
-    def t_range(self):
-        return self._t_range
-
-    @t_range.setter
-    def t_range(self, periods=None, spacing=None, ):
-        if type(periods) == int:
-            self._t_range = time_range(self._epoch,
-                                       periods=periods,
-                                       # TODO:  spacing = orbital_period / periods
-                                       #        reset value once orbital period it known
-                                       spacing=spacing,
-                                       format='jd',
-                                       scale='tdb', )
+    # @property
+    # def t_range(self):
+    #     return self._t_range
+    #
+    # @t_range.setter
+    # def t_range(self, periods=None, spacing=None, ):
+    #     if type(periods) == int:
+    #         self._t_range = time_range(self._epoch,
+    #                                    periods=periods,
+    #                                    # TODO:  spacing = orbital_period / periods
+    #                                    #        reset value once orbital period it known
+    #                                    spacing=spacing,
+    #                                    format='jd',
+    #                                    scale='tdb', )
 
     @property
     def elem_coe(self):
-        if self._is_primary:
+        if not self._parent:
             res = np.zeros((6,), dtype=np.float64)
         else:
             res = list(self._orbit.classical())
@@ -403,7 +409,7 @@ class SimObject:
 
     @property
     def elem_pqw(self):
-        if self._is_primary:
+        if not self._parent:
             res = np.zeros((3, 3), dtype=np.float64)
         else:
             res = list(self._orbit.pqw())
@@ -412,8 +418,10 @@ class SimObject:
 
     @property
     def elem_rv(self):
-        res = list(self._orbit.rv())
-
+        if not self._parent:
+            res = np.zeros((2, 3), dtype=np.float64)
+        else:
+            res = list(self._orbit.rv())
         return res
 
     @property
@@ -425,7 +433,7 @@ class SimObject:
         return self._orbit
 
     @property
-    def state_matrix(self):
+    def state(self):
         return self._state
 
     @property
@@ -447,24 +455,24 @@ class SimObject:
         if type(e) == Time:
             self._epoch = e
 
-    @property
-    def body_alpha(self):
-        return self._vizz_data['body_alpha']
-
-    @property
-    def track_alpha(self):
-        return self._vizz_data['track_alpha']
-
-    @property
-    def body_mark(self):
-        return self._vizz_data['body_mark']
-
-    @property
-    def body_color(self):
-        res = Color(self._vizz_data['body_color'])
-        res.alpha = self._vizz_data['body_alpha']
-
-        return res
+    # @property
+    # def body_alpha(self):
+    #     return self._vizz_data['body_alpha']
+    #
+    # @property
+    # def track_alpha(self):
+    #     return self._vizz_data['track_alpha']
+    #
+    # @property
+    # def body_mark(self):
+    #     return self._vizz_data['body_mark']
+    #
+    # @property
+    # def body_color(self):
+    #     res = Color(self._vizz_data['body_color'])
+    #     res.alpha = self._vizz_data['body_alpha']
+    #
+    #     return res
 
 
 if __name__ == "__main__":

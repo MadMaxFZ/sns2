@@ -266,7 +266,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(to_vector_str(data_set[i].value)))
+                        w.setText(str(to_vector_str(data_set[i])))
 
             case 'attr_':
                 data_set = curr_simbod.body
