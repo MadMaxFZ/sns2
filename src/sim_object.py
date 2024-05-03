@@ -13,6 +13,7 @@ from vispy.color import Color
 # from starsys_data import sys_data
 from poliastro.twobody.orbit.scalar import Orbit
 from PyQt5.QtCore import pyqtSignal, QObject
+from abc import ABC, abstractmethod, abstractproperty
 
 
 logging.basicConfig(filename="../logs/sns_sdimobj.log",
@@ -20,17 +21,17 @@ logging.basicConfig(filename="../logs/sns_sdimobj.log",
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 
-MIN_FOV = 1 / 3600      # I think this would be arc-seconds
+# MIN_FOV = 1 / 3600      # I think this would be arc-seconds
 vec_type = type(np.zeros((3,), dtype=np.float64))
 
 
-def toTD(epoch=None):
-    d = (epoch - J2000_TDB).jd
-    T = d / 36525
-    return dict(T=T, d=d)
+# def toTD(epoch=None):
+#     d = (epoch - J2000_TDB).jd
+#     T = d / 36525
+#     return dict(T=T, d=d)
 
 
-class SimObject:
+class SimObject(ABC):
     """
         TODO: Provide a base class method to create a SimBody based upon
               a provided Body object.
@@ -46,7 +47,8 @@ class SimObject:
                'elem',
                )
 
-    def __init__(self, body_data=None, vizz_data=None,):
+    def __init__(self, *args, **kwargs):
+        super(SimObject, self).__init__(*args, **kwargs)
         self._is_primary    = False
         self._RESAMPLE      = False
         self._parent        = None
@@ -62,136 +64,148 @@ class SimObject:
         self._o_period      = 1.0 * u.year
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._end_epoch     = self._epoch + self._periods * self._spacing
-        self._ephem: Ephem  = None
-        self._orbit: Orbit  = None
+        self._ephem         = None
+        self._orbit         = None
         self._trajectory    = None
-        self._field_dict = None
+        self._field_dict    = None
 
+    @abstractmethod
     def set_field_dict(self):
-        self._field_dict = {    # 'attr_': [self.body[i] for i in range(len(self.body._fields))],
-                            'pos': self.pos.value.round(4) * u.km,
-                            'rot': self.rot,
-                            # 'rad': self.body.R,
-                            # 'radii': self._rad_set,
-                            }
-        if self._parent:
-            self._field_dict.update({'elem_coe_': self.elem_coe})
-            self._field_dict.update({'elem_pqw_': self.elem_pqw})
-            self._field_dict.update({'elem_rv_': self.elem_rv})
+        pass
+        # self._field_dict = {    # 'attr_': [self.body[i] for i in range(len(self.body._fields))],
+        #                     'pos': self.pos.value.round(4) * u.km,
+        #                     'rot': self.rot,
+        #                     # 'rad': self.body.R,
+        #                     # 'radii': self._rad_set,
+        #                     }
+        # if self._parent:
+        #     self._field_dict.update({'elem_coe_': self.elem_coe})
+        #     self._field_dict.update({'elem_pqw_': self.elem_pqw})
+        #     self._field_dict.update({'elem_rv_': self.elem_rv})
 
+    @abstractmethod
     def field(self, field_key):
-        if field_key in self._field_dict.keys():
-            return self._field_dict[field_key]
-        else:
-            print(f'No field with name: <{field_key}>')
-            return None
+        pass
+        # if field_key in self._field_dict.keys():
+        #     return self._field_dict[field_key]
+        # else:
+        #     print(f'No field with name: <{field_key}>')
+        #     return None
 
+    @abstractmethod
     def set_ephem(self, epoch=None, t_range=None):
-        if epoch is None:
-            epoch = self._epoch
-        if t_range is None:                                         # sets t_range from epoch to epoch + orbital period
-            t_range = time_range(epoch,
-                                 periods=self._periods,
-                                 spacing=self._spacing,
-                                 format='jd',
-                                 scale='tdb',
-                                 )
-            self._end_epoch += self._periods * self._spacing
+        pass
+        # if epoch is None:
+        #     epoch = self._epoch
+        # if t_range is None:                    # sets t_range from epoch to epoch + orbital period
+        #     t_range = time_range(epoch,
+        #                          periods=self._periods,
+        #                          spacing=self._spacing,
+        #                          format='jd',
+        #                          scale='tdb',
+        #                          )
+        #     self._end_epoch += self._periods * self._spacing
+        #
+        # if self._orbit is None:                                     # no orbit defined
+        #     # TODO: Define a default Orbit  based upon vectors r and v
+        #     # self._ephem = Ephem.from_body(self._body,
+        #     #                               epochs=self._t_range,
+        #     #                               attractor=self._parent,
+        #     #                               plane=self._plane,
+        #     #                               )
+        #     pass
+        # elif self._orbit != 0:                                      # this body has a parent
+        #     self._ephem = Ephem.from_orbit(orbit=self._orbit,
+        #                                    epochs=t_range,
+        #                                    plane=self._plane,
+        #                                    )
+        #     Ephem.rv()
+        # logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
+        # print(f'EPHEM for {self.name:^9}: {self._ephem}')
 
-        if self._orbit is None:                                     # no orbit defined
-            # TODO: Define a default Orbit  based upon vectors r and v
-            # self._ephem = Ephem.from_body(self._body,
-            #                               epochs=self._t_range,
-            #                               attractor=self._parent,
-            #                               plane=self._plane,
-            #                               )
-            pass
-        elif self._orbit != 0:                                      # this body has a parent
-            self._ephem = Ephem.from_orbit(orbit=self._orbit,
-                                           epochs=t_range,
-                                           plane=self._plane,
-                                           )
-            Ephem.rv()
-        logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
-        print(f'EPHEM for {self.name:^9}: {self._ephem}')
-
+    @abstractmethod
     def set_orbit(self, ephem=None):
-        if ephem is None:
-            ephem = self._ephem
-
-        if self._parent is not None:
-            self._orbit = Orbit.from_ephem(self._parent,
-                                           ephem,
-                                           self._epoch,
-                                           )
-            # print(self._orbit)
-            logging.info(">>> COMPUTING ORBIT: %s",
-                         str(self._orbit))
-            if (self._trajectory is None) or (self._RESAMPLE is True):
-                self._trajectory = self._orbit.sample(720)
-                self._RESAMPLE = False
-
-        elif self._parent is None:
-            self._orbit = 0
-            logging.info(">>> NO PARENT BODY, Orbit set to: %s",
-                         str(self._orbit))
+        pass
+        # if ephem is None:
+        #     ephem = self._ephem
+        #
+        # if self._parent is not None:
+        #     self._orbit = Orbit.from_ephem(self._parent,
+        #                                    ephem,
+        #                                    self._epoch,
+        #                                    )
+        #     # print(self._orbit)
+        #     logging.info(">>> COMPUTING ORBIT: %s",
+        #                  str(self._orbit))
+        #     if (self._trajectory is None) or (self._RESAMPLE is True):
+        #         self._trajectory = self._orbit.sample(720)
+        #         self._RESAMPLE = False
+        #
+        # elif self._parent is None:
+        #     self._orbit = 0
+        #     logging.info(">>> NO PARENT BODY, Orbit set to: %s",
+        #                  str(self._orbit))
 
     @classmethod
     def _system(cls, _name):
         return cls.system[_name]
 
+    @abstractmethod
     def update_state(self, epoch=None):
-        """
+        pass
+        # """
+        #
+        # Parameters
+        # ----------
+        # simbody         :   SimBody         An instance of a SimBody object
+        # epoch           :   Time            The epoch to which the state is to be set
+        #
+        # Returns
+        # -------
+        # simbody._state  : np.ndarray(3, 3)  The state matrix for the new Simbody state
+        # """
+        # new_state = None
+        # if epoch:
+        #     if type(epoch) == Time:
+        #         self._epoch = epoch
+        #
+        #     if type(self._orbit) == Orbit:
+        #         new_orbit = self._orbit.propagate(self._epoch)
+        #         new_state = np.array([new_orbit.r.to(self._dist_unit).value,
+        #                               new_orbit.v.to(self._dist_unit / u.s).value,
+        #                               [0.0, 0.0, 0.0],
+        #                               ])
+        #         self._orbit = new_orbit
+        #     else:
+        #         new_state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit).value,
+        #                               self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s).value,
+        #                               [0.0, 0.0, 0.0],
+        #                               ])
+        #
+        # # self.update_pos(self._state.[0])
+        # logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
+        #              self,
+        #              self._epoch,
+        #              np.linalg.norm(new_state[0]),
+        #              np.linalg.norm(new_state[1]),
+        #              new_state[2],
+        #              )
+        # self._state = new_state
+        #
+        # return self._state
 
-        Parameters
-        ----------
-        simbody         :   SimBody         An instance of a SimBody object
-        epoch           :   Time            The epoch to which the state is to be set
-
-        Returns
-        -------
-        simbody._state  : np.ndarray(3, 3)  The state matrix for the new Simbody state
-        """
-        new_state = None
-        if epoch:
-            if type(epoch) == Time:
-                self._epoch = epoch
-
-            if type(self._orbit) == Orbit:
-                new_orbit = self._orbit.propagate(self._epoch)
-                new_state = np.array([new_orbit.r.to(self._dist_unit).value,
-                                      new_orbit.v.to(self._dist_unit / u.s).value,
-                                      [0.0, 0.0, 0.0],
-                                      ])
-                self._orbit = new_orbit
-            else:
-                new_state = np.array([self._ephem.rv(self._epoch)[0].to(self._dist_unit).value,
-                                      self._ephem.rv(self._epoch)[1].to(self._dist_unit / u.s).value,
-                                      [0.0, 0.0, 0.0],
-                                      ])
-
-        # self.update_pos(self._state.[0])
-        logging.info("Outputting state for\nBODY:%s\nEPOCH:%s\n||POS||:%s\n||VEL||:%s\nROT:%s\n",
-                     self,
-                     self._epoch,
-                     np.linalg.norm(new_state[0]),
-                     np.linalg.norm(new_state[1]),
-                     new_state[2],
-                     )
-        self._state = new_state
-
-        return self._state
-
+    @abstractmethod
     def get_field(self, f):
-        match f:
-            # case 'rel2cam':
-            #     return self.rel2cam
-            case 'pos':
-                return self.pos
-            case 'rot':
-                return self._state[2]
-            case 'track':
-                return self.track
+        pass
+        # match f:
+        #     # case 'rel2cam':
+        #     #     return self.rel2cam
+        #     case 'pos':
+        #         return self.pos
+        #     case 'rot':
+        #         return self._state[2]
+        #     case 'track':
+        #         return self.track
 
     @property
     def name(self):
@@ -236,7 +250,7 @@ class SimObject:
 
     @property
     def axes(self):
-        return self.x_ax, self.y_ax, self.z_ax, self.z_ax
+        return self.x_ax, self.y_ax, self.z_ax, self.z_ax       # what's up with this?
 
     @property
     def track(self):
@@ -290,30 +304,36 @@ class SimObject:
             self._end_epoch = new_end
 
     @property
+    @abstractproperty
     def elem_coe(self):
-        if not self._parent:
-            res = np.zeros((6,), dtype=np.float64)
-        else:
-            res = list(self._orbit.classical())
-
-        return res
+        pass
+        # if not self._parent:
+        #     res = np.zeros((6,), dtype=np.float64)
+        # else:
+        #     res = list(self._orbit.classical())
+        #
+        # return res
 
     @property
+    @abstractproperty
     def elem_pqw(self):
-        if not self._parent:
-            res = np.zeros((3, 3), dtype=np.float64)
-        else:
-            res = list(self._orbit.pqw())
-
-        return res
+        pass
+        # if not self._parent:
+        #     res = np.zeros((3, 3), dtype=np.float64)
+        # else:
+        #     res = list(self._orbit.pqw())
+        #
+        # return res
 
     @property
+    @abstractproperty
     def elem_rv(self):
-        if not self._parent:
-            res = np.zeros((2, 3), dtype=np.float64)
-        else:
-            res = list(self._orbit.rv())
-        return res
+        pass
+        # if not self._parent:
+        #     res = np.zeros((2, 3), dtype=np.float64)
+        # else:
+        #     res = list(self._orbit.rv())
+        # return res
 
     @property
     def ephem(self):

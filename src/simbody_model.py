@@ -144,26 +144,26 @@ class SimBody(SimObject):
         logging.info("EPHEM for %s: %s", self.name, str(self._ephem))
         print(f'EPHEM for {self.name:^9}: {self._ephem}')
 
-    # def set_orbit(self, ephem=None):
-    #     if ephem is None:
-    #         ephem = self._ephem
-    #
-    #     if self.body.parent is not None:
-    #         self._orbit = Orbit.from_ephem(self.body.parent,
-    #                                        ephem,
-    #                                        self._epoch,
-    #                                        )
-    #         # print(self._orbit)
-    #         logging.info(">>> COMPUTING ORBIT: %s",
-    #                      str(self._orbit))
-    #         if (self._trajectory is None) or (self._RESAMPLE is True):
-    #             self._trajectory = self._orbit.sample(720)
-    #             self._RESAMPLE = False
-    #
-    #     elif self._body.parent is None:
-    #         self._orbit = 0
-    #         logging.info(">>> NO PARENT BODY, Orbit set to: %s",
-    #                      str(self._orbit))
+    def set_orbit(self, ephem=None):
+        if ephem is None:
+            ephem = self._ephem
+
+        if self.body.parent is not None:
+            self._orbit = Orbit.from_ephem(self.body.parent,
+                                           ephem,
+                                           self._epoch,
+                                           )
+            # print(self._orbit)
+            logging.info(">>> COMPUTING ORBIT: %s",
+                         str(self._orbit))
+            if (self._trajectory is None) or (self._RESAMPLE is True):
+                self._trajectory = self._orbit.sample(720)
+                self._RESAMPLE = False
+
+        elif self._body.parent is None:
+            self._orbit = 0
+            logging.info(">>> NO PARENT BODY, Orbit set to: %s",
+                         str(self._orbit))
 
     @classmethod
     def _system(cls, _name):
@@ -211,16 +211,16 @@ class SimBody(SimObject):
 
         return self._state
 
-    # def get_field(self, f):
-        # match f:
-        #     # case 'rel2cam':
-        #     #     return self.rel2cam
-        #     case 'pos':
-        #         return self.pos
-        #     case 'rot':
-        #         return self._state[2]
-        #     case 'track':
-        #         return self.track
+    def get_field(self, f):
+        match f:
+            # case 'rel2cam':
+            #     return self.rel2cam
+            case 'pos':
+                return self.pos
+            case 'rot':
+                return self._state[2]
+            case 'track':
+                return self.track
 
     # @property
     # def name(self):
@@ -349,7 +349,7 @@ class SimBody(SimObject):
         else:
             return _pos + self._sys_primary.pos
 
-    @property
+    # @property
     # def epoch(self):
     #     return self._epoch
     #
@@ -388,30 +388,31 @@ class SimBody(SimObject):
                                        format='jd',
                                        scale='tdb', )
 
-    # @property
-    # def elem_coe(self):
-    #     if self._is_primary:
-    #         res = np.zeros((6,), dtype=np.float64)
-    #     else:
-    #         res = list(self._orbit.classical())
-    #
-    #     return res
-    #
-    # @property
-    # def elem_pqw(self):
-    #     if self._is_primary:
-    #         res = np.zeros((3, 3), dtype=np.float64)
-    #     else:
-    #         res = list(self._orbit.pqw())
-    #
-    #     return res
-    #
-    # @property
-    # def elem_rv(self):
-    #     res = list(self._orbit.rv())
-    #
-    #     return res
-    #
+    # TODO: Revert these to their earlier state. These will be implementing abstract SimObject properties
+    @property
+    def elem_coe(self):
+        if self._is_primary:
+            res = np.zeros((6,), dtype=np.float64)
+        else:
+            res = list(self._orbit.classical())
+
+        return res
+
+    @property
+    def elem_pqw(self):
+        if self._is_primary:
+            res = np.zeros((3, 3), dtype=np.float64)
+        else:
+            res = list(self._orbit.pqw())
+
+        return res
+
+    @property
+    def elem_rv(self):
+        res = list(self._orbit.rv())
+
+        return res
+
     # @property
     # def ephem(self):
     #     return self._ephem
