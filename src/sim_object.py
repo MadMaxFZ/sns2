@@ -91,17 +91,18 @@ class SimObject:
             epoch = self._epoch
         if t_range is None:                                         # sets t_range from epoch to epoch + orbital period
             t_range = time_range(epoch,
-                                  periods=self._periods,
-                                  spacing=self._spacing,
-                                  format='jd',
-                                  scale='tdb',
-                                  )
+                                 periods=self._periods,
+                                 spacing=self._spacing,
+                                 format='jd',
+                                 scale='tdb',
+                                 )
             self._end_epoch += self._periods * self._spacing
 
-        if self._orbit is None:                                     # first time through
+        if self._orbit is None:                                     # no orbit defined
+            # TODO: Define a default Orbit  based upon vectors r and v
             # self._ephem = Ephem.from_body(self._body,
             #                               epochs=self._t_range,
-            #                               attractor=self.body.parent,
+            #                               attractor=self._parent,
             #                               plane=self._plane,
             #                               )
             pass

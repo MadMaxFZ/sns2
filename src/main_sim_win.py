@@ -251,8 +251,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
             case 'elem_rv_':
                 [w.setText("") for w in widg_grp]
-                self.ui.elem_rv_0.setText(to_vector_str(curr_simbod.r))
-                self.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v))
+                self.ui.elem_rv_0.setText(to_vector_str(curr_simbod.r.value))
+                self.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v.value))
                 self.ui.elem_rv_3.setText(to_vector_str(curr_simbod.rot,
                                                         ('RA: ', '\nDEC:', '\nW:  '))
                                           )
