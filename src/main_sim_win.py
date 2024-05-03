@@ -66,7 +66,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         super(MainQtWindow, self).__init__(*args,
                                            **kwargs)
         self.timer_paused = True
-        self.interval = 100
+        self.interval = 10
         self.tw_hold = 0
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.model = SimSystem(auto_up=False)
@@ -110,6 +110,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                          'rotation1': Quaternion(+1.0, +0.0, +0.0, +0.0),
                                          }
                                         )
+        self.reset_rotation()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
 
