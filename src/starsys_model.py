@@ -281,8 +281,8 @@ class SimSystem(SimBodyDict):
                 return _simbod.is_primary
 
             case 'parent_name':
-                if _simbod.sb_parent:
-                    return _simbod.sb_parent.name
+                if _simbod.parent:
+                    return _simbod.body.parent.name
 
             case 'tex_data':
                 # TODO: Add a condition to check if texture data exists in an existing Planet visual.

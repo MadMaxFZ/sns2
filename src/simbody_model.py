@@ -34,20 +34,18 @@ class SimBody(SimObject):
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
-    #
-    # curr_camera = None
-    epoch0 = J2000_TDB.jd
-    system = {}
-    # created = pyqtSignal(str)
-    _fields = ('attr',
-               'pos',
-               'rot',
-               'elem',
-               )
+    # epoch0 = J2000_TDB.jd
+    # system = {}
+    # # created = pyqtSignal(str)
+    # _fields = ('attr',
+    #            'pos',
+    #            'rot',
+    #            'elem',
+    #            )
 
     def __init__(self, body_data=None, vizz_data=None,):
         super(SimBody, self).__init__()
-        # self._is_primary    = False
+        self._is_primary    = False
         self._prev_update   = None
         # self._RESAMPLE      = False
         self._sys_primary   = None
@@ -58,28 +56,18 @@ class SimBody(SimObject):
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
         self._sb_parent = None  # TODO:: Fix parent reference for subclass
-        self.x_ax           = np.array([1, 0, 0])
-        self.y_ax           = np.array([0, 1, 0])
-        self.z_ax           = np.array([0, 0, 1])
-        # self._dist_unit     = u.km
-        # self._plane         = Planes.EARTH_ECLIPTIC
-        # self._epoch         = Time(SimBody.epoch0, format='jd', scale='tdb')
-        # self._state         = np.zeros((3,), dtype=vec_type)
+        # self.x_ax           = np.array([1, 0, 0])
+        # self.y_ax           = np.array([0, 1, 0])
+        # self.z_ax           = np.array([0, 0, 1])
         self._periods       = 365
         self._spacing       = self._o_period.to(u.d) / self._periods
-        # self._t_range       = None
-        # self._end_epoch     = self._epoch + self._periods * self._spacing
-        # self._ephem: Ephem  = None
-        # self._orbit: Orbit  = None
-        # self._trajectory    = None
         self._rad_set       = None
         self._type          = None
-        self._curr_cam_id   = None
 
         self.set_radius()
         self.set_ephem(epoch=self._epoch)
         self.set_orbit(ephem=self._ephem)
-        self._field_dict = None
+        # self._field_dict = None
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
@@ -234,18 +222,14 @@ class SimBody(SimObject):
     def radius(self):
         return self._rad_set
 
-    # @property
-    # def dist_unit(self):
-    #     return self._dist_unit
-
     @property
-    def sb_parent(self):
-        return self._sb_parent
+    def parent(self):
+        return self._parent
 
-    @sb_parent.setter
-    def sb_parent(self, new_sb_parent=None):
+    @parent.setter
+    def parent(self, new_sb_parent=None):
         if type(new_sb_parent) == SimBody:
-            self._sb_parent = new_sb_parent
+            self._parent = new_sb_parent
 
     def set_parent(self, new_parent=None):
         if type(new_parent) == Body:
@@ -283,11 +267,11 @@ class SimBody(SimObject):
     # @property
     # def v(self):
     #     return self._state[1]
-    #
-    # @property
-    # def pos(self):
-    #     return self.pos2primary
-    #
+
+    @property
+    def pos(self):
+        return self.pos2primary
+
     # @property
     # def rot(self):
     #     return self._state[2]
@@ -313,33 +297,13 @@ class SimBody(SimObject):
     def W(self):
         return self._state[2, 2]
 
-    # @property
-    # def plane(self):
-    #     return self._plane
-    #
-    # @plane.setter
-    # def plane(self, new_plane=None):
-    #     self._plane = new_plane
-    #
-    # @property
-    # def spacing(self):
-    #     return self._spacing
-    #
-    # @property
-    # def RESAMPLE(self):
-    #     return self._RESAMPLE
-    #
-    # @RESAMPLE.setter
-    # def RESAMPLE(self, new_sample=True):
-    #     self._RESAMPLE = True
-    #
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
         _pos = self._state[0] * self._dist_unit
-        if self.body.parent is None:
+        if self._parent is None:
             return _pos
         else:
-            return _pos + self.sb_parent.pos2primary
+            return _pos + self._parent.pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):
@@ -348,45 +312,6 @@ class SimBody(SimObject):
             return _pos
         else:
             return _pos + self._sys_primary.pos
-
-    # @property
-    # def epoch(self):
-    #     return self._epoch
-    #
-    # @epoch.setter
-    # def epoch(self, new_epoch=None):
-    #     if new_epoch is None:
-    #         new_epoch = SimBody.epoch0
-    #     if type(new_epoch) == Time:
-    #         self._epoch = Time(new_epoch,
-    #                            format='jd',
-    #                            scale='tdb',
-    #                            )
-    #         # self.update_state()
-    #
-    # @property
-    # def end_epoch(self):
-    #     return self._end_epoch
-    #
-    # @end_epoch.setter
-    # def end_epoch(self, new_end=None):
-    #     if type(new_end) == Time:
-    #         self._end_epoch = new_end
-
-    @property
-    def t_range(self):
-        return self._t_range
-
-    @t_range.setter
-    def t_range(self, periods=None, spacing=None, ):
-        if type(periods) == int:
-            self._t_range = time_range(self._epoch,
-                                       periods=periods,
-                                       # TODO:  spacing = orbital_period / periods
-                                       #        reset value once orbital period it known
-                                       spacing=spacing,
-                                       format='jd',
-                                       scale='tdb', )
 
     # TODO: Revert these to their earlier state. These will be implementing abstract SimObject properties
     @property
@@ -413,36 +338,9 @@ class SimBody(SimObject):
 
         return res
 
-    # @property
-    # def ephem(self):
-    #     return self._ephem
-    #
-    # @property
-    # def orbit(self):
-    #     return self._orbit
-
     @property
     def state_matrix(self):
         return self._state
-
-    # @property
-    # def dist2parent(self):
-    #     return np.linalg.norm(self.pos)
-    #
-    # @property
-    # def vel(self):
-    #     """
-    #     TODO:  make this a property that returns the velocity of the body relative to system primary
-    #     Returns
-    #     -------
-    #     velocity of biody relative to its parent body
-    #     """
-    #     return self._state[1] * self._dist_unit
-    #
-    # @epoch.setter
-    # def epoch(self, e=None):
-    #     if type(e) == Time:
-    #         self._epoch = e
 
     @property
     def body_alpha(self):

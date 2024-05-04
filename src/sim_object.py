@@ -229,8 +229,8 @@ class SimObject(ABC):
         if type(new_parent) is SimObject:
             self._parent = new_parent
 
-    def set_parent(self, new_sb_parent=None):
-        self._parent = new_sb_parent
+    def set_parent(self, new_parent=None):
+        self._parent = new_parent
 
     @property
     def r(self):
@@ -292,7 +292,7 @@ class SimObject(ABC):
                                format='jd',
                                scale='tdb',
                                )
-            self.update_state()
+            # self.update_state()
 
     @property
     def end_epoch(self):
@@ -307,33 +307,16 @@ class SimObject(ABC):
     @abstractproperty
     def elem_coe(self):
         pass
-        # if not self._parent:
-        #     res = np.zeros((6,), dtype=np.float64)
-        # else:
-        #     res = list(self._orbit.classical())
-        #
-        # return res
 
     @property
     @abstractproperty
     def elem_pqw(self):
         pass
-        # if not self._parent:
-        #     res = np.zeros((3, 3), dtype=np.float64)
-        # else:
-        #     res = list(self._orbit.pqw())
-        #
-        # return res
 
     @property
     @abstractproperty
     def elem_rv(self):
         pass
-        # if not self._parent:
-        #     res = np.zeros((2, 3), dtype=np.float64)
-        # else:
-        #     res = list(self._orbit.rv())
-        # return res
 
     @property
     def ephem(self):
