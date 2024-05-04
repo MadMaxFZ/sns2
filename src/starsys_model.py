@@ -33,7 +33,7 @@ class SimSystem(SimBodyDict):
         body_names   : list     #   List of names of bodies to include in the model.
         use_multi    : bool     #   If True, use multiprocessing to speed up calculations.
         """
-        t0 = time.perf_counter()
+        self._t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
         self.USE_AUTO_UPDATE_STATE = auto_up
         self._IS_POPULATED = False
@@ -76,8 +76,8 @@ class SimSystem(SimBodyDict):
 
         solar_system_ephemeris.set("jpl")
         # self.load_from_names(self._current_body_names)
-        t1 = time.perf_counter()
-        print(f'SimSystem initialization took {t1 - t0:.6f} seconds...')
+        self._t1 = time.perf_counter()
+        print(f'SimSystem initialization took {(self._t1 - self._t0):.6f} seconds...')
 
     def load_from_names(self, _body_names=None):
         """
@@ -117,7 +117,7 @@ class SimSystem(SimBodyDict):
         self._HAS_INIT = True
 
     def update_state(self, epoch=None):
-        t0 = time.perf_counter()
+        self._t0 = self._t1
         if epoch:
             if type(epoch) == Time:
                 self._sys_epoch = epoch
@@ -132,8 +132,8 @@ class SimSystem(SimBodyDict):
             sb.epoch = epoch
             sb.update_state(self._sys_epoch)
 
-        t1 = time.perf_counter()
-        update_time = t1 - t0
+        self._t1 = time.perf_counter()
+        update_time = self._t1 - self._t0
         print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS')
         self.has_updated.emit()
 
