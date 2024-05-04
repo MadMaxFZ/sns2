@@ -47,7 +47,6 @@ class SimBody(SimObject):
         super(SimBody, self).__init__()
         self._is_primary    = False
         self._prev_update   = None
-        # self._RESAMPLE      = False
         self._sys_primary   = None
         self._body_data     = body_data
         self._vizz_data     = vizz_data
@@ -224,16 +223,16 @@ class SimBody(SimObject):
 
     @property
     def parent(self):
-        return self._parent
+        return self._sb_parent
 
     @parent.setter
     def parent(self, new_sb_parent=None):
         if type(new_sb_parent) == SimBody:
-            self._parent = new_sb_parent
+            self._sb_parent = new_sb_parent
 
-    def set_parent(self, new_parent=None):
-        if type(new_parent) == Body:
-            self._parent = new_parent
+    def set_parent(self, new_sb_parent=None):
+        if type(new_sb_parent) == Body:
+            self._sb_parent = new_sb_parent
 
     @property
     def sys_primary(self):
@@ -300,10 +299,10 @@ class SimBody(SimObject):
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
         _pos = self._state[0] * self._dist_unit
-        if self._parent is None:
+        if self._sb_parent is None:
             return _pos
         else:
-            return _pos + self._parent.pos2primary
+            return _pos + self._sb_parent.pos2primary
 
     @property                   # this returns the position of a body relative to system barycenter
     def pos2bary(self):

@@ -281,7 +281,7 @@ class SimSystem(SimBodyDict):
                 return _simbod.is_primary
 
             case 'parent_name':
-                if _simbod.parent:
+                if _simbod.body.parent:
                     return _simbod.body.parent.name
 
             case 'tex_data':
