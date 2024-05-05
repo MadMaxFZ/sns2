@@ -34,15 +34,6 @@ class SimBody(SimObject):
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
-    # epoch0 = J2000_TDB.jd
-    # system = {}
-    # # created = pyqtSignal(str)
-    # _fields = ('attr',
-    #            'pos',
-    #            'rot',
-    #            'elem',
-    #            )
-
     def __init__(self, body_data=None, vizz_data=None,):
         super(SimBody, self).__init__()
         self._is_primary    = False
@@ -55,9 +46,6 @@ class SimBody(SimObject):
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
         self._sb_parent = None  # TODO:: Fix parent reference for subclass
-        # self.x_ax           = np.array([1, 0, 0])
-        # self.y_ax           = np.array([0, 1, 0])
-        # self.z_ax           = np.array([0, 0, 1])
         self._periods       = 365
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._rad_set       = None
@@ -209,10 +197,6 @@ class SimBody(SimObject):
             case 'track':
                 return self.track
 
-    # @property
-    # def name(self):
-    #     return self._name
-
     @property
     def body(self):
         return self._body
@@ -259,30 +243,9 @@ class SimBody(SimObject):
     def type(self, new_type=None):
         self._type = new_type
 
-    # @property
-    # def r(self):
-    #     return self._state[0]
-    #
-    # @property
-    # def v(self):
-    #     return self._state[1]
-
     @property
     def pos(self):
         return self.pos2primary
-
-    # @property
-    # def rot(self):
-    #     return self._state[2]
-    #
-    # @property
-    # def axes(self):
-    #     return self.x_ax, self.y_ax, self.z_ax, self.z_ax
-    #
-    # @property
-    # def track(self):
-    #     if self._trajectory:
-    #         return self._trajectory.xyz.transpose().value
 
     @property
     def RA(self):
