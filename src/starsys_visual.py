@@ -3,6 +3,8 @@
 import sys
 import math
 import logging
+import time
+
 import numpy as np
 import astropy.units as u
 import vispy.visuals.transforms as trx
@@ -100,6 +102,8 @@ class StarSystemVisuals:
         self._vizz_data    = None
         self._body_radsets = None
         self.dist_unit     = u.km       # TODO: resolve any confusion with the fucking units...!
+        self._last_t       = None
+        self._curr_t       = None
 
         if body_names:
             self._body_names   = [n for n in body_names]
@@ -122,6 +126,7 @@ class StarSystemVisuals:
         None            : No return value, however all of the visuals for the sim rendering are
                           created here, collected together and then added to the scene.
         """
+        self._last_t = time.perf_counter()
         self._agg_cache = agg_data
         self._view = view
         self._scene = self._view.scene
@@ -148,6 +153,8 @@ class StarSystemVisuals:
                              surfcs=self._planets,
                              )
         self._upload2view()
+        self._curr_t = time.perf_counter()
+        print(f'Visuals generated in {(self._curr_t - self._last_t):.4f} seconds...')
 
     def _generate_planet_viz(self, body_name):
         """ Generate Planet visual object for each SimBody
@@ -209,6 +216,7 @@ class StarSystemVisuals:
         Has no return value, but updates the transforms for the Planet and Polygon visuals,
         also, updates the positions and sizes of the Markers icons.
         """
+        self._last_t = self._curr_t
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
         _p_face_colors = []
         _c_face_colors = []
@@ -264,7 +272,11 @@ class StarSystemVisuals:
                                     symbol=['diamond' for _ in range(self._body_count)],                  # <--
                                     )
         self._scene.update()
+        self._curr_t = time.perf_counter()
+        update_time = self._curr_t - self._last_t
+        print(f'Visuals updated in {update_time:.4f} seconds...')
         logging.info("\nSYMBOL SIZES :\t%s", self._symbol_sizes)
+        logging.info("VISUAL UPDATE TIME :\t%s", update_time)
         # logging.info("\nCAM_REL_DIST :\n%s", [np.linalg.norm(rel_pos) for rel_pos in self._pos_rel2cam])
 
     def get_symb_sizes(self, obs_cam=None):

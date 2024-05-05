@@ -190,9 +190,9 @@ def to_vector_str(vec, hdrs=None):
         if not hdrs:
             hdrs = ('X:', '\nY:', '\nZ:')
         # vec = vec.value
-        vec_str = str(hdrs[0] + pad_plus(f'{vec[0]:.4}') +
-                      hdrs[1] + pad_plus(f'{vec[1]:.4}') +
-                      hdrs[2] + pad_plus(f'{vec[2]:.4}'))
+        vec_str = str(hdrs[0] + pad_plus(f'{vec[0]:5.4}') +
+                      hdrs[1] + pad_plus(f'{vec[1]:5.4}') +
+                      hdrs[2] + pad_plus(f'{vec[2]:5.4}'))
 
         return vec_str
 
@@ -200,10 +200,10 @@ def to_vector_str(vec, hdrs=None):
 def to_quat_str(quat):
     if quat is not None:
         # print(f'{type(quat)}')
-        quat_str = str("X: " + f'{quat.x:.4}' +
-                       "\nY: " + f'{quat.y:.4}' +
-                       "\nZ: " + f'{quat.z:.4}' +
-                       "\nW: " + f'{quat.w:.4}')
+        quat_str = str("X: " + f'{quat.x:5.4}' +
+                       "\nY: " + f'{quat.y:5.4}' +
+                       "\nZ: " + f'{quat.z:5.4}' +
+                       "\nW: " + f'{quat.w:5.4}')
 
         return quat_str
 
@@ -212,20 +212,20 @@ def to_euler_str(quat):
     if quat is not None:
         t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
         t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
-        roll_x = math.atan2(t0, t1) * 180 / math.pi + 90
+        roll_x = round(math.atan2(t0, t1) * 180 / math.pi + 90, 4)
 
         t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
         t2 = +1.0 if t2 > +1.0 else t2
         t2 = -1.0 if t2 < -1.0 else t2
-        pitch_y = math.asin(t2) * 180 / math.pi
+        pitch_y = round(math.asin(t2) * 180 / math.pi, 4)
 
         t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
         t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
-        yaw_z = math.atan2(t3, t4) * 180 / math.pi
+        yaw_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
 
-        eul_str = str("P: " + pad_plus(f'{-roll_x:.4}') +
-                      "\nY: " + pad_plus(f'{pitch_y:.4}') +
-                      "\nR: " + pad_plus(f'{yaw_z:.4}'))
+        eul_str = str("P: " + pad_plus(f'{-roll_x:5.4}') +
+                      "\nY: " + pad_plus(f'{pitch_y:5.4}') +
+                      "\nR: " + pad_plus(f'{yaw_z:5.4}'))
 
         return eul_str
 

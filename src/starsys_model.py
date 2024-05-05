@@ -118,6 +118,7 @@ class SimSystem(SimBodyDict):
 
     def update_state(self, epoch=None):
         self._t0 = self._t1
+        _tx = time.perf_counter()
         if epoch:
             if type(epoch) == Time:
                 self._sys_epoch = epoch
@@ -134,7 +135,7 @@ class SimSystem(SimBodyDict):
 
         self._t1 = time.perf_counter()
         update_time = self._t1 - self._t0
-        print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS')
+        print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS (1/{update_time:.4f})\n  Model updated in {self._t1 - _tx:.4f} seconds...')
         self.has_updated.emit()
 
     def _set_parentage(self, sb):
