@@ -105,9 +105,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         y=self.visuals.vizz_bounds,
                                         z=self.visuals.vizz_bounds,
                                         )
-        self.cameras.curr_cam.set_state({'center': (0.0, 0.0, 8.0e+08),
-                                         # 'scale_factor': 0.5e+08,
-                                         'rotation1': Quaternion(+1.0, +0.0, +0.0, +0.0),
+        self.cameras.curr_cam.set_state({'center': (0.0, -8.0e+08, 0.0),
+                                         'scale_factor': 0.5e+08,
+                                         'rotation1': Quaternion(+0.7071, -0.7071, +0.0, +0.0),
                                          }
                                         )
         self.reset_rotation()

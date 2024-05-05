@@ -212,7 +212,7 @@ def to_euler_str(quat):
     if quat is not None:
         t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
         t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
-        roll_x = math.atan2(t0, t1) * 180 / math.pi
+        roll_x = math.atan2(t0, t1) * 180 / math.pi + 90
 
         t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
         t2 = +1.0 if t2 > +1.0 else t2
