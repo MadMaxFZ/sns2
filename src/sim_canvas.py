@@ -22,13 +22,14 @@ class CanvasWrapper:
     qt_keypress = pyqtSignal(str)
     qt_mouse_move = pyqtSignal()
 
-    def __init__(self, _camera_set, on_draw_sig):
+    def __init__(self, on_draw_sig):
         self._canvas = MainSimCanvas()
         self._scene = self._canvas.view.scene
         self._view = self._canvas.view
         self._canvas.update_signal = on_draw_sig
 
     def update_canvas(self):
+        # pass
         self._canvas.draw_scene()
 
     @property
@@ -54,6 +55,10 @@ class CanvasWrapper:
     @property
     def scene(self):
         return self._scene
+
+    @property
+    def cam_set(self):
+        return self._canvas.cam_set
 
 
 class MainSimCanvas(scene.SceneCanvas):
@@ -186,6 +191,10 @@ class MainSimCanvas(scene.SceneCanvas):
     @property
     def vizz(self):
         return self._sys_vizz
+
+    @property
+    def cam_set(self):
+        return self._cam_set
 
 
 if __name__ == "__main__":

@@ -77,8 +77,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #       CONSIDER:   Encapsulating the CanvasWrapper instance inside the
         #                   StarSystemVisuals class, which would assume the role of CanvasWrapper
 
-        self.cameras = CameraSet()
-        self.canvas = CanvasWrapper(self.cameras, self.on_draw_sig)
+        self.canvas = CanvasWrapper(self.on_draw_sig)
+        self.cameras = self.canvas.cam_set
         self.controls = Controls()
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget(self)

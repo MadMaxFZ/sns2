@@ -263,17 +263,17 @@ class SimBody(SimObject):
     def pos2primary(self):
         _pos = self._state[0] * self._dist_unit
         if self._sb_parent is None:
-            return _pos
+            return np.zeros((3,), dtype=np.float64) * self._dist_unit
         else:
             return _pos + self._sb_parent.pos2primary
 
-    @property                   # this returns the position of a body relative to system barycenter
-    def pos2bary(self):
-        _pos = self._state[0] * self._dist_unit
-        if self.is_primary:
-            return _pos
-        else:
-            return _pos + self._sys_primary.pos
+    # @property                   # this returns the position of a body relative to system barycenter
+    # def pos2bary(self):
+    #     _pos = self._state[0] * self._dist_unit
+    #     if self.is_primary:
+    #         return _pos
+    #     else:
+    #         return _pos + self._sys_primary.pos
 
     # TODO: Revert these to their earlier state. These will be implementing abstract SimObject properties
     @property
