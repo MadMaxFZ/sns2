@@ -208,7 +208,7 @@ def to_quat_str(quat):
         return quat_str
 
 
-def to_euler_str(quat):
+def quat_to_euler(quat):
     if quat is not None:
         t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
         t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
@@ -222,6 +222,12 @@ def to_euler_str(quat):
         t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
         t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
         yaw_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
+
+        return roll_x, pitch_y, yaw_z
+
+
+def to_euler_str(quat):
+        roll_x, pitch_y, yaw_z = quat_to_euler(quat)
 
         eul_str = str("P: " + pad_plus(f'{-roll_x:5.4}') +
                       "\nY: " + pad_plus(f'{pitch_y:5.4}') +

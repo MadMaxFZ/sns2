@@ -6,6 +6,7 @@ from PyQt5.QtCore import pyqtSignal
 from vispy import app, scene
 from vispy.color import Color
 from vispy.scene.cameras import BaseCamera
+from camera_dict import CameraSet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.DEBUG,
@@ -22,7 +23,7 @@ class CanvasWrapper:
     qt_mouse_move = pyqtSignal()
 
     def __init__(self, _camera_set, on_draw_sig):
-        self._canvas = MainSimCanvas(camera_set=_camera_set)
+        self._canvas = MainSimCanvas()
         self._scene = self._canvas.view.scene
         self._view = self._canvas.view
         self._canvas.update_signal = on_draw_sig
@@ -63,7 +64,7 @@ class MainSimCanvas(scene.SceneCanvas):
     #   TODO::  Refactor to remove all references to the StarSystemModel instance.
     #           This class only needs to handle the CameraSet and key/mouse events here.
     #           There may need to be methods added to handle some operations for this SceneCanvas.
-    def __init__(self, camera_set):
+    def __init__(self):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
                                             show=False,
@@ -72,7 +73,7 @@ class MainSimCanvas(scene.SceneCanvas):
                                             )
         self.unfreeze()
         self._sys_vizz = None
-        self._cam_set = camera_set
+        self._cam_set = CameraSet()
         self._viewbox = self.central_widget.add_view()
         self.update_signal = None
         self.assign_camera(new_cam=self._cam_set.curr_cam)

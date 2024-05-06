@@ -23,7 +23,6 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
 from astropy.time import Time
-from camera_dict import CameraSet
 from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
@@ -177,6 +176,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveBody(self, new_body_name):
         if new_body_name in self.model.body_names:
             self.controls.set_active_body(new_body_name)
+            if self.ui.cam2selected.isChecked():
+                pass
+                # self.cameras.curr_cam.set_state()
 
         self.refresh_panel('attr_')
         self.updatePanels('')
