@@ -23,7 +23,7 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
 from astropy.time import Time
-from starsys_model import SimSystem
+from starsys_model import SystemWrapper
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
 from starsys_visual import StarSystemVisuals
@@ -44,6 +44,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     main_window_ready = pyqtSignal(str)
     panel_refreshed = pyqtSignal(str)
     on_draw_sig    = psygnal.Signal(str)
+    vispy_keypress = psygnal.Signal(str)
     # newActiveTab = pyqtSignal(int)
     # newActiveCam = pyqtSignal(int)
 
@@ -68,7 +69,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.interval = 10
         self.tw_hold = 0
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.model = SimSystem(auto_up=False)
+        self.system = SystemWrapper(auto_up=False)
+        self.model = self.system.model
         self.model.load_from_names()
         [sb.set_field_dict() for sb in self.model.data.values()]    # if not sb.is_primary]
 
@@ -77,7 +79,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         #       CONSIDER:   Encapsulating the CanvasWrapper instance inside the
         #                   StarSystemVisuals class, which would assume the role of CanvasWrapper
 
-        self.canvas = CanvasWrapper(self.on_draw_sig)
+        self.canvas = CanvasWrapper(self.on_draw_sig, self.vispy_keypress)
         self.cameras = self.canvas.cam_set
         self.controls = Controls()
         self.ui = self.controls.ui
@@ -113,6 +115,20 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
 
+    def _key_handler(self, key_chr):
+        match key_chr:
+
+            case "[":
+                # lower time warp
+                pass
+
+            case "]":
+                # increase time warp
+                pass
+
+            case "[":
+                pass
+
     def _setup_layout(self):
         # TODO:     Learn more about the QSplitter object
         main_layout = QtWidgets.QHBoxLayout()
@@ -132,6 +148,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.main_window_ready.connect(self.setActiveBody)
         self.main_window_ready.connect(self.setActiveCam)
         self.main_window_ready.connect(self.refresh_canvas)
+        self.canvas.key_sig.connect(self._key_handler)
 
         # Handling changes in the GUI
         self.ui.bodyBox.currentIndexChanged.connect(self.ui.bodyList.setCurrentRow)

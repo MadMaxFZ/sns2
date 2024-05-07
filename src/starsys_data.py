@@ -25,7 +25,7 @@ logging.basicConfig(filename=SNS_SOURCE_PATH + "../logs/sns_defs.log",
 DEF_UNITS     = u.km
 DEF_EPOCH0    = J2000_TDB
 DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
-
+vec_type = type(np.zeros((3,), dtype=np.float64))
 
 def get_texture_data(fname=DEF_TEX_FNAME):
     with Image.open(fname) as im:

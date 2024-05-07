@@ -22,19 +22,22 @@ class CanvasWrapper:
     qt_keypress = pyqtSignal(str)
     qt_mouse_move = pyqtSignal()
 
-    def __init__(self, on_draw_sig):
-        self._canvas = MainSimCanvas()
+    def __init__(self, on_draw_sig, vispy_kb_sig):
+        self._canvas = MainSimCanvas(on_draw_sig, vispy_kb_sig)
         self._scene = self._canvas.view.scene
         self._view = self._canvas.view
-        self._canvas.update_signal = on_draw_sig
 
     def update_canvas(self):
         # pass
         self._canvas.draw_scene()
 
     @property
-    def canvas_sig(self):
+    def up_sig(self):
         return self._canvas.update_signal
+
+    @property
+    def key_sig(self):
+        return self._canvas.keybrd_signal
 
     @property
     def curr_cam(self):
@@ -69,7 +72,7 @@ class MainSimCanvas(scene.SceneCanvas):
     #   TODO::  Refactor to remove all references to the StarSystemModel instance.
     #           This class only needs to handle the CameraSet and key/mouse events here.
     #           There may need to be methods added to handle some operations for this SceneCanvas.
-    def __init__(self):
+    def __init__(self, up_sig, key_sig):
         super(MainSimCanvas, self).__init__(keys="interactive",
                                             size=(800, 600),
                                             show=False,
@@ -80,7 +83,8 @@ class MainSimCanvas(scene.SceneCanvas):
         self._sys_vizz = None
         self._cam_set = CameraSet()
         self._viewbox = self.central_widget.add_view()
-        self.update_signal = None
+        self.update_signal = up_sig
+        self.keybrd_signal = key_sig
         self.assign_camera(new_cam=self._cam_set.curr_cam)
         self.freeze()
 
@@ -116,7 +120,7 @@ class MainSimCanvas(scene.SceneCanvas):
                      from a file.
         """
         try:
-            # self.vispy_keypress.emit(ev)
+            vispy_keypress.emit(ev.key.name)
             if ev.key.name == "+":          # increase camera scale factor
                 self._viewbox.camera.scale_factor *= 1.1
                 print("SCALE_FACTOR", self._viewbox.camera.scale_factor)
@@ -134,12 +138,14 @@ class MainSimCanvas(scene.SceneCanvas):
                 print("CAM_FOV", self._viewbox.camera.fov)
 
             elif ev.key.name == "]":        # increase time warp factor
-                self.model.t_warp *= 1.1
-                print("TIME_WARP:", self.model.t_warp)
+                pass
+                # self.model.t_warp *= 1.1
+                # print("TIME_WARP:", self.model.t_warp)
 
             elif ev.key.name == "[":        # decrease time warp factor
-                self.model.t_warp *= 0.9
-                print("TIME_WARP:", self.model.t_warp)
+                pass
+                # self.model.t_warp *= 0.9
+                # print("TIME_WARP:", self.model.t_warp)
 
             elif ev.key.name == "\\":       # toggle timer on/off
                 print("Toggle timer...")

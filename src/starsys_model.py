@@ -1,16 +1,20 @@
 # starsys_model.py
 import time
-import urllib.parse
-
+import numpy as np
 import psygnal
-from starsys_data import *
+from starsys_data import vec_type, SystemDataStore, Planes
 from simbody_dict import SimBodyDict
 from simbody_model import SimBody
-from starsys_visual import from_pos
-from vispy.color import *
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time, TimeDeltaSec
+from poliastro.bodies import Body
 from PyQt5.QtCore import QObject
+
+
+class SystemWrapper(QObject):
+    def __init__(self, *args, **kwargs):
+        super(SystemWrapper, self).__init__()
+        self.model = SimSystem(*args, **kwargs)
 
 
 class SimSystem(SimBodyDict):
@@ -42,9 +46,12 @@ class SimSystem(SimBodyDict):
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = use_multi
         self._sys_primary = None
-        self._sys_rel_pos = None
-        self._sys_rel_vel = None
-        self._bod_tot_acc = None
+        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._bod_tot_acc = np.zeros((self._body_count,),
+                                     dtype=vec_type)
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
                                   'elem_coe_', 'elem_pqw_', 'elem_rv',
                                   'is_primary',
@@ -107,12 +114,7 @@ class SimSystem(SimBodyDict):
         self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
         [self._set_parentage(sb) for sb in self.data.values() if sb.body.parent]
         self._IS_POPULATED = True
-        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-                                     dtype=self._vec_type)
-        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-                                     dtype=self._vec_type)
-        self._bod_tot_acc = np.zeros((self._body_count,),
-                                     dtype=self._vec_type)
+
         self.update_state(epoch=self._sys_epoch)
         self._HAS_INIT = True
 
