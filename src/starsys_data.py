@@ -584,3 +584,82 @@ if __name__ == "__main__":
         exit()
 
     main()
+
+"""
+    The following moons of the Solar System are tidally locked:
+        Mercury:    (3-2 spin-orbit resonance)
+        
+        Earth:      Moon
+        
+        Mars:       Phobos
+                    Deimos
+        
+        Jupiter:    Io
+                    Europa
+                    Ganymede
+                    Callisto
+                    Amalthea
+                    Himalia
+                    Elara
+                    Pasiphae
+                    Metis
+                    Adrastea
+                    Thebe
+        
+        Saturn:     Titan
+                    Enceladus
+                    Pan
+                    Atlas
+                    Prometheus
+                    Pandora
+                    Epimetheus
+                    Janus
+                    Mimas
+                    Telesto
+                    Tethys
+                    Calypso
+                    Dione
+                    Rhea
+                    Iapetus
+                    - Daphnis
+                    - Aegaeon
+                    - Methone
+                    - Anthe
+                    - Pallene
+                    - Helene
+                    - Polydeuces
+                    Hyperion    (rotates chaotically)
+        
+        Uranus:     Miranda
+                    Ariel
+                    Umbriel
+                    Titania
+                    Oberon
+                    - Cordelia
+                    - Ophelia
+                    - Bianca
+                    - Cressida
+                    - Desdemona
+                    - Juliet
+                    - Portia
+                    - Rosalind
+                    - Cupid
+                    - Belinda
+                    - Perdita
+                    - Puck
+                    - Mab
+        
+        Neptune:    Proteus
+                    Triton
+                    - Naiad
+                    - Thalassa
+                    - Despina
+                    = Galatea
+                    - Larissa
+        
+        Pluto:      Charon      (mutually locked)
+        
+        Eris:       Dysnomia    (mutually locked)
+
+        Orcus:      Vanth       (mutually locked)
+"""
