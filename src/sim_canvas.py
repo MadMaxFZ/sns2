@@ -161,18 +161,6 @@ class MainSimCanvas(scene.SceneCanvas):
         self.update()
         # self.update_signal.emit('')
 
-    # def run(self):
-    #     self.show()
-    #     self._system_model.cmd_timer()
-    #     app.run()
-    #
-    # def toggle_timer(self):
-    #     self._system_model.cmd_timer()
-    #
-    # @property
-    # def model(self):
-    #     return self._system_model
-
     def quit(self):
         app.quit()
 
