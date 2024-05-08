@@ -8,7 +8,7 @@ from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time
 from vispy.color import Color
-# from starsys_data import sys_data
+from starsys_data import vec_type
 from poliastro.bodies import Body
 from poliastro.twobody.orbit.scalar import Orbit
 
@@ -20,7 +20,6 @@ logging.basicConfig(filename="../logs/sns_simbodmod.log",
                     )
 
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
-vec_type = type(np.zeros((3,), dtype=np.float64))
 
 
 def toTD(epoch=None):
@@ -266,14 +265,6 @@ class SimBody(SimObject):
             return np.zeros((3,), dtype=np.float64) * self._dist_unit
         else:
             return _pos + self._sb_parent.pos2primary
-
-    # @property                   # this returns the position of a body relative to system barycenter
-    # def pos2bary(self):
-    #     _pos = self._state[0] * self._dist_unit
-    #     if self.is_primary:
-    #         return _pos
-    #     else:
-    #         return _pos + self._sys_primary.pos
 
     # TODO: Revert these to their earlier state. These will be implementing abstract SimObject properties
     @property
