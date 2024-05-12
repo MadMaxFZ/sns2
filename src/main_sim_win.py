@@ -23,7 +23,7 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
 from poliastro.bodies import Body
 from astropy.units.quantity import Quantity
 from astropy.time import Time
-from starsys_model import SystemWrapper
+from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
 from starsys_visual import StarSystemVisuals
@@ -69,9 +69,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.interval = 10
         self.tw_hold = 0
         self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
-        self.system = SystemWrapper(auto_up=False)
+        self.model = SimSystem()
         # self.model = self.system.model
-        self.system.model.load_from_names()
+        self.model.load_from_names()
         # [sb.set_field_dict() for sb in self.system.model.data.values()]    # if not sb.is_primary]
 
         #       TODO:   Encapsulate the creation of the CameraSet instance inside the
@@ -91,12 +91,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                  'body_color', 'track_data', 'tex_data', 'is_primary',
                                  'axes', 'rot', 'parent_name'
                                  )
-        self.visuals = StarSystemVisuals(self.system.model.body_names)
+        self.visuals = StarSystemVisuals(self.model.body_names)
         self.visuals.generate_visuals(self.canvas.view,
-                                      self.system.model.get_agg_fields(self._vizz_fields2agg))
+                                      self.model.get_agg_fields(self._vizz_fields2agg))
 
         self._setup_layout()
-        self.controls.init_controls(self.system.model.body_names, self.cameras.cam_ids)
+        self.controls.init_controls(self.model.body_names, self.cameras.cam_ids)
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()
@@ -162,8 +162,8 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.time_elapsed.textChanged.connect(self.controls.tw_elapsed_updated)
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
-        self.system.model.has_updated.connect(self.canvas.update_canvas)
-        self.system.model.has_updated.connect(self.refresh_canvas)
+        self.model.has_updated.connect(self.canvas.update_canvas)
+        self.model.has_updated.connect(self.refresh_canvas)
 
         self.timer.setInterval(self.interval)
         self.timer.timeout.connect(self.update_elapsed)
@@ -191,7 +191,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot(str)
     def setActiveBody(self, new_body_name):
-        if new_body_name in self.system.model.body_names:
+        if new_body_name in self.model.body_names:
             self.controls.set_active_body(new_body_name)
             if self.ui.cam2selected.isChecked():
                 pass
@@ -217,15 +217,15 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def refresh_canvas(self):
-        self.visuals.update_vizz(self.system.model.get_agg_fields(self._vizz_fields2agg))
+        self.visuals.update_vizz(self.model.get_agg_fields(self._vizz_fields2agg))
         self.canvas.update_canvas()
         self.updatePanels('')
 
     @pyqtSlot()
     def update_model_epoch(self):
-        self.system.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
-        if not self.system.model._USE_AUTO_UPDATE_STATE:
-            self.system.model.update_state(self.system.model.epoch)
+        self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
+        if not self.model._USE_AUTO_UPDATE_STATE:
+            self.model.update_state(self.model.epoch)
 
     @pyqtSlot()
     def toggle_play_pause(self):
@@ -253,7 +253,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         widg_grp    = self.controls.widget_group(panel_key)
         # show_it(widg_grp)
-        curr_simbod = self.system.model.data[self.controls.ui.bodyBox.currentText()]
+        curr_simbod = self.model.data[self.controls.ui.bodyBox.currentText()]
         curr_cam_id = self.controls.ui.camBox.currentText()
 
         match panel_key:
@@ -263,7 +263,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     for w in widg_grp:
                         w.setText('')
                 else:
-                    data_set = self.system.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
+                    data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
                     # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
@@ -282,7 +282,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     for w in widg_grp:
                         w.setText('')
                 else:
-                    data_set = self.system.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
+                    data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
                     # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')

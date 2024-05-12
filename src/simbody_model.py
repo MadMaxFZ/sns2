@@ -139,10 +139,6 @@ class SimBody(SimObject):
             logging.info(">>> NO PARENT BODY, Orbit set to: %s",
                          str(self._orbit))
 
-    @classmethod
-    def _system(cls, _name):
-        return cls.system[_name]
-
     def update_state(self, epoch=None):
         """
 

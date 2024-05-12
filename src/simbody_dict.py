@@ -70,6 +70,8 @@ class SimBodyDict(dict):
     def __getitem__(self, name):
         return self.data[name]
 
+    '''===== METHODS ==========================================================================================='''
+
     def _validate_simbody(self, simbody):
         if not isinstance(simbody, SimBody):
             raise TypeError("SimBody object expected")
@@ -128,6 +130,8 @@ class SimBodyDict(dict):
             if sb.body.parent:
                 sb.parent = self.data[sb.body.parent.name]
         self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
+
+    '''===== PROPERTIES ==========================================================================================='''
 
     @property
     def primary(self):

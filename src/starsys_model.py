@@ -19,7 +19,7 @@ class SystemWrapper(QObject):
         -------
         None
         """
-        super(SystemWrapper, self).__init__()
+        super(SystemWrapper, self).__init__(parent=None)
         self.model = SimSystem(*args, **kwargs)
 
 
@@ -44,7 +44,7 @@ class SimSystem(SimBodyDict):
         self._t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
         self._t1 = time.perf_counter()
-        print(f'SimSystem declaration took {(self._t1 - self._t0):4f} seconds...')
+        print(f'SimSystem declaration took {(self._t1 - self._t0) * 1e-06:.4f} seconds...')
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
                                   'elem_coe_', 'elem_pqw_', 'elem_rv',
                                   'is_primary',

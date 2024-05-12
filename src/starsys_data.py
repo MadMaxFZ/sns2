@@ -27,6 +27,7 @@ DEF_EPOCH0    = J2000_TDB
 DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
 vec_type = type(np.zeros((3,), dtype=np.float64))
 
+
 def get_texture_data(fname=DEF_TEX_FNAME):
     with Image.open(fname) as im:
         print(fname, im.format, f"{im. size}x{im.mode}")
@@ -222,6 +223,16 @@ def quat_to_euler(quat):
         t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
         t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
         yaw_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
+
+        if roll_x >= 180:
+            roll_x -= 360
+        elif roll_x <= -180:
+            roll_x += 360
+
+        if yaw_z >= 180:
+            yaw_z -= 360
+        elif yaw_z <= -180:
+            yaw_z += 360
 
         return roll_x, pitch_y, yaw_z
 
