@@ -219,7 +219,7 @@ def quat_to_euler(quat):
         # quat.w = abs(quat.w)
         t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
         t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
-        roll_x = round(math.atan2(t0, t1) * 180 / math.pi, 4)
+        yaw_x = round(math.atan2(t0, t1) * 180 / math.pi, 4)
 
         t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
         t2 = +1.0 if t2 > +1.0 else t2
@@ -228,27 +228,27 @@ def quat_to_euler(quat):
 
         t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
         t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
-        yaw_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
+        roll_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
 
-        if roll_x >= 180:
-            roll_x -= 360
-        elif roll_x <= -180:
-            roll_x += 360
+        if yaw_x >= 180:
+            yaw_x -= 360
+        elif yaw_x <= -180:
+            yaw_x += 360
 
-        if yaw_z >= 180:
-            yaw_z -= 360
-        elif yaw_z <= -180:
-            yaw_z += 360
+        if roll_z >= 180:
+            roll_z -= 360
+        elif roll_z <= -180:
+            roll_z += 360
 
-        return roll_x, pitch_y, yaw_z
+        return yaw_x, pitch_y, roll_z
 
 
 def to_euler_str(quat):
-        roll_x, pitch_y, yaw_z = quat_to_euler(quat)
+        yaw_x, pitch_y, roll_z = quat_to_euler(quat)
 
-        eul_str = str("R: " + pad_plus(f'{-roll_x:5.4}') +
+        eul_str = str("R: " + pad_plus(f'{roll_z:5.4}') +
                       "\nP: " + pad_plus(f'{pitch_y:5.4}') +
-                      "\nY: " + pad_plus(f'{yaw_z:5.4}'))
+                      "\nY: " + pad_plus(f'{yaw_x:5.4}'))
 
         return eul_str
 

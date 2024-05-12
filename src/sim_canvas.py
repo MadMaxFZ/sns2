@@ -120,7 +120,7 @@ class MainSimCanvas(scene.SceneCanvas):
                      from a file.
         """
         try:
-            vispy_keypress.emit(ev.key.name)
+            self.vispy_keypress.emit(ev.key.name)
             if ev.key.name == "+":          # increase camera scale factor
                 self._viewbox.camera.scale_factor *= 1.1
                 print("SCALE_FACTOR", self._viewbox.camera.scale_factor)
