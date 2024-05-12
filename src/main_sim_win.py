@@ -72,13 +72,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.system = SystemWrapper(auto_up=False)
         # self.model = self.system.model
         self.system.model.load_from_names()
-        [sb.set_field_dict() for sb in self.system.model.data.values()]    # if not sb.is_primary]
+        # [sb.set_field_dict() for sb in self.system.model.data.values()]    # if not sb.is_primary]
 
         #       TODO:   Encapsulate the creation of the CameraSet instance inside the
         #               CanvasWrapper class, which will expose methods to manipulate the cameras.
         #       CONSIDER:   Encapsulating the CanvasWrapper instance inside the
         #                   StarSystemVisuals class, which would assume the role of CanvasWrapper
-
         self.canvas = CanvasWrapper(self.on_draw_sig, self.vispy_keypress)
         self.cameras = self.canvas.cam_set
         self.controls = Controls()
@@ -106,6 +105,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         y=self.visuals.vizz_bounds,
                                         z=self.visuals.vizz_bounds,
                                         )
+        # set the initial camera position in the ecliptic looking towards the primary
         self.cameras.curr_cam.set_state({'center': (0.0, -8.0e+08, 0.0),
                                          'scale_factor': 0.5e+08,
                                          'rotation1': Quaternion(+0.7071, -0.7071, +0.0, +0.0),
@@ -225,7 +225,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def update_model_epoch(self):
         self.system.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
         if not self.system.model._USE_AUTO_UPDATE_STATE:
-            self.system.model.update_state()
+            self.system.model.update_state(self.system.model.epoch)
 
     @pyqtSlot()
     def toggle_play_pause(self):

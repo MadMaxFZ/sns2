@@ -1,6 +1,8 @@
 from abc import abstractmethod
 from collections import UserDict
+import time
 import numpy as np
+from psygnal import Signal
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time, TimeDeltaSec
 from simbody_model import SimBody
@@ -8,6 +10,8 @@ from starsys_data import vec_type, SystemDataStore, Planes
 
 
 class SimBodyDict(dict):
+
+    has_updated = Signal()
 
     def __init__(self, epoch=None, data=None, ref_data=None, body_names=None, use_multi=False, auto_up=False):
         super().__init__()
@@ -33,6 +37,7 @@ class SimBodyDict(dict):
         self._dist_unit = self.ref_data.dist_unit
         self._vec_type = self.ref_data.vec_type
         self._valid_body_names = self.ref_data.body_names
+
         if body_names:
             self._current_body_names = tuple([n for n in body_names if n in self._valid_body_names])
         else:
@@ -45,12 +50,13 @@ class SimBodyDict(dict):
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
-
         if epoch:
             self._sys_epoch = epoch
         else:
             self._sys_epoch = Time(self.ref_data.default_epoch, format='jd', scale='tdb')
 
+        self._t0 = 0
+        self._t1 = 0
         self._USE_AUTO_UPDATE_STATE = auto_up
         self._IS_POPULATED = False
         self._HAS_INIT = False
@@ -100,9 +106,22 @@ class SimBodyDict(dict):
 
         self.update_state(epoch=self._sys_epoch)
         self._HAS_INIT = True
+        self.set_field_dict()
+
+    def set_field_dict(self):
+        [sb.set_field_dict() for sb in self.data.values()]
 
     def update_state(self, epoch):
+        self._t0 = self._t1
+        _tx = time.perf_counter()
+
         [sb.update_state(epoch) for sb in self.data.values()]
+
+        self._t1 = time.perf_counter()
+        update_time = self._t1 - self._t0
+        print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS (1/{update_time:.4f})\n'
+              f'  Model updated in {self._t1 - _tx:.4f} seconds...')
+        self.has_updated.emit()
 
     def set_parentage(self):
         for sb in self.data.values():

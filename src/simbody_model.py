@@ -33,7 +33,7 @@ class SimBody(SimObject):
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
-    def __init__(self, body_data=None, vizz_data=None,):
+    def __init__(self, body_data=None, vizz_data=None):
         super(SimBody, self).__init__()
         self._is_primary    = False
         self._prev_update   = None

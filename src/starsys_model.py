@@ -13,6 +13,12 @@ from PyQt5.QtCore import QObject
 
 class SystemWrapper(QObject):
     def __init__(self, *args, **kwargs):
+        """
+
+        Returns
+        -------
+        None
+        """
         super(SystemWrapper, self).__init__()
         self.model = SimSystem(*args, **kwargs)
 
@@ -21,7 +27,6 @@ class SimSystem(SimBodyDict):
     """
     """
     initialized = psygnal.Signal(list)
-    has_updated = psygnal.Signal()
     panel_data = psygnal.Signal(list, list)
 
     def __init__(self, ref_data=None, epoch=None, body_names=None, use_multi=False, auto_up=False):
@@ -39,51 +44,11 @@ class SimSystem(SimBodyDict):
         self._t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
         self._t1 = time.perf_counter()
-        print(f'SimSystem declaration took {(self._t1 - self._t0):.6f} seconds...')
+        print(f'SimSystem declaration took {(self._t1 - self._t0):4f} seconds...')
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
                                   'elem_coe_', 'elem_pqw_', 'elem_rv',
                                   'is_primary',
                                   )
-
-
-    def update_state(self, epoch=None):
-        self._t0 = self._t1
-        _tx = time.perf_counter()
-        if epoch:
-            if type(epoch) == Time:
-                self._sys_epoch = epoch
-            elif type(epoch) == str:
-                self._sys_epoch = Time(epoch, format='jd')
-
-        else:
-            epoch = self._sys_epoch
-
-        for sb in self.data.values():
-            # TODO:     Check if epoch out of range here...
-            sb.epoch = epoch
-            sb.update_state(self._sys_epoch)
-
-        self._t1 = time.perf_counter()
-        update_time = self._t1 - self._t0
-        print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS (1/{update_time:.4f})\n  Model updated in {self._t1 - _tx:.4f} seconds...')
-        self.has_updated.emit()
-
-    def _set_parentage(self, sb):
-        sb.plane = Planes.EARTH_ECLIPTIC
-        this_parent = sb.body.parent
-        if this_parent is None:
-            sb.type = 'star'
-            sb.sb_parent = None
-            sb.is_primary = True
-        else:
-            if this_parent.name in self._current_body_names:
-                sb.sb_parent = self.data[this_parent.name]
-                if sb.sb_parent.type == 'star':
-                    sb.type = 'planet'
-                elif sb.sb_parent.type == 'planet':
-                    sb.type = 'moon'
-                    if this_parent.name == "Earth":
-                        sb.plane = Planes.EARTH_EQUATOR
 
     def data_group(self, sb_name, tgt_key=None):
         """
