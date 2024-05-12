@@ -1,14 +1,17 @@
 from abc import abstractmethod
 from collections import UserDict
 import numpy as np
+from astropy.coordinates import solar_system_ephemeris
+from astropy.time import Time, TimeDeltaSec
 from simbody_model import SimBody
 from starsys_data import vec_type, SystemDataStore, Planes
 
 
 class SimBodyDict(dict):
 
-    def __init__(self, data=None, ref_data=None, use_multi=False, auto_up=False):
+    def __init__(self, epoch=None, data=None, ref_data=None, body_names=None, use_multi=False, auto_up=False):
         super().__init__()
+        solar_system_ephemeris.set("jpl")
         if data:
             self.data = {name: self._validate_simbody(simbody)
                          for name, simbody in data.items()}
@@ -26,22 +29,34 @@ class SimBodyDict(dict):
             ref_data = SystemDataStore()
 
         self.ref_data = ref_data
+        self._sys_primary = None
         self._dist_unit = self.ref_data.dist_unit
         self._vec_type = self.ref_data.vec_type
-        self._body_count = self.ref_data.body_count
-        self._USE_AUTO_UPDATE_STATE = auto_up
-        self._IS_POPULATED = False
-        self._HAS_INIT = False
-        self._IS_UPDATING = False
-        self._USE_LOCAL_TIMER = False
-        self._USE_MULTIPROC = use_multi
-        self._sys_primary = None
+        self._valid_body_names = self.ref_data.body_names
+        if body_names:
+            self._current_body_names = tuple([n for n in body_names if n in self._valid_body_names])
+        else:
+            self._current_body_names = tuple(self._valid_body_names)
+
+        self._body_count = len(self._current_body_names)
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
                                      dtype=vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
                                      dtype=vec_type)
+
+        if epoch:
+            self._sys_epoch = epoch
+        else:
+            self._sys_epoch = Time(self.ref_data.default_epoch, format='jd', scale='tdb')
+
+        self._USE_AUTO_UPDATE_STATE = auto_up
+        self._IS_POPULATED = False
+        self._HAS_INIT = False
+        self._IS_UPDATING = False
+        self._USE_LOCAL_TIMER = False
+        self._USE_MULTIPROC = use_multi
 
     def __setitem__(self, name, simbody):
         self.data[name] = self._validate_simbody(simbody)
@@ -54,58 +69,120 @@ class SimBodyDict(dict):
             raise TypeError("SimBody object expected")
         return simbody
 
+    def load_from_names(self, _body_names: list = None) -> None:
+        """
+            This method creates one or more SimBody objects based upon the provided list of names.
+            CONSIDER: Should this be a class method that returns a SimSystem() when given names?
+
+        Parameters
+        ----------
+        _body_names :
+
+        Returns
+        -------
+        nothing     : Leaves the model usable with SimBody objects loaded
+        """
+        if _body_names is None:
+            self._current_body_names = self._valid_body_names
+        else:
+            self._current_body_names = [n for n in _body_names if n in self._valid_body_names]
+
+        # populate the list with SimBody objects
+        self.data.clear()
+        [self.data.update({body_name: SimBody(body_data=self.ref_data.body_data[body_name],
+                                              vizz_data=self.ref_data.vizz_data()[body_name])})
+         for body_name in self._current_body_names]
+
+        self._body_count = len(self.data)
+        # self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
+        self.set_parentage()
+        self._IS_POPULATED = True
+
+        self.update_state(epoch=self._sys_epoch)
+        self._HAS_INIT = True
+
+    def update_state(self, epoch):
+        [sb.update_state(epoch) for sb in self.data.values()]
+
+    def set_parentage(self):
+        for sb in self.data.values():
+            if sb.body.parent:
+                sb.parent = self.data[sb.body.parent.name]
+        self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
+
+    @property
+    def primary(self):
+        return [sb for sb in self.data.values() if not sb.body.parent]
+
     @property
     def body(self):
         return [sb.body for sb in self.data.values()]
 
+    @property
     def radius(self):
         return [sb.rad_set for sb in self.data.values()]
 
+    @property
     def rad(self):
         return [sb.rad_set[0] for sb in self.data.values()]
 
+    @property
     def parent(self):
         return [sb.parent for sb in self.data.values()]
 
+    @property
     def type(self):
         return [sb.type for sb in self.data.values()]
 
+    @property
     def pos(self):
         return [sb.pos for sb in self.data.values()]
 
+    @property
     def vel(self):
         return [sb.vel for sb in self.data.values()]
 
+    @property
     def rot(self):
         return [sb.rot for sb in self.data.values()]
 
+    @property
     def state(self):
         return [sb.state_matrix for sb in self.data.values()]
 
+    @property
     def body_mark(self):
         return [sb.body_mark for sb in self.data.values()]
 
+    @property
     def body_color(self):
         return [sb.body_color for sb in self.data.values()]
 
+    @property
     def body_alpha(self):
         return [sb.body_alpha for sb in self.data.values()]
 
+    @property
     def track_color(self):
         return [sb.track_color for sb in self.data.values()]
 
+    @property
     def track_alpha(self):
         return [sb.track_alpha for sb in self.data.values()]
 
+    @property
     def track_data(self):
         return [sb.track_data for sb in self.data.values()]
 
+    @property
     def elem_coe(self):
         return [sb.elem_coe for sb in self.data.values()]
 
+    @property
     def elem_pqw(self):
         return [sb.elem_pqw for sb in self.data.values()]
 
+    @property
     def elem_rv(self):
         return [sb.elem_rv for sb in self.data.values()]
 

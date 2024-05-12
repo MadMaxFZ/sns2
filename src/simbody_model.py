@@ -148,7 +148,6 @@ class SimBody(SimObject):
 
         Parameters
         ----------
-        simbody         :   SimBody         An instance of a SimBody object
         epoch           :   Time            The epoch to which the state is to be set
 
         Returns
@@ -183,7 +182,7 @@ class SimBody(SimObject):
                      )
         self._state = new_state
 
-        return self._state
+        # return self._state
 
     def get_field(self, f):
         match f:
@@ -210,8 +209,9 @@ class SimBody(SimObject):
 
     @parent.setter
     def parent(self, new_sb_parent=None):
-        if type(new_sb_parent) == SimBody:
-            self._sb_parent = new_sb_parent
+        if self.body.parent:
+            if self.body.parent.name == new_sb_parent.name:
+                self._sb_parent = new_sb_parent
 
     def set_parent(self, sb=None):
         if type(sb) == Body:

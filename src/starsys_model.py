@@ -2,11 +2,11 @@
 import time
 import numpy as np
 import psygnal
+from astropy.time import Time, TimeDeltaSec
 from starsys_data import vec_type, SystemDataStore, Planes
 from simbody_dict import SimBodyDict
 from simbody_model import SimBody
-from astropy.coordinates import solar_system_ephemeris
-from astropy.time import Time, TimeDeltaSec
+
 from poliastro.bodies import Body
 from PyQt5.QtCore import QObject
 
@@ -23,7 +23,6 @@ class SimSystem(SimBodyDict):
     initialized = psygnal.Signal(list)
     has_updated = psygnal.Signal()
     panel_data = psygnal.Signal(list, list)
-    _body_count: int = 0
 
     def __init__(self, ref_data=None, epoch=None, body_names=None, use_multi=False, auto_up=False):
         """
@@ -39,85 +38,13 @@ class SimSystem(SimBodyDict):
         """
         self._t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
-        # self.USE_AUTO_UPDATE_STATE = auto_up
-        # self._IS_POPULATED = False
-        # self._HAS_INIT = False
-        # self._IS_UPDATING = False
-        # self._USE_LOCAL_TIMER = False
-        # self._USE_MULTIPROC = use_multi
-        # self._sys_primary = None
-        # self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-        #                              dtype=vec_type)
-        # self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-        #                              dtype=vec_type)
-        # self._bod_tot_acc = np.zeros((self._body_count,),
-        #                              dtype=vec_type)
-        #
-        # if ref_data:
-        #     if isinstance(ref_data, SystemDataStore):
-        #         print('<sys_date> input is valid...')
-        #     else:
-        #         print('Bad <sys_data> input... Reverting to defaults...')
-        #         ref_data = SystemDataStore()
-        #
-        # else:
-        #     ref_data = SystemDataStore()
-        #
-        # self.ref_data = ref_data
-        # self._dist_unit = self.ref_data.dist_unit
-        # self._vec_type = self.ref_data.vec_type
-
-        if epoch:
-            self._sys_epoch = epoch
-        else:
-            self._sys_epoch = Time(self.ref_data.default_epoch, format='jd', scale='tdb')
-
-        self._valid_body_names = self.ref_data.body_names
-        if body_names:
-            self._current_body_names = tuple([n for n in body_names if n in self._valid_body_names])
-        else:
-            self._current_body_names = tuple(self._valid_body_names)
-
-        solar_system_ephemeris.set("jpl")
-        # self.load_from_names(self._current_body_names)
         self._t1 = time.perf_counter()
-        print(f'SimSystem initialization took {(self._t1 - self._t0):.6f} seconds...')
+        print(f'SimSystem declaration took {(self._t1 - self._t0):.6f} seconds...')
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
                                   'elem_coe_', 'elem_pqw_', 'elem_rv',
                                   'is_primary',
                                   )
 
-    def load_from_names(self, _body_names=None):
-        """
-            This method creates one or more SimBody objects based upon the provided list of names.
-            CONSIDER: Should this be a class method that returns a SimSystem() when given names?
-
-        Parameters
-        ----------
-        _body_names :
-
-        Returns
-        -------
-        nothing     : Leaves the model usable with SimBody objects loaded
-        """
-        if _body_names is None:
-            self._current_body_names = self._valid_body_names
-        else:
-            self._current_body_names = [n for n in _body_names if n in self._valid_body_names]
-
-        # populate the list with SimBody objects
-        self.data.clear()
-        [self.data.update({body_name: SimBody(body_data=self.ref_data.body_data[body_name],
-                                              vizz_data=self.ref_data.vizz_data()[body_name])})
-         for body_name in self._current_body_names]
-
-        self._body_count = len(self.data)
-        self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
-        [self._set_parentage(sb) for sb in self.data.values() if sb.body.parent]
-        self._IS_POPULATED = True
-
-        self.update_state(epoch=self._sys_epoch)
-        self._HAS_INIT = True
 
     def update_state(self, epoch=None):
         self._t0 = self._t1
