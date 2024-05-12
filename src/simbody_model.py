@@ -213,9 +213,23 @@ class SimBody(SimObject):
         if type(new_sb_parent) == SimBody:
             self._sb_parent = new_sb_parent
 
-    def set_parent(self, new_sb_parent=None):
-        if type(new_sb_parent) == Body:
-            self._sb_parent = new_sb_parent
+    def set_parent(self, sb=None):
+        if type(sb) == Body:
+            self._sb_parent = sb
+            sb.plane = Planes.EARTH_ECLIPTIC
+            this_parent = sb.parent
+            if this_parent is None:
+                sb.type = 'star'
+                sb.sb_parent = None
+                sb.is_primary = True
+            else:
+                sb.sb_parent = this_parent
+                if sb.sb_parent.type == 'star':
+                    sb.type = 'planet'
+                elif sb.sb_parent.type == 'planet':
+                    sb.type = 'moon'
+                    if this_parent.name == "Earth":
+                        sb.plane = Planes.EARTH_EQUATOR
 
     @property
     def sys_primary(self):
@@ -311,6 +325,13 @@ class SimBody(SimObject):
     def body_color(self):
         res = Color(self._vizz_data['body_color'])
         res.alpha = self._vizz_data['body_alpha']
+
+        return res
+
+    @property
+    def track_color(self):
+        res = Color(self._vizz_data['body_color'])
+        res.alpha = self._vizz_data['track_alpha']
 
         return res
 
