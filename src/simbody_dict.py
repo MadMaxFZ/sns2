@@ -1,17 +1,47 @@
 from abc import abstractmethod
 from collections import UserDict
+import numpy as np
 from simbody_model import SimBody
+from starsys_data import vec_type, SystemDataStore, Planes
 
 
 class SimBodyDict(dict):
 
-    def __init__(self, data=None):
+    def __init__(self, data=None, ref_data=None, use_multi=False, auto_up=False):
         super().__init__()
         if data:
             self.data = {name: self._validate_simbody(simbody)
                          for name, simbody in data.items()}
         else:
             self.data = {}
+
+        if ref_data:
+            if isinstance(ref_data, SystemDataStore):
+                print('<sys_date> input is valid...')
+            else:
+                print('Bad <sys_data> input... Reverting to defaults...')
+                ref_data = SystemDataStore()
+
+        else:
+            ref_data = SystemDataStore()
+
+        self.ref_data = ref_data
+        self._dist_unit = self.ref_data.dist_unit
+        self._vec_type = self.ref_data.vec_type
+        self._body_count = self.ref_data.body_count
+        self._USE_AUTO_UPDATE_STATE = auto_up
+        self._IS_POPULATED = False
+        self._HAS_INIT = False
+        self._IS_UPDATING = False
+        self._USE_LOCAL_TIMER = False
+        self._USE_MULTIPROC = use_multi
+        self._sys_primary = None
+        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
+                                     dtype=vec_type)
+        self._bod_tot_acc = np.zeros((self._body_count,),
+                                     dtype=vec_type)
 
     def __setitem__(self, name, simbody):
         self.data[name] = self._validate_simbody(simbody)
@@ -23,10 +53,6 @@ class SimBodyDict(dict):
         if not isinstance(simbody, SimBody):
             raise TypeError("SimBody object expected")
         return simbody
-
-    @abstractmethod
-    def _set_parentage(self, simbody):
-        pass
 
     @property
     def body(self):

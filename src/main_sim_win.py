@@ -224,7 +224,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def update_model_epoch(self):
         self.system.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
-        if not self.system.model.USE_AUTO_UPDATE_STATE:
+        if not self.system.model._USE_AUTO_UPDATE_STATE:
             self.system.model.update_state()
 
     @pyqtSlot()

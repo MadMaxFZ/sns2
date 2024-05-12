@@ -39,36 +39,33 @@ class SimSystem(SimBodyDict):
         """
         self._t0 = time.perf_counter()
         super(SimSystem, self).__init__([])
-        self.USE_AUTO_UPDATE_STATE = auto_up
-        self._IS_POPULATED = False
-        self._HAS_INIT = False
-        self._IS_UPDATING = False
-        self._USE_LOCAL_TIMER = False
-        self._USE_MULTIPROC = use_multi
-        self._sys_primary = None
-        self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
-        self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
-        self._bod_tot_acc = np.zeros((self._body_count,),
-                                     dtype=vec_type)
-        self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
-                                  'elem_coe_', 'elem_pqw_', 'elem_rv',
-                                  'is_primary',
-                                  )
-        if ref_data:
-            if isinstance(ref_data, SystemDataStore):
-                print('<sys_date> input is valid...')
-            else:
-                print('Bad <sys_data> input... Reverting to defaults...')
-                ref_data = SystemDataStore()
-
-        else:
-            ref_data = SystemDataStore()
-
-        self.ref_data = ref_data
-        self._dist_unit = self.ref_data.dist_unit
-        self._vec_type = self.ref_data.vec_type
+        # self.USE_AUTO_UPDATE_STATE = auto_up
+        # self._IS_POPULATED = False
+        # self._HAS_INIT = False
+        # self._IS_UPDATING = False
+        # self._USE_LOCAL_TIMER = False
+        # self._USE_MULTIPROC = use_multi
+        # self._sys_primary = None
+        # self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
+        #                              dtype=vec_type)
+        # self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
+        #                              dtype=vec_type)
+        # self._bod_tot_acc = np.zeros((self._body_count,),
+        #                              dtype=vec_type)
+        #
+        # if ref_data:
+        #     if isinstance(ref_data, SystemDataStore):
+        #         print('<sys_date> input is valid...')
+        #     else:
+        #         print('Bad <sys_data> input... Reverting to defaults...')
+        #         ref_data = SystemDataStore()
+        #
+        # else:
+        #     ref_data = SystemDataStore()
+        #
+        # self.ref_data = ref_data
+        # self._dist_unit = self.ref_data.dist_unit
+        # self._vec_type = self.ref_data.vec_type
 
         if epoch:
             self._sys_epoch = epoch
@@ -85,6 +82,10 @@ class SimSystem(SimBodyDict):
         # self.load_from_names(self._current_body_names)
         self._t1 = time.perf_counter()
         print(f'SimSystem initialization took {(self._t1 - self._t0):.6f} seconds...')
+        self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
+                                  'elem_coe_', 'elem_pqw_', 'elem_rv',
+                                  'is_primary',
+                                  )
 
     def load_from_names(self, _body_names=None):
         """
@@ -312,7 +313,7 @@ class SimSystem(SimBodyDict):
             elif type(new_epoch) == TimeDeltaSec:
                 self._sys_epoch += new_epoch
 
-        if self.USE_AUTO_UPDATE_STATE:
+        if self._USE_AUTO_UPDATE_STATE:
             self.update_state()
 
     @property
