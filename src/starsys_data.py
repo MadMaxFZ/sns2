@@ -27,11 +27,49 @@ DEF_UNITS     = u.km
 DEF_EPOCH0    = J2000_TDB
 DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
 vec_type = type(np.zeros((3,), dtype=np.float64))
-DEF_CAM_STATE = {'center': (0.0, -8.0e+08, 0.0),
+DEF_CAM_STATE = {'center': (-8.0e+08, 0.0, 0.0),
                  'scale_factor': 0.5e+08,
                  'rotation1': Quaternion(+0.7071, +0.0, +0.7071, +0.0),
                  }
 
+
+def quat_to_euler(quat):
+    if quat is not None:
+        # quat.w = abs(quat.w)
+        t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
+        t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
+        yaw_x = round(math.atan2(t0, t1) * 180 / math.pi, 4)
+
+        t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
+        t2 = +1.0 if t2 > +1.0 else t2
+        t2 = -1.0 if t2 < -1.0 else t2
+        pitch_y = round(math.asin(t2) * 180 / math.pi - 90, 4)
+
+        t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
+        t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
+        roll_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
+
+        # if yaw_x >= 180:
+        #     yaw_x -= 360
+        # elif yaw_x <= -180:
+        #     yaw_x += 360
+        #
+        # if roll_z >= 180:
+        #     roll_z -= 360
+        # elif roll_z <= -180:
+        #     roll_z += 360
+
+        return yaw_x, pitch_y, roll_z
+
+
+def to_euler_str(quat):
+        yaw_x, pitch_y, roll_z = quat_to_euler(quat)
+
+        eul_str = str("R: " + pad_plus(f'{roll_z:5.4}') +
+                      "\nP: " + pad_plus(f'{pitch_y:5.4}') +
+                      "\nY: " + pad_plus(f'{yaw_x:5.4}'))
+
+        return eul_str
 
 def get_texture_data(fname=DEF_TEX_FNAME):
     with Image.open(fname) as im:
@@ -212,45 +250,6 @@ def to_quat_str(quat):
                        "\nW: " + f'{quat.w:5.4}')
 
         return quat_str
-
-
-def quat_to_euler(quat):
-    if quat is not None:
-        # quat.w = abs(quat.w)
-        t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
-        t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
-        yaw_x = round(math.atan2(t0, t1) * 180 / math.pi, 4)
-
-        t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
-        t2 = +1.0 if t2 > +1.0 else t2
-        t2 = -1.0 if t2 < -1.0 else t2
-        pitch_y = round(math.asin(t2) * 180 / math.pi - 90, 4)
-
-        t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
-        t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
-        roll_z = round(math.atan2(t3, t4) * 180 / math.pi, 4)
-
-        if yaw_x >= 180:
-            yaw_x -= 360
-        elif yaw_x <= -180:
-            yaw_x += 360
-
-        if roll_z >= 180:
-            roll_z -= 360
-        elif roll_z <= -180:
-            roll_z += 360
-
-        return yaw_x, pitch_y, roll_z
-
-
-def to_euler_str(quat):
-        yaw_x, pitch_y, roll_z = quat_to_euler(quat)
-
-        eul_str = str("R: " + pad_plus(f'{roll_z:5.4}') +
-                      "\nP: " + pad_plus(f'{pitch_y:5.4}') +
-                      "\nY: " + pad_plus(f'{yaw_x:5.4}'))
-
-        return eul_str
 
 
 log_config = {
