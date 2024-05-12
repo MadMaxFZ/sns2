@@ -11,6 +11,7 @@ from poliastro.constants import J2000_TDB
 from poliastro.bodies import *
 from poliastro.frames.fixed import *
 from poliastro.frames.fixed import MoonFixed as LunaFixed
+from vispy.util.quaternion import Quaternion
 from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
@@ -26,6 +27,10 @@ DEF_UNITS     = u.km
 DEF_EPOCH0    = J2000_TDB
 DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
 vec_type = type(np.zeros((3,), dtype=np.float64))
+DEF_CAM_STATE = {'center': (0.0, -8.0e+08, 0.0),
+                 'scale_factor': 0.5e+08,
+                 'rotation1': Quaternion(+0.7071, +0.0, +0.7071, +0.0),
+                 }
 
 
 def get_texture_data(fname=DEF_TEX_FNAME):
@@ -211,14 +216,15 @@ def to_quat_str(quat):
 
 def quat_to_euler(quat):
     if quat is not None:
+        # quat.w = abs(quat.w)
         t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
         t1 = +1.0 - 2.0 * (quat.x * quat.x + quat.y * quat.y)
-        roll_x = round(math.atan2(t0, t1) * 180 / math.pi + 90, 4)
+        roll_x = round(math.atan2(t0, t1) * 180 / math.pi, 4)
 
         t2 = +2.0 * (quat.w * quat.y - quat.z * quat.x)
         t2 = +1.0 if t2 > +1.0 else t2
         t2 = -1.0 if t2 < -1.0 else t2
-        pitch_y = round(math.asin(t2) * 180 / math.pi, 4)
+        pitch_y = round(math.asin(t2) * 180 / math.pi - 90, 4)
 
         t3 = +2.0 * (quat.w * quat.z + quat.x * quat.y)
         t4 = +1.0 - 2.0 * (quat.y * quat.y + quat.z * quat.z)
@@ -240,9 +246,9 @@ def quat_to_euler(quat):
 def to_euler_str(quat):
         roll_x, pitch_y, yaw_z = quat_to_euler(quat)
 
-        eul_str = str("P: " + pad_plus(f'{-roll_x:5.4}') +
-                      "\nY: " + pad_plus(f'{pitch_y:5.4}') +
-                      "\nR: " + pad_plus(f'{yaw_z:5.4}'))
+        eul_str = str("R: " + pad_plus(f'{-roll_x:5.4}') +
+                      "\nP: " + pad_plus(f'{pitch_y:5.4}') +
+                      "\nY: " + pad_plus(f'{yaw_z:5.4}'))
 
         return eul_str
 

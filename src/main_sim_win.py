@@ -16,7 +16,6 @@ import logging.config
 
 import psygnal
 from vispy.app import use_app
-from vispy.util.quaternion import Quaternion
 from PyQt5 import QtWidgets, QtCore, Qt
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
@@ -106,11 +105,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         z=self.visuals.vizz_bounds,
                                         )
         # set the initial camera position in the ecliptic looking towards the primary
-        self.cameras.curr_cam.set_state({'center': (0.0, -8.0e+08, 0.0),
-                                         'scale_factor': 0.5e+08,
-                                         'rotation1': Quaternion(+0.7071, -0.7071, +0.0, +0.0),
-                                         }
-                                        )
+        self.cameras.curr_cam.set_state(DEF_CAM_STATE)
         self.reset_rotation()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
