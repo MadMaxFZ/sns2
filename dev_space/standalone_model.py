@@ -38,6 +38,7 @@ class TimeDependentProcess(mp.Process):
         with self.shared_data.get_lock():
             return tuple(self.shared_data)
 
+
 if __name__ == '__main__':
     # Create an instance of the class
     time_dep_process = TimeDependentProcess()
