@@ -1,12 +1,8 @@
 # starsys_model.py
 import time
-import numpy as np
 import psygnal
 from astropy.time import Time, TimeDeltaSec
-from starsys_data import vec_type, SystemDataStore, Planes
 from simbody_dict import SimBodyDict
-from simbody_model import SimBody
-
 from poliastro.bodies import Body
 from PyQt5.QtCore import QObject
 
@@ -206,7 +202,7 @@ class SimSystem(SimBodyDict):
                 self._sys_epoch += new_epoch
 
         if self._USE_AUTO_UPDATE_STATE:
-            self.update_state()
+            self.update_state(self._sys_epoch)
 
     @property
     def dist_unit(self):
@@ -283,7 +279,7 @@ if __name__ == "__main__":
         model.load_from_names()
         init_time = time.perf_counter()
 
-        model.update_state()
+        model.update_state(model.epoch)
         done_time = time.perf_counter()
 
         # print(f"Setup time: {((init_time - ref_time) / 1e+09):0.4f} seconds")

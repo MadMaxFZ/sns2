@@ -1,12 +1,10 @@
-from abc import abstractmethod
-from collections import UserDict
 import time
 import numpy as np
 from psygnal import Signal
 from astropy.coordinates import solar_system_ephemeris
-from astropy.time import Time, TimeDeltaSec
+from astropy.time import Time
 from simbody_model import SimBody
-from starsys_data import vec_type, SystemDataStore, Planes
+from starsys_data import vec_type, SystemDataStore
 
 
 class SimBodyDict(dict):
@@ -72,7 +70,8 @@ class SimBodyDict(dict):
 
     '''===== METHODS ==========================================================================================='''
 
-    def _validate_simbody(self, simbody):
+    @staticmethod
+    def _validate_simbody(simbody):
         if not isinstance(simbody, SimBody):
             raise TypeError("SimBody object expected")
         return simbody

@@ -5,10 +5,12 @@
 # -----------------------------------------------------------------------------
 # Modified by Max S. Whitten in order to address the "stripe" glitch
 # x
+from typing import Dict, Tuple
 
 import numpy as np
 import logging
 from astropy import units as u
+from OpenGL.GL.EXT import polygon_offset
 from PIL import Image
 from vispy.color import *
 from vispy.visuals import CompoundVisual
@@ -112,10 +114,10 @@ class PlanetVisual(CompoundVisual):
                                       color=edge_color, mode='lines')
         else:
             self._border = MeshVisual()
-
-        self._mesh.set_gl_state(polygon_offset_fill=True,
-                                polygon_offset=(1, 1),
-                                depth_test=True)
+        self._mesh.set_gl_state({'polygon_offset_fill': True,
+                                 'polygon_offset': (1, 1),
+                                 'depth_test': True,
+                                 })
         super(PlanetVisual, self).__init__([v for v in [self._mesh, self._border]])
         self.texture = self._texture_data
 
@@ -186,87 +188,65 @@ class PlanetVisual(CompoundVisual):
     def mark(self, new_symbol='o'):
         self._mark = new_symbol
 
-    # @property
-    # def pos(self):
-    #     return self._pos
-    #
-    # @pos.setter
-    # def pos(self, new_pos):
-    #     if new_pos is not None:
-    #         self._pos = new_pos
-    #         self.transform = trx.STTransform().as_matrix()
-    #         self.transform.translate(self._pos)
-    #         self.update()
-    # @property
-    # def visible(self):
-    #     return self._visible
-    #
-    # @visible.setter
-    # def visible(self, new_visible=False):
-    #     self._visible = new_visible
-
 
 Planet = create_visual_node(PlanetVisual)
 
 
-def main():
-    from vispy.app.timer import Timer
-    from vispy.scene import SceneCanvas, TurntableCamera
-    from skymap_visual import SkyMap
-    import vispy.visuals.transforms as trx
-
-    print("BodyViz test code...")
-    win = SceneCanvas(title="BodyViz Test",
-                      keys="interactive",
-                      bgcolor='black',
-                      )
-    view = win.central_widget.add_view()
-    view.camera = TurntableCamera()
-    skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
-                    color=(1, 1, 1, 1),
-                    parent=view.scene)
-    view.add(skymap)
-    skymap.visible = True
-    bod = Planet(rows=36,
-                 body_name='Mars',
-                 method='oblate',
-                 parent=view.scene,
-                 visible=True,
-                 )
-    # md_lat = _latitude()
-    # md_obl = _oblate_sphere()
-    # [print(i) for i in dir(md_obl)]
-    bod.transform = trx.MatrixTransform()
-    bod_trx = bod.transform
-    view.add(bod)
-    view.camera.set_range()
-    view.camera.scale_factor = 15761445.040766222
-    rps = 1.0
-
-    def on_timer(event=None):
-        bod.transform.reset()
-        bod.transform.rotate(bod_timer.elapsed * 2 * np.pi * rps, (0, 0, 1))
-        bod.transform.rotate(23.5 * np.pi / 360, (1, 0, 0))
-        # bod.transform.scale((1200, 1200, 1200))
-        # bod.transform = bod_trx
-        logging.debug("transform = %s", bod.transform)
-        logging.debug("ZOOM FACTOR: %s", view.camera.zoom_factor)
-        logging.debug("SCALE FACTOR: %s", view.camera.scale_factor)
-        logging.debug("CENTER: %s", view.camera.center)
-
-    bod_timer = Timer(interval='auto',
-                      connect=on_timer,
-                      iterations=-1,
-                      start=True,
-                      # app=win.app,
-                      )
-    # on_timer()
-    win.show()
-    win.app.cmd_timer()
-
-
 if __name__ == "__main__":
+    def main():
+        from vispy.app.timer import Timer
+        from vispy.scene import SceneCanvas, TurntableCamera
+        from skymap_visual import SkyMap
+        import vispy.visuals.transforms as trx
 
+        print("BodyViz test code...")
+        win = SceneCanvas(title="BodyViz Test",
+                          keys="interactive",
+                          bgcolor='black',
+                          )
+        view = win.central_widget.add_view()
+        view.camera = TurntableCamera()
+        skymap = SkyMap(edge_color=(0, 0, 1, 0.3),
+                        color=(1, 1, 1, 1),
+                        parent=view.scene)
+        view.add(skymap)
+        skymap.visible = True
+        bod = Planet(rows=36,
+                     body_name='Mars',
+                     method='oblate',
+                     parent=view.scene,
+                     visible=True,
+                     )
+        # md_lat = _latitude()
+        # md_obl = _oblate_sphere()
+        # [print(i) for i in dir(md_obl)]
+        bod.transform = trx.MatrixTransform()
+        bod_trx = bod.transform
+        view.add(bod)
+        view.camera.set_range()
+        view.camera.scale_factor = 15761445.040766222
+        rps = 1.0
+
+        def on_timer(event=None):
+            bod.transform.reset()
+            bod.transform.rotate(bod_timer.elapsed * 2 * np.pi * rps, (0, 0, 1))
+            bod.transform.rotate(23.5 * np.pi / 360, (1, 0, 0))
+            # bod.transform.scale((1200, 1200, 1200))
+            # bod.transform = bod_trx
+            logging.debug("transform = %s", bod.transform)
+            logging.debug("ZOOM FACTOR: %s", view.camera.zoom_factor)
+            logging.debug("SCALE FACTOR: %s", view.camera.scale_factor)
+            logging.debug("CENTER: %s", view.camera.center)
+
+        bod_timer = Timer(interval='auto',
+                          connect=on_timer,
+                          iterations=-1,
+                          start=True,
+                          # app=win.app,
+                          )
+        # on_timer()
+        win.show()
+        win.app.cmd_timer()
     # for rot in range(3600):
     #     bod.transform.rotate(rot * np.pi / 1800, [0, 0, 1])
     main()

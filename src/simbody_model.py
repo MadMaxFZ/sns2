@@ -44,7 +44,7 @@ class SimBody(SimObject):
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
-        self._sb_parent = None  # TODO:: Fix parent reference for subclass
+        self._sb_parent     = None
         self._periods       = 365
         self._spacing       = self._o_period.to(u.d) / self._periods
         self._rad_set       = None
