@@ -34,7 +34,6 @@ STOP_IT = True
 DO_PROFILE = False
 
 
-# noinspection PyArgumentList
 class MainQtWindow(QtWidgets.QMainWindow):
     """     This module contains MainQtWindow class, the entry point into the application and
         where access to all simulation components can be utilized to provide control of the sim.
