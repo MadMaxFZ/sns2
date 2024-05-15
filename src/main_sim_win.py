@@ -82,7 +82,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui = self.controls.ui
         self.central_widget = QtWidgets.QWidget(self)
         self.timer = QtCore.QTimer()
-        self.timer.setTimerType(QtCore.Qt.PreciseTimer)
+        self.timer.setTimerType(QtCore.Qt.TimerType.PreciseTimer)
 
         #       TODO:   Encapsulate the vizz_fields2agg inside StartSystemVisuals class
         self._vizz_fields2agg = ('pos', 'radius', 'body_alpha', 'track_alpha', 'body_mark',
