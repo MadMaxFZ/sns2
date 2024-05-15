@@ -114,10 +114,10 @@ class PlanetVisual(CompoundVisual):
                                       color=edge_color, mode='lines')
         else:
             self._border = MeshVisual()
-        self._mesh.set_gl_state({'polygon_offset_fill': True,
-                                 'polygon_offset': (1, 1),
-                                 'depth_test': True,
-                                 })
+        self._mesh.set_gl_state(polygon_offset_fill=True,
+                                polygon_offset=(1, 1),
+                                depth_test=True,
+                                )
         super(PlanetVisual, self).__init__([v for v in [self._mesh, self._border]])
         self.texture = self._texture_data
 
