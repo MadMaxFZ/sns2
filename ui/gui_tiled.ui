@@ -1143,7 +1143,7 @@
        <enum>QLayout::SetMinimumSize</enum>
       </property>
       <property name="verticalSpacing">
-       <number>11</number>
+       <number>21</number>
       </property>
       <property name="topMargin">
        <number>5</number>
@@ -1965,7 +1965,7 @@
          <item>
           <widget class="QPushButton" name="btn_set_rot">
            <property name="text">
-            <string>SET ROT</string>
+            <string>ZERO RPY</string>
            </property>
           </widget>
          </item>

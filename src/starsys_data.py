@@ -29,11 +29,11 @@ DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
 vec_type = type(np.zeros((3,), dtype=np.float64))
 DEF_CAM_STATE = {'center': (-8.0e+08, 0.0, 0.0),
                  'scale_factor': 0.5e+08,
-                 'rotation1': Quaternion(+0.7071, +0.0, +0.7071, +0.0),
+                 'rotation1': Quaternion(-0.5, +0.5, -0.5, -0.5),
                  }
 
 
-def quat_to_euler(quat):
+def quat_to_rpy(quat):
     if quat is not None:
         # quat.w = abs(quat.w)
         t0 = +2.0 * (quat.w * quat.x + quat.y * quat.z)
@@ -62,14 +62,15 @@ def quat_to_euler(quat):
         return yaw_x, pitch_y, roll_z
 
 
-def to_euler_str(quat):
-        yaw_x, pitch_y, roll_z = quat_to_euler(quat)
+def to_rpy_str(quat):
+        yaw_x, pitch_y, roll_z = quat_to_rpy(quat)
 
         eul_str = str("R: " + pad_plus(f'{roll_z:5.4}') +
                       "\nP: " + pad_plus(f'{pitch_y:5.4}') +
                       "\nY: " + pad_plus(f'{yaw_x:5.4}'))
 
         return eul_str
+
 
 def get_texture_data(fname=DEF_TEX_FNAME):
     with Image.open(fname) as im:

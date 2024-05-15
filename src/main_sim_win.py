@@ -319,7 +319,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                             res = to_quat_str(v)
                             widg_grp[i].setText(res)
                             key_widgs[-1].setText('Attitude:')
-                            widg_grp[-1].setText(to_euler_str(v))
+                            widg_grp[-1].setText(to_rpy_str(v))
                             break
 
                         case _:
