@@ -8,7 +8,7 @@ from astropy.time import Time
 from abc import ABC, abstractmethod, abstractproperty
 
 
-logging.basicConfig(filename="../logs/sns_sdmobj.log",
+logging.basicConfig(filename="../logs/sns_simobj.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )

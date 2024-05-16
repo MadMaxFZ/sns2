@@ -9,19 +9,12 @@
 # from composite import Ui_frm_sns_controls
 
 import cProfile
-import math
-import pstats
-import sys
 import logging.config
-
 import psygnal
 from vispy.app import use_app
-from PyQt5 import QtWidgets, QtCore, Qt
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
-from poliastro.bodies import Body
-from astropy.units.quantity import Quantity
-from astropy.time import Time
 from starsys_model import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
@@ -43,8 +36,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
     panel_refreshed = pyqtSignal(str)
     on_draw_sig    = psygnal.Signal(str)
     vispy_keypress = psygnal.Signal(str)
-    # newActiveTab = pyqtSignal(int)
-    # newActiveCam = pyqtSignal(int)
 
     """     A dictionary of labels to act as keys to reference the data stored in the SimSystem model:
         The first four data elements must be computed every cycle regardless, while the remaining elements will
@@ -61,16 +52,14 @@ class MainQtWindow(QtWidgets.QMainWindow):
         args        :
         kwargs      :
         """
-        super(MainQtWindow, self).__init__(*args,
-                                           **kwargs)
+        super(MainQtWindow, self).__init__(*args, **kwargs)
+        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.timer_paused = True
         self.interval = 10
         self.tw_hold = 0
-        self.setWindowTitle("SPACE NAVIGATION SIMULATOR, (c)2024 Max S. Whitten")
         self.model = SimSystem()
-        # self.model = self.system.model
         self.model.load_from_names()
-        # [sb.set_field_dict() for sb in self.system.model.data.values()]    # if not sb.is_primary]
+        self.body_names = self.model.body_names
 
         #       TODO:   Encapsulate the creation of the CameraSet instance inside the
         #               CanvasWrapper class, which will expose methods to manipulate the cameras.
@@ -89,12 +78,12 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                  'body_color', 'track_data', 'tex_data', 'is_primary',
                                  'axes', 'rot', 'parent_name'
                                  )
-        self.visuals = StarSystemVisuals(self.model.body_names)
+        self.visuals = StarSystemVisuals(self.body_names)
         self.visuals.generate_visuals(self.canvas.view,
                                       self.model.get_agg_fields(self._vizz_fields2agg))
 
         self._setup_layout()
-        self.controls.init_controls(self.model.body_names, self.cameras.cam_ids)
+        self.controls.init_controls(self.body_names, self.cameras.cam_ids)
         # self.thread = QThread()
         # self.model.moveToThread(self.thread)
         # self.thread.start()

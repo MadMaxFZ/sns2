@@ -139,13 +139,9 @@ class MainSimCanvas(scene.SceneCanvas):
 
             elif ev.key.name == "]":        # increase time warp factor
                 pass
-                # self.model.t_warp *= 1.1
-                # print("TIME_WARP:", self.model.t_warp)
 
             elif ev.key.name == "[":        # decrease time warp factor
                 pass
-                # self.model.t_warp *= 0.9
-                # print("TIME_WARP:", self.model.t_warp)
 
             elif ev.key.name == "\\":       # toggle timer on/off
                 print("Toggle timer...")

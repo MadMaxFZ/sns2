@@ -69,6 +69,17 @@ class SimBody(SimObject):
             self._field_dict.update({'elem_pqw_': self.elem_pqw})
             self._field_dict.update({'elem_rv_': self.elem_rv})
 
+    def get_field(self, f):
+        match f:
+            # case 'rel2cam':
+            #     return self.rel2cam
+            case 'pos':
+                return self.pos
+            case 'rot':
+                return self._state[2]
+            case 'track':
+                return self.track
+
     def field(self, field_key):
         if field_key in self._field_dict.keys():
             return self._field_dict[field_key]
@@ -179,17 +190,6 @@ class SimBody(SimObject):
         self._state = new_state
 
         # return self._state
-
-    def get_field(self, f):
-        match f:
-            # case 'rel2cam':
-            #     return self.rel2cam
-            case 'pos':
-                return self.pos
-            case 'rot':
-                return self._state[2]
-            case 'track':
-                return self.track
 
     @property
     def body(self):

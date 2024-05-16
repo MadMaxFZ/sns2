@@ -93,7 +93,6 @@ class Controls(QtWidgets.QWidget):
         new_sys_epoch = (Time(float(self.ui.time_sys_epoch.text()), format='jd') +
                          float(self.ui.time_warp.text()) * dt.to(u.s))
         self.ui.time_sys_epoch.setText(f'{new_sys_epoch.value:.4f}')
-        # self.model.update_state(new_sys_epoch)
 
     def tw_exp_updated(self, new_wexp):
         new_max = pow(10, new_wexp)
