@@ -71,8 +71,6 @@ class SimObject(ABC):
 
     @classmethod
     def _system(cls, _name):
-
-
         return cls.system[_name]
 
     @abstractmethod
