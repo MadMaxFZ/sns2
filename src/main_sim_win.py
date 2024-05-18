@@ -88,10 +88,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # self.model.moveToThread(self.thread)
         # self.thread.start()
         self._connect_slots()
-        self.cameras.curr_cam.set_range(x=self.visuals.vizz_bounds,
-                                        y=self.visuals.vizz_bounds,
-                                        z=self.visuals.vizz_bounds,
-                                        )
+        self.cameras.curr_cam.set_range(self.visuals.vizz_bounds,
+                                        self.visuals.vizz_bounds,
+                                        self.visuals.vizz_bounds,)
         # set the initial camera position in the ecliptic looking towards the primary
         self.cameras.curr_cam.set_state(DEF_CAM_STATE)
         self.reset_rotation()

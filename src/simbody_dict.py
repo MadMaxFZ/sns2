@@ -109,9 +109,6 @@ class SimBodyDict(dict):
         self._HAS_INIT = True
         # self.set_field_dict()
 
-    # def set_field_dict(self):
-    #     [sb.set_field_dict() for sb in self.data.values()]
-
     def update_state(self, epoch):
         self._t0 = self._t1
         _tx = time.perf_counter()
@@ -125,16 +122,18 @@ class SimBodyDict(dict):
         self.has_updated.emit()
 
     def set_parentage(self):
+        self._sys_primary = None
         for sb in self.data.values():
             if sb.body.parent:
                 sb.parent = self.data[sb.body.parent.name]
-        self._sys_primary = [sb for sb in self.data.values() if sb.body.parent is None][0]
+            else:
+                self._sys_primary = sb
 
     '''===== PROPERTIES ==========================================================================================='''
 
     @property
     def primary(self):
-        return [sb for sb in self.data.values() if not sb.body.parent]
+        return self._sys_primary
 
     @property
     def body(self):
