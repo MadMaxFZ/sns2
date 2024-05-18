@@ -107,10 +107,10 @@ class SimBodyDict(dict):
 
         self.update_state(epoch=self._sys_epoch)
         self._HAS_INIT = True
-        self.set_field_dict()
+        # self.set_field_dict()
 
-    def set_field_dict(self):
-        [sb.set_field_dict() for sb in self.data.values()]
+    # def set_field_dict(self):
+    #     [sb.set_field_dict() for sb in self.data.values()]
 
     def update_state(self, epoch):
         self._t0 = self._t1

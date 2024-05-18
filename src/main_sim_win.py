@@ -246,11 +246,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     for w in widg_grp:
                         w.setText('')
                 else:
-                    data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
-                    # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(data_set[i].round(4)))
+                        w.setText(str(self.model.data[curr_simbod.name].elem_coe[i].round(4)))
 
             case 'elem_rv_':
                 [w.setText("") for w in widg_grp]
@@ -265,11 +263,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     for w in widg_grp:
                         w.setText('')
                 else:
-                    data_set = self.model.data_group(sb_name=curr_simbod.name, tgt_key=panel_key)
-                    # print(f'widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(to_vector_str(data_set[i])))
+                        w.setText(str(to_vector_str(self.model.data[curr_simbod.name].elem_pqw[i])))
 
             case 'attr_':
                 data_set = curr_simbod.body

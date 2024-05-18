@@ -53,13 +53,17 @@ class SimObject(ABC):
         self._trajectory    = None
         self._field_dict    = None
 
-    @abstractmethod
-    def set_field_dict(self):
-        pass
-
-    @abstractmethod
-    def field(self, field_key):
-        pass
+    # @abstractmethod
+    # def set_field_dict(self):
+    #     pass
+    #
+    # @abstractmethod
+    # def field(self, field_key):
+    #     pass
+    #
+    # @abstractmethod
+    # def get_field(self, f):
+    #     pass
 
     @abstractmethod
     def set_ephem(self, epoch=None, t_range=None):
@@ -75,10 +79,6 @@ class SimObject(ABC):
 
     @abstractmethod
     def update_state(self, epoch=None):
-        pass
-
-    @abstractmethod
-    def get_field(self, f):
         pass
 
     @property

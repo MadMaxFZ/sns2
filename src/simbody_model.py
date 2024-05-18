@@ -57,35 +57,35 @@ class SimBody(SimObject):
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
-    def set_field_dict(self):
-        self._field_dict = {'attr_': [self._body[i] for i in range(len(self._body._fields))],
-                            'pos': self.pos.value.round(4) * u.km,
-                            'rot': self.rot,
-                            'rad': self._body.R,
-                            'radii': self._rad_set,
-                            }
-        if self._body.parent:
-            self._field_dict.update({'elem_coe_': self.elem_coe})
-            self._field_dict.update({'elem_pqw_': self.elem_pqw})
-            self._field_dict.update({'elem_rv_': self.elem_rv})
-
-    def get_field(self, f):
-        match f:
-            # case 'rel2cam':
-            #     return self.rel2cam
-            case 'pos':
-                return self.pos
-            case 'rot':
-                return self._state[2]
-            case 'track':
-                return self.track
-
-    def field(self, field_key):
-        if field_key in self._field_dict.keys():
-            return self._field_dict[field_key]
-        else:
-            print(f'No field with name: <{field_key}>')
-            return None
+    # def set_field_dict(self):
+    #     self._field_dict = {'attr_': [self._body[i] for i in range(len(self._body._fields))],
+    #                         'pos': self.pos.value.round(4) * u.km,
+    #                         'rot': self.rot,
+    #                         'rad': self._body.R,
+    #                         'radii': self._rad_set,
+    #                         }
+    #     if self._body.parent:
+    #         self._field_dict.update({'elem_coe_': self.elem_coe})
+    #         self._field_dict.update({'elem_pqw_': self.elem_pqw})
+    #         self._field_dict.update({'elem_rv_': self.elem_rv})
+    #
+    # def get_field(self, f):
+    #     match f:
+    #         # case 'rel2cam':
+    #         #     return self.rel2cam
+    #         case 'pos':
+    #             return self.pos
+    #         case 'rot':
+    #             return self._state[2]
+    #         case 'track':
+    #             return self.track
+    #
+    # def field(self, field_key):
+    #     if field_key in self._field_dict.keys():
+    #         return self._field_dict[field_key]
+    #     else:
+    #         print(f'No field with name: <{field_key}>')
+    #         return None
 
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or

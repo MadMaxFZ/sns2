@@ -46,56 +46,56 @@ class SimSystem(SimBodyDict):
                                   'is_primary',
                                   )
 
-    def data_group(self, sb_name, tgt_key=None):
-        """
-            This method returns the data group associated with the provided body name and key.
-        Parameters
-        ----------
-        sb_name :   the name of the SimBody object targeted
-        tgt_key :   the key associated with the data group requested
-
-        Returns
-        -------
-        data_list : a list containing the data associated with the provided body name and key.
-        """
-        sb_names = None
-        tgt_keys = None
-
-        if type(sb_name) == str and sb_name in self._current_body_names:
-            pass
-        else:
-            raise KeyError("Must provide exactly one SimBody name...")
-
-        if type(tgt_key) == str and tgt_key in self._model_fields2agg:
-            tgt_keys = [tgt_key, ]
-        elif type(tgt_key) == list:
-            tgt_keys = [k for k in tgt_key if k in self.ref_data.model_data_group_keys]
-        else:
-            raise KeyError("Must provide at least one target key...")
-
-        # print(f'sb_names = {sb_name},\n tgt_keys = {tgt_keys}')
-        if sb_name and tgt_keys:
-            # print("\tNAME  AND  TARGET(S)\n")
-            res = {}
-            [res.update({(sb_name, t): self.data[sb_name].field(t)})
-             for t in tgt_keys
-             ]
-
-        elif tgt_keys and not sb_name:
-            # print("\tTARGET  AND  NO NAME\n")
-            res = {}
-            [[res.update({(n, t): self.data[n].field(t)})
-              for n in self._current_body_names
-              ]
-             for t in tgt_keys
-             ]
-
-        else:
-            res = {}
-
-        # [print(f'model.data_group({k[0]}, {k[1]}) = {self.data[k[0]].field(k[1])}')
-        #  for k, v in res.items()]
-        return list(res.values())[0]
+    # def data_group(self, sb_name, tgt_key=None):
+    #     """
+    #         This method returns the data group associated with the provided body name and key.
+    #     Parameters
+    #     ----------
+    #     sb_name :   the name of the SimBody object targeted
+    #     tgt_key :   the key associated with the data group requested
+    #
+    #     Returns
+    #     -------
+    #     data_list : a list containing the data associated with the provided body name and key.
+    #     """
+    #     sb_names = None
+    #     tgt_keys = None
+    #
+    #     if type(sb_name) == str and sb_name in self._current_body_names:
+    #         pass
+    #     else:
+    #         raise KeyError("Must provide exactly one SimBody name...")
+    #
+    #     if type(tgt_key) == str and tgt_key in self._model_fields2agg:
+    #         tgt_keys = [tgt_key, ]
+    #     elif type(tgt_key) == list:
+    #         tgt_keys = [k for k in tgt_key if k in self.ref_data.model_data_group_keys]
+    #     else:
+    #         raise KeyError("Must provide at least one target key...")
+    #
+    #     # print(f'sb_names = {sb_name},\n tgt_keys = {tgt_keys}')
+    #     if sb_name and tgt_keys:
+    #         # print("\tNAME  AND  TARGET(S)\n")
+    #         res = {}
+    #         [res.update({(sb_name, t): self.data[sb_name].field(t)})
+    #          for t in tgt_keys
+    #          ]
+    #
+    #     elif tgt_keys and not sb_name:
+    #         # print("\tTARGET  AND  NO NAME\n")
+    #         res = {}
+    #         [[res.update({(n, t): self.data[n].field(t)})
+    #           for n in self._current_body_names
+    #           ]
+    #          for t in tgt_keys
+    #          ]
+    #
+    #     else:
+    #         res = {}
+    #
+    #     # [print(f'model.data_group({k[0]}, {k[1]}) = {self.data[k[0]].field(k[1])}')
+    #     #  for k, v in res.items()]
+    #     return list(res.values())[0]
 
     def get_agg_fields(self, field_ids):
         # res = {'primary_name': self.system_primary.name}
