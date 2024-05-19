@@ -246,7 +246,15 @@ class SimBody(SimObject):
         else:
             return _pos + self._sb_parent.pos2primary
 
-    # TODO: Revert these to their earlier state. These will be implementing abstract SimObject properties
+    @property
+    def attr(self):
+        res = []
+        for a in self.body:
+            if type(a) == Body:
+                a = a.name
+            res.append(a)
+        return res
+
     @property
     def elem_coe(self):
         if self._is_primary:

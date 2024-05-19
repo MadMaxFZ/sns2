@@ -77,12 +77,7 @@ class SimSystem(SimBodyDict):
         """
         match field_id:
             case 'attr_':
-                res = []
-                for a in _simbod.body:
-                    if type(a) == Body:
-                        a = a.name
-                    res.append(a)
-                return res
+                return _simbod.attr
 
             case 'elem_coe_':
                 return _simbod.elem_coe

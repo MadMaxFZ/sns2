@@ -103,6 +103,7 @@ class Controls(QtWidgets.QWidget):
 
         self.ui.time_wmax.setText(f'{int(new_max)}')
         self.ui.time_slider.setMaximum(new_max)
+        self.tw_slider_updated(float(self.ui.time_warp.text()))
 
     def tw_slider_updated(self, new_value):
         max_value = int(self.ui.time_wmax.text())
