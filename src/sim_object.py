@@ -1,17 +1,15 @@
 
 import logging
+logging.basicConfig(filename="../logs/sns_simobj.log",
+                    level=logging.ERROR,
+                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
+                    )
 import numpy as np
 from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time
 from abc import ABC, abstractmethod, abstractproperty
-
-
-logging.basicConfig(filename="../logs/sns_simobj.log",
-                    level=logging.DEBUG,
-                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
-                    )
 
 vec_type = type(np.zeros((3,), dtype=np.float64))
 

@@ -21,7 +21,7 @@ SNS_SOURCE_PATH = "c:\\_Projects\\sns2\\src\\"
 os.chdir(SNS_SOURCE_PATH)
 
 logging.basicConfig(filename=SNS_SOURCE_PATH + "../logs/sns_defs.log",
-                    level=logging.INFO,
+                    level=logging.ERROR,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 DEF_UNITS     = u.km

@@ -9,7 +9,7 @@ from vispy.scene.cameras import BaseCamera
 from camera_dict import CameraSet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
-                    level=logging.DEBUG,
+                    level=logging.ERROR,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
 

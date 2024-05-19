@@ -1,6 +1,10 @@
 
 # x
 import logging
+logging.basicConfig(filename="../logs/sns_bodmod.log",
+                    level=logging.ERROR,
+                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
+                    )
 import numpy as np
 # from starsys_data import vec_type
 from poliastro.constants import J2000_TDB
@@ -14,10 +18,6 @@ from poliastro.twobody.orbit.scalar import Orbit
 
 from sim_object import SimObject
 
-logging.basicConfig(filename="../logs/sns_simbodmod.log",
-                    level=logging.DEBUG,
-                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
-                    )
 
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
 

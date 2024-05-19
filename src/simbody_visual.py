@@ -7,8 +7,13 @@
 # x
 from typing import Dict, Tuple
 
-import numpy as np
 import logging
+logging.basicConfig(filename="logs/simbod_viz.log",
+                    level=logging.ERROR,
+                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
+                    )
+
+import numpy as np
 from astropy import units as u
 from OpenGL.GL.EXT import polygon_offset
 from PIL import Image
@@ -19,11 +24,6 @@ from vispy.visuals.filters.mesh import TextureFilter
 from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
 from starsys_data import DEF_TEX_FNAME, _latitude, _oblate_sphere, get_texture_data
-
-logging.basicConfig(filename="logs/sns_defs.log",
-                    level=logging.DEBUG,
-                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
-                    )
 
 
 class PlanetVisual(CompoundVisual):

@@ -148,7 +148,7 @@ class StarSystemVisuals:
         self._subvizz = dict(sk_map=self._skymap,
                              r_fram=self._frame_viz,
                              p_mrks=self._plnt_markers,
-                             c_mrks=self._cntr_markers,
+                             # c_mrks=self._cntr_markers,
                              tracks=self._tracks,
                              surfcs=self._planets,
                              )
@@ -191,12 +191,12 @@ class StarSystemVisuals:
         # put init of markers into a method
         self._symbols = [pl.mark for pl in self._planets.values()]
         self._plnt_markers = Markers(parent=self._scene, **DEF_MARKS_INIT)  # a single instance of Markers
-        self._cntr_markers = Markers(parent=self._scene,
-                                     symbol=['+' for _ in range(self._body_count)],
-                                     size=[(MIN_SYMB_SIZE - 2) for _ in range(self._body_count)],
-                                     **DEF_MARKS_INIT)  # another instance of Markers
+        # self._cntr_markers = Markers(parent=self._scene,
+        #                              symbol=['+' for _ in range(self._body_count)],
+        #                              size=[(MIN_SYMB_SIZE - 2) for _ in range(self._body_count)],
+        #                              **DEF_MARKS_INIT)  # another instance of Markers
         # self._plnt_markers.parent = self._mainview.scene
-        self._cntr_markers.set_data(symbol=['+' for _ in range(self._body_count)])
+        # self._cntr_markers.set_data(symbol=['+' for _ in range(self._body_count)])
 
     def _upload2view(self):
         for k, v in self._subvizz.items():
@@ -219,7 +219,7 @@ class StarSystemVisuals:
         self._last_t = self._curr_t
         self._symbol_sizes = self.get_symb_sizes()  # update symbol sizes based upon FOV of body
         _p_face_colors = []
-        _c_face_colors = []
+        # _c_face_colors = []
         _edge_colors = []
         self._agg_cache = agg_data
         self._bods_pos = list(self._agg_cache['pos'].values())
@@ -240,9 +240,9 @@ class StarSystemVisuals:
             if self._planets[sb_name].visible:
                 xform = self._planets[sb_name].transform
                 xform.reset()
-                xform.rotate(W * np.pi / 180, x_ax)
+                xform.rotate(W * np.pi / 180, z_ax)
                 xform.rotate(DEC * np.pi / 180, y_ax)
-                xform.rotate(RA * np.pi / 180, z_ax)
+                xform.rotate(RA * np.pi / 180, x_ax)
                 # if not is_primary:
                 #     xform.scale(_SCALE_FACTOR)
 
@@ -255,9 +255,9 @@ class StarSystemVisuals:
 
             _pf_clr = Color(self._agg_cache['body_color'][sb_name])
             _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]
-            _cf_clr = _pf_clr
+            # _cf_clr = _pf_clr
             _p_face_colors.append(_pf_clr)
-            _c_face_colors.append(_cf_clr)
+            # _c_face_colors.append(_cf_clr)
 
         self._plnt_markers.set_data(pos=np.array(self._bods_pos),
                                     face_color=ColorArray(_p_face_colors),
@@ -265,12 +265,12 @@ class StarSystemVisuals:
                                     size=self._symbol_sizes,
                                     symbol=self._symbols,
                                     )
-        self._cntr_markers.set_data(pos=np.array(self._bods_pos),
-                                    face_color=ColorArray(_c_face_colors),
-                                    edge_color=[0, 1, 0, _cm_e_alpha],
-                                    size=MIN_SYMB_SIZE,
-                                    symbol=['diamond' for _ in range(self._body_count)],                  # <--
-                                    )
+        # self._cntr_markers.set_data(pos=np.array(self._bods_pos),
+        #                             face_color=ColorArray(_c_face_colors),
+        #                             edge_color=[0, 1, 0, _cm_e_alpha],
+        #                             size=MIN_SYMB_SIZE,
+        #                             symbol=['diamond' for _ in range(self._body_count)],                  # <--
+        #                             )
         self._scene.update()
         self._curr_t = time.perf_counter()
         update_time = self._curr_t - self._last_t

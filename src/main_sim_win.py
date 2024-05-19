@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# import logging
-# from typing import List
-# import autologging
-# import numpy as np
-# from vispy.scene import SceneCanvas, visuals
-# from vispy.app.timer import Timer
-# from composite import Ui_frm_sns_controls
-
 import cProfile
 import logging.config
 import psygnal
