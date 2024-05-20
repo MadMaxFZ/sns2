@@ -322,7 +322,7 @@ class SystemDataStore:
                           def_epoch=DEF_EPOCH,
                           dist_unit=self._dist_unit,
                           periods=365,
-                          spacing=24 * 60 * 60 * u.s,  # one Earth day
+                          spacing=24 * 60 * 60 * u.s,  # one Earth day (in seconds)
                           fps=60,
                           n_samples=365,
                           )

@@ -85,6 +85,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                                         self.visuals.vizz_bounds,)
         # set the initial camera position in the ecliptic looking towards the primary
         self.cameras.curr_cam.set_state(DEF_CAM_STATE)
+        self.curr_simbod = self.model['Earth']
         self.reset_rotation()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
@@ -136,7 +137,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.time_elapsed.textChanged.connect(self.controls.tw_elapsed_updated)
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
-        self.model.has_updated.connect(self.canvas.update_canvas)
+        # self.model.has_updated.connect(self.canvas.update_canvas)
         self.model.has_updated.connect(self.refresh_canvas)
 
         self.timer.setInterval(self.interval)
@@ -167,9 +168,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def setActiveBody(self, new_body_name):
         if new_body_name in self.model.body_names:
             self.controls.set_active_body(new_body_name)
+            self.curr_simbod = self.model[new_body_name]
             if self.ui.cam2selected.isChecked():
-                pass
-                # self.cameras.curr_cam.set_state()
+                if self.ui.camBox.currentText() == "tt_cam":
+                    self.cameras.curr_cam.set_state({'distance':
+                                                     self.curr_simbod.radius[0].to(self.curr_simbod.dist_unit).value * 2})
 
         self.refresh_panel('attr_')
         # self.updatePanels('')
@@ -193,7 +196,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def refresh_canvas(self):
         self.visuals.update_vizz(self.model.get_agg_fields(self._vizz_fields2agg))
         self.canvas.update_canvas()
-        self.updatePanels('')
+        # self.updatePanels('')
 
     @pyqtSlot()
     def update_model_epoch(self):
@@ -227,39 +230,46 @@ class MainQtWindow(QtWidgets.QMainWindow):
         """
         widg_grp    = self.controls.widget_group(panel_key)
         # show_it(widg_grp)
-        curr_simbod = self.model.data[self.controls.ui.bodyBox.currentText()]
-        curr_cam_id = self.controls.ui.camBox.currentText()
+        curr_cam_id = self.ui.camBox.currentText()
+        if self.ui.cam2selected.isChecked():
+            self.cameras.curr_cam.set_state({'center': list(self.curr_simbod.pos.value)})
 
         match panel_key:
 
             case 'elem_coe_':
-                if curr_simbod.is_primary:
+                # print("COE!!")
+                if self.curr_simbod.is_primary:
                     for w in widg_grp:
                         w.setText('')
                 else:
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(self.model.data[curr_simbod.name].elem_coe[i].round(4)))
+                        w.setText(str(self.model[self.curr_simbod.name].elem_coe[i].round(4)))
 
             case 'elem_rv_':
-                [w.setText("") for w in widg_grp]
-                self.ui.elem_rv_0.setText(to_vector_str(curr_simbod.r.value))
-                self.ui.elem_rv_1.setText(to_vector_str(curr_simbod.v.value))
-                self.ui.elem_rv_3.setText(to_vector_str(curr_simbod.rot,
-                                                        ('RA: ', '\nDEC:', '\nW:  '))
-                                          )
+                # print("RV!!")
+                if self.curr_simbod.is_primary:
+                    [w.setText("") for w in widg_grp]
+                else:
+                    self.ui.elem_rv_0.setText(to_vector_str(self.curr_simbod.r.value))
+                    self.ui.elem_rv_1.setText(to_vector_str(self.curr_simbod.v.value))
+                    self.ui.elem_rv_3.setText(to_vector_str(self.curr_simbod.rot,
+                                                      ('RA: ', '\nDEC:', '\nW:  '))
+                                              )
 
             case 'elem_pqw_':
-                if curr_simbod.is_primary:
+                # print("PQW!!")
+                if self.curr_simbod.is_primary:
                     for w in widg_grp:
                         w.setText('')
                 else:
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
-                        w.setText(str(to_vector_str(self.model.data[curr_simbod.name].elem_pqw[i])))
+                        w.setText(str(to_vector_str(self.model[self.curr_simbod.name].elem_pqw[i])))
 
             case 'attr_':
-                data_set = curr_simbod.body
+                # print("ATTR!!")
+                data_set = self.curr_simbod.body
                 # print(f'{data_set}')
                 # print(f'panel_key: {panel_key}, widg_grp: {len(widg_grp)}, data_set: {len(data_set)}')
                 for i, data in enumerate(data_set):
@@ -282,9 +292,10 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 state_size = len(cam_state.keys())
                 key_widgs = self.controls.widget_group('key_')
                 widg_count = len(key_widgs)
-                [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
-                print(f'Number of items in camera state: {state_size}\n' +
-                      f'Number of widgets available: {widg_count}')
+                # print("CAM!!!")
+                # [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
+                # print(f'Number of items in camera state: {state_size}\n' +
+                #       f'Number of widgets available: {widg_count}')
 
                 for k, v in cam_state.items():
                     if i < widg_count:

@@ -5,6 +5,7 @@ from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
 from simbody_model import SimBody
 from starsys_data import vec_type, SystemDataStore
+from concurrent.futures import ThreadPoolExecutor
 
 
 class SimBodyDict(dict):
@@ -61,6 +62,7 @@ class SimBodyDict(dict):
         self._IS_UPDATING = False
         self._USE_LOCAL_TIMER = False
         self._USE_MULTIPROC = use_multi
+        self.executor = ThreadPoolExecutor(max_workers=6)
 
     def __setitem__(self, name, simbody):
         self.data[name] = self._validate_simbody(simbody)
@@ -113,8 +115,12 @@ class SimBodyDict(dict):
         self._t0 = self._t1
         _tx = time.perf_counter()
 
-        # TODO: Revise this to use ThreadPoolExecutor
-        [sb.update_state(epoch) for sb in self.data.values()]
+        if self._USE_MULTIPROC:
+            futures = [self.executor.submit(sb.update_state, epoch=epoch) for sb in self.data.values()]
+            for future in futures:
+                future.result()
+        else:
+            [sb.update_state(epoch) for sb in self.data.values()]
 
         self._t1 = time.perf_counter()
         update_time = self._t1 - self._t0
