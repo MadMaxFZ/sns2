@@ -28,7 +28,6 @@ class CanvasWrapper:
         self._view = self._canvas.view
 
     def update_canvas(self):
-        # pass
         self._canvas.draw_scene()
 
     @property

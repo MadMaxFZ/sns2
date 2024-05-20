@@ -172,7 +172,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # self.cameras.curr_cam.set_state()
 
         self.refresh_panel('attr_')
-        self.updatePanels('')
+        # self.updatePanels('')
 
     @pyqtSlot(str)
     def updatePanels(self, new_bod_idx):
@@ -187,7 +187,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.canvas.view.camera = self.cameras.set_curr2key(new_cam_id)
             self.canvas.view.camera = self.cameras.curr_cam
 
-        self.refresh_panel('cam_')
+        # self.refresh_panel('cam_')
 
     @pyqtSlot()
     def refresh_canvas(self):
@@ -198,7 +198,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def update_model_epoch(self):
         self.model.epoch = Time(self.ui.time_sys_epoch.text(), format='jd')
-        if not self.model._USE_AUTO_UPDATE_STATE:
+        if not self.model.USE_AUTO_UPDATE_STATE:
             self.model.update_state(self.model.epoch)
 
     @pyqtSlot()
@@ -279,30 +279,36 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # TODO: output the get_state() dict, whatever it is, in (key, value) pairs of labels.
                 i = 0
                 cam_state = self.cameras.curr_cam.get_state()
+                state_size = len(cam_state.keys())
                 key_widgs = self.controls.widget_group('key_')
-                # [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
+                widg_count = len(key_widgs)
+                [print(f'{k} has type {type(v)} with value {v}') for k, v in cam_state.items()]
+                print(f'Number of items in camera state: {state_size}\n' +
+                      f'Number of widgets available: {widg_count}')
+
                 for k, v in cam_state.items():
-                    key_widgs[i].setText(str(k))
-                    match str(type(v)):
+                    if i < widg_count:
+                        key_widgs[i].setText(str(k))
+                        match str(type(v)):
 
-                        case "<class \'float\'>":
-                            res = f'{v:.4}'
+                            case "<class \'float\'>":
+                                res = f'{v:.4}'
 
-                        case "<class \'tuple\'>":
-                            res = to_vector_str(v)
+                            case "<class \'tuple\'>":
+                                res = to_vector_str(v)
 
-                        case "<class \'vispy.util.quaternion.Quaternion\'>":
-                            res = to_quat_str(v)
-                            widg_grp[i].setText(res)
-                            key_widgs[-1].setText('Attitude:')
-                            widg_grp[-1].setText(to_rpy_str(v))
-                            break
+                            case "<class \'vispy.util.quaternion.Quaternion\'>":
+                                res = to_quat_str(v)
+                                widg_grp[i].setText(res)
+                                key_widgs[-1].setText('Attitude:')
+                                widg_grp[-1].setText(to_rpy_str(v))
+                                break
 
-                        case _:
-                            res = ''
+                            case _:
+                                res = ''
 
-                    widg_grp[i].setText(res)
-                    i += 1
+                        widg_grp[i].setText(res)
+                        i += 1
 
         self.panel_refreshed.emit(panel_key)
 

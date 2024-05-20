@@ -42,6 +42,7 @@ class CameraSet(UserDict):
         self._curr_key = "fly_cam"
         self._curr_cam = FlyCamera(fov=60, name=self._curr_key)
         self.update({self._curr_key: self._curr_cam})
+        self.update({'tt_cam': TurntableCamera(name='tt_cam')})
         self._curr_cam.center = (-9851768.0, -9750760.0, -5012921.5)
 
     @staticmethod

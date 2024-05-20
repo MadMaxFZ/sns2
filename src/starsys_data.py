@@ -24,8 +24,8 @@ logging.basicConfig(filename=SNS_SOURCE_PATH + "../logs/sns_defs.log",
                     level=logging.ERROR,
                     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
-DEF_UNITS     = u.km
-DEF_EPOCH0    = J2000_TDB
+DEF_UNITS = u.km
+DEF_EPOCH0 = J2000_TDB
 DEF_TEX_FNAME = "../resources/textures/2k_5earth_daymap.png"
 vec_type = type(np.zeros((3,), dtype=np.float64))
 DEF_CAM_STATE = {'center': (-8.0e+08, 0.0, 0.0),
@@ -64,18 +64,18 @@ def quat_to_rpy(quat):
 
 
 def to_rpy_str(quat):
-        yaw_x, pitch_y, roll_z = quat_to_rpy(quat)
+    yaw_x, pitch_y, roll_z = quat_to_rpy(quat)
 
-        eul_str = str("R: " + pad_plus(f'{roll_z:5.4}') +
-                      "\nP: " + pad_plus(f'{pitch_y:5.4}') +
-                      "\nY: " + pad_plus(f'{yaw_x:5.4}'))
+    eul_str = str("R: " + pad_plus(f'{roll_z:5.4}') +
+                  "\nP: " + pad_plus(f'{pitch_y:5.4}') +
+                  "\nY: " + pad_plus(f'{yaw_x:5.4}'))
 
-        return eul_str
+    return eul_str
 
 
 def get_texture_data(fname=DEF_TEX_FNAME):
     with Image.open(fname) as im:
-        print(fname, im.format, f"{im. size}x{im.mode}")
+        print(fname, im.format, f"{im.size}x{im.mode}")
         return im.copy()
 
 
@@ -126,23 +126,23 @@ def get_size(obj, seen=None):
 
 
 def _latitude(rows=4, cols=8, radius=1, offset=False):
-    verts = np.empty((rows+1, cols, 3), dtype=np.float32)
+    verts = np.empty((rows + 1, cols, 3), dtype=np.float32)
 
     # compute vertices
-    phi = (np.arange(rows+1) * np.pi / rows).reshape(rows+1, 1)
+    phi = (np.arange(rows + 1) * np.pi / rows).reshape(rows + 1, 1)
     s = radius * np.sin(phi)
     verts[..., 2] = radius * np.cos(phi)
     th = ((np.arange(cols) * 2 * np.pi / cols).reshape(1, cols))
     if offset:
         # rotate each row by 1/2 column
-        th = th + ((np.pi / cols) * np.arange(rows+1).reshape(rows+1, 1))
+        th = th + ((np.pi / cols) * np.arange(rows + 1).reshape(rows + 1, 1))
     verts[..., 0] = s * np.cos(th)
     verts[..., 1] = s * np.sin(th)
     # remove redundant vertices from top and bottom
-    verts = verts.reshape((rows+1)*cols, 3)[cols-1:-(cols-1)]
+    verts = verts.reshape((rows + 1) * cols, 3)[cols - 1:-(cols - 1)]
 
     # compute faces
-    faces = np.empty((rows*cols*2, 3), dtype=np.uint32)
+    faces = np.empty((rows * cols * 2, 3), dtype=np.uint32)
     rowtemplate1 = (((np.arange(cols).reshape(cols, 1) +
                       np.array([[1, 0, 0]])) % (cols)) +
                     np.array([[0, 0, cols]]))
@@ -157,10 +157,10 @@ def _latitude(rows=4, cols=8, radius=1, offset=False):
     faces = faces[cols:-cols]
 
     # adjust for redundant vertices that were removed from top and bottom
-    vmin = cols-1
+    vmin = cols - 1
     faces[faces < vmin] = vmin
     faces -= vmin
-    vmax = verts.shape[0]-1
+    vmax = verts.shape[0] - 1
     faces[faces > vmax] = vmax
     return MeshData(vertices=verts, faces=faces)
 
@@ -171,7 +171,7 @@ def _oblate_sphere(rows=4, cols=None, radius=(1200 * u.km,) * 3, offset=False):
     norms = np.linalg.norm(verts)
 
     # compute vertices
-    phi = (np.arange(rows + 1) * np.pi / rows).reshape(rows+1, 1)
+    phi = (np.arange(rows + 1) * np.pi / rows).reshape(rows + 1, 1)
     s = radius[0] * np.sin(phi)
     verts[..., 2] = radius[2] * np.cos(phi)
     th = ((np.arange(cols + 1) * 2 * np.pi / cols).reshape(1, cols + 1))
@@ -286,7 +286,7 @@ log_config = {
         "traceformatter": {
             "format":
                 "%(asctime)s:%(process)s:%(levelname)s:%(filename)s:"
-                    "%(lineno)s:%(name)s:%(funcName)s:%(message)s",
+                "%(lineno)s:%(name)s:%(funcName)s:%(message)s",
         },
     },
     "handlers": {
@@ -317,47 +317,47 @@ class SystemDataStore:
         """
         """
         self._dist_unit = DEF_UNITS
-        DEF_EPOCH    = DEF_EPOCH0     # default epoch
-        SYS_PARAMS   = dict(sys_name="Sol",
-                            def_epoch=DEF_EPOCH,
-                            dist_unit=self._dist_unit,
-                            periods=365,
-                            spacing=24 * 60 * 60 * u.s,     # one Earth day
-                            fps=60,
-                            n_samples=365,
-                            )
-        _tex_path      = "../resources/textures/"      # directory of texture image files for windows
+        DEF_EPOCH = DEF_EPOCH0  # default epoch
+        SYS_PARAMS = dict(sys_name="Sol",
+                          def_epoch=DEF_EPOCH,
+                          dist_unit=self._dist_unit,
+                          periods=365,
+                          spacing=24 * 60 * 60 * u.s,  # one Earth day
+                          fps=60,
+                          n_samples=365,
+                          )
+        _tex_path = "../resources/textures/"  # directory of texture image files for windows
         _def_tex_fname = "2k_ymakemake_fictional.png"
-        _tex_fnames    = []  # list of texture filenames (will be sorted)
-        _tex_dat_set   = {}  # dist of body name and the texture data associated with it
-        _body_params   = {}  # dict of body name and the static parameters of each
-        _vizz_params   = {}  # dict of body name and the semi-static visual parameters
-        _type_count    = {}  # dict of body types and the count of each typE
-        _viz_assign    = {}  # dict of visual names to use for each body
-        _body_count    = 0   # number of available bodies
-        _body_set: list[Body]      = [Sun,      # all built-ins from poliastro
-                                      Mercury,
-                                      Venus,
-                                      Earth,
-                                      Moon,
-                                      Mars,
-                                      Jupiter,
-                                      Saturn,
-                                      Uranus,
-                                      Neptune,
-                                      Pluto,
-                                      # TODO: Find textures and rotational elements for the outer system moons,
-                                      #       otherwise apply a default condition
-                                      # Phobos,
-                                      # Deimos,
-                                      # Europa,
-                                      # Ganymede,
-                                      # Enceladus,
-                                      # Titan,
-                                      # Titania,
-                                      # Triton,
-                                      # Charon,
-                                      ]
+        _tex_fnames = []  # list of texture filenames (will be sorted)
+        _tex_dat_set = {}  # dist of body name and the texture data associated with it
+        _body_params = {}  # dict of body name and the static parameters of each
+        _vizz_params = {}  # dict of body name and the semi-static visual parameters
+        _type_count = {}  # dict of body types and the count of each typE
+        _viz_assign = {}  # dict of visual names to use for each body
+        _body_count = 0  # number of available bodies
+        _body_set: list[Body] = [Sun,  # all built-ins from poliastro
+                                 Mercury,
+                                 Venus,
+                                 Earth,
+                                 Moon,
+                                 Mars,
+                                 Jupiter,
+                                 Saturn,
+                                 Uranus,
+                                 Neptune,
+                                 Pluto,
+                                 # TODO: Find textures and rotational elements for the outer system moons,
+                                 #       otherwise apply a default condition
+                                 # Phobos,
+                                 # Deimos,
+                                 # Europa,
+                                 # Ganymede,
+                                 # Enceladus,
+                                 # Titan,
+                                 # Titania,
+                                 # Triton,
+                                 # Charon,
+                                 ]
         self._body_names = [bod.name for bod in _body_set]
         # orbital periods of bodies
         _o_per_set = [11.86 * u.year,
@@ -421,18 +421,18 @@ class SystemDataStore:
                        )
         # Markers symbol to be used for each body type
         _body_mark = ('star',
-                       'o',
-                       'diamond',
-                       'triangle',
-                       )
+                      'o',
+                      'diamond',
+                      'triangle',
+                      )
         # indices of body type for each body
         # TODO: Discover primary body and hierarchy tree instead of this
 
-        _type_set = (0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, )
+        _type_set = (0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1,)
 
         # default visual elements to use on which bodies (not used)
         _viz_keys = ("reticle", "nametag", "refframe", "ruler",
-                     "surface", "oscorbit", "radvec", "velvec", )
+                     "surface", "oscorbit", "radvec", "velvec",)
         _com_viz = [_viz_keys[1], _viz_keys[2], _viz_keys[4]]
         _xtr_viz = [_viz_keys[5], _viz_keys[6], _viz_keys[7]]
         _xtr_viz.extend(_com_viz)
@@ -443,9 +443,9 @@ class SystemDataStore:
         _tex_dirlist = os.listdir(_tex_path)
         for i in _tex_dirlist:
             if "png" in i:
-                _tex_fnames.append(i)       # add PNG type files to list
+                _tex_fnames.append(i)  # add PNG type files to list
         # _tex_fnames = _tex_fnames.sort()  # it doesn't like this sort()
-        _tex_fnames = tuple(_tex_fnames)    # the tuple locks in the order of sorted elements
+        _tex_fnames = tuple(_tex_fnames)  # the tuple locks in the order of sorted elements
         # indices of texture filenames for each body
         _tex_idx = (0, 1, 3, 10, 17, 11, 12, 13, 15, 16, 17,
                     # 21, 21, 21, 21, 21, 21, 21, 21, 21,
@@ -518,7 +518,7 @@ class SystemDataStore:
             len(_tex_fnames),
         ]
         print("Check sets = ", _check_sets)
-        assert _check_sets == ([_body_count, ] * (len(_check_sets) - 1) + [100,])
+        assert _check_sets == ([_body_count, ] * (len(_check_sets) - 1) + [100, ])
         print("\t>>>check sets check out!")
         logging.debug("STATIC DATA has been loaded and verified...")
 
@@ -614,7 +614,6 @@ class SystemDataStore:
 
 
 if __name__ == "__main__":
-
     def main():
         logging.debug("-------->> RUNNING SYSTEM_DATASTORE() STANDALONE <<---------------")
 
@@ -622,6 +621,7 @@ if __name__ == "__main__":
         print("dict store:", dict_store)
         print(dict_store.body_data("Earth"))
         exit()
+
 
     main()
 

@@ -55,7 +55,7 @@ class SimBodyDict(dict):
 
         self._t0 = 0
         self._t1 = 0
-        self._USE_AUTO_UPDATE_STATE = auto_up
+        self.USE_AUTO_UPDATE_STATE = auto_up
         self._IS_POPULATED = False
         self._HAS_INIT = False
         self._IS_UPDATING = False
@@ -113,6 +113,7 @@ class SimBodyDict(dict):
         self._t0 = self._t1
         _tx = time.perf_counter()
 
+        # TODO: Revise this to use ThreadPoolExecutor
         [sb.update_state(epoch) for sb in self.data.values()]
 
         self._t1 = time.perf_counter()

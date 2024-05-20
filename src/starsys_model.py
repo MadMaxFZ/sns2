@@ -30,7 +30,7 @@ class SimSystem(SimBodyDict):
     initialized = psygnal.Signal(list)
     panel_data = psygnal.Signal(list, list)
 
-    def __init__(self, ref_data=None, epoch=None, body_names=None, use_multi=False, auto_up=False):
+    def __init__(self, *args, **kwargs):
         """
             Initialize a star system model to include SimBody objects indicated by a list of names.
             If no list of names is provided, the complete default star system will be loaded.
@@ -43,7 +43,7 @@ class SimSystem(SimBodyDict):
         use_multi    : bool     #   If True, use multiprocessing to speed up calculations.
         """
         self._t0 = time.perf_counter()
-        super(SimSystem, self).__init__([])
+        super(SimSystem, self).__init__([], *args, **kwargs)
         self._t1 = time.perf_counter()
         print(f'SimSystem declaration took {(self._t1 - self._t0) * 1e-06:.4f} seconds...')
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
@@ -147,7 +147,7 @@ class SimSystem(SimBodyDict):
             elif type(new_epoch) == TimeDeltaSec:
                 self._sys_epoch += new_epoch
 
-        if self._USE_AUTO_UPDATE_STATE:
+        if self.USE_AUTO_UPDATE_STATE:
             self.update_state(self._sys_epoch)
 
     @property
