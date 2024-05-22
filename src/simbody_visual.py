@@ -186,7 +186,7 @@ class PlanetVisual(CompoundVisual):
 
     @mark.setter
     def mark(self, new_symbol='o'):
-        self._mark = new_symbol
+        self._mark = new_symbol8
 
 
 Planet = create_visual_node(PlanetVisual)

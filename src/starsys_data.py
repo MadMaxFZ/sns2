@@ -79,6 +79,22 @@ def get_texture_data(fname=DEF_TEX_FNAME):
         return im.copy()
 
 
+def toTD(epoch=None):
+    """
+        This function converts an epoch into julian date since epoch and 
+    Parameters
+    ----------
+    epoch
+
+    Returns
+    -------
+
+    """
+    d = (epoch - J2000_TDB).jd
+    T = d / 36525
+    return dict(T=T, d=d)
+
+
 def earth_rot_elements_at_epoch(T=None, d=None):
     """"""
     _T = T
@@ -95,12 +111,6 @@ def t_since_ref(epoch=None, ref=J2000_TDB):
     rot_T = (t_since / 36525.0).value  # dt in centuries
     rot_d = t_since.to(u.day).value  # dt in days
     return rot_T, rot_d
-
-
-def toTD(epoch=None):
-    d = (epoch - J2000_TDB).jd
-    T = d / 36525
-    return dict(T=T, d=d)
 
 
 # taken from https://goshippo.com/blog/measure-real-size-any-python-object by Wissam Jarjoui
