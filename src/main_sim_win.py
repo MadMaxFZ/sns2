@@ -232,7 +232,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         # show_it(widg_grp)
         curr_cam_id = self.ui.camBox.currentText()
         if self.ui.cam2selected.isChecked():
-            self.cameras.curr_cam.set_state({'center': list(self.curr_simbod.pos.value)})
+            self.cameras.curr_cam.set_state({'center': tuple(self.curr_simbod.pos.value)})
 
         match panel_key:
 
