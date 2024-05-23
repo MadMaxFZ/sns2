@@ -25,9 +25,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
     """
     # Signals for communication between simulation components:
     main_window_ready = pyqtSignal(str)
-    panel_refreshed = pyqtSignal(str)
-    on_draw_sig    = psygnal.Signal(str)
-    vispy_keypress = psygnal.Signal(str)
+    panel_refreshed   = pyqtSignal(str)
+    on_draw_sig       = psygnal.Signal(str)
+    vispy_keypress    = psygnal.Signal(str)
 
     """     A dictionary of labels to act as keys to reference the data stored in the SimSystem model:
         The first four data elements must be computed every cycle regardless, while the remaining elements will
