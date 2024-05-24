@@ -49,7 +49,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.timer_paused = True
         self.interval = 10
         self.tw_hold = 0
-        self.model = SimSystem()
+        self.model = SimSystem(use_multi=True)
         self.model.load_from_names()
         self.body_names = self.model.body_names
 

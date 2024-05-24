@@ -59,10 +59,6 @@ class SimObject(ABC):
     def set_orbit(self, ephem=None):
         pass
 
-    @classmethod
-    def _system(cls, _name):
-        return cls.system[_name]
-
     @abstractmethod
     def update_state(self, epoch=None):
         pass
