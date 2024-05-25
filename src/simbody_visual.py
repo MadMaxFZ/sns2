@@ -175,6 +175,7 @@ class PlanetVisual(CompoundVisual):
 
         _filter = TextureFilter(new_data.transpose(Image.Transpose.ROTATE_270),
                                 self._surface_data['tcord'],
+                                # wrapping='clamp_to_edge',
                                 enabled=True,
                                 )
         self._mesh.attach(_filter)
@@ -186,7 +187,7 @@ class PlanetVisual(CompoundVisual):
 
     @mark.setter
     def mark(self, new_symbol='o'):
-        self._mark = new_symbol8
+        self._mark = new_symbol
 
 
 Planet = create_visual_node(PlanetVisual)
