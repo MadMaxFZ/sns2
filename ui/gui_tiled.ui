@@ -42,6 +42,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Consolas</family>
      <pointsize>10</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -64,6 +65,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <pointsize>9</pointsize>
      </font>
     </property>
@@ -85,6 +87,11 @@
        <height>293</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <layout class="QFormLayout" name="formLayout">
       <property name="sizeConstraint">
        <enum>QLayout::SetMaximumSize</enum>
@@ -102,6 +109,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -120,6 +128,7 @@
        <widget class="QLabel" name="attr_0">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -144,6 +153,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -162,6 +172,7 @@
        <widget class="QLabel" name="attr_1">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -186,6 +197,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -204,6 +216,7 @@
        <widget class="QLabel" name="attr_2">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -228,6 +241,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -246,6 +260,7 @@
        <widget class="QLabel" name="attr_3">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -270,6 +285,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -288,6 +304,7 @@
        <widget class="QLabel" name="attr_4">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -312,6 +329,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -330,6 +348,7 @@
        <widget class="QLabel" name="attr_5">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -354,6 +373,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -372,6 +392,7 @@
        <widget class="QLabel" name="attr_6">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -396,6 +417,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -414,6 +436,7 @@
        <widget class="QLabel" name="attr_7">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -438,6 +461,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -456,6 +480,7 @@
        <widget class="QLabel" name="attr_8">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -480,6 +505,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -498,6 +524,7 @@
        <widget class="QLabel" name="attr_9">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -522,6 +549,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -540,6 +568,7 @@
        <widget class="QLabel" name="attr_A">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -564,6 +593,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -582,6 +612,7 @@
        <widget class="QLabel" name="attr_B">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -608,6 +639,11 @@
       <height>271</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+     </font>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
@@ -628,6 +664,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Consolas</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -654,6 +691,7 @@
        </property>
        <property name="font">
         <font>
+         <family>Consolas</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
          <bold>false</bold>
@@ -682,6 +720,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <pointsize>8</pointsize>
      </font>
     </property>
@@ -701,6 +740,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Consolas</family>
      <pointsize>10</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -721,6 +761,11 @@
       <height>71</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+     </font>
+    </property>
     <layout class="QHBoxLayout" name="hlo_sys_epoch" stretch="3,5">
      <property name="sizeConstraint">
       <enum>QLayout::SetMaximumSize</enum>
@@ -729,6 +774,7 @@
       <widget class="QLabel" name="lf_sys_epoch">
        <property name="font">
         <font>
+         <family>Consolas</family>
          <pointsize>12</pointsize>
          <kerning>true</kerning>
         </font>
@@ -746,6 +792,11 @@
      </item>
      <item>
       <widget class="QLineEdit" name="time_sys_epoch">
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+        </font>
+       </property>
        <property name="text">
         <string>Julian Date</string>
        </property>
@@ -771,6 +822,11 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+     </font>
+    </property>
     <property name="frameShape">
      <enum>QFrame::Box</enum>
     </property>
@@ -785,6 +841,11 @@
        <width>491</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
      </property>
      <property name="minimum">
       <number>0</number>
@@ -826,6 +887,11 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -841,6 +907,11 @@
        <width>21</width>
        <height>21</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
      </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -858,6 +929,11 @@
        <height>21</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;10&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -874,9 +950,19 @@
        <height>29</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="lf_twarp">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+         </font>
+        </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;TIME WARP FACTOR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -886,6 +972,7 @@
        <widget class="QLineEdit" name="time_warp">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>10</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -910,6 +997,11 @@
        <height>16</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt; font-weight:600;&quot;&gt;x10^&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -925,6 +1017,11 @@
        <width>40</width>
        <height>22</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
      </property>
      <property name="frame">
       <bool>false</bool>
@@ -948,6 +1045,11 @@
        <height>30</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1,1,1">
       <item>
        <widget class="QPushButton" name="btn_stop_reset">
@@ -959,6 +1061,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
          </font>
         </property>
@@ -971,6 +1074,7 @@
        <widget class="QPushButton" name="btn_reverse">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
          </font>
         </property>
@@ -983,6 +1087,7 @@
        <widget class="QPushButton" name="btn_play_pause">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
          </font>
         </property>
@@ -995,6 +1100,7 @@
        <widget class="QPushButton" name="btn_real_twarp">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
          </font>
         </property>
@@ -1015,6 +1121,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+     </font>
+    </property>
     <layout class="QHBoxLayout" name="ref_times" stretch="1,1">
      <property name="sizeConstraint">
       <enum>QLayout::SetMinimumSize</enum>
@@ -1023,6 +1134,11 @@
       <layout class="QHBoxLayout" name="hlo_ref_epoch">
        <item>
         <widget class="QLabel" name="lf_ref_epoch">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;REF. EPOCH&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -1035,6 +1151,7 @@
         <widget class="QLabel" name="time_ref_epoch">
          <property name="font">
           <font>
+           <family>Consolas</family>
            <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
@@ -1054,6 +1171,11 @@
       <layout class="QHBoxLayout" name="hlo_elapsed">
        <item>
         <widget class="QLabel" name="lf_elapsed">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;REAL TIME&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -1066,6 +1188,7 @@
         <widget class="QLineEdit" name="time_elapsed">
          <property name="font">
           <font>
+           <family>Consolas</family>
            <pointsize>9</pointsize>
            <weight>75</weight>
            <bold>true</bold>
@@ -1095,6 +1218,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Consolas</family>
      <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -1118,6 +1242,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <pointsize>10</pointsize>
       <weight>75</weight>
       <bold>true</bold>
@@ -1137,6 +1262,11 @@
        <width>161</width>
        <height>211</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
      </property>
      <layout class="QFormLayout" name="cl_form">
       <property name="sizeConstraint">
@@ -1167,6 +1297,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -1184,6 +1315,7 @@
        <widget class="QLabel" name="elem_coe_0">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -1216,6 +1348,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -1233,6 +1366,7 @@
        <widget class="QLabel" name="elem_coe_1">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -1265,6 +1399,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -1282,6 +1417,7 @@
        <widget class="QLabel" name="elem_coe_2">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -1314,6 +1450,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -1331,6 +1468,7 @@
        <widget class="QLabel" name="elem_coe_3">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -1363,6 +1501,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -1380,6 +1519,7 @@
        <widget class="QLabel" name="elem_coe_4">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -1412,6 +1552,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -1429,6 +1570,7 @@
        <widget class="QLabel" name="elem_coe_5">
         <property name="font">
          <font>
+          <family>Consolas</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -1459,6 +1601,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <pointsize>10</pointsize>
      </font>
     </property>
@@ -1477,6 +1620,11 @@
        <height>211</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <layout class="QHBoxLayout" name="perifocalLayout" stretch="1,11">
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
@@ -1493,6 +1641,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>75</weight>
             <bold>true</bold>
@@ -1516,6 +1665,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>75</weight>
             <bold>true</bold>
@@ -1539,6 +1689,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>75</weight>
             <bold>true</bold>
@@ -1560,6 +1711,7 @@
          <widget class="QLabel" name="elem_pqw_0">
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1580,6 +1732,7 @@
          <widget class="QLabel" name="elem_pqw_1">
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1600,6 +1753,7 @@
          <widget class="QLabel" name="elem_pqw_2">
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1632,6 +1786,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Consolas</family>
       <pointsize>10</pointsize>
       <weight>75</weight>
       <bold>true</bold>
@@ -1652,6 +1807,11 @@
        <height>211</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Consolas</family>
+      </font>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,45">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1665,6 +1825,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>75</weight>
             <bold>true</bold>
@@ -1688,6 +1849,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>75</weight>
             <bold>true</bold>
@@ -1711,6 +1873,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>75</weight>
             <bold>true</bold>
@@ -1732,6 +1895,7 @@
          <widget class="QLabel" name="elem_rv_0">
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1752,6 +1916,7 @@
          <widget class="QLabel" name="elem_rv_1">
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1775,6 +1940,7 @@
          <widget class="QLabel" name="elem_rv_3">
           <property name="font">
            <font>
+            <family>Consolas</family>
             <pointsize>8</pointsize>
             <weight>50</weight>
             <bold>false</bold>
@@ -1811,6 +1977,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Consolas</family>
      <pointsize>9</pointsize>
      <weight>75</weight>
      <italic>false</italic>
@@ -1834,6 +2001,11 @@
       <height>311</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+     </font>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,13">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,3">
@@ -1845,6 +2017,11 @@
        </property>
        <item>
         <widget class="QLabel" name="camHeader">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CAMERA ID&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -1863,6 +2040,7 @@
          </property>
          <property name="font">
           <font>
+           <family>Consolas</family>
            <pointsize>8</pointsize>
            <weight>50</weight>
            <bold>false</bold>
@@ -1881,6 +2059,7 @@
           <widget class="QLabel" name="key_0">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -1898,6 +2077,7 @@
           <widget class="QLabel" name="key_1">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -1915,6 +2095,7 @@
           <widget class="QLabel" name="key_2">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -1932,6 +2113,7 @@
           <widget class="QLabel" name="key_3">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -1949,6 +2131,7 @@
           <widget class="QLabel" name="key_4">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>75</weight>
              <bold>true</bold>
@@ -1964,6 +2147,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="btn_set_rot">
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+            </font>
+           </property>
            <property name="text">
             <string>ZERO RPY</string>
            </property>
@@ -1983,6 +2171,7 @@
           <widget class="QLabel" name="cam_0">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>50</weight>
              <bold>false</bold>
@@ -2003,6 +2192,7 @@
           <widget class="QLabel" name="cam_1">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>50</weight>
              <bold>false</bold>
@@ -2023,6 +2213,7 @@
           <widget class="QLabel" name="cam_2">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>50</weight>
              <bold>false</bold>
@@ -2043,6 +2234,7 @@
           <widget class="QLabel" name="cam_3">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>50</weight>
              <bold>false</bold>
@@ -2063,6 +2255,7 @@
           <widget class="QLabel" name="cam_4">
            <property name="font">
             <font>
+             <family>Consolas</family>
              <pointsize>8</pointsize>
              <weight>50</weight>
              <bold>false</bold>

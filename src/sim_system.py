@@ -12,16 +12,16 @@ from poliastro.bodies import Body
 from PyQt5.QtCore import QObject
 
 
-class SystemWrapper(QObject):
-    def __init__(self, *args, **kwargs):
-        """
-
-        Returns
-        -------
-        None
-        """
-        super(SystemWrapper, self).__init__(parent=None)
-        self.model = SimSystem(*args, **kwargs)
+# class SystemWrapper(QObject):
+#     def __init__(self, *args, **kwargs):
+#         """
+#
+#         Returns
+#         -------
+#         None
+#         """
+#         super(SystemWrapper, self).__init__(parent=None)
+#         self.model = SimSystem(*args, **kwargs)
 
 
 class SimSystem(SimBodyDict):
