@@ -126,7 +126,7 @@ class SimBodyDict(dict):
         update_time = self._t1 - self._t0
         print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS (1/{update_time:.4f})\n'
               f'  Model updated in {self._t1 - _tx:.4f} seconds...')
-        self.has_updated.emit()
+        self.has_updated.emit(update_time)
 
     def set_parentage(self):
         self._sys_primary = None

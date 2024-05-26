@@ -218,9 +218,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def refresh_canvas(self):
         if self.ui.cam2selected.isChecked():
             self.cameras.curr_cam.set_state({'center':
-                                                 self.curr_simbod.pos,
-                                             'distance':
-                                                 self.curr_simbod.radius[0].to(self.dist_unit).value * 2
+                                                 self.curr_simbod.pos.to(self.model.dist_unit).value,
+                                             # 'distance':
+                                             #     self.curr_simbod.radius[0].to(self.model.dist_unit).value * 2
                                              })
 
         self.visuals.update_vizz(self.model.get_agg_fields(self._vizz_fields2agg))
