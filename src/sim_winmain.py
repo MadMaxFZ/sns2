@@ -25,9 +25,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
     """
     # Signals for communication between simulation components:
     main_window_ready = pyqtSignal(str)
-    panel_refreshed   = pyqtSignal(str)
-    on_draw_sig       = psygnal.Signal(str)
-    vispy_keypress    = psygnal.Signal(str)
+    panel_refreshed = pyqtSignal(str)
+    on_draw_sig = psygnal.Signal(str)
+    vispy_keypress = psygnal.Signal(str)
 
     """     A dictionary of labels to act as keys to reference the data stored in the SimSystem model:
         The first four data elements must be computed every cycle regardless, while the remaining elements will
@@ -82,27 +82,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self._connect_slots()
         self.cameras.curr_cam.set_range(self.visuals.vizz_bounds,
                                         self.visuals.vizz_bounds,
-                                        self.visuals.vizz_bounds,)
+                                        self.visuals.vizz_bounds, )
         # set the initial camera position in the ecliptic looking towards the primary
         self.cameras.curr_cam.set_state(DEF_CAM_STATE)
         self.curr_simbod = self.model['Earth']
         self.reset_rotation()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
-
-    def _key_handler(self, key_chr):
-        match key_chr:
-
-            case "[":
-                # lower time warp
-                pass
-
-            case "]":
-                # increase time warp
-                pass
-
-            case "[":
-                pass
 
     def _setup_layout(self):
         # TODO:     Learn more about the QSplitter object
@@ -130,6 +116,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.bodyList.currentRowChanged.connect(self.ui.bodyBox.setCurrentIndex)
         self.ui.bodyBox.currentTextChanged.connect(self.setActiveBody)
         self.ui.camBox.currentTextChanged.connect(self.setActiveCam)
+        self.ui.cam2selected.stateChanged.connect(self.swapCam)
 
         #   Handling epoch timer widget signals
         self.ui.time_wexp.valueChanged.connect(self.controls.tw_exp_updated)
@@ -160,6 +147,38 @@ class MainQtWindow(QtWidgets.QMainWindow):
     def update_elapsed(self):
         self.ui.time_elapsed.setText(f'{(float(self.ui.time_elapsed.text()) + self.interval / 86400):.4f}')
 
+    def swapCam(self):
+        if self.ui.cam2selected.isChecked():
+            self.cameras.set_curr2key('tt_cam')
+            self.setActiveCam('tt_cam')
+            print(f'CAM_STATE: {self.cameras.curr_cam.get_state()}')
+            self.cameras.curr_cam.set_state({'center':
+                                                 self.curr_simbod.pos.value,
+                                             # 'distance':
+                                             #     self.curr_simbod.radius[0].to(self.model.dist_unit).value * 2,
+                                             })
+        else:
+            self.cameras.set_curr2key('fly_cam')
+            self.setActiveCam('fly_cam')
+            self.cameras.curr_cam.set_state({'center':
+                                                 self.curr_simbod.pos.value +
+                                                 self.curr_simbod.radius[0].to(self.model.dist_unit).value * 2,
+                                             })
+
+    def _key_handler(self, key_chr):
+        match key_chr:
+
+            case "[":
+                # lower time warp
+                pass
+
+            case "]":
+                # increase time warp
+                pass
+
+            case "[":
+                pass
+
     @property
     def curr_body_name(self):
         return self.ui.bodyBox.currentText()
@@ -171,8 +190,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.curr_simbod = self.model[new_body_name]
             if self.ui.cam2selected.isChecked():
                 if self.ui.camBox.currentText() == "tt_cam":
-                    self.cameras.curr_cam.set_state({'distance':
-                                                     self.curr_simbod.radius[0].to(self.curr_simbod.dist_unit).value * 2})
+                    self.cameras.curr_cam.set_state({'center':
+                                                         self.curr_simbod.pos,
+                                                     'distance':
+                                                         self.curr_simbod.radius[0].to(self.model.dist_unit).value * 2
+                                                     })
 
         self.refresh_panel('attr_')
         # self.updatePanels('')
@@ -194,6 +216,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def refresh_canvas(self):
+        if self.ui.cam2selected.isChecked():
+            self.cameras.curr_cam.set_state({'center':
+                                                 self.curr_simbod.pos,
+                                             'distance':
+                                                 self.curr_simbod.radius[0].to(self.dist_unit).value * 2
+                                             })
+
         self.visuals.update_vizz(self.model.get_agg_fields(self._vizz_fields2agg))
         self.canvas.update_canvas()
         # self.updatePanels('')
@@ -228,7 +257,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         -------
             Has no return value, but emits the panel_key via the signal
         """
-        widg_grp    = self.controls.widget_group(panel_key)
+        widg_grp = self.controls.widget_group(panel_key)
         # show_it(widg_grp)
         curr_cam_id = self.ui.camBox.currentText()
         if self.ui.cam2selected.isChecked():
@@ -254,7 +283,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                     self.ui.elem_rv_0.setText(to_vector_str(self.curr_simbod.r.value))
                     self.ui.elem_rv_1.setText(to_vector_str(self.curr_simbod.v.value))
                     self.ui.elem_rv_3.setText(to_vector_str(self.curr_simbod.rot,
-                                                      ('RA: ', '\nDEC:', '\nW:  '))
+                                                            ('RA: ', '\nDEC:', '\nW:  '))
                                               )
 
             case 'elem_pqw_':
