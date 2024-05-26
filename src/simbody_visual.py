@@ -18,6 +18,7 @@ from astropy import units as u
 from OpenGL.GL.EXT import polygon_offset
 from PIL import Image
 from vispy.color import *
+from vispy.gloo.texture import Texture2D
 from vispy.visuals import CompoundVisual
 from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
@@ -86,17 +87,20 @@ class PlanetVisual(CompoundVisual):
             self._radius = [1.0, 1.0, 1.0] * u.km  # default to 1.0
             self._texture_data = get_texture_data(DEF_TEX_FNAME)
 
-        self._texture_data = self._texture_data.transpose(Image.Transpose.ROTATE_270)
+        self._texture = None
+
         if cols is None:        # auto set cols to 2 * rows
             cols = rows * 2
 
         if method == 'latitude':
             radius = self._radius
-            self._mesh_data = _latitude(rows, cols, self._radius, offset)
+            self._mesh_data = _latitude(rows, cols,
+                                        self._radius, offset)
             # print("Using 'latitude' method...")
-        else:
+        elif method == 'oblate':
             radius = self._radius
-            self._surface_data = _oblate_sphere(rows, cols, self._radius, offset)
+            self._surface_data = _oblate_sphere(rows, cols,
+                                                self._radius, offset)
             self._mesh_data = MeshData(vertices=self._surface_data['verts'],
                                        faces=self._surface_data['faces'])
             self._surface_data['edges'] = self._mesh_data.get_edges()
@@ -173,13 +177,16 @@ class PlanetVisual(CompoundVisual):
         if new_data is None:
             new_data = self._texture_data
 
-        _filter = TextureFilter(new_data.transpose(Image.Transpose.ROTATE_270),
+        self._texture_data = new_data.transpose(Image.Transpose.ROTATE_270)
+        self._texture = Texture2D(data=self._texture_data,
+                                  interpolation='linear',
+                                  wrapping='clamp_to_edge')
+        # self._texture.set_data(data=self._texture_data)
+        _filter = TextureFilter(self._texture_data,
                                 self._surface_data['tcord'],
-                                # wrapping='clamp_to_edge',
                                 enabled=True,
                                 )
         self._mesh.attach(_filter)
-        # self.update()
 
     @property
     def mark(self):

@@ -22,6 +22,11 @@
      <height>261</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Liberation Mono</family>
+    </font>
+   </property>
    <layout class="QVBoxLayout" name="EpochTimer" stretch="2,5,3">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
@@ -231,7 +236,7 @@
        </widget>
        <widget class="QSpinBox" name="sp_exp_2"/>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -302,6 +307,11 @@
      <verstretch>1</verstretch>
     </sizepolicy>
    </property>
+   <property name="font">
+    <font>
+     <family>Liberation Mono</family>
+    </font>
+   </property>
    <item>
     <property name="text">
      <string>item_Primary</string>
@@ -319,6 +329,11 @@
      <width>301</width>
      <height>191</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Liberation Mono</family>
+    </font>
    </property>
    <layout class="QVBoxLayout" name="camera_state" stretch="1,1,12">
     <item>
@@ -493,6 +508,11 @@
      <width>291</width>
      <height>531</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Liberation Mono</family>
+    </font>
    </property>
    <property name="title">
     <string>ORBITAL ELEMENTS</string>
@@ -852,6 +872,11 @@
      <width>301</width>
      <height>332</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Liberation Mono</family>
+    </font>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
