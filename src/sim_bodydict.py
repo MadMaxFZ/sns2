@@ -3,8 +3,8 @@ import numpy as np
 from psygnal import Signal
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
-from simbody_model import SimBody
-from starsys_data import vec_type, SystemDataStore
+from sim_body import SimBody
+from datastore import vec_type, SystemDataStore
 from concurrent.futures import ThreadPoolExecutor
 
 

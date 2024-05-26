@@ -7,11 +7,11 @@ from vispy.app import use_app
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
-from starsys_model import SimSystem
+from sim_system import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
-from starsys_visual import StarSystemVisuals
-from starsys_data import *
+from system_visual import StarSystemVisuals
+from datastore import *
 
 logging.config.dictConfig(log_config)
 QT_NATIVE = False

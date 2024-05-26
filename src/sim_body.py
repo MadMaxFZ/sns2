@@ -12,7 +12,7 @@ from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time
 from vispy.color import Color
-from starsys_data import vec_type
+from datastore import vec_type
 from poliastro.bodies import Body
 from poliastro.twobody.orbit.scalar import Orbit
 

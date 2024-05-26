@@ -15,10 +15,10 @@ from vispy.scene.visuals import (create_visual_node,
                                  Compound, Polygon)
 # from starsys_data import vec_type
 from simbody_visual import Planet
-from skymap_visual import SkyMap
-from simbody_model import SimBody, MIN_FOV
+from sim_skymap import SkyMap
+from sim_body import SimBody, MIN_FOV
 from PyQt5.QtCore import pyqtSlot
-from camera_dict import CameraSet
+from sim_camset import CameraSet
 
 # these quantities can be served from DATASTORE class
 MIN_SYMB_SIZE = 5

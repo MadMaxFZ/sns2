@@ -6,7 +6,7 @@ from PyQt5.QtCore import pyqtSignal
 from vispy import app, scene
 from vispy.color import Color
 from vispy.scene.cameras import BaseCamera
-from camera_dict import CameraSet
+from sim_camset import CameraSet
 
 logging.basicConfig(filename="logs/mainsimwin.log",
                     level=logging.ERROR,

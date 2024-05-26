@@ -1,4 +1,4 @@
-# starsys_model.py
+# sim_system.py
 import logging
 logging.basicConfig(filename="../logs/sns_sysmod.log",
                     level=logging.ERROR,
@@ -7,7 +7,7 @@ logging.basicConfig(filename="../logs/sns_sysmod.log",
 import time
 import psygnal
 from astropy.time import Time, TimeDeltaSec
-from simbody_dict import SimBodyDict
+from sim_bodydict import SimBodyDict
 from poliastro.bodies import Body
 from PyQt5.QtCore import QObject
 

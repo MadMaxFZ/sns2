@@ -7,8 +7,8 @@ import astropy.units as u
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from gui_tiled import Ui_SNS_DataPanels
-from starsys_data import log_config
-from starsys_data import DEF_EPOCH0 as DEF_EPOCH
+from datastore import log_config
+from datastore import DEF_EPOCH0 as DEF_EPOCH
 from astropy.time import Time, TimeDelta
 
 logging.config.dictConfig(log_config)

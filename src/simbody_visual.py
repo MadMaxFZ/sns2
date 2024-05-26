@@ -23,7 +23,7 @@ from vispy.visuals.mesh import MeshVisual
 from vispy.visuals.filters.mesh import TextureFilter
 from vispy.scene.visuals import create_visual_node
 from vispy.geometry.meshdata import MeshData
-from starsys_data import DEF_TEX_FNAME, _latitude, _oblate_sphere, get_texture_data
+from datastore import DEF_TEX_FNAME, _latitude, _oblate_sphere, get_texture_data
 
 
 class PlanetVisual(CompoundVisual):
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     def main():
         from vispy.app.timer import Timer
         from vispy.scene import SceneCanvas, TurntableCamera
-        from skymap_visual import SkyMap
+        from sim_skymap import SkyMap
         import vispy.visuals.transforms as trx
 
         print("BodyViz test code...")

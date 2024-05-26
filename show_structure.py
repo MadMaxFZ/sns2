@@ -30,18 +30,18 @@ def scan_fname(filename=None):
 
 
 path_name = "C:\\_Projects\\sns2\\src\\"
-trgt_dict = dict(g="starsys_data.py",
+trgt_dict = dict(g="datastore.py",
                  # i="viz_functs.py",
                  # f="qt_wrap.py",
                  f="sim_controls.py",
-                 i="main_sim_win.py",
+                 i="sim_winmain.py",
                  e="sim_canvas.py",
-                 a="starsys_model.py",
-                 b="simbody_model.py",
-                 c="starsys_visual.py",
+                 a="sim_system.py",
+                 b="sim_body.py",
+                 c="system_visual.py",
                  d="simbody_visual.py",
-                 h="skymap_visual.py",
-                 j="camera_dict.py",
+                 h="sim_skymap.py",
+                 j="sim_camset.py",
                  k="gui_composite.py",
                  )
 for i in sorted(trgt_dict.keys()):
