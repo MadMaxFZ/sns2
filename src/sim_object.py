@@ -18,8 +18,6 @@ class SimObject(ABC):
     """
         This is a base class for SimBody, SimShip and any other gravitationally affected objects in the sim.
     """
-    #
-    # curr_camera = None
     epoch0 = J2000_TDB.jd
     system = {}
     # created = pyqtSignal(str)
