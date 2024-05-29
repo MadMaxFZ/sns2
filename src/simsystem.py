@@ -1,16 +1,16 @@
-# sim_system.py
+# simsystem.py
 import logging
-logging.basicConfig(filename="../logs/sns_sysmod.log",
-                    level=logging.ERROR,
-                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
-                    )
 import time
 import psygnal
 from astropy.time import Time, TimeDeltaSec
 from sim_bodydict import SimBodyDict
-from poliastro.bodies import Body
-from PyQt5.QtCore import QObject
+# from poliastro.bodies import Body
+# from PyQt5.QtCore import QObject
 
+logging.basicConfig(filename="../logs/sns_sysmod.log",
+                    level=logging.ERROR,
+                    format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
+                    )
 
 # class SystemWrapper(QObject):
 #     def __init__(self, *args, **kwargs):
@@ -30,22 +30,21 @@ class SimSystem(SimBodyDict):
     initialized = psygnal.Signal(list)
     panel_data = psygnal.Signal(list, list)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, comm_q, stat_q, *args, **kwargs):
         """
-            Initialize a star system model to include SimBody objects indicated by a list of names.
-            If no list of names is provided, the complete default star system will be loaded.
-            The 'multi' argument indicates if the multiprocessing routines should be used or not.
+            Initialize the star system model. Two Queues are passed to provide
+            communication with the main process
 
         Parameters
         ----------
-        epoch        : Time     #   Epoch of the system.
-        body_names   : list     #   List of names of bodies to include in the model.
-        use_multi    : bool     #   If True, use multiprocessing to speed up calculations.
+        comm_q      : Queue     #   an incoming queue for commands to the SimSystem
+        stat_q      : Queue     #   an outgoing queue for signals from the SimSystem
         """
-        self._t0 = time.perf_counter()
+        self._t0 = self._base_t = time.perf_counter()
         super(SimSystem, self).__init__([], *args, **kwargs)
         self._t1 = time.perf_counter()
-        print(f'SimSystem declaration took {(self._t1 - self._t0) * 1e-06:.4f} seconds...')
+        self._t0 = self._t1
+        print(f'SimSystem declaration took {(self._t1 - self._base_t) * 1e-06:.4f} seconds...')
         self._model_fields2agg = ('rad0', 'pos', 'rot', 'radius',
                                   'elem_coe_', 'elem_pqw_', 'elem_rv',
                                   'is_primary',

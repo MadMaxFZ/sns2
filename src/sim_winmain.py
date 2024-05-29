@@ -5,9 +5,11 @@ import logging.config
 import psygnal
 from vispy.app import use_app
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread
+# from PyQt5.QtCore import QThread
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QCoreApplication
-from sim_system import SimSystem
+from multiprocessing import Queue
+from poliastro.bodies import Body
+from simsystem import SimSystem
 from sim_canvas import CanvasWrapper
 from sim_controls import Controls
 from system_visual import StarSystemVisuals
@@ -49,7 +51,9 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.timer_paused = True
         self.interval = 10
         self.tw_hold = 0
-        self.model = SimSystem(use_multi=True)
+        comm_q = Queue()
+        stat_q = Queue()
+        self.model = SimSystem(comm_q=comm_q, stat_q=stat_q, use_multi=True)
         self.model.load_from_names()
         self.body_names = self.model.body_names
 
@@ -76,9 +80,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
 
         self._setup_layout()
         self.controls.init_controls(self.body_names, self.cameras.cam_ids)
-        # self.thread = QThread()
-        # self.model.moveToThread(self.thread)
-        # self.thread.start()
         self._connect_slots()
         self.cameras.curr_cam.set_range(self.visuals.vizz_bounds,
                                         self.visuals.vizz_bounds,
@@ -268,9 +269,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'elem_coe_':
                 # print("COE!!")
                 if self.curr_simbod.is_primary:
-                    for w in widg_grp:
-                        w.setText('')
-                else:
+                    [w.setText("") for w in widg_grp]
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')
                         w.setText(str(self.model[self.curr_simbod.name].elem_coe[i].round(4)))
@@ -279,6 +278,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
                 # print("RV!!")
                 if self.curr_simbod.is_primary:
                     [w.setText("") for w in widg_grp]
+
                 else:
                     self.ui.elem_rv_0.setText(to_vector_str(self.curr_simbod.r.value))
                     self.ui.elem_rv_1.setText(to_vector_str(self.curr_simbod.v.value))
@@ -289,8 +289,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
             case 'elem_pqw_':
                 # print("PQW!!")
                 if self.curr_simbod.is_primary:
-                    for w in widg_grp:
-                        w.setText('')
+                    [w.setText("") for w in widg_grp]
                 else:
                     for i, w in enumerate(widg_grp):
                         # print(f'widget #{i}: {w.objectName()} -> {data_set[i]}')

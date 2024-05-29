@@ -199,20 +199,29 @@ class SimBody(SimObject):
 
     @property
     def sys_primary(self):
-        return self._sys_primary
+        if self.body.parent:
+            if self._sb_parent:
+                return self.sys_primary(self._sb_parent)
+            else:
+                print("Error: SimSystem parentage not set...")
+        else:
+            return self
 
-    @sys_primary.setter
-    def sys_primary(self, new_primary):
-        self._sys_primary = new_primary
+    # @sys_primary.setter
+    # def sys_primary(self, new_primary):
+    #     self._sys_primary = new_primary
 
     @property
     def is_primary(self):
-        return self._is_primary
+        if self.body.parent:
+            return False
+        else:
+            return True
 
-    @is_primary.setter
-    def is_primary(self, is_pri):
-        if type(is_pri) == bool:
-            self._is_primary = is_pri
+    # @is_primary.setter
+    # def is_primary(self, is_pri):
+    #     if type(is_pri) == bool:
+    #         self._is_primary = is_pri
 
     @property
     def type(self):

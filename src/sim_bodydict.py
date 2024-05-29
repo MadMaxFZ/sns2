@@ -54,7 +54,7 @@ class SimBodyDict(dict):
         else:
             self._sys_epoch = Time(self.ref_data.default_epoch, format='jd', scale='tdb')
 
-        self._t0 = 0
+        self._base_t = 0
         self._t1 = 0
         self.USE_AUTO_UPDATE_STATE = auto_up
         self._IS_POPULATED = False
@@ -112,7 +112,7 @@ class SimBodyDict(dict):
         # self.set_field_dict()
 
     def update_state(self, epoch):
-        self._t0 = self._t1
+        self._base_t = self._t1
         _tx = time.perf_counter()
 
         if self._USE_MULTIPROC:
@@ -123,7 +123,7 @@ class SimBodyDict(dict):
             [sb.update_state(epoch) for sb in self.data.values()]
 
         self._t1 = time.perf_counter()
-        update_time = self._t1 - self._t0
+        update_time = self._t1 - self._base_t
         print(f'\n\t\t> Frame Rate: {1 / update_time:.4f} FPS (1/{update_time:.4f})\n'
               f'  Model updated in {self._t1 - _tx:.4f} seconds...')
         self.has_updated.emit(update_time)
