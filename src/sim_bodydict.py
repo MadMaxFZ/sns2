@@ -179,6 +179,24 @@ class SimBodyDict(dict):
         return [sb.state_matrix for sb in self.data.values()]
 
     @property
+    def track_data(self):
+        return [sb.track_data for sb in self.data.values()]
+
+    @property
+    def elem_coe(self):
+        return [sb.elem_coe for sb in self.data.values()]
+
+    @property
+    def elem_pqw(self):
+        return [sb.elem_pqw for sb in self.data.values()]
+
+    @property
+    def elem_rv(self):
+        return [sb.elem_rv for sb in self.data.values()]
+
+    # The following properties should me relocated into the StarSysVisual class
+    # since they do not apply to the SimSystem itself, only the rendering
+    @property
     def body_mark(self):
         return [sb.body_mark for sb in self.data.values()]
 
@@ -197,22 +215,6 @@ class SimBodyDict(dict):
     @property
     def track_alpha(self):
         return [sb.track_alpha for sb in self.data.values()]
-
-    @property
-    def track_data(self):
-        return [sb.track_data for sb in self.data.values()]
-
-    @property
-    def elem_coe(self):
-        return [sb.elem_coe for sb in self.data.values()]
-
-    @property
-    def elem_pqw(self):
-        return [sb.elem_pqw for sb in self.data.values()]
-
-    @property
-    def elem_rv(self):
-        return [sb.elem_rv for sb in self.data.values()]
 
 
 if __name__ == "__main__":
