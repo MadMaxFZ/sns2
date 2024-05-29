@@ -154,12 +154,13 @@ class MainQtWindow(QtWidgets.QMainWindow):
             self.setActiveCam('tt_cam')
             print(f'CAM_STATE: {self.cameras.curr_cam.get_state()}')
             self.cameras.curr_cam.set_state({'center':
-                                                 self.curr_simbod.pos.value,
+                                             self.curr_simbod.pos.value,
                                              # 'distance':
                                              #     self.curr_simbod.radius[0].to(self.model.dist_unit).value * 2,
                                              })
         else:
             self.cameras.set_curr2key('fly_cam')
+            print(f'CAM_STATE: {self.cameras.curr_cam.get_state()}')
             self.setActiveCam('fly_cam')
             self.cameras.curr_cam.set_state({'center':
                                                  self.curr_simbod.pos.value +
