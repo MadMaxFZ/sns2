@@ -3,7 +3,9 @@ import logging
 import time
 import psygnal
 from astropy.time import Time, TimeDeltaSec
+from multiprocessing import Queue
 from sim_bodydict import SimBodyDict
+from multiprocessing import shared_memory
 # from poliastro.bodies import Body
 # from PyQt5.QtCore import QObject
 
@@ -37,8 +39,7 @@ class SimSystem(SimBodyDict):
 
         Parameters
         ----------
-        comm_q      : Queue     #   an incoming queue for commands to the SimSystem
-        stat_q      : Queue     #   an outgoing queue for signals from the SimSystem
+
         """
         self._t0 = self._base_t = time.perf_counter()
         super(SimSystem, self).__init__([], *args, **kwargs)
@@ -49,6 +50,14 @@ class SimSystem(SimBodyDict):
                                   'elem_coe_', 'elem_pqw_', 'elem_rv',
                                   'is_primary',
                                   )
+        self.comm_q = comm_q
+        self.stat_q = stat_q
+        self.load_from_names()
+        self.update_state(self.epoch)
+        # self._shmem_0 = shared_memory.SharedMemory(create=True, size=self.num_bodies *
+        # self._shmem_1 =
+        self._state_buffers = None
+
 
     def get_agg_fields(self, field_ids):
         # res = {'primary_name': self.system_primary.name}

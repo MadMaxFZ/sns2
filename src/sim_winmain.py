@@ -51,10 +51,11 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.timer_paused = True
         self.interval = 10
         self.tw_hold = 0
-        comm_q = Queue()
-        stat_q = Queue()
-        self.model = SimSystem(comm_q=comm_q, stat_q=stat_q, use_multi=True)
-        self.model.load_from_names()
+        self.comm_q = Queue()
+        self.stat_q = Queue()
+
+        self.model = SimSystem(self.comm_q, self.stat_q, use_multi=True)
+        # self.model.load_from_names()
         self.body_names = self.model.body_names
 
         #       TODO:   Encapsulate the creation of the CameraSet instance inside the

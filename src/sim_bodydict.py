@@ -139,6 +139,10 @@ class SimBodyDict(dict):
     '''===== PROPERTIES ==========================================================================================='''
 
     @property
+    def num_bodies(self):
+        return len(self.data.keys())
+
+    @property
     def primary(self):
         return self._sys_primary
 
