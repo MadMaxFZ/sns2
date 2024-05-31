@@ -177,12 +177,12 @@ class PlanetVisual(CompoundVisual):
         if new_data is None:
             new_data = self._texture_data
 
-        self._texture_data = new_data.transpose(Image.Transpose.ROTATE_270)
-        self._texture = Texture2D(data=self._texture_data,
-                                  interpolation='linear',
-                                  wrapping='clamp_to_edge')
+        # self._texture_data = new_data.transpose(Image.Transpose.ROTATE_270)
+        # self._texture = Texture2D(data=new_data,
+        #                           interpolation='linear',
+        #                           wrapping='clamp_to_edge')
         # self._texture.set_data(data=self._texture_data)
-        _filter = TextureFilter(self._texture_data,
+        _filter = TextureFilter(new_data,
                                 self._surface_data['tcord'],
                                 enabled=True,
                                 )

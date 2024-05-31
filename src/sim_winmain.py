@@ -2,6 +2,8 @@
 
 import cProfile
 import logging.config
+
+import numpy as np
 import psygnal
 from vispy.app import use_app
 from PyQt5 import QtWidgets, QtCore
@@ -91,6 +93,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.reset_rotation()
         self.main_window_ready.emit('Earth')
         self._last_elapsed = 0.0
+        self.rpy_delta = np.zeros((3, 1), dtype=np.float64)
 
     def _setup_layout(self):
         # TODO:     Learn more about the QSplitter object
@@ -126,7 +129,6 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.ui.time_elapsed.textChanged.connect(self.controls.tw_elapsed_updated)
         self.ui.time_sys_epoch.textChanged.connect(self.update_model_epoch)
         self.ui.time_sys_epoch.textChanged.connect(self.updatePanels)
-        # self.model.has_updated.connect(self.canvas.update_canvas)
         self.model.has_updated.connect(self.refresh_canvas)
 
         self.timer.setInterval(self.interval)
@@ -142,8 +144,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         print("Signals / Slots Connected...")
 
     def reset_rotation(self):
-        self.cameras.curr_cam.set_default_state()
-        self.cameras.curr_cam.reset()
+        # find current RPY, store it, then subtract it from what would otherwise be there
         self.updatePanels('')
 
     def update_elapsed(self):
