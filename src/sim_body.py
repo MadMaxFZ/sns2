@@ -207,21 +207,12 @@ class SimBody(SimObject):
         else:
             return self
 
-    # @sys_primary.setter
-    # def sys_primary(self, new_primary):
-    #     self._sys_primary = new_primary
-
     @property
     def is_primary(self):
         if self.body.parent:
             return False
         else:
             return True
-
-    # @is_primary.setter
-    # def is_primary(self, is_pri):
-    #     if type(is_pri) == bool:
-    #         self._is_primary = is_pri
 
     @property
     def type(self):
