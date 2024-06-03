@@ -11,7 +11,7 @@ from sim_body import MIN_FOV
 from psygnal import Signal
 
 
-class CameraSet(UserDict):
+class CameraSet(dict):
     """     This class contains and manages a set of camera objects.
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
