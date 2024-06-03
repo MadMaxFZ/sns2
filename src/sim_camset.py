@@ -11,7 +11,7 @@ from sim_body import MIN_FOV
 from psygnal import Signal
 
 
-class CameraSet(dict):
+class CameraSet(UserDict):
     """     This class contains and manages a set of camera objects.
         The user may add camera objects in a list, and these cameras
         can be used in various views within an application.
@@ -29,14 +29,10 @@ class CameraSet(dict):
         else:
             self.data = {}  # super(CameraSet, self).__init__()
 
-        if vec_type:
-            self._vec_type = vec_type
-        else:
+        if not vec_type:
             self._vec_type = type(np.zeros((3,), dtype=np.float64))
 
-        if dist_unit:
-            self._dist_unit = dist_unit
-        else:
+        if not dist_unit:
             self._dist_unit = u.km = u.km
 
         self._curr_key = "fly_cam"
