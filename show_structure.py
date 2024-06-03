@@ -30,19 +30,20 @@ def scan_fname(filename=None):
 
 
 path_name = "C:\\_Projects\\sns2\\src\\"
-trgt_dict = dict(g="datastore.py",
+trgt_dict = dict(# g="datastore.py",
                  # i="viz_functs.py",
                  # f="qt_wrap.py",
-                 f="sim_controls.py",
-                 i="sim_winmain.py",
-                 e="sim_canvas.py",
-                 a="simsystem.py",
+                 # f="sim_controls.py",
+                 # i="sim_winmain.py",
+                 # e="sim_canvas.py",
+                 # a="simsystem.py",
                  b="sim_body.py",
-                 c="system_visual.py",
-                 d="simbody_visual.py",
-                 h="sim_skymap.py",
-                 j="sim_camset.py",
-                 k="gui_composite.py",
+                 j="sim_object.py"
+                 # c="system_visual.py",
+                 # d="simbody_visual.py",
+                 # h="sim_skymap.py",
+                 # j="sim_camset.py",
+                 # k="gui_composite.py",
                  )
 for i in sorted(trgt_dict.keys()):
     filename = path_name + trgt_dict[i]

@@ -157,17 +157,14 @@ class SimObject(ABC):
             self._end_epoch = new_end
 
     @property
-    @abstractproperty
     def elem_coe(self):
         pass
 
     @property
-    @abstractproperty
     def elem_pqw(self):
         pass
 
     @property
-    @abstractproperty
     def elem_rv(self):
         pass
 
