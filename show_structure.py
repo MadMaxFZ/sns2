@@ -11,7 +11,13 @@ def show_info(functionNode):
         print("\n\tProperty name:", functionNode.name)
 
 
-def scan_fname(filename=None):
+def scan_fname(filename: str = None):
+    """
+
+    Parameters
+    ----------
+    filename : str
+    """
     with open(filename) as file:
         node = ast.parse(file.read())
 
