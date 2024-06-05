@@ -1,23 +1,14 @@
 
-# x
 import logging
-logging.basicConfig(filename="../logs/sns_bodmod.log",
+
+logging.basicConfig(filename="../logs/sns_simbod.log",
                     level=logging.ERROR,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
-import numpy as np
-# from starsys_data import vec_type
-from poliastro.constants import J2000_TDB
-from poliastro.ephem import *
-from astropy import units as u
-from astropy.time import Time
+
+from sim_object import *
 from vispy.color import Color
-from datastore import vec_type
-from poliastro.bodies import Body
 from poliastro.twobody.orbit.scalar import Orbit
-
-from sim_object import SimObject
-
 
 MIN_FOV = 1 / 3600      # I think this would be arc-seconds
 
@@ -35,20 +26,12 @@ class SimBody(SimObject):
     """
     def __init__(self, body_data=None, vizz_data=None):
         super(SimBody, self).__init__()
-        self._is_primary    = False
-        self._prev_update   = None
-        self._sys_primary   = None
         self._body_data     = body_data
         self._vizz_data     = vizz_data
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
-        self._sb_parent     = None
-        self._periods       = 365
-        self._spacing       = self._o_period.to(u.d) / self._periods
-        self._rad_set       = None
-        self._type          = None
 
         self.set_radius()
         self.set_ephem(epoch=self._epoch)
@@ -171,17 +154,17 @@ class SimBody(SimObject):
 
     @property
     def parent(self):
-        return self._sb_parent
+        return self._sim_parent
 
     @parent.setter
     def parent(self, new_sb_parent=None):
         if self.body.parent:
             if self.body.parent.name == new_sb_parent.name:
-                self._sb_parent = new_sb_parent
+                self._sim_parent = new_sb_parent
 
     def set_parent(self, sb=None):
         if type(sb) == Body:
-            self._sb_parent = sb
+            self._sim_parent = sb
             sb.plane = Planes.EARTH_ECLIPTIC
             this_parent = sb.parent
             if this_parent is None:
@@ -200,8 +183,8 @@ class SimBody(SimObject):
     @property
     def sys_primary(self):
         if self.body.parent:
-            if self._sb_parent:
-                return self.sys_primary(self._sb_parent)
+            if self._sim_parent:
+                return self.sys_primary(self._sim_parent)
             else:
                 print("Error: SimSystem parentage not set...")
         else:
@@ -241,10 +224,10 @@ class SimBody(SimObject):
     @property                   # this returns the position of a body plus the position of the primary
     def pos2primary(self):
         _pos = self._state[0] * self._dist_unit
-        if self._sb_parent is None:
+        if self._sim_parent is None:
             return np.zeros((3,), dtype=np.float64) * self._dist_unit
         else:
-            return _pos + self._sb_parent.pos2primary
+            return _pos + self._sim_parent.pos2primary
 
     @property
     def attr(self):
