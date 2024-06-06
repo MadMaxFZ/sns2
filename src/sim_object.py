@@ -196,7 +196,7 @@ class SimObject(ABC):
         TODO:  make this a property that returns the velocity of the body relative to system primary
         Returns
         -------
-        velocity of biody relative to its parent body
+        velocity of body relative to its parent body
         """
         return self._state[1] * self._dist_unit
 
