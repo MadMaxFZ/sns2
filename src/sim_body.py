@@ -1,6 +1,6 @@
-
 # x
 import logging
+
 logging.basicConfig(filename="../logs/sns_bodmod.log",
                     level=logging.ERROR,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
@@ -18,8 +18,7 @@ from poliastro.twobody.orbit.scalar import Orbit
 
 from sim_object import SimObject
 
-
-MIN_FOV = 1 / 3600      # I think this would be arc-seconds
+MIN_FOV = 1 / 3600  # I think this would be arc-seconds
 
 
 def toTD(epoch=None):
@@ -33,22 +32,23 @@ class SimBody(SimObject):
         TODO: Provide a class method to create a SimBody based upon
               a provided Body object.
     """
+
     def __init__(self, body_data=None, vizz_data=None):
         super(SimBody, self).__init__()
-        self._is_primary    = False
-        self._prev_update   = None
-        self._sys_primary   = None
-        self._body_data     = body_data
-        self._vizz_data     = vizz_data
-        self._name          = self._body_data['body_name']
-        self._body          = self._body_data['body_obj']
-        self._rot_func      = self._body_data['rot_func']
-        self._o_period      = self._body_data['o_period']
-        self._sb_parent     = None
-        self._periods       = 365
-        self._spacing       = self._o_period.to(u.d) / self._periods
-        self._rad_set       = None
-        self._type          = None
+        self._is_primary = False
+        self._prev_update = None
+        self._sys_primary = None
+        self._body_data = body_data
+        self._vizz_data = vizz_data
+        self._name = self._body_data['body_name']
+        self._body = self._body_data['body_obj']
+        self._rot_func = self._body_data['rot_func']
+        self._o_period = self._body_data['o_period']
+        self._sb_parent = None
+        self._periods = 365
+        self._spacing = self._o_period.to(u.d) / self._periods
+        self._rad_set = None
+        self._type = None
 
         self.set_radius()
         self.set_ephem(epoch=self._epoch)
@@ -60,22 +60,22 @@ class SimBody(SimObject):
     def set_radius(self):
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
-            R  = self._body.R.to(self._dist_unit)
+            R = self._body.R.to(self._dist_unit)
             Rm = Rp = R
             self._is_primary = True
         else:
-            R  = self._body.R.to(self._dist_unit)
+            R = self._body.R.to(self._dist_unit)
             Rm = self._body.R_mean.to(self._dist_unit)
             Rp = self._body.R_polar.to(self._dist_unit)
 
-        self._rad_set = [R, Rm, Rp,]
+        self._rad_set = [R, Rm, Rp, ]
         self._body_data.update({'rad_set': self._rad_set})
         logging.info("RADIUS SET: %s", self._rad_set)
 
     def set_ephem(self, epoch=None, t_range=None):
         if epoch is None:
             epoch = self._epoch
-        if t_range is None:                                         # sets t_range from epoch to epoch + orbital period
+        if t_range is None:  # sets t_range from epoch to epoch + orbital period
             t_range = time_range(epoch,
                                  periods=self._periods,
                                  spacing=self._spacing,
@@ -84,13 +84,13 @@ class SimBody(SimObject):
                                  )
             self._end_epoch += self._periods * self._spacing
 
-        if self._orbit is None:                                     # first time through
+        if self._orbit is None:  # first time through
             self._ephem = Ephem.from_body(self._body,
                                           epochs=t_range,
                                           attractor=self.body.parent,
                                           plane=self._plane,
                                           )
-        elif self._orbit != 0:                                      # this body has a parent
+        elif self._orbit != 0:  # this body has a parent
             self._ephem = Ephem.from_orbit(orbit=self._orbit,
                                            epochs=t_range,
                                            plane=self._plane,
@@ -238,7 +238,7 @@ class SimBody(SimObject):
     def W(self):
         return self._state[2, 2]
 
-    @property                   # this returns the position of a body plus the position of the primary
+    @property  # this returns the position of a body plus the position of the primary
     def pos2primary(self):
         _pos = self._state[0] * self._dist_unit
         if self._sb_parent is None:
@@ -311,7 +311,6 @@ class SimBody(SimObject):
 
 
 if __name__ == "__main__":
-
     def main():
         pass
         #     sb = SimBody(body_data=sys_data.body_data(bod_name))
