@@ -1,15 +1,17 @@
-
 import logging
+
 logging.basicConfig(filename="../logs/sns_simobj.log",
                     level=logging.ERROR,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
                     )
+
 import numpy as np
 from poliastro.constants import J2000_TDB
 from poliastro.ephem import *
 from astropy import units as u
 from astropy.time import Time
-from abc import ABC, abstractmethod, abstractproperty
+from poliastro.bodies import Body
+from abc import ABC, abstractmethod
 
 vec_type = type(np.zeros((3,), dtype=np.float64))
 
@@ -29,25 +31,29 @@ class SimObject(ABC):
 
     def __init__(self, *args, **kwargs):
         super(SimObject, self).__init__(*args, **kwargs)
-        self._is_primary    = False
-        self._RESAMPLE      = False
-        self._parent        = None
-        self._name          = ""
-        self.x_ax           = np.array([1, 0, 0])
-        self.y_ax           = np.array([0, 1, 0])
-        self.z_ax           = np.array([0, 0, 1])
-        self._dist_unit     = u.km
-        self._plane         = Planes.EARTH_ECLIPTIC
-        self._epoch         = Time(SimObject.epoch0, format='jd', scale='tdb')
-        self._state         = np.zeros((3,), dtype=vec_type)
-        self._periods       = 365
-        self._o_period      = 1.0 * u.year
-        self._spacing       = self._o_period.to(u.d) / self._periods
-        self._end_epoch     = self._epoch + self._periods * self._spacing
-        self._ephem         = None
-        self._orbit         = None
-        self._trajectory    = None
-        self._field_dict    = None
+        self._is_primary = False
+        self._RESAMPLE = False
+        self._parent = None
+        self._sim_parent = None
+        self._name = ""
+        self.x_ax = np.array([1, 0, 0])
+        self.y_ax = np.array([0, 1, 0])
+        self.z_ax = np.array([0, 0, 1])
+        self._dist_unit = u.km
+        self._plane = Planes.EARTH_ECLIPTIC
+        self._epoch = Time(SimObject.epoch0, format='jd', scale='tdb')
+        self._state = np.zeros((3,), dtype=vec_type)
+        self._periods = 365
+        self._o_period = 1.0 * u.year
+        self._spacing = self._o_period.to(u.d) / self._periods
+        self._end_epoch = self._epoch + self._periods * self._spacing
+        self._rot_func = None
+        self._rad_set       = None
+        self._type          = None
+        self._ephem = None
+        self._orbit = None
+        self._trajectory = None
+        self._field_dict = None
 
     @abstractmethod
     def set_ephem(self, epoch=None, t_range=None):
@@ -68,7 +74,7 @@ class SimObject(ABC):
     @property
     def dist_unit(self):
         return self._dist_unit
-    
+
     @dist_unit.setter
     def dist_unit(self, new_du):
         if type(new_du) == u.Unit:
@@ -104,7 +110,7 @@ class SimObject(ABC):
 
     @property
     def axes(self):
-        return self.x_ax, self.y_ax, self.z_ax, self.z_ax       # what's up with this?
+        return self.x_ax, self.y_ax, self.z_ax, self.z_ax  # what's up with this?
 
     @property
     def track(self):
@@ -201,7 +207,6 @@ class SimObject(ABC):
 
 
 if __name__ == "__main__":
-
     def main():
         pass
         #     sb = SimBody(body_data=sys_data.body_data(bod_name))

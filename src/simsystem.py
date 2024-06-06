@@ -54,10 +54,14 @@ class SimSystem(SimBodyDict):
         self.stat_q = stat_q
         self.load_from_names()
         self.update_state(self.epoch)
-        # self._shmem_0 = shared_memory.SharedMemory(create=True, size=self.num_bodies *
-        # self._shmem_1 =
+        self._state_size = self.data['Earth'].state.nbytes
+        self._shmem_0 = shared_memory.SharedMemory(create=True,
+                                                   name="state_buff0",
+                                                   size=self.num_bodies * self._state_size)
+        self._shmem_1 = shared_memory.SharedMemory(create=True,
+                                                   name="state_buff1",
+                                                   size=self.num_bodies * self._state_size)
         self._state_buffers = None
-
 
     def get_agg_fields(self, field_ids):
         # res = {'primary_name': self.system_primary.name}
