@@ -40,7 +40,7 @@ class SimBody(SimObject):
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
-    def set_dimensions(self):
+    def set_dimensions(self, **kwargs):
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.to(self._dist_unit)

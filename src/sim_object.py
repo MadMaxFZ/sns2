@@ -13,12 +13,20 @@ from astropy.time import Time
 from poliastro.bodies import Body
 from abc import ABC, abstractmethod
 
-vec_type = type(np.zeros((3,), dtype=np.float64))
+VEC_TYPE = type(np.zeros((3,), dtype=np.float64))
+BASE_DIM = 0.001 * u.km
+BASE_DIMS = np.array([BASE_DIM, BASE_DIM, BASE_DIM])
 
 
 class SimObject(ABC):
     """
-        This is a base class for SimBody, SimShip and any other gravitationally affected objects in the sim.
+        This is a base class for SimBody, SimShip and any
+        other gravitationally affected objects in the sim.
+        This base class exists to contain the necessary data to
+        define an object's orbital state about a parent attractor object.
+        This will allow for celestial bodies and maneuverable spacecraft to
+        operate within a common model while allowing for subclasses that can
+        have differing behaviors and specific attributes.
     """
     epoch0 = J2000_TDB.jd
     system = {}
@@ -37,29 +45,31 @@ class SimObject(ABC):
         self._RESAMPLE   = False
         self._parent     = None
         self._sim_parent = None
-        self.x_ax        = np.array([1, 0, 0])
-        self.y_ax        = np.array([0, 1, 0])
-        self.z_ax        = np.array([0, 0, 1])
         self._dist_unit  = u.km
-        self._plane      = Planes.EARTH_ECLIPTIC
-        self._epoch      = Time(SimObject.epoch0, format='jd', scale='tdb')
-        self._state      = np.zeros((3,), dtype=vec_type)
-        self._periods    = 365
-        self._o_period   = 1.0 * u.year
-        self._spacing    = self._o_period.to(u.d) / self._periods
-        self._end_epoch  = self._epoch + self._periods * self._spacing
         self._rot_func   = None
-        self._rad_set    = None
         self._type       = None
         self._ephem      = None
         self._orbit      = None
         self._trajectory = None
         self._field_dict = None
+        self._rad_set = BASE_DIMS
+        self._plane      = Planes.EARTH_ECLIPTIC
+        self._epoch      = Time(SimObject.epoch0, format='jd', scale='tdb')
+        self._state      = np.zeros((3,), dtype=VEC_TYPE)
+        self._periods    = 365
+        self._o_period   = 1.0 * u.year
+        self._spacing    = self._o_period.to(u.d) / self._periods
+        self._end_epoch  = self._epoch + self._periods * self._spacing
+        self.x_ax        = np.array([1, 0, 0])
+        self.y_ax        = np.array([0, 1, 0])
+        self.z_ax        = np.array([0, 0, 1])
 
     @abstractmethod
-    def set_dimensions(self):
-        _r = 0.001 * self._dist_unit
-        self._rad_set = [_r, _r, _r]
+    def set_dimensions(self, dims=BASE_DIMS):
+        if dims.shape == BASE_DIMS.shape:
+            self._rad_set = dims
+        else:
+            self._rad_set = BASE_DIMS
 
     @abstractmethod
     def set_ephem(self, epoch=None, t_range=None):
