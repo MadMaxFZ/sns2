@@ -31,6 +31,7 @@ class SimObject(ABC):
 
     def __init__(self, *args, **kwargs):
         super(SimObject, self).__init__(*args, **kwargs)
+        self._body = None
         self._is_primary = False
         self._RESAMPLE = False
         self._parent = None
