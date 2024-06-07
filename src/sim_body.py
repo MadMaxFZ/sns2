@@ -33,14 +33,14 @@ class SimBody(SimObject):
         self._rot_func      = self._body_data['rot_func']
         self._o_period      = self._body_data['o_period']
 
-        self.set_radius()
+        self.set_dimensions()
         self.set_ephem(epoch=self._epoch)
         self.set_orbit(ephem=self._ephem)
         # self._field_dict = None
         # SimBody.system[self._name] = self
         # self.created.emit(self.name)
 
-    def set_radius(self):
+    def set_dimensions(self):
         if (self._name == 'Sun' or self._type == 'star' or
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.to(self._dist_unit)
@@ -51,7 +51,7 @@ class SimBody(SimObject):
             Rm = self._body.R_mean.to(self._dist_unit)
             Rp = self._body.R_polar.to(self._dist_unit)
 
-        self._rad_set = [R, Rm, Rp,]
+        self._rad_set = [R, Rm, Rp]
         self._body_data.update({'rad_set': self._rad_set})
         logging.info("RADIUS SET: %s", self._rad_set)
 
