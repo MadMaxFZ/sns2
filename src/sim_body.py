@@ -21,13 +21,18 @@ def toTD(epoch=None):
 
 class SimBody(SimObject):
     """
-        TODO: Provide a class method to create a SimBody based upon
-              a provided Body object.
+        This subclass of SimObject will provide the specific attributes and
+        behaviors particular to celestial bodies. A SimBody is associated with
+        a specific poliastro Body object, acquiring its physical dimensions and
+        orbital state from JPL ephem data or using a numeric propagator.
+        The rotational states are provided by functions defining the rotational axis
+        and the angular displacement over time. SimObjects effectively have a
+        predetermined state over time and move strictly under gravitational forces.
     """
     def __init__(self, body_data=None, vizz_data=None):
         super(SimBody, self).__init__()
         self._body_data     = body_data
-        self._vizz_data     = vizz_data
+        self._vizz_data     = vizz_data     # This needs to go
         self._name          = self._body_data['body_name']
         self._body          = self._body_data['body_obj']
         self._rot_func      = self._body_data['rot_func']

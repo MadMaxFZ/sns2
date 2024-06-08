@@ -14,8 +14,8 @@ from poliastro.bodies import Body
 from abc import ABC, abstractmethod
 
 VEC_TYPE = type(np.zeros((3,), dtype=np.float64))
-BASE_DIM = 0.001 * u.km
-BASE_DIMS = np.array([BASE_DIM, BASE_DIM, BASE_DIM])
+BASE_DIM = 0.001 # * u.km
+BASE_DIMS = np.ndarray((3,), dtype=np.float64)
 
 
 class SimObject(ABC):
@@ -27,6 +27,7 @@ class SimObject(ABC):
         This will allow for celestial bodies and maneuverable spacecraft to
         operate within a common model while allowing for subclasses that can
         have differing behaviors and specific attributes.
+
     """
     epoch0 = J2000_TDB.jd
     system = {}
@@ -60,9 +61,10 @@ class SimObject(ABC):
         self._o_period   = 1.0 * u.year
         self._spacing    = self._o_period.to(u.d) / self._periods
         self._end_epoch  = self._epoch + self._periods * self._spacing
-        self.x_ax        = np.array([1, 0, 0])
-        self.y_ax        = np.array([0, 1, 0])
-        self.z_ax        = np.array([0, 0, 1])
+        self._axes       = np.identity(4, dtype=np.float64)
+        self.x_ax        = self._axes[0]
+        self.y_ax        = self._axes[1]
+        self.z_ax        = self._axes[2]
 
     @abstractmethod
     def set_dimensions(self, dims=BASE_DIMS):
