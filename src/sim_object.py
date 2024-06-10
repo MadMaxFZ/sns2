@@ -62,9 +62,11 @@ class SimObject(ABC):
         self._spacing    = self._o_period.to(u.d) / self._periods
         self._end_epoch  = self._epoch + self._periods * self._spacing
         self._axes       = np.identity(4, dtype=np.float64)
-        self.x_ax        = self._axes[0]
-        self.y_ax        = self._axes[1]
-        self.z_ax        = self._axes[2]
+        # for some reason this slowed things down a lot
+        self.x_ax        = self._axes[0:3, 0]
+        self.y_ax        = self._axes[0:3, 1]
+        self.z_ax        = self._axes[0:3, 2]
+        pass
 
     @abstractmethod
     def set_dimensions(self, dims=BASE_DIMS):
