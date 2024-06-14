@@ -220,7 +220,10 @@ class StarSystemVisuals:
         _p_face_colors = []
         # _c_face_colors = []
         _edge_colors = []
+
+
         self._agg_cache = agg_data
+
         self._bods_pos = list(self._agg_cache['pos'].values())
         """
                 TODO:: Fix the fact that self._agg_cache[][] is NOT getting updated with sys_epoch!!!
