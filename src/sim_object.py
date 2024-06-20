@@ -53,7 +53,7 @@ class SimObject(ABC):
         self._orbit      = None
         self._trajectory = None
         self._field_dict = None
-        self._rad_set = BASE_DIMS
+        self._rad_set    = [BASE_DIM, ] * 3
         self._plane      = Planes.EARTH_ECLIPTIC
         self._epoch      = Time(SimObject.epoch0, format='jd', scale='tdb')
         self._state      = np.zeros((3,), dtype=VEC_TYPE)
