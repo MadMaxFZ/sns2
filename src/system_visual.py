@@ -134,6 +134,7 @@ class StarSystemVisuals:
         self._frame_viz = XYZAxis(parent=self._scene)  # set parent in MainSimWindow ???
         self._frame_viz.transform = MT()
         self._frame_viz.transform.scale((1e+08, 1e+08, 1e+08))
+
         self._bods_pos = list(self._agg_cache['pos'].values())
 
         for name in self._body_names:
@@ -220,7 +221,6 @@ class StarSystemVisuals:
         _p_face_colors = []
         # _c_face_colors = []
         _edge_colors = []
-
 
         self._agg_cache = agg_data
 
