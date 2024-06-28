@@ -19,7 +19,7 @@ class SkyMapVisual(CompoundVisual):
     DEF_TXTR_FNAME = "../resources/textures/MilkyWayPanorama.tif"
     DEF_EDGE_COLOR = Color('blue')
     DEF_EDGE_COLOR.alpha = 0.4
-    DEF_BACK_COLOR = Color((0.3, 0.3, 0.3))
+    DEF_BACK_COLOR = Color((1.0, 1.0, 1.0))
     DEF_BACK_COLOR.alpha = 1.0
 
     with Image.open(DEF_TXTR_FNAME) as im:

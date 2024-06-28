@@ -3,6 +3,7 @@ import numpy as np
 from psygnal import Signal
 from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
+from sim_object import SimObject
 from sim_body import SimBody
 from datastore import vec_type, SystemDataStore
 from concurrent.futures import ThreadPoolExecutor
@@ -17,7 +18,7 @@ class SimBodyDict(dict):
         super().__init__()
         solar_system_ephemeris.set("jpl")
         if data:
-            self.data = {name: self._validate_simbody(simbody)
+            self.data = {name: self._validate_sim_obj(simbody)
                          for name, simbody in data.items()}
         else:
             self.data = {}
@@ -65,8 +66,8 @@ class SimBodyDict(dict):
         self._USE_MULTIPROC = use_multi
         self.executor = ThreadPoolExecutor(max_workers=6)
 
-    def __setitem__(self, name, simbody):
-        self.data[name] = self._validate_simbody(simbody)
+    def __setitem__(self, name, sim_obj):
+        self.data[name] = self._validate_sim_obj(sim_obj)
 
     def __getitem__(self, name):
         return self.data[name]
@@ -74,10 +75,10 @@ class SimBodyDict(dict):
     '''===== METHODS ==========================================================================================='''
 
     @staticmethod
-    def _validate_simbody(simbody):
-        if not isinstance(simbody, SimBody):
-            raise TypeError("SimBody object expected")
-        return simbody
+    def _validate_sim_obj(sim_obj):
+        if not isinstance(sim_obj, SimObject):
+            raise TypeError("SimObject expected")
+        return sim_obj
 
     def load_from_names(self, _body_names: list = None) -> None:
         """
