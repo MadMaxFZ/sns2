@@ -46,11 +46,11 @@ class SimBodyDict(dict):
 
         self._body_count = len(self._current_body_names)
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         if epoch:
             self._sys_epoch = epoch
         else:
@@ -81,6 +81,7 @@ class SimBodyDict(dict):
         return sim_obj
 
     def load_from_names(self, _body_names: list = None) -> None:
+        # TODO: move this function up into SimSystem class
         """
             This method creates one or more SimBody objects based upon the provided list of names.
             CONSIDER: Should this be a class method that returns a SimSystem() when given names?

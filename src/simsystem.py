@@ -4,7 +4,7 @@ import time
 import psygnal
 from astropy.time import Time, TimeDeltaSec
 from multiprocessing import Queue
-from sim_bodydict import SimBodyDict
+from simobj_dict import SimBodyDict
 from multiprocessing import shared_memory
 # from poliastro.bodies import Body
 # from PyQt5.QtCore import QObject
