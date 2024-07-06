@@ -11,17 +11,16 @@ import numpy as np
 # from multiprocessing import get_logger
 # from astropy.coordinates import solar_system_ephemeris
 # from astropy.coordinates.solar_system import get_body_barycentric_posvel
-import subprocess
+# import subprocess
 from data_functs import *
 from poliastro.ephem import *
 from astropy.time import TimeDelta, Time
 from poliastro.twobody.orbit.scalar import Orbit
-from vispy.color import Color
 
 
-print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
-print(subprocess.run(["rm", "logs/sim_body.log"]))
-print(subprocess.run(["touch", "logs/sim_body.log", ]))
+# print(subprocess.run(["cp", "logs/sim_body.log", "logs/OLD_sim_body.log"]))
+# print(subprocess.run(["rm", "logs/sim_body.log"]))
+# print(subprocess.run(["touch", "logs/sim_body.log", ]))
 logging.basicConfig(filename="logs/sim_body.log",
                     level=logging.DEBUG,
                     format="%(funcName)s:\t\t%(levelname)s:%(asctime)s:\t%(message)s",
@@ -63,6 +62,7 @@ class SimBody:
         self._type          = None
         self._state         = None
         self._base_color    = self._body_data['body_color']
+        self._body_symb     = None
         # self._vizuals      = {}
         # self._v_mult        = 2
         # self._xyz_mult      = 2
@@ -74,13 +74,16 @@ class SimBody:
 
         if self._body.parent is None:
             self._type = "star"
+            self._body_symb = 'star'
             self._sb_parent = None
         else:
             self._type = "planet"
+            self._body_symb = 'o'
             self._sb_parent = self._body.parent
 
         if self._name == "Moon":
             self._plane = Planes.EARTH_EQUATOR
+            self._body_symb = '+'
             self._type = "moon"
         else:
             self._plane = Planes.EARTH_ECLIPTIC
@@ -95,7 +98,7 @@ class SimBody:
 
         r_set = [R, Rm, Rp,]
         self._body_data.update({'r_set' : r_set})
-        # /SimBody.simbods.update({self._name : self})
+        # SimBody.simbods.update({self._name : self})
         self.set_time_range(epoch=self._epoch,
                             periods=self._periods,
                             spacing=self._spacing,
@@ -103,11 +106,6 @@ class SimBody:
         self.set_ephem(t_range=self._t_range)
         if self._body.parent is not None:
             self.set_orbit(self._ephem)
-
-    def traj_color(self, alpha=None):
-        b_clr = self.base_color
-        clr = (b_clr[0], b_clr[1], b_clr[2], alpha)
-        return clr
 
     def update_state(self, epoch=None):
         self.set_epoch(epoch)
@@ -203,7 +201,7 @@ class SimBody:
             logging.info(">>> COMPUTING ORBIT: %s",
                          str(self._orbit))
             if (self._track is None) or (self.RESAMPLE is True):
-                self._track = self._orbit.sample(360).xyz.transpose().value         # FIX THIS !!!
+                self._track = self._orbit.sample(360).xyz.transpose().value
                 self.RESAMPLE = False
 
         else:
@@ -220,6 +218,10 @@ class SimBody:
     @property
     def type(self):
         return self._type
+
+    @property
+    def body_symb(self):
+        return self._body_symb
 
     @property
     def epoch(self):

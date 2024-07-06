@@ -54,7 +54,7 @@ class SBViewer(scene.SceneCanvas):
         print("Target FPS:", 1 / self.wclock.interval)
         self.simbods = self.init_simbodies(body_names=self.b_names)
         self.sb_set = list(self.simbods.values())
-        self.t_warp = 500000
+        self.t_warp = 50000
         super(SBViewer, self).__init__(keys="interactive",
                                        size=(1024, 768),
                                        show=False,
@@ -110,11 +110,10 @@ class SBViewer(scene.SceneCanvas):
 
     def init_sysviz(self):
         frame = scene.visuals.XYZAxis(parent=self.view.scene)
-        # frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
-        self.bods_viz = Markers(edge_color=(0, 1, 0, 1))
-
+        frame.transform = tr.STTransform(scale=(1e+08, 1e+08, 1e+08))
+        self.bods_viz = Markers(edge_color=(0, 0, 1, 1))
         orb_vizz = Compound([Polygon(pos=self.simbods[name].o_track,
-                                     border_color=self.simbods[name].traj_color(alpha=0.2),
+                                     border_color=self.simbods[name].traj_color(alpha=0.5),
                                      triangulate=False)
                              for name in self.b_names])
         viz = Compound([frame, self.bods_viz, orb_vizz])

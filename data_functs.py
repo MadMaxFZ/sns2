@@ -5,7 +5,7 @@ import math
 import logging
 
 import _utils
-from planet_visual import Planet, SkyMap
+from planet_visual import SkyMap
 from viz_functs import get_tex_data
 from astropy.time import Time
 from poliastro.constants import J2000_TDB
@@ -20,6 +20,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(funcName)s:\t%(levelname)s:%(asctime)s:\t%(message)s",
 )
+
+vec_type = type(np.zeros((3,), dtype=np.float64))
 
 
 def earth_rot_elements_at_epoch(T=None, d=None):
@@ -63,7 +65,7 @@ def setup_datastore():
     """
     DEF_EPOCH = J2000_TDB  # default epoch
     TEX_FNAMES = []  # list of texture filenames (will be sorted)
-    TEX_PATH = "/home/madmaxfz/Desktop/skinnysim/resources/textures/"  # directory of texture image files
+    TEX_PATH = "C:\\Users\\madmaxfz\\PycharmProjects\\sns2\\resources\\textures\\"  # directory of texture image files
     BODY_NAMES = []  # list of body names available in sim
     BODY_COUNT = 0  # number of available bodies
     TYPE_COUNT = {}  # dict of body types and the count of each type
@@ -90,14 +92,14 @@ def setup_datastore():
     for bod in body_set:
         if bod is not None:
             BODY_NAMES.append(bod.name)
-    # BODY_NAMES = set(BODY_NAMES)
+    BODY_NAMES = tuple(BODY_NAMES)
 
     tex_dirlist = os.listdir(TEX_PATH)  # get listing of texture filenames
     for i in tex_dirlist:
         if "png" in i:
             TEX_FNAMES.append(i)  # add PNG filenames to list
     TEX_FNAMES.sort()  # sort the list
-    # TEX_FNAMES = set(TEX_FNAMES)
+    TEX_FNAMES = tuple(TEX_FNAMES)
 
     # reference frame fixed to planet surfaces
     frame_set = [SunFixed,
@@ -126,27 +128,27 @@ def setup_datastore():
                moon_rot_elements_at_epoch,
                ]
     # body color values in RGBA (0...255)
-    color_RGBA = [(253, 184, 19, 255),  # base color for each body
-                  (26, 26, 26, 255),
-                  (230, 230, 230, 255),
-                  (47, 106, 105, 255),
-                  (50, 50, 50, 255),
-                  (153, 61, 0, 255),
-                  (176, 127, 53, 255),
-                  (176, 143, 54, 255),
-                  (95, 128, 170, 255),
-                  (54, 104, 150, 255),
-                  (255, 255, 255, 255),
+    color_RGBA = [(253, 184, 19),  # base color for each body
+                  (26, 26, 26),
+                  (230, 230, 230),
+                  (47, 106, 105),
+                  (50, 50, 50),
+                  (153, 61, 0),
+                  (176, 127, 53),
+                  (176, 143, 54),
+                  (95, 128, 170),
+                  (54, 104, 150),
+                  (255, 255, 255),
                   ]
     colorset_rgba = []  # convert from RGBA to rgba (0...1)
     for c in color_RGBA:
         if c is not None:
-            color_norm = (c[0] / 255, c[1] / 255, c[2] / 255, c[3] / 255)
-            colorset_rgba.append(color_norm)
+            color_norm = [c[0] / 255, c[1] / 255, c[2] / 255, 1.]
+            colorset_rgba.append(np.array(color_norm))
         else:
             colorset_rgba.append(None)
 
-    # colorset_rgba = tuple(colorset_rgba)
+    colorset_rgba = np.array(colorset_rgba)
 
     tex_idx = [0,
                1,
@@ -166,6 +168,12 @@ def setup_datastore():
                   "moon",
                   "ship",
                   ]  # types of bodies in simulation
+
+    body_tmark = ['star',
+                  'o',
+                  '+',
+                  'diamond',
+                  ]
 
     type_set = (0,
                 1,
@@ -192,7 +200,7 @@ def setup_datastore():
     com_viz = [viz_keys[1], viz_keys[2], viz_keys[4]]
     xtr_viz = [viz_keys[5], viz_keys[6], viz_keys[7]]
     xtr_viz.extend(com_viz)
-    # xtr_viz = com_viz
+    xtr_viz = com_viz
     viz_assign = dict(
         Sun=com_viz,
         Mercury=xtr_viz,
@@ -229,6 +237,7 @@ def setup_datastore():
             body_obj=_body,
             parent_obj=_body.parent,
             body_type=body_types[type_set[idx]],
+            body_mark=body_tmark[type_set[idx]],
             fname_idx=tex_idx[idx],
             fixed_frame=frame_set[idx],
             rot_func=rot_set[idx],
@@ -269,7 +278,7 @@ def setup_datastore():
         len(TEX_FNAMES),
     ]
     print("Check sets =\n", check_sets)
-    assert check_sets == ([BODY_COUNT, ] * 8 + [100,])
+    assert check_sets == ([BODY_COUNT, ] *8 + [100,])
     print("\t>>>check sets check out!")
 
     DATASTORE = dict(
@@ -291,10 +300,10 @@ def setup_datastore():
     return DATASTORE
 
 
-def get_skymap():
-    _SkyMap = setup_datastore()["SKYMAP"]
-    logging.info("SkyMap available for import: " + str(_SkyMap))
-    return _SkyMap
+# def get_skymap():
+#     _SkyMap = setup_datastore()["SKYMAP"]
+#     logging.info("SkyMap available for import: " + str(_SkyMap))
+#     return _SkyMap
 
 
 if __name__ == "__main__":
