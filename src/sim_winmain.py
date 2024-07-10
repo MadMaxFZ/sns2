@@ -20,7 +20,7 @@ from datastore import *
 logging.config.dictConfig(log_config)
 QT_NATIVE = False
 STOP_IT = True
-DO_PROFILE = True
+DO_PROFILE = False
 
 
 class MainQtWindow(QtWidgets.QMainWindow):

@@ -17,7 +17,7 @@ from poliastro.core.fixed import *
 from vispy.geometry.meshdata import MeshData
 from viz_functs import get_tex_data
 
-SNS_SOURCE_PATH = "c:\\_Projects\\sns2\\src\\"
+SNS_SOURCE_PATH = os.curdir + '/'      # "c:\\_Projects\\sns2\\src\\"
 os.chdir(SNS_SOURCE_PATH)
 
 logging.basicConfig(filename=SNS_SOURCE_PATH + "../logs/sns_defs.log",
