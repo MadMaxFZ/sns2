@@ -4,7 +4,7 @@ import time
 import psygnal
 from astropy.time import Time, TimeDeltaSec
 from multiprocessing import Queue
-from sim_bodydict import SimBodyDict
+from simobj_dict import SimObjectDict
 from multiprocessing import shared_memory
 # from poliastro.bodies import Body
 # from PyQt5.QtCore import QObject
@@ -26,7 +26,7 @@ logging.basicConfig(filename="../logs/sns_sysmod.log",
 #         self.model = SimSystem(*args, **kwargs)
 
 
-class SimSystem(SimBodyDict):
+class SimSystem(SimObjectDict):
     """
     """
     initialized = psygnal.Signal(list)
@@ -54,6 +54,7 @@ class SimSystem(SimBodyDict):
         self.stat_q = stat_q
         self.load_from_names()
         self.update_state(self.epoch)
+
         self._state_size = self.data['Earth'].state.nbytes
         self._shmem_0 = shared_memory.SharedMemory(create=True,
                                                    name="state_buff0",

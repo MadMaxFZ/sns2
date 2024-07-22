@@ -5,15 +5,16 @@ from astropy.coordinates import solar_system_ephemeris
 from astropy.time import Time
 from sim_object import SimObject
 from sim_body import SimBody
-from datastore import vec_type, SystemDataStore
+from datastore import SystemDataStore
 from concurrent.futures import ThreadPoolExecutor
 
 
-class SimBodyDict(dict):
+class SimObjectDict(dict):
 
     has_updated = Signal()
 
-    def __init__(self, epoch=None, data=None, ref_data=None, body_names=None, use_multi=False, auto_up=False):
+    def __init__(self, epoch=None, data=None, ref_data=SystemDataStore(),
+                 body_names=None, use_multi=False, auto_up=False):
         """ TODO:   """
         super().__init__()
         solar_system_ephemeris.set("jpl")
@@ -30,8 +31,8 @@ class SimBodyDict(dict):
                 print('Bad <sys_data> input... Reverting to defaults...')
                 ref_data = SystemDataStore()
 
-        else:
-            ref_data = SystemDataStore()
+        # else:
+        #     ref_data = SystemDataStore()
 
         self.ref_data = ref_data
         self._sys_primary = None
@@ -40,21 +41,23 @@ class SimBodyDict(dict):
         self._valid_body_names = self.ref_data.body_names
 
         if body_names:
-            self._current_body_names = tuple([n for n in body_names if n in self._valid_body_names])
+            self._current_body_names = tuple([n for n in body_names
+                                              if n in self._valid_body_names])
         else:
             self._current_body_names = tuple(self._valid_body_names)
 
         self._body_count = len(self._current_body_names)
         self._sys_rel_pos = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self._sys_rel_vel = np.zeros((self._body_count, self._body_count),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         self._bod_tot_acc = np.zeros((self._body_count,),
-                                     dtype=vec_type)
+                                     dtype=self._vec_type)
         if epoch:
             self._sys_epoch = epoch
         else:
-            self._sys_epoch = Time(self.ref_data.default_epoch, format='jd', scale='tdb')
+            self._sys_epoch = Time(self.ref_data.default_epoch,
+                                   format='jd', scale='tdb')
 
         self._base_t = 0
         self._t1 = 0
@@ -81,6 +84,7 @@ class SimBodyDict(dict):
         return sim_obj
 
     def load_from_names(self, _body_names: list = None) -> None:
+        # TODO: move this function up into SimSystem class
         """
             This method creates one or more SimBody objects based upon the provided list of names.
             CONSIDER: Should this be a class method that returns a SimSystem() when given names?
@@ -96,7 +100,8 @@ class SimBodyDict(dict):
         if _body_names is None:
             self._current_body_names = self._valid_body_names
         else:
-            self._current_body_names = [n for n in _body_names if n in self._valid_body_names]
+            self._current_body_names = (n for n in _body_names
+                                        if n in self._valid_body_names)
 
         # populate the list with SimBody objects
         self.data.clear()
@@ -118,11 +123,13 @@ class SimBodyDict(dict):
         _tx = time.perf_counter()
 
         if self._USE_MULTIPROC:
-            futures = [self.executor.submit(sb.update_state, epoch=epoch) for sb in self.data.values()]
+            futures = (self.executor.submit(sb.update_state, epoch=epoch)
+                       for sb in self.data.values())
             for future in futures:
                 future.result()
         else:
-            [sb.update_state(epoch) for sb in self.data.values()]
+            [sb.update_state(epoch)
+             for sb in self.data.values()]
 
         self._t1 = time.perf_counter()
         update_time = self._t1 - self._base_t
@@ -226,6 +233,6 @@ class SimBodyDict(dict):
 if __name__ == "__main__":
     bodies = {"Earth": SimBody(), "Mars": SimBody()}
 
-    simbody_dict = SimBodyDict(bodies)
+    simbody_dict = SimObjectDict(bodies)
 
     print(simbody_dict["Earth"])

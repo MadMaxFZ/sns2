@@ -225,9 +225,7 @@ class StarSystemVisuals:
         self._agg_cache = agg_data
 
         self._bods_pos = list(self._agg_cache['pos'].values())
-        """
-                TODO:: Fix the fact that self._agg_cache[][] is NOT getting updated with sys_epoch!!!
-        """
+
         for sb_name in self._body_names:                                                    # <--
             x_ax = self._agg_cache['axes'][sb_name][0]
             y_ax = self._agg_cache['axes'][sb_name][1]
@@ -255,6 +253,7 @@ class StarSystemVisuals:
                 self._tracks[sb_name].transform.reset()
                 self._tracks[sb_name].transform.translate(self._agg_cache['pos'][parent].value)
 
+            # TODO: these do not require updating unless they change...
             _pf_clr = Color(self._agg_cache['body_color'][sb_name])
             _pf_clr.alpha = self._agg_cache['body_alpha'][sb_name]
             # _cf_clr = _pf_clr
