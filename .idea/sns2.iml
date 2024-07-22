@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/_extras" />
     </content>
-    <orderEntry type="jdk" jdkName="spacenav (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="vispy310" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
