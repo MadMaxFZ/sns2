@@ -20,7 +20,7 @@ from datastore import *
 logging.config.dictConfig(log_config)
 QT_NATIVE = False
 STOP_IT = True
-DO_PROFILE = True
+DO_PROFILE = False
 
 
 class MainQtWindow(QtWidgets.QMainWindow):
@@ -56,6 +56,7 @@ class MainQtWindow(QtWidgets.QMainWindow):
         self.comm_q = Queue()
         self.stat_q = Queue()
 
+        #       TODO: Here the model process will be spawned:
         self.model = SimSystem(self.comm_q, self.stat_q, use_multi=True)
         # self.model.load_from_names()
         self.body_names = self.model.body_names
