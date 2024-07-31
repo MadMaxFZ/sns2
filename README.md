@@ -15,3 +15,7 @@
   other components of the simulation to synchronize their operations.
 
 ### VIEWER OVERVIEW
+- The Viewer operates as the main process to provide a mechanism to visualise the state of
+  the Model and provides interfaces to modify and propagate the Model through time.
+- The Viewer will also provide any interfaces necessary to lan and execute maneuvers for any   
+  simulated spacecraft within the Model.
