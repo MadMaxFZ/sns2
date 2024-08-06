@@ -24,8 +24,8 @@ class CanvasWrapper:
 
     def __init__(self, on_draw_sig, vispy_kb_sig):
         self._canvas = MainSimCanvas(on_draw_sig, vispy_kb_sig)
-        self._scene = self._canvas.view.scene
         self._view = self._canvas.view
+        self._scene = self._view.scene
 
     def update_canvas(self):
         self._canvas.draw_scene()
@@ -52,7 +52,7 @@ class CanvasWrapper:
 
     @property
     def view(self):
-        return self._canvas.view
+        return self._view
 
     @property
     def scene(self):
