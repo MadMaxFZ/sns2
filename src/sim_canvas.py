@@ -52,7 +52,7 @@ class CanvasWrapper:
 
     @property
     def view(self):
-        return self._canvas.view
+        return self._view
 
     @property
     def scene(self):
