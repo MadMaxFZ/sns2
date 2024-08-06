@@ -1,55 +1,41 @@
 SNS_Version:
-
+  1.0
 StarSystem:
   body_list:
       Primary_Body:
         Sun:
-          children:
-            Mercury:
-                children:
-                  - no moon
-            Venus:
-                children:
-                  - no moon
-            Earth:
-                children:
-                  - Moon
-                  - ISS
-            Mars:
-                children:
-                  - Phobos
-                  - Deimos
-            Jupiter:
-                children:
-                  - Io
-                  - Europa
-                  - Ganymede
-            Saturn:
-                children:
-                  - Titan
-                  - Enceladus
-            Uranus:
-                children:
-                  - Titania
-                  - Miranda
-                  - Oberon
-            Neptune:
-                children:
-                  - Triton
-                  - Thalassa
-            Pluto:
-                children:
-                  - Charon
-            Asteroid Belt:
-                children:
-                  - Ceres
-            Comets:
-                children:
-                  - Haley
-                  - Hale-Bopp
-            Kuiper Belt:
-                children:
-                  - Arrokoth
-                  - Sedna
-            Oort Cloud:
-
+           Mercury:
+               - no moon
+           Venus:
+               - no moon
+           Earth:
+               - Moon
+               - ISS
+           Mars:
+               - Phobos
+               - Deimos
+           Jupiter:
+               - Io
+               - Europa
+               - Ganymede
+           Saturn:
+               - Titan
+               - Enceladus
+           Uranus:
+               - Titania
+               - Miranda
+               - Oberon
+           Neptune:
+               - Triton
+               - Thalassa
+           Pluto:
+               - Charon
+           Asteroid Belt:
+               - Ceres
+           Comets:
+               - Haley
+               - Hale-Bopp
+           Kuiper Belt:
+               - Arrokoth
+               - Sedna
+           Oort Cloud:
