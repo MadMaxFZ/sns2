@@ -14,7 +14,7 @@ from poliastro.bodies import Body
 from abc import ABC, abstractmethod
 
 VEC_TYPE = type(np.zeros((3,), dtype=np.float64))
-BASE_DIM = 0.001 # * u.km
+MIN_SIZE = 0.001 # * u.km
 BASE_DIMS = np.ndarray((3,), dtype=np.float64)
 
 
@@ -31,6 +31,7 @@ class SimObject(ABC):
     """
     epoch0 = J2000_TDB.jd
     system = {}
+    dist_unit = u.km
     # created = pyqtSignal(str)
     _fields = ('attr',
                'pos',
@@ -46,14 +47,14 @@ class SimObject(ABC):
         self._RESAMPLE   = False
         self._parent     = None
         self._sim_parent = None
-        self._dist_unit  = u.km
+        self._dist_unit  = SimObject.dist_unit
         self._rot_func   = None
         self._type       = None
         self._ephem      = None
         self._orbit      = None
         self._trajectory = None
         self._field_dict = None
-        self._rad_set    = [BASE_DIM, ] * 3
+        self._rad_set    = [MIN_SIZE, ] * 3
         self._plane      = Planes.EARTH_ECLIPTIC
         self._epoch      = Time(SimObject.epoch0, format='jd', scale='tdb')
         self._state      = np.zeros((3,), dtype=VEC_TYPE)
@@ -208,7 +209,7 @@ class SimObject(ABC):
 
     @property
     def dist2parent(self):
-        return np.linalg.norm(self.pos)
+        return np.linalg.norm(self.pos)         # dist unit here??
 
     @property
     def vel(self):
@@ -218,7 +219,7 @@ class SimObject(ABC):
         -------
         velocity of body relative to its parent body
         """
-        return self._state[1] * self._dist_unit
+        return self._state[1] * self._dist_unit / u.s
 
     @epoch.setter
     def epoch(self, e=None):

@@ -119,18 +119,6 @@ class SimSystem(SimObjectDict):
             case 'radius':
                 return _simbod.radius
 
-            case 'body_alpha':
-                return _simbod.body_alpha
-
-            case 'track_alpha':
-                return _simbod.track_alpha
-
-            case 'body_mark':
-                return _simbod.body_mark
-
-            case 'body_color':
-                return _simbod.body_color
-
             case 'is_primary':
                 return _simbod.is_primary
 
@@ -142,6 +130,19 @@ class SimSystem(SimObjectDict):
                 # TODO: Add a condition to check if texture data exists in an existing Planet visual.
                 #       If it exists, return its texture data. Otherwise return the default texture data.
                 return self.ref_data.vizz_data(name=_simbod.name)['tex_data']
+
+            # these elements can should live in the viewer
+            case 'body_alpha':
+                return _simbod.body_alpha
+
+            case 'track_alpha':
+                return _simbod.track_alpha
+
+            case 'body_mark':
+                return _simbod.body_mark
+
+            case 'body_color':
+                return _simbod.body_color
 
         pass
 
