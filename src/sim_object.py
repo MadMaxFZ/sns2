@@ -69,24 +69,25 @@ class SimObject(ABC):
         self.z_ax        = self._axes[0:3, 2]
         pass
 
-    @abstractmethod
-    def set_dimensions(self, dims=BASE_DIMS):
-        if dims.shape == BASE_DIMS.shape:
-            self._rad_set = dims
-        else:
-            self._rad_set = BASE_DIMS
+    if __name__ != "__main__":
+        @abstractmethod
+        def set_dimensions(self, dims=BASE_DIMS):
+            if dims.shape == BASE_DIMS.shape:
+                self._rad_set = dims
+            else:
+                self._rad_set = BASE_DIMS
 
-    @abstractmethod
-    def set_ephem(self, epoch=None, t_range=None):
-        pass
+        @abstractmethod
+        def set_ephem(self, epoch=None, t_range=None):
+            pass
 
-    @abstractmethod
-    def set_orbit(self, ephem=None):
-        pass
+        @abstractmethod
+        def set_orbit(self, ephem=None):
+            pass
 
-    @abstractmethod
-    def update_state(self, epoch=None):
-        pass
+        @abstractmethod
+        def update_state(self, epoch=None):
+            pass
 
     @property
     def name(self):
@@ -229,11 +230,10 @@ class SimObject(ABC):
 
 if __name__ == "__main__":
     def main():
+        simobj = SimObject()
+        for k, v in simobj.__dict__.items():
+            print(f"{k} :\t\t\t{v}")
         pass
-        #     sb = SimBody(body_data=sys_data.body_data(bod_name))
-        #     sb.update_state(sb)
-        # print(sb.orbit)
-
 
     main()
-    print("SimBody doesn't really do much...")
+    print("SimObject.__main__ complete...")
