@@ -47,7 +47,7 @@ class SimObject(ABC):
         self._RESAMPLE   = False
         self._parent     = None
         self._sim_parent = None
-        self._dist_unit  = SimObject.dist_unit
+        self._dist_unit  = u.kmc
         self._rot_func   = None
         self._type       = None
         self._ephem      = None
