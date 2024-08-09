@@ -1,41 +1,40 @@
-SNS_Version:
-  1.0
+SNS_Version: 1.0
 StarSystem:
+  name: Sol System
   body_list:
-      Primary_Body:
-        Sun:
-           Mercury:
-               - no moon
-           Venus:
-               - no moon
-           Earth:
-               - Moon
-               - ISS
-           Mars:
-               - Phobos
-               - Deimos
-           Jupiter:
-               - Io
-               - Europa
-               - Ganymede
-           Saturn:
-               - Titan
-               - Enceladus
-           Uranus:
-               - Titania
-               - Miranda
-               - Oberon
-           Neptune:
-               - Triton
-               - Thalassa
-           Pluto:
-               - Charon
-           Asteroid Belt:
-               - Ceres
-           Comets:
-               - Haley
-               - Hale-Bopp
-           Kuiper Belt:
-               - Arrokoth
-               - Sedna
-           Oort Cloud:
+    - Sun:
+        - Mercury:
+            - no moon:
+        - Venus:
+            - no moon:
+        - Earth:
+            Moon:
+            ISS:
+        - Mars:
+            Phobos:
+            Deimos:
+        - Jupiter:
+            Io:
+            Europa:
+            Ganymede:
+        - Saturn:
+            Titan:
+            Enceladus:
+        - Uranus:
+            Titania:
+            Miranda:
+            Oberon:
+        - Neptune:
+            Triton:
+            Thalassa:
+        - Pluto:
+            Charon:
+        - Asteroid Belt:
+            Ceres:
+        - Comets:
+            Haley:
+            Hale-Bopp:
+        - Kuiper Belt:
+            Arrokoth:
+            Sedna:
+        - Oort Cloud:
