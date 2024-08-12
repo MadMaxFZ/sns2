@@ -50,7 +50,7 @@ class SimBody(SimObject):
                 (self._body.R_mean.value == 0 and self._body.R_polar.value == 0)):
             R  = self._body.R.to(self._dist_unit)
             Rm = Rp = R
-            self._is_primary = True
+            self._rank = True
         else:
             R  = self._body.R.to(self._dist_unit)
             Rm = self._body.R_mean.to(self._dist_unit)
@@ -146,6 +146,7 @@ class SimBody(SimObject):
                      new_state[2],
                      )
         self._state = new_state
+
         # return self._state
 
     @property
@@ -299,10 +300,11 @@ class SimBody(SimObject):
 
 if __name__ == "__main__":
 
-    simbod = SimBody()
-    for k, v in simbod.__dict__.items():
-        print(f"{k} :\t\t\t{v}")
-    pass
+    def main():
+        pass
+        #     sb = SimBody(body_data=sys_data.body_data(bod_name))
+        #     sb.update_state(sb)
+        # print(sb.orbit)
 
 
     main()
