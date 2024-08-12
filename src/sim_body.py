@@ -299,11 +299,10 @@ class SimBody(SimObject):
 
 if __name__ == "__main__":
 
-    def main():
-        pass
-        #     sb = SimBody(body_data=sys_data.body_data(bod_name))
-        #     sb.update_state(sb)
-        # print(sb.orbit)
+    simbod = SimBody()
+    for k, v in simbod.__dict__.items():
+        print(f"{k} :\t\t\t{v}")
+    pass
 
 
     main()
