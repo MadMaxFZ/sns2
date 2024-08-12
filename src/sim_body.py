@@ -253,7 +253,7 @@ class SimBody(SimObject):
 
     @property
     def elem_pqw(self):
-        if self._rank == 0:
+        if self._rank:
             res = np.zeros((3, 3), dtype=np.float64)
         else:
             res = list(self._orbit.pqw())
