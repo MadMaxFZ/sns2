@@ -146,7 +146,6 @@ class SimBody(SimObject):
                      new_state[2],
                      )
         self._state = new_state
-
         # return self._state
 
     @property
@@ -254,7 +253,7 @@ class SimBody(SimObject):
 
     @property
     def elem_pqw(self):
-        if self._is_primary:
+        if self._rank == 0:
             res = np.zeros((3, 3), dtype=np.float64)
         else:
             res = list(self._orbit.pqw())

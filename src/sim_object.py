@@ -40,24 +40,24 @@ class SimObject(ABC):
                )
 
     def __init__(self, *args, **kwargs):
-        super(SimObject, self).__init__(*args, **kwargs)
         self._name       = ""
+        self._dist_unit  = u.km
+        super(SimObject, self).__init__(*args, **kwargs)
+        self._epoch      = Time(SimObject.epoch0, format='jd', scale='tdb')
+        self._state      = np.zeros((3,), dtype=VEC_TYPE)
+        self._rad_set    = [MIN_SIZE, ] * 3
+        self._plane      = Planes.EARTH_ECLIPTIC
         self._body       = None
-        self._is_primary = False
+        self._rank       = False
         self._RESAMPLE   = False
         self._parent     = None
         self._sim_parent = None
-        self._dist_unit  = u.km
         self._rot_func   = None
         self._type       = None
         self._ephem      = None
         self._orbit      = None
         self._trajectory = None
         self._field_dict = None
-        self._rad_set    = [MIN_SIZE, ] * 3
-        self._plane      = Planes.EARTH_ECLIPTIC
-        self._epoch      = Time(SimObject.epoch0, format='jd', scale='tdb')
-        self._state      = np.zeros((3,), dtype=VEC_TYPE)
         self._periods    = 365
         self._o_period   = 1.0 * u.year
         self._spacing    = self._o_period.to(u.d) / self._periods
@@ -96,10 +96,10 @@ class SimObject(ABC):
     def dist_unit(self):
         return self._dist_unit
 
-    @dist_unit.setter
-    def dist_unit(self, new_du):
-        if type(new_du) == u.Unit:
-            self._dist_unit = new_du
+    # @dist_unit.setter
+    # def dist_unit(self, new_du):
+    #     if type(new_du) == u.Unit:
+    #         self._dist_unit = new_du
 
     @property
     def parent(self):
